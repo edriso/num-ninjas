@@ -1,5 +1,6 @@
 import prisma from '../db/prisma.js';
 import { getSettingInt } from './setting.service.js';
+import { checkAchievements } from './badge.service.js';
 import { logger } from '../utils/logger.js';
 
 interface RecordAttemptParams {
@@ -42,6 +43,11 @@ export async function recordAttempt(params: RecordAttemptParams) {
     isCorrect,
     hintUsed,
   });
+
+  // Check achievement badges asynchronously (don't block the response)
+  checkAchievements(userId).catch((err) =>
+    logger.error('Achievement check failed', { error: String(err) }),
+  );
 
   return attempt;
 }

@@ -5,6 +5,9 @@ import { prepareScheduledQuestions } from './prepare-questions.js';
 import { sendFirstQuestion } from './send-first.js';
 import { sendReminder } from './send-reminder.js';
 import { resetStreaks } from './reset-streaks.js';
+import { runWeeklyRanking } from './weekly-ranking.js';
+import { runMonthlyRanking } from './monthly-ranking.js';
+import { runYearlyRanking } from './yearly-ranking.js';
 import { logger } from '../utils/logger.js';
 
 const CAIRO_TZ = 'Africa/Cairo';
@@ -68,7 +71,43 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  logger.info('Scheduler started with 4 jobs (Cairo time: 00:00, 00:30, 14:30, 19:30)');
+  // Sunday 23:00 — Weekly ranking
+  tasks.push(
+    cron.schedule('0 23 * * 0', async () => {
+      logger.info('[CRON] Running weekly ranking...');
+      try {
+        await runWeeklyRanking(bot);
+      } catch (err) {
+        logger.error('[CRON] Weekly ranking failed', { error: String(err) });
+      }
+    }, { timezone: CAIRO_TZ }),
+  );
+
+  // Last day of month 23:00 — Monthly hall of fame
+  tasks.push(
+    cron.schedule('0 23 28-31 * *', async () => {
+      logger.info('[CRON] Checking monthly ranking...');
+      try {
+        await runMonthlyRanking(bot);
+      } catch (err) {
+        logger.error('[CRON] Monthly ranking failed', { error: String(err) });
+      }
+    }, { timezone: CAIRO_TZ }),
+  );
+
+  // Dec 31 23:00 — Yearly hall of fame
+  tasks.push(
+    cron.schedule('0 23 31 12 *', async () => {
+      logger.info('[CRON] Running yearly ranking...');
+      try {
+        await runYearlyRanking(bot);
+      } catch (err) {
+        logger.error('[CRON] Yearly ranking failed', { error: String(err) });
+      }
+    }, { timezone: CAIRO_TZ }),
+  );
+
+  logger.info('Scheduler started with 7 jobs (Cairo time)');
 }
 
 export function stopScheduler() {
