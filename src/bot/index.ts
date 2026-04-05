@@ -9,6 +9,7 @@ import {
   handlePickProfile,
   handleAddChildCallback,
 } from './handlers/profile.js';
+import { handleMcqAnswer, handleHint, handleOpenEndedAnswer } from './handlers/question.js';
 import { msg } from './messages/arabic.js';
 import { logger } from '../utils/logger.js';
 
@@ -31,6 +32,8 @@ bot.command('players', handlePlayers);
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
 bot.callbackQuery(/^pick_profile:/, handlePickProfile);
 bot.callbackQuery('add_child', handleAddChildCallback);
+bot.callbackQuery(/^answer:/, handleMcqAnswer);
+bot.callbackQuery(/^hint:/, handleHint);
 
 // ─── Text Messages (state machine) ─────────────────────────────────
 bot.on('message:text', async (ctx) => {
@@ -46,7 +49,7 @@ bot.on('message:text', async (ctx) => {
       break;
 
     case 'awaiting_answer':
-      // Will be handled in Phase 6
+      await handleOpenEndedAnswer(ctx);
       break;
 
     case 'idle':
