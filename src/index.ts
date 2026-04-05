@@ -1,5 +1,8 @@
 import { config } from './config.js';
 import { bot, setBotCommands } from './bot/index.js';
+import { startScheduler, stopScheduler } from './jobs/scheduler.js';
+import { prepareScheduledQuestions } from './jobs/prepare-questions.js';
+import { loadSettings } from './services/setting.service.js';
 import { logger } from './utils/logger.js';
 
 async function main() {
@@ -8,8 +11,17 @@ async function main() {
     isDev: config.isDev,
   });
 
+  // Load settings into cache
+  await loadSettings();
+
+  // Prepare today's questions if not already done
+  await prepareScheduledQuestions();
+
   // Set bot menu commands
   await setBotCommands();
+
+  // Start scheduled jobs
+  startScheduler(bot);
 
   // Start the bot
   bot.start({
@@ -22,6 +34,7 @@ async function main() {
 // Graceful shutdown
 function shutdown(signal: string) {
   logger.info(`${signal} received, shutting down...`);
+  stopScheduler();
   bot.stop();
   process.exit(0);
 }
