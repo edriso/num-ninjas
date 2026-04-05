@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma/client"
+}
+
+datasource db {
+  provider = "sqlite" // change to "mysql" for production
+}
+
+// ─── Accounts & Profiles ────────────────────────────────────────────
+
+model Account {
+  telegramId      BigInt   @id @map("telegram_id")
+  activeProfileId Int?     @unique @map("active_profile_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  activeProfile User?  @relation("ActiveProfile", fields: [activeProfileId], references: [id])
+  users         User[] @relation("AccountUsers")
+
+  @@map("accounts")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  accountId    BigInt    @map("account_id")
+  nickname     String
+  levelId      Int       @map("level_id")
+  streakDays   Int       @default(0) @map("streak_days")
+  totalPoints  Int       @default(0) @map("total_points")
+  lastActiveAt DateTime? @map("last_active_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  account          Account          @relation("AccountUsers", fields: [accountId], references: [telegramId])
+  activeForAccount Account?         @relation("ActiveProfile")
+  level            Level            @relation(fields: [levelId], references: [id])
+  studySessions    StudySession[]
+  questionAttempts QuestionAttempt[]
+  userBadges       UserBadge[]
+
+  @@map("users")
+}
+
+// ─── Levels & Topics ────────────────────────────────────────────────
+
+model Level {
+  id          Int      @id @default(autoincrement())
+  name        String
+  rankOrder   Int      @map("rank_order")
+  description String?
+  iconEmoji   String?  @map("icon_emoji")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  topics             Topic[]
+  users              User[]
+  scheduledQuestions  ScheduledQuestion[]
+
+  @@map("levels")
+}
+
+model Topic {
+  id           Int      @id @default(autoincrement())
+  levelId      Int      @map("level_id")
+  name         String
+  description  String?
+  orderInLevel Int      @default(1) @map("order_in_level")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  level     Level      @relation(fields: [levelId], references: [id])
+  questions Question[]
+
+  @@map("topics")
+}
+
+// ─── Questions & Options ────────────────────────────────────────────
+
+model Question {
+  id                   Int      @id @default(autoincrement())
+  topicId              Int      @map("topic_id")
+  questionType         String   @map("question_type") // "mcq" | "open_ended"
+  realLifeContext      String?  @map("real_life_context")
+  questionText         String   @map("question_text")
+  correctAnswer        String?  @map("correct_answer")
+  correctAnswerNumeric Float?   @map("correct_answer_numeric")
+  hintText             String?  @map("hint_text")
+  explanation          String
+  imageUrl             String?  @map("image_url")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  topic              Topic              @relation(fields: [topicId], references: [id])
+  options            Option[]
+  questionAttempts   QuestionAttempt[]
+  scheduledQuestions ScheduledQuestion[]
+
+  @@map("questions")
+}
+
+model Option {
+  id         Int      @id @default(autoincrement())
+  questionId Int      @map("question_id")
+  optionText String   @map("option_text")
+  isCorrect  Boolean  @default(false) @map("is_correct")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  question Question @relation(fields: [questionId], references: [id])
+
+  @@map("options")
+}
+
+// ─── Scheduling ─────────────────────────────────────────────────────
+
+model ScheduledQuestion {
+  id            Int      @id @default(autoincrement())
+  levelId       Int      @map("level_id")
+  questionId    Int      @map("question_id")
+  position      Int
+  scheduledDate DateTime @map("scheduled_date")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  level    Level    @relation(fields: [levelId], references: [id])
+  question Question @relation(fields: [questionId], references: [id])
+
+  @@unique([levelId, position, scheduledDate], name: "level_position_date")
+  @@map("scheduled_questions")
+}
+
+// ─── Sessions & Attempts ────────────────────────────────────────────
+
+model StudySession {
+  id                Int      @id @default(autoincrement())
+  userId            Int      @map("user_id")
+  sessionDate       DateTime @map("session_date")
+  questionsSent     Int      @default(0) @map("questions_sent")
+  questionsAnswered Int      @default(0) @map("questions_answered")
+  isComplete        Boolean  @default(false) @map("is_complete")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, sessionDate], name: "user_session_date")
+  @@map("study_sessions")
+}
+
+model QuestionAttempt {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  questionId Int      @map("question_id")
+  userAnswer String?  @map("user_answer")
+  isCorrect  Boolean  @default(false) @map("is_correct")
+  hintUsed   Boolean  @default(false) @map("hint_used")
+  answeredAt DateTime @default(now()) @map("answered_at")
+
+  user     User     @relation(fields: [userId], references: [id])
+  question Question @relation(fields: [questionId], references: [id])
+
+  @@map("question_attempts")
+}
+
+// ─── Badges ─────────────────────────────────────────────────────────
+
+model Badge {
+  id           Int      @id @default(autoincrement())
+  name         String
+  awardTitle   String?  @map("award_title")
+  description  String?
+  iconEmoji    String?  @map("icon_emoji")
+  badgeType    String   @map("badge_type") // "achievement" | "weekly_rank" | "monthly_rank" | "yearly_rank"
+  rankPosition Int?     @map("rank_position")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  userBadges UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @map("user_id")
+  badgeId       Int      @map("badge_id")
+  periodLabel   String   @map("period_label")
+  periodStart   DateTime @map("period_start")
+  metricSummary String?  @map("metric_summary")
+  earnedAt      DateTime @default(now()) @map("earned_at")
+
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId, periodStart], name: "user_badge_period")
+  @@map("user_badges")
+}
+
+// ─── App Settings ───────────────────────────────────────────────────
+
+model Setting {
+  id          Int      @id @default(autoincrement())
+  settingKey  String   @unique @map("setting_key")
+  value       String
+  type        String   @default("string") // "integer" | "string" | "time" | "boolean"
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
