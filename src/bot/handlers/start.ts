@@ -3,6 +3,7 @@ import { msg } from '../messages/arabic.js';
 import * as accountService from '../../services/account.service.js';
 import { buildProfileKeyboard } from '../keyboards/profile.js';
 import { buildLevelKeyboard } from '../keyboards/level.js';
+import prisma from '../../db/prisma.js';
 import { logger } from '../../utils/logger.js';
 
 export async function handleStart(ctx: BotContext) {
@@ -77,9 +78,32 @@ export async function handleLevelSelection(ctx: BotContext) {
   if (!data?.startsWith('select_level:')) return;
 
   const levelId = parseInt(data.split(':')[1], 10);
-  const nickname = ctx.session.pendingData.nickname as string;
   const telegramId = BigInt(ctx.from!.id);
 
+  // Case 1: Changing level for existing profile (from /level command)
+  if (ctx.session.pendingData.changingLevel && ctx.session.activeProfileId) {
+    try {
+      const level = await prisma.level.findUnique({ where: { id: levelId } });
+      await prisma.user.update({
+        where: { id: ctx.session.activeProfileId },
+        data: { levelId },
+      });
+      ctx.session.pendingData = {};
+      await ctx.answerCallbackQuery();
+      await ctx.editMessageText(
+        `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥋'} *${level?.name}*`,
+        { parse_mode: 'Markdown' },
+      );
+      logger.info('Level changed', { profileId: ctx.session.activeProfileId, levelId });
+    } catch (error) {
+      logger.error('Failed to change level', { error: String(error) });
+      await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    }
+    return;
+  }
+
+  // Case 2: Creating new profile (onboarding)
+  const nickname = ctx.session.pendingData.nickname as string;
   if (!nickname) {
     await ctx.answerCallbackQuery({ text: 'حصل خطأ، ابعت /start تاني' });
     ctx.session.state = 'idle';
@@ -100,7 +124,7 @@ export async function handleLevelSelection(ctx: BotContext) {
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
   } catch (error) {
     logger.error('Failed to create profile', { error: String(error) });
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ، جرب تاني' });
+    await ctx.answerCallbackQuery({ text: 'حصل خطأ، جرب تا��ي' });
     ctx.session.state = 'idle';
   }
 }

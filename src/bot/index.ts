@@ -10,16 +10,24 @@ import {
   handleAddChildCallback,
 } from './handlers/profile.js';
 import { handleMcqAnswer, handleHint, handleOpenEndedAnswer } from './handlers/question.js';
+import {
+  handleProfile,
+  handleRank,
+  handleHall,
+  handleStreak,
+  handleLevel,
+} from './handlers/commands.js';
+import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin.js';
 import { msg } from './messages/arabic.js';
 import { logger } from '../utils/logger.js';
 
 // Create bot instance
 const bot = new Bot<BotContext>(config.botToken);
 
-// ─���─ Middleware ──────────────────────────────────────────────────────
+// ─── Middleware ──────────���───────────────────────────────────────────
 bot.use(sessionMiddleware());
 
-// ─── Commands ───────────────────────────────────────────────────────
+// ─── Commands ───────���───────────────────────────────────────────────
 bot.command('start', handleStart);
 bot.command('help', async (ctx) => {
   await ctx.reply(msg.help, { parse_mode: 'Markdown' });
@@ -27,8 +35,18 @@ bot.command('help', async (ctx) => {
 bot.command('addchild', handleAddChild);
 bot.command('switch', handleSwitch);
 bot.command('players', handlePlayers);
+bot.command('profile', handleProfile);
+bot.command('rank', handleRank);
+bot.command('hall', handleHall);
+bot.command('streak', handleStreak);
+bot.command('level', handleLevel);
 
-// ─── Callback Queries ───────────────────────────────────────────────
+// Admin commands
+bot.command('admin_send', handleAdminSend);
+bot.command('admin_prepare', handleAdminPrepare);
+bot.command('admin_stats', handleAdminStats);
+
+// ─── Callback Queries ────────────��──────────────────────────────────
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
 bot.callbackQuery(/^pick_profile:/, handlePickProfile);
 bot.callbackQuery('add_child', handleAddChildCallback);
@@ -59,19 +77,24 @@ bot.on('message:text', async (ctx) => {
   }
 });
 
-// ─── Error Handler ──────────────────────────────────────────────────
+// ─── Error Handler ───────────���──────────────────────────────────────
 bot.catch((err) => {
   logger.error('Bot error', { error: String(err.error), update: err.ctx.update.update_id });
   err.ctx.reply(msg.error).catch(() => {});
 });
 
-// ─── Bot Menu Commands ──────────────────────────────────────────────
+// ─── Bot Menu Commands ───────���──────────────────────────────────────
 async function setBotCommands() {
   await bot.api.setMyCommands([
     { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
+    { command: 'profile', description: 'بروفايلي' },
+    { command: 'rank', description: 'الترتيب الأسبوعي' },
+    { command: 'hall', description: 'قاعة الشهرة' },
+    { command: 'streak', description: 'السلسلة' },
+    { command: 'level', description: 'تغيير المستوى' },
     { command: 'addchild', description: 'أضف طفل جديد' },
     { command: 'switch', description: 'غيّر اللاعب' },
-    { command: 'players', description: 'قائمة اللاعبين' },
+    { command: 'players', description: 'قائمة اللاعبي��' },
     { command: 'help', description: 'المساعدة' },
   ]);
 }
