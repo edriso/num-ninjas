@@ -1,0 +1,61 @@
+import { Bot } from 'grammy';
+import { config } from '../config.js';
+import { sessionMiddleware, type BotContext } from './middleware/session.js';
+import { handleStart, handleNicknameInput, handleLevelSelection } from './handlers/start.js';
+import { msg } from './messages/arabic.js';
+import { logger } from '../utils/logger.js';
+
+// Create bot instance
+const bot = new Bot<BotContext>(config.botToken);
+
+// ─���─ Middleware ──────────────────────────────────────────────────────
+bot.use(sessionMiddleware());
+
+// ─── Commands ───────────────────────────────────────────────────────
+bot.command('start', handleStart);
+bot.command('help', async (ctx) => {
+  await ctx.reply(msg.help, { parse_mode: 'Markdown' });
+});
+
+// ─── Callback Queries ───────────────────────────────────────────────
+bot.callbackQuery(/^select_level:/, handleLevelSelection);
+
+// ─── Text Messages (state machine) ─────────────────────────────────
+bot.on('message:text', async (ctx) => {
+  // Skip commands
+  if (ctx.message.text.startsWith('/')) return;
+
+  // Private chat only
+  if (ctx.chat.type !== 'private') return;
+
+  switch (ctx.session.state) {
+    case 'awaiting_nickname':
+      await handleNicknameInput(ctx);
+      break;
+
+    case 'awaiting_answer':
+      // Will be handled in Phase 6
+      break;
+
+    case 'idle':
+    default:
+      // Ignore unexpected text
+      break;
+  }
+});
+
+// ─── Error Handler ──────────────────────────────────────────────────
+bot.catch((err) => {
+  logger.error('Bot error', { error: String(err.error), update: err.ctx.update.update_id });
+  err.ctx.reply(msg.error).catch(() => {});
+});
+
+// ─── Bot Menu Commands ──────────────────────────────────────────────
+async function setBotCommands() {
+  await bot.api.setMyCommands([
+    { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
+    { command: 'help', description: 'المساعدة' },
+  ]);
+}
+
+export { bot, setBotCommands };
