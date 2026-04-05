@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { PrismaClient } from './generated/prisma/client/client.js';
+import { PrismaClient, type Level } from './generated/prisma/client/client.js';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 import { levelsData, topicsPerLevel } from './seeds/levels-and-topics.js';
 import { level1Questions } from './seeds/questions-level1.js';
@@ -35,7 +35,7 @@ async function main() {
   console.log(`✅ ${settings.length} settings`);
 
   // ─── Levels ─────────────────────────────────────────────────────────
-  const levels = [];
+  const levels: Level[] = [];
   for (const l of levelsData) {
     const level = await prisma.level.upsert({
       where: { id: l.rankOrder },
