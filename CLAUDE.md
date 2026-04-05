@@ -43,6 +43,8 @@ src/
 - **Rankings in JS**: Computed with Prisma queries + JS sort (not SQL `RANK()`) for SQLite compatibility
 - **Circular FK**: `Account.activeProfileId → User.id` is nullable + unique; create account first, then user, then update account
 - **Prisma 7**: Uses `prisma.config.ts` for datasource URL, driver adapters in client code, generated client in `prisma/generated/`
+- **Prisma imports**: Import from `./generated/prisma/client/client.js` (not `@prisma/client`). Use types like `Level`, `User` etc. from there when needed (e.g., `const levels: Level[] = []` to avoid `never[]` inference)
+- **Enums as strings**: SQLite doesn't support native enums, so `questionType`, `badgeType`, `settingType` are stored as strings and validated in app code via `src/types.ts`
 
 ## Development Commands
 
@@ -116,6 +118,14 @@ pnpm format       # Prettier format
 5. الحجم — Volume
 6. المعادلات المتقدمة — 2-Step Equations
 7. ألغاز رياضية — Math Puzzles & Logic
+
+## Common Gotchas
+
+- **`pnpm approve-builds`**: After fresh install, pnpm may block native module builds (`better-sqlite3`, `esbuild`, `prisma`). They're listed in `package.json` under `pnpm.onlyBuiltDependencies`
+- **`pnpm db:generate`**: Must run after any schema change — the generated client is gitignored
+- **`pnpm db:reset`**: Destroys all data — dev only. Prisma will prompt for consent when run via AI
+- **BigInt**: Telegram IDs are `BigInt` in Prisma. Safe to convert to `Number()` since Telegram IDs are < 2^53
+- **Seed files**: Question data lives in `prisma/seeds/questions-levelX.ts`. Main `prisma/seed.ts` imports and inserts them all
 
 ## Git
 
