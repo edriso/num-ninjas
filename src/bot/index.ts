@@ -2,6 +2,13 @@ import { Bot } from 'grammy';
 import { config } from '../config.js';
 import { sessionMiddleware, type BotContext } from './middleware/session.js';
 import { handleStart, handleNicknameInput, handleLevelSelection } from './handlers/start.js';
+import {
+  handleAddChild,
+  handleSwitch,
+  handlePlayers,
+  handlePickProfile,
+  handleAddChildCallback,
+} from './handlers/profile.js';
 import { msg } from './messages/arabic.js';
 import { logger } from '../utils/logger.js';
 
@@ -16,9 +23,14 @@ bot.command('start', handleStart);
 bot.command('help', async (ctx) => {
   await ctx.reply(msg.help, { parse_mode: 'Markdown' });
 });
+bot.command('addchild', handleAddChild);
+bot.command('switch', handleSwitch);
+bot.command('players', handlePlayers);
 
 // ─── Callback Queries ───────────────────────────────────────────────
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
+bot.callbackQuery(/^pick_profile:/, handlePickProfile);
+bot.callbackQuery('add_child', handleAddChildCallback);
 
 // ─── Text Messages (state machine) ─────────────────────────────────
 bot.on('message:text', async (ctx) => {
@@ -54,6 +66,9 @@ bot.catch((err) => {
 async function setBotCommands() {
   await bot.api.setMyCommands([
     { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
+    { command: 'addchild', description: 'أضف طفل جديد' },
+    { command: 'switch', description: 'غيّر اللاعب' },
+    { command: 'players', description: 'قائمة اللاعبين' },
     { command: 'help', description: 'المساعدة' },
   ]);
 }
