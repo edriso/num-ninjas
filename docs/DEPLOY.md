@@ -144,13 +144,13 @@ git push -u origin main
    - **Build command**: select `pnpm run build:web` from the dropdown
    - **Package manager**: pnpm
    - **Output directory**: `apps/web/.next`
-   - **Entry file**: `apps/web/.next/standalone/server.js`
+   - **Entry file**: `apps/web/.next/standalone/apps/web/server.js`
 
-   > **Why these settings?** Hostinger doesn't have `pnpm` or `npx` in PATH for subprocesses. The `build:web` script in root package.json uses `node_modules/.bin/` paths directly. The standalone output bundles everything Next.js needs into a single server.js file.
+   > **Why these settings?** Hostinger doesn't have `pnpm` or `npx` in PATH for subprocesses. The `build:web` script in root package.json uses `node_modules/.bin/` paths directly. The standalone output bundles everything Next.js needs into a single server.js file. In monorepos, the standalone server.js is nested under the app's path.
 
 3. Set **Environment Variables** in Hostinger:
    ```
-   DATABASE_URL=mysql://your-user:your-password@localhost:3306/your_database
+   DATABASE_URL=mysql://your-user:your-password@srvXXXX.hstgr.io:3306/your_database
    AUTH_SECRET=generate-a-random-string-here
    NODE_ENV=production
    PORT=3000
@@ -167,7 +167,14 @@ git push -u origin main
 5. Your website should be live at your Hostinger domain!
 
 ### First-time database setup
-After the first deploy, SSH into your Hostinger server (hPanel → Advanced → SSH Access) and run:
+
+**Recommended: use phpMyAdmin** (easiest on Hostinger):
+1. Go to **Databases → phpMyAdmin** → **Enter phpMyAdmin**
+2. Select your database
+3. Click **Import** tab → upload `docs/schema.sql` → click **Go** (creates all tables)
+4. Click **Import** tab → upload `docs/seed.sql` → click **Go** (seeds all data)
+
+**Alternative: use SSH** (if Prisma CLI cooperates):
 ```bash
 cd ~/domains/your-domain.com/nodejs
 chmod +x packages/database/node_modules/.bin/prisma
@@ -176,7 +183,7 @@ packages/database/node_modules/.bin/prisma db push --schema=packages/database/pr
 packages/database/node_modules/.bin/prisma db seed --schema=packages/database/prisma/schema.prisma
 ```
 
-> **Note:** Use the full `node_modules/.bin/prisma` path because `pnpm` and `npx` aren't in PATH on Hostinger. You must pass `--url` because the schema doesn't include a hardcoded URL. The `chmod` commands are needed because Hostinger doesn't set execute permissions on installed binaries.
+> **Note:** SSH on Hostinger shared hosting can be slow/unreliable for Prisma CLI. The phpMyAdmin approach is more reliable. The `chmod` commands are needed because Hostinger doesn't set execute permissions on installed binaries. Use the full `node_modules/.bin/prisma` path because `pnpm` and `npx` aren't in PATH.
 
 ---
 
