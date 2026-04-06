@@ -63,7 +63,10 @@ export default async function ProfilePage({ params }: Props) {
   const levelEmoji = user.level.iconEmoji || '🥷';
   const levelName = locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
   const profileSlug = user.username || String(user.id);
-  const dateLocale = locale === 'en' ? 'en-US' : 'ar-EG';
+  const formatDate = (date: Date) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
 
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
@@ -121,7 +124,7 @@ export default async function ProfilePage({ params }: Props) {
                     </p>
                   </div>
                   <span className="text-xs text-slate-500">
-                    {new Date(ub.earnedAt).toLocaleDateString(dateLocale)}
+                    {formatDate(ub.earnedAt)}
                   </span>
                 </div>
               ))}
