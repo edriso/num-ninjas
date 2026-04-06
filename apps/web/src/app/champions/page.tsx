@@ -103,7 +103,9 @@ export default async function HallOfFamePage() {
                   <div className="flex-1">
                     <p className="font-bold text-slate-800">{ub.user.nickname}</p>
                     <p className="text-sm text-slate-500">
-                      {locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name} — {ub.periodLabel}
+                      {locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}
+                      {' — '}
+                      {locale === 'en' && ub.badge.descriptionEn ? ub.badge.descriptionEn : ub.periodLabel}
                     </p>
                   </div>
                   <span className="text-xs text-slate-500">

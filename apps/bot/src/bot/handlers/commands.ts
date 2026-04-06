@@ -434,3 +434,58 @@ export async function handleSetLanguage(ctx: BotContext) {
   const langName = locale === 'ar' ? 'العربية' : 'English';
   await ctx.editMessageText(msg.languageChanged(langName), { parse_mode: 'Markdown' });
 }
+
+// ─── Privacy Toggle ─────────────────────────────────────────────────
+
+export async function handlePrivacy(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
+  const profileId = ctx.session.activeProfileId;
+  if (!profileId) {
+    const msg = getMsg(ctx);
+    await ctx.reply(msg.needProfile);
+    return;
+  }
+
+  const user = await prisma.user.findUnique({ where: { id: profileId } });
+  if (!user) return;
+
+  const currentStatus = user.isPublic;
+  const keyboard = new InlineKeyboard()
+    .text(locale === 'en' ? '🔓 Public' : '🔓 عام', 'set_privacy:true')
+    .text(locale === 'en' ? '🔒 Private' : '🔒 خاص', 'set_privacy:false');
+
+  const text = locale === 'en'
+    ? `🔒 *Profile Privacy*\n\nYour profile is currently: *${currentStatus ? 'Public 🔓' : 'Private 🔒'}*\n\n` +
+      `Public = your name links to your profile on the leaderboard\n` +
+      `Private = your name shows but no link to your profile`
+    : `🔒 *خصوصية الملف الشخصي*\n\nملفك الشخصي حالياً: *${currentStatus ? 'عام 🔓' : 'خاص 🔒'}*\n\n` +
+      `عام = اسمك في الترتيب يربط بملفك الشخصي\n` +
+      `خاص = اسمك يظهر لكن بدون رابط لملفك`;
+
+  await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
+export async function handleSetPrivacy(ctx: BotContext) {
+  const data = ctx.callbackQuery?.data;
+  if (!data?.startsWith('set_privacy:')) return;
+
+  const locale = ctx.session.locale || 'ar';
+  const isPublic = data.split(':')[1] === 'true';
+  const profileId = ctx.session.activeProfileId;
+
+  if (!profileId) {
+    await ctx.answerCallbackQuery({ text: locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start' });
+    return;
+  }
+
+  await prisma.user.update({
+    where: { id: profileId },
+    data: { isPublic },
+  });
+
+  await ctx.answerCallbackQuery();
+  const text = locale === 'en'
+    ? `✅ Profile is now *${isPublic ? 'Public 🔓' : 'Private 🔒'}*`
+    : `✅ الملف الشخصي الآن *${isPublic ? 'عام 🔓' : 'خاص 🔒'}*`;
+  await ctx.editMessageText(text, { parse_mode: 'Markdown' });
+}

@@ -3,6 +3,8 @@ import prisma from '../client';
 export interface RankEntry {
   userId: number;
   nickname: string;
+  username: string | null;
+  isPublic: boolean;
   levelName: string;
   levelEmoji: string;
   correctCount: number;
@@ -86,7 +88,7 @@ export async function computeRankings(
   const userIds = [...userMap.keys()].filter((id) => completedUsers.has(id));
   const users = await prisma.user.findMany({
     where: { id: { in: userIds } },
-    select: { id: true, nickname: true, level: { select: { name: true, iconEmoji: true } } },
+    select: { id: true, nickname: true, username: true, isPublic: true, level: { select: { name: true, iconEmoji: true } } },
   });
   const userInfoMap = new Map(users.map((u) => [u.id, u]));
 
@@ -97,7 +99,9 @@ export async function computeRankings(
       const info = userInfoMap.get(userId);
       return {
         userId,
-        nickname: info?.nickname || 'غير معروف',
+        nickname: info?.nickname || '?',
+        username: info?.username ?? null,
+        isPublic: info?.isPublic ?? true,
         levelName: info?.level.name || '',
         levelEmoji: info?.level.iconEmoji || '🥷',
         correctCount: data.correctCount,

@@ -22,6 +22,8 @@ import {
   handleUsernameInput,
   handleLanguage,
   handleSetLanguage,
+  handlePrivacy,
+  handleSetPrivacy,
 } from './handlers/commands';
 import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin';
 import { getMsg } from './helpers/get-msg';
@@ -48,6 +50,7 @@ bot.command('hall', handleHall);
 bot.command('streak', handleStreak);
 bot.command('level', handleLevel);
 bot.command('language', handleLanguage);
+bot.command('privacy', handlePrivacy);
 
 // Admin commands
 bot.command('admin_send', handleAdminSend);
@@ -71,6 +74,7 @@ bot.callbackQuery(/^retry_open:/, handleRetryOpen);
 bot.callbackQuery(/^level_up:/, handleLevelUp);
 bot.callbackQuery('stay_level', handleStayLevel);
 bot.callbackQuery(/^set_lang:/, handleSetLanguage);
+bot.callbackQuery(/^set_privacy:/, handleSetPrivacy);
 
 // ─── Text Messages (state machine) ─────────────────────────────────
 bot.on('message:text', async (ctx) => {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import type { LevelRanking } from '@/lib/queries/leaderboard';
 
 const STORAGE_KEY = 'numninjas_selected_level';
@@ -85,16 +86,16 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                   <th className={`py-2.5 px-4 ${textAlign} font-medium`}>
                     {labels.name}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
+                  <th className="py-2.5 px-4 text-center font-medium" dir={locale === 'ar' ? 'ltr' : undefined}>
                     {labels.correct}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
+                  <th className="py-2.5 px-4 text-center font-medium" dir={locale === 'ar' ? 'ltr' : undefined}>
                     {labels.wrong}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
+                  <th className="py-2.5 px-4 text-center font-medium" dir={locale === 'ar' ? 'ltr' : undefined}>
                     {labels.hints}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
+                  <th className="py-2.5 px-4 text-center font-medium" dir={locale === 'ar' ? 'ltr' : undefined}>
                     {labels.days}
                   </th>
                 </tr>
@@ -113,7 +114,13 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                     <td
                       className={`py-3 px-4 ${textAlign} font-medium text-slate-800`}
                     >
-                      {entry.nickname}
+                      {entry.isPublic && entry.username ? (
+                        <Link href={`/profile/${entry.username}`} className="hover:text-emerald-600 hover:underline transition-colors">
+                          {entry.nickname}
+                        </Link>
+                      ) : (
+                        entry.nickname
+                      )}
                     </td>
                     <td className="py-3 px-4 text-center text-emerald-600 font-semibold">
                       {entry.correctCount}

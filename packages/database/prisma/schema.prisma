@@ -26,6 +26,7 @@ model User {
   nickname     String
   username     String?   @unique
   locale       String    @default("ar") // "ar" or "en"
+  isPublic     Boolean   @default(true) @map("is_public") // false = profile hidden from leaderboard links
   levelId      Int       @map("level_id")
   streakDays   Int       @default(0) @map("streak_days")
   totalPoints  Int       @default(0) @map("total_points")
