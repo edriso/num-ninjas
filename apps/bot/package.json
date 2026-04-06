@@ -7,18 +7,18 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node --import tsx dist/index.js"
   },
   "dependencies": {
     "@numninjas/database": "workspace:*",
     "dotenv": "^17.4.0",
     "grammy": "^1.42.0",
-    "node-cron": "^4.2.1"
+    "node-cron": "^4.2.1",
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@types/node": "^25.5.2",
     "@types/node-cron": "^3.0.11",
-    "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   }
 }
