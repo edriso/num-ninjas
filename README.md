@@ -41,7 +41,7 @@ The **@NumNinjas channel** auto-posts weekly leaderboards, monthly ninja champio
 - **Streaks** — Daily streak tracking with milestone badges (7, 14, 30 days)
 - **Telegram Channel** — Rankings auto-posted to @NumNinjas for parents to share
 - **Website** — Public leaderboard, profiles, ninja champions + admin panel with questions CRUD
-- **150 Unit Tests** — All shared logic tested with vitest
+- **161 Unit Tests** — All shared logic tested with vitest
 
 ---
 

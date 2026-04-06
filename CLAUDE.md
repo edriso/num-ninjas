@@ -202,14 +202,18 @@ This app is for kids ages 10-12. Follow these rules:
 - **Bot imports use @numninjas/database**: Never import from relative service/util paths in bot code. Always from the package.
 - **ScheduledQuestion is per-user**: Not per-level. Each kid gets personalized questions based on their weak topics.
 - **Rankings are per-level**: A Level 1 kid only competes with other Level 1 kids. Monthly/yearly are global.
-- **Default admin**: Seed creates admin@numninjas.com with password from ADMIN_PASSWORD env var (default: changeme123). Change after first login.
+- **Default admin**: Seed creates admin@numninjas.com with default password. Change after first login via phpMyAdmin (see DEPLOY.md).
+- **Startup recovery**: Bot catches up on missed cron jobs at startup — streak reset, question prep, and send-first-question all run on boot if their scheduled time has passed. All are idempotent.
+- **Hostinger: pnpm not in PATH**: Subprocesses on Hostinger can't find `pnpm` or `npx`. Build scripts use `node_modules/.bin/` paths directly. SSH commands need `chmod +x` on prisma binaries.
+- **Hostinger: DB setup via phpMyAdmin**: Prisma CLI is unreliable on Hostinger shared hosting. Use phpMyAdmin Import with `docs/schema.sql` and `docs/seed.sql` instead.
+- **Cloudflare SSL must be Flexible**: Hostinger origin doesn't have SSL. Using "Full" or "Full (Strict)" causes 525 errors.
 
 ## Deployment
 
 ```
-Cloudflare (domain + DNS + CDN + DDoS protection + SSL)
+Cloudflare (domain + DNS + CDN + DDoS protection + SSL Flexible)
         ↓
-Hostinger Business (Next.js website)
+Hostinger Business (Next.js website — standalone output)
         ↓
 Railway (Grammy bot — always running, long polling)
         ↓
@@ -217,13 +221,15 @@ Hostinger MySQL (shared database)
 ```
 
 - **Website** → Hostinger Business: auto-deploys from GitHub on push
-  - Build: `pnpm install && pnpm db:generate && pnpm --filter web build`
-  - Start: `pnpm --filter web start`
+  - Build command: `pnpm run build:web` (uses `node_modules/.bin/` paths, copies static assets to standalone)
+  - Entry file: `apps/web/.next/standalone/apps/web/server.js` (monorepo nests under app path)
+  - Env vars: `DATABASE_URL`, `AUTH_SECRET`, `NODE_ENV=production`, `PORT=3000`
 - **Bot** → Railway: auto-deploys from GitHub on push
   - Build: `pnpm install && pnpm db:generate && pnpm --filter bot build`
   - Start: `pnpm --filter bot start`
-- **Database** → Hostinger MySQL: shared by both apps
-- **Domain/CDN** → Cloudflare: handles DNS, SSL, caching, DDoS protection
+  - Env vars: `BOT_TOKEN`, `ADMIN_TELEGRAM_ID`, `CHANNEL_USERNAME`, `DATABASE_URL`, `NODE_ENV=production`
+- **Database** → Hostinger MySQL: shared by both apps, hostname from Remote MySQL page (srvXXXX.hstgr.io)
+- **Domain/CDN** → Cloudflare: DNS (A record + www CNAME), SSL Flexible, caching, DDoS protection
 
 ## Git
 
