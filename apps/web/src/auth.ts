@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { findAdminByEmail } from "@numninja/database";
+import { findAdminByEmail } from "@numninjas/database";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [

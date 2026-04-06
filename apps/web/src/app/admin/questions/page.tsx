@@ -1,4 +1,4 @@
-import { prisma, listQuestions } from "@numninja/database";
+import { prisma, listQuestions } from "@numninjas/database";
 import Link from "next/link";
 import { QuestionFilters } from "@/components/admin/question-filters";
 

@@ -21,7 +21,7 @@ import {
 } from './handlers/commands';
 import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin';
 import { msg } from './messages/arabic';
-import { logger } from '@numninja/database';
+import { logger } from '@numninjas/database';
 
 // Create bot instance
 const bot = new Bot<BotContext>(config.botToken);

@@ -1,6 +1,6 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, todayCairoAsUtcMidnight, getSettingBool, getSettingInt, logger } from '@numninja/database';
+import { prisma, todayCairoAsUtcMidnight, getSettingBool, getSettingInt, logger } from '@numninjas/database';
 
 /**
  * Send evening reminder to users who haven't completed today's session.

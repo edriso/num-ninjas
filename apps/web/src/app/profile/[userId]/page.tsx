@@ -1,4 +1,4 @@
-import { prisma, getUserBadges } from '@numninja/database';
+import { prisma, getUserBadges } from '@numninjas/database';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 

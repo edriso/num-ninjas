@@ -17,7 +17,7 @@ import {
   getActiveProfile,
   checkLevelCompletion,
   logger,
-} from '@numninja/database';
+} from '@numninjas/database';
 import { InlineKeyboard } from 'grammy';
 import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq';
 

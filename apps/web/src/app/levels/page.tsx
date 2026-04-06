@@ -1,4 +1,4 @@
-import { prisma } from '@numninja/database';
+import { prisma } from '@numninjas/database';
 
 export const revalidate = 86400;
 

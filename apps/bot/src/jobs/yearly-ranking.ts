@@ -1,6 +1,7 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, computeRankings, getYearStart, awardBadge, logger } from '@numninja/database';
+import { prisma, computeRankings, getYearStart, awardBadge, logger } from '@numninjas/database';
+import { config } from '../config';
 
 /**
  * Run yearly hall of fame, award yearly badges.
@@ -77,6 +78,16 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
       sent++;
     } catch {
       // Skip unreachable users
+    }
+  }
+
+  if (config.channelUsername) {
+    try {
+      await bot.api.sendMessage(config.channelUsername, message, {
+        parse_mode: 'Markdown',
+      });
+    } catch (err) {
+      logger.error('Failed to post yearly ranking to channel', { error: String(err) });
     }
   }
 

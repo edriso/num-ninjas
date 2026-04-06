@@ -9,7 +9,7 @@ import { runWeeklyRanking } from './weekly-ranking';
 import { runMonthlyRanking } from './monthly-ranking';
 import { runYearlyRanking } from './yearly-ranking';
 import { sendParentReports } from './parent-report';
-import { logger } from '@numninja/database';
+import { logger } from '@numninjas/database';
 
 const CAIRO_TZ = 'Africa/Cairo';
 const tasks: ScheduledTask[] = [];

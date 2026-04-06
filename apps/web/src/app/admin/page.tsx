@@ -1,4 +1,4 @@
-import { prisma, todayCairoAsUtcMidnight } from "@numninja/database";
+import { prisma, todayCairoAsUtcMidnight } from "@numninjas/database";
 
 export default async function AdminDashboard() {
   const today = todayCairoAsUtcMidnight();

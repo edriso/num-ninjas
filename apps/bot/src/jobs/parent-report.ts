@@ -1,6 +1,6 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, getWeekStart, getSettingInt, logger } from '@numninja/database';
+import { prisma, getWeekStart, getSettingInt, logger } from '@numninjas/database';
 
 /**
  * Send weekly progress reports to parents.

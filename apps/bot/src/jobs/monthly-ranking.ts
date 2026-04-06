@@ -1,6 +1,7 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninja/database';
+import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninjas/database';
+import { config } from '../config';
 
 /**
  * Run monthly hall of fame, award category badges.
@@ -77,6 +78,17 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
       sent++;
     } catch {
       // Skip unreachable users
+    }
+  }
+
+  // Post to channel if configured
+  if (config.channelUsername) {
+    try {
+      await bot.api.sendMessage(config.channelUsername, message, {
+        parse_mode: 'Markdown',
+      });
+    } catch (err) {
+      logger.error('Failed to post monthly ranking to channel', { error: String(err) });
     }
   }
 

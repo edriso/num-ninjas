@@ -6,7 +6,7 @@ import {
   logger,
   getTopicStrengths,
   pickWeightedTopics,
-} from '@numninja/database';
+} from '@numninjas/database';
 
 /**
  * Prepare today's questions for each active user.

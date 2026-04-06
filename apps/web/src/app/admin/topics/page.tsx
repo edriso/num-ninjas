@@ -1,4 +1,4 @@
-import { prisma } from "@numninja/database";
+import { prisma } from "@numninjas/database";
 
 export default async function TopicsPage() {
   const levels = await prisma.level.findMany({

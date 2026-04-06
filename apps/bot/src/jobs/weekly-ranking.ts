@@ -1,6 +1,7 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, computeRankings, getWeekStart, awardBadge, logger } from '@numninja/database';
+import { prisma, computeRankings, getWeekStart, awardBadge, logger } from '@numninjas/database';
+import { config } from '../config';
 
 /**
  * Run weekly ranking per level, award top-3 badges, and broadcast.
@@ -79,6 +80,18 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
       sent++;
     } catch {
       // Skip unreachable users
+    }
+  }
+
+  // Post to channel if configured
+  if (config.channelUsername) {
+    try {
+      await bot.api.sendMessage(config.channelUsername, message, {
+        parse_mode: 'Markdown',
+      });
+      logger.info('Weekly ranking posted to channel', { channel: config.channelUsername });
+    } catch (err) {
+      logger.error('Failed to post weekly ranking to channel', { error: String(err) });
     }
   }
 

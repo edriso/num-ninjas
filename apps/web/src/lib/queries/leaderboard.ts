@@ -1,4 +1,4 @@
-import { computeRankings, computeMonthlyCategories, getWeekStart, getMonthStart, prisma, type RankEntry } from '@numninja/database';
+import { computeRankings, computeMonthlyCategories, getWeekStart, getMonthStart, prisma, type RankEntry } from '@numninjas/database';
 
 export interface LevelRanking {
   levelId: number;

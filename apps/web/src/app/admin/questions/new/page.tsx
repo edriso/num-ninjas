@@ -1,4 +1,4 @@
-import { prisma } from "@numninja/database";
+import { prisma } from "@numninjas/database";
 import Link from "next/link";
 import { QuestionForm } from "@/components/admin/question-form";
 

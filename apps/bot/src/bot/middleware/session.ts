@@ -1,5 +1,5 @@
 import { Context, SessionFlavor, session } from 'grammy';
-import type { SessionState } from '@numninja/database';
+import type { SessionState } from '@numninjas/database';
 
 export interface SessionData {
   activeProfileId: number | null;

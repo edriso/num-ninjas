@@ -1,4 +1,4 @@
-import { prisma } from "@numninja/database";
+import { prisma } from "@numninjas/database";
 
 const badgeTypeLabels: Record<string, string> = {
   achievement: "إنجاز",

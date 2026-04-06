@@ -52,7 +52,7 @@ num-ninjas/
 │   ├── bot/                → Telegram bot (Grammy + node-cron)
 │   └── web/                → Website (Next.js 15 + Tailwind CSS)
 └── packages/
-    └── database/           → Shared database layer (@numninja/database)
+    └── database/           → Shared database layer (@numninjas/database)
         ├── prisma/         → Schema, seeds (420 questions)
         ├── src/services/   → Business logic (ranking, badges, accounts...)
         ├── src/utils/      → Helpers (Cairo time, Arabic numerals...)

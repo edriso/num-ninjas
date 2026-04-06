@@ -1,4 +1,4 @@
-import { prisma, getQuestionById } from "@numninja/database";
+import { prisma, getQuestionById } from "@numninjas/database";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { QuestionForm } from "@/components/admin/question-form";

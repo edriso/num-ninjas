@@ -1,4 +1,4 @@
-import { prisma, todayCairoAsUtcMidnight, logger } from '@numninja/database';
+import { prisma, todayCairoAsUtcMidnight, logger } from '@numninjas/database';
 
 /**
  * Reset streak_days to 0 for users who didn't complete yesterday's session.

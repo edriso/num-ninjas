@@ -1,5 +1,5 @@
 import { InlineKeyboard } from 'grammy';
-import type { User, Level } from '@numninja/database';
+import type { User, Level } from '@numninjas/database';
 
 type UserWithLevel = User & { level: Level };
 

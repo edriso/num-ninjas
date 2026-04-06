@@ -4,7 +4,7 @@ import {
   createQuestion,
   updateQuestion,
   deleteQuestion,
-} from "@numninja/database";
+} from "@numninjas/database";
 import { redirect } from "next/navigation";
 
 export async function createQuestionAction(formData: FormData) {

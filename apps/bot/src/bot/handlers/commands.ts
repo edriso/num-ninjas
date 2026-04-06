@@ -1,7 +1,7 @@
 import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session';
 import { msg } from '../messages/arabic';
-import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, logger } from '@numninja/database';
+import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, logger } from '@numninjas/database';
 import { buildLevelKeyboard } from '../keyboards/level';
 
 /**

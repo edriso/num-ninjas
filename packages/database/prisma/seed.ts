@@ -124,7 +124,7 @@ async function main() {
   console.log(`✅ ${totalQuestions} questions total`);
 
   // ─── Default Admin ──────────────────────────────────────────────────
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@numninja.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@numninjas.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'changeme123';
   const hashedPassword = await bcrypt.hash(adminPassword, 10);
 

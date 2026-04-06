@@ -1,6 +1,6 @@
 import { InlineKeyboard } from 'grammy';
-import type { Option } from '@numninja/database';
-import { shuffle } from '@numninja/database';
+import type { Option } from '@numninjas/database';
+import { shuffle } from '@numninjas/database';
 
 /**
  * Build inline keyboard for MCQ question.

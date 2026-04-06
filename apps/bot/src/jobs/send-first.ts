@@ -1,6 +1,6 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger } from '@numninja/database';
+import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger } from '@numninjas/database';
 import { sendQuestionToUser } from '../bot/handlers/question';
 
 /**

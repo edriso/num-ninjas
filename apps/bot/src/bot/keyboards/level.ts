@@ -1,5 +1,5 @@
 import { InlineKeyboard } from 'grammy';
-import { prisma } from '@numninja/database';
+import { prisma } from '@numninjas/database';
 
 export async function buildLevelKeyboard() {
   const levels = await prisma.level.findMany({ orderBy: { rankOrder: 'asc' } });

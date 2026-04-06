@@ -2,7 +2,7 @@ import { config } from './config';
 import { bot, setBotCommands } from './bot/index';
 import { startScheduler, stopScheduler } from './jobs/scheduler';
 import { prepareScheduledQuestions } from './jobs/prepare-questions';
-import { loadSettings, logger } from '@numninja/database';
+import { loadSettings, logger } from '@numninjas/database';
 
 async function main() {
   logger.info('NumNinjas starting...', {

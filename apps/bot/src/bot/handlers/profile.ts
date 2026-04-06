@@ -1,6 +1,6 @@
 import type { BotContext } from '../middleware/session';
 import { msg } from '../messages/arabic';
-import { getProfileCount, getProfiles, setActiveProfile, getActiveProfile, logger } from '@numninja/database';
+import { getProfileCount, getProfiles, setActiveProfile, getActiveProfile, logger } from '@numninjas/database';
 import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
 

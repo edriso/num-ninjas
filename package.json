@@ -5,11 +5,11 @@
     "dev:bot": "pnpm --filter bot dev",
     "build:bot": "pnpm --filter bot build",
     "build:web": "pnpm --filter web build",
-    "db:generate": "pnpm --filter @numninja/database db:generate",
-    "db:push": "pnpm --filter @numninja/database db:push",
-    "db:seed": "pnpm --filter @numninja/database db:seed",
-    "db:reset": "pnpm --filter @numninja/database db:reset",
-    "test": "pnpm --filter @numninja/database test"
+    "db:generate": "pnpm --filter @numninjas/database db:generate",
+    "db:push": "pnpm --filter @numninjas/database db:push",
+    "db:seed": "pnpm --filter @numninjas/database db:seed",
+    "db:reset": "pnpm --filter @numninjas/database db:reset",
+    "test": "pnpm --filter @numninjas/database test"
   },
   "engines": {
     "node": ">=20.0.0"

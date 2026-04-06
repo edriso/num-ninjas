@@ -1,6 +1,6 @@
 import type { BotContext } from '../middleware/session';
 import { config } from '../../config';
-import { prisma, logger } from '@numninja/database';
+import { prisma, logger } from '@numninjas/database';
 import { prepareScheduledQuestions } from '../../jobs/prepare-questions';
 import { sendFirstQuestion } from '../../jobs/send-first';
 import { bot } from '../index';
