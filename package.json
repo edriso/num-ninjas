@@ -1,5 +1,5 @@
 {
-  "name": "numninja",
+  "name": "num-ninjas",
   "private": true,
   "scripts": {
     "dev:bot": "pnpm --filter bot dev",

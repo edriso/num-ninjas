@@ -2,17 +2,17 @@
 
 ## What Is This?
 
-A pnpm monorepo for **نينجا الأرقام** (NumNinjas) — a Telegram math bot + website for Egyptian primary school students (ages 10-12). 3 daily math questions, gamified with ninja belt levels, streaks, points, and leaderboards. All user-facing text is in Egyptian Arabic.
+A pnpm monorepo for **نينجا الأرقام** (NumNinjas) — a Telegram math bot + website for Egyptian primary school students (ages 10-12). 3 daily math questions, gamified with ninja belt levels, streaks, points, and leaderboards. All user-facing text is in Spacetoon Arabic (warm, accessible MSA understood by all Arab kids).
 
 ## Monorepo Structure
 
 \`\`\`
-numninja/
+num-ninjas/
 ├── apps/
 │   ├── bot/          → Grammy Telegram bot (deployed to Railway)
 │   └── web/          → Next.js 15 website (deployed to Hostinger)
 └── packages/
-    └── database/     → Shared Prisma schema, services, utils, types (@numninja/database)
+    └── database/     → Shared Prisma schema, services, utils, types (@num-ninjas/database)
 \`\`\`
 
 ## Tech Stack
@@ -22,7 +22,7 @@ numninja/
 | Bot | TypeScript, Grammy, node-cron, Node.js 20+ |
 | Website | Next.js 15 (App Router), Tailwind CSS v4, Auth.js v5 |
 | Database | Prisma 7 (prisma-client-js), SQLite (dev), MySQL (prod) |
-| Shared | @numninja/database — services, utils, types, Prisma client |
+| Shared | @num-ninjas/database — services, utils, types, Prisma client |
 | Package Manager | pnpm workspaces |
 
 ## Development Commands
@@ -41,7 +41,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 
 ## Key Patterns
 
-- **Shared database package**: Both bot and web import from \`@numninja/database\`
+- **Shared database package**: Both bot and web import from \`@num-ninjas/database\`
 - **moduleResolution: bundler**: Used across all packages (no .js extensions in imports)
 - **prisma-client-js generator**: Standard Prisma client in node_modules/@prisma/client (NOT the newer prisma-client TS generator — that has Turbopack compatibility issues)
 - **Server Components**: Website uses RSC for data fetching, Server Actions for mutations
@@ -118,7 +118,7 @@ src/
 - **\`pnpm db:reset\`**: Destroys all data — dev only
 - **BigInt**: Telegram IDs are BigInt in Prisma. Safe to convert to Number() since Telegram IDs are < 2^53
 - **Middleware can't import Prisma**: The Next.js middleware runs in Edge Runtime. It checks the auth cookie directly, NOT through the Auth.js auth() function (which imports Prisma)
-- **Bot imports use @numninja/database**: Never import from relative service/util paths in bot code. Always from the package.
+- **Bot imports use @num-ninjas/database**: Never import from relative service/util paths in bot code. Always from the package.
 
 ## Deployment
 

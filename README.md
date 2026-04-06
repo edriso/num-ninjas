@@ -45,12 +45,12 @@ The **website** shows public leaderboards, player profiles, hall of fame, and ha
 This is a **pnpm monorepo** with 2 apps sharing 1 database package:
 
 ```
-numninja/
+num-ninjas/
 ├── apps/
 │   ├── bot/                → Telegram bot (Grammy + node-cron)
 │   └── web/                → Website (Next.js 15 + Tailwind CSS)
 └── packages/
-    └── database/           → Shared database layer (@numninja/database)
+    └── database/           → Shared database layer (@num-ninjas/database)
         ├── prisma/         → Schema, seeds, migrations
         ├── src/services/   → Business logic (ranking, badges, accounts...)
         ├── src/utils/      → Helpers (Cairo time, Arabic numerals...)
