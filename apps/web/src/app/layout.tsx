@@ -33,6 +33,13 @@ export const metadata: Metadata = {
   authors: [{ name: "NumNinjas" }],
   creator: "NumNinjas",
   metadataBase: new URL("https://numninjas.com"),
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "ar_EG",
@@ -40,6 +47,7 @@ export const metadata: Metadata = {
     title: "نينجا الأرقام — تعلّم الرياضيات بمتعة",
     description:
       "3 أسئلة رياضيات يومياً للأطفال — أحزمة نينجا، نقاط، أوسمة، وترتيب أسبوعي!",
+    images: ["/logo-512.png"],
   },
   twitter: {
     card: "summary_large_image",
