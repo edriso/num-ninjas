@@ -55,11 +55,12 @@ Send these commands to @BotFather:
 Send `/setcommands` to @BotFather, pick your bot, then paste this **exactly**:
 
 ```
-start - ابدأ أو ارجع للقائمة
-profile - ملفي الشخصي والإحصائيات
-rank - الترتيب وأبطال النينجا
-players - اللاعبين (تبديل/إضافة)
-help - المساعدة
+start - Start / ابدأ
+profile - My profile / ملفي الشخصي
+rank - Leaderboard / الترتيب
+players - Players / اللاعبون
+language - Language / اللغة
+help - Help / المساعدة
 ```
 
 This creates the command menu that appears when users tap the `/` button or the menu icon in Telegram.

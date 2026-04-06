@@ -112,12 +112,12 @@ bot.catch((err) => {
 // ─── Bot Menu Commands ──────────────────────────────────────────────
 async function setBotCommands() {
   await bot.api.setMyCommands([
-    { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
-    { command: 'profile', description: 'بروفايلي والإحصائيات' },
-    { command: 'rank', description: 'الترتيب وأبطال النينجا' },
-    { command: 'players', description: 'اللاعبين (تبديل/إضافة)' },
-    { command: 'language', description: 'Change language / تغيير اللغة' },
-    { command: 'help', description: 'المساعدة' },
+    { command: 'start', description: 'Start / ابدأ' },
+    { command: 'profile', description: 'My profile / ملفي الشخصي' },
+    { command: 'rank', description: 'Leaderboard / الترتيب' },
+    { command: 'players', description: 'Players / اللاعبون' },
+    { command: 'language', description: 'Language / اللغة' },
+    { command: 'help', description: 'Help / المساعدة' },
   ]);
 }
 
