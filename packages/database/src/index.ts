@@ -15,6 +15,7 @@ export type {
   Badge,
   UserBadge,
   Setting,
+  Admin,
 } from './generated/prisma/client/client.js';
 
 // Services
@@ -26,6 +27,7 @@ export * from './services/ranking.service.js';
 export * from './services/session.service.js';
 export * from './services/setting.service.js';
 export * from './services/validation.service.js';
+export * from './services/admin.service.js';
 
 // Utils
 export * from './utils/cairo-time.js';
