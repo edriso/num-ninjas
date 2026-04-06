@@ -102,7 +102,7 @@ export default async function QuestionsPage({
                           : "bg-green-100 text-green-700"
                       }`}
                     >
-                      {q.questionType === "mcq" ? "اختياري" : "مفتوح"}
+                      {q.questionType === "mcq" ? "اختيار متعدد" : "إجابة مفتوحة"}
                     </span>
                   </td>
                   <td className="px-4 py-3">

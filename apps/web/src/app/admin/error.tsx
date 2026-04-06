@@ -9,8 +9,8 @@ export default function AdminError({
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-20">
-      <h2 className="text-xl font-bold text-red-600 mb-4">حصلت مشكلة</h2>
-      <p className="text-gray-500 mb-6">حاول تاني أو تواصل مع الدعم</p>
+      <h2 className="text-xl font-bold text-red-600 mb-4">حدثت مشكلة</h2>
+      <p className="text-gray-500 mb-6">حاول مرة أخرى أو تواصل مع الدعم</p>
       {process.env.NODE_ENV === "development" && (
         <pre className="text-xs text-red-400 bg-red-50 rounded-lg p-4 mb-6 max-w-lg overflow-auto">
           {error.message}
@@ -20,7 +20,7 @@ export default function AdminError({
         onClick={reset}
         className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors"
       >
-        حاول تاني
+        حاول مرة أخرى
       </button>
     </div>
   );

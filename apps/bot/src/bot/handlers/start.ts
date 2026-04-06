@@ -10,7 +10,7 @@ import { sendQuestionToUser } from './question';
 
 const QUIZ_QUESTIONS = [
   {
-    text: '🧮 *سؤال 1/3*\n\nرحت السوبر ماركت واشتريت حاجات بـ 47 جنيه ودفعت 100 جنيه.\nالباقي كام؟',
+    text: '🧮 *سؤال 1/3*\n\nأنت في السوبر ماركت، اشتريت أغراضاً بـ 47 جنيه ودفعت 100 جنيه.\nكم يتبقى؟',
     options: [
       { text: '٥٣ جنيه', correct: true },
       { text: '٤٧ جنيه', correct: false },
@@ -18,7 +18,7 @@ const QUIZ_QUESTIONS = [
     ],
   },
   {
-    text: '🧮 *سؤال 2/3*\n\nلو عندك ½ بيتزا وأخدت منها ¼، فاضل كام؟',
+    text: '🧮 *سؤال 2/3*\n\nلديك ½ بيتزا وأخذت منها ¼، كم يتبقى؟',
     options: [
       { text: '¼', correct: true },
       { text: '¾', correct: false },
@@ -26,7 +26,7 @@ const QUIZ_QUESTIONS = [
     ],
   },
   {
-    text: '🧮 *سؤال 3/3*\n\nمحل هدوم عامل خصم 20% على جاكت بـ 150 جنيه.\nهتدفع كام؟',
+    text: '🧮 *سؤال 3/3*\n\nمتجر ملابس يقدّم خصم 20% على جاكيت بـ 150 جنيه.\nكم ستدفع؟',
     options: [
       { text: '١٢٠ جنيه', correct: true },
       { text: '١٣٠ جنيه', correct: false },
@@ -128,9 +128,9 @@ export async function handleNicknameInput(ctx: BotContext) {
   ctx.session.pendingData.quizCorrect = 0;
 
   await ctx.reply(
-    `👋 أهلاً يا *${text}*!\n\n` +
-    '🧪 هنسألك 3 أسئلة سريعة عشان نعرف مستواك.\n' +
-    'جاوب براحتك — مفيش صح أو غلط هنا! 😊',
+    `👋 مرحباً يا *${text}*!\n\n` +
+    '🧪 سنسألك 3 أسئلة سريعة لتحديد مستواك.\n' +
+    'أجب براحتك — لا صحيح ولا خطأ هنا! 😊',
     { parse_mode: 'Markdown' },
   );
   await sendQuizQuestion(ctx, 0);
@@ -161,7 +161,7 @@ export async function handleLevelSelection(ctx: BotContext) {
       logger.info('Level changed', { profileId: ctx.session.activeProfileId, levelId });
     } catch (error) {
       logger.error('Failed to change level', { error: String(error) });
-      await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+      await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
     }
     return;
   }
@@ -169,7 +169,7 @@ export async function handleLevelSelection(ctx: BotContext) {
   // Case 2: Creating new profile (onboarding or quiz override)
   const nickname = ctx.session.pendingData.nickname as string;
   if (!nickname) {
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ، ابعت /start تاني' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ، أرسل /start مرة أخرى' });
     ctx.session.state = 'idle';
     return;
   }
@@ -188,7 +188,7 @@ export async function handleLevelSelection(ctx: BotContext) {
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
   } catch (error) {
     logger.error('Failed to create profile', { error: String(error) });
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ، جرب تاني' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ، حاول مرة أخرى' });
     ctx.session.state = 'idle';
   }
 }
@@ -205,7 +205,7 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   // Validate state
   if (ctx.session.state !== 'onboarding_quiz') {
-    await ctx.answerCallbackQuery({ text: 'الاختبار انتهى خلاص' });
+    await ctx.answerCallbackQuery({ text: 'الاختبار انتهى بالفعل' });
     return;
   }
 
@@ -213,7 +213,7 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   // Prevent answering same question twice
   if (step !== currentStep) {
-    await ctx.answerCallbackQuery({ text: 'أنت جاوبت على السؤال ده خلاص!' });
+    await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
     return;
   }
 
@@ -224,12 +224,12 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   // Show per-question feedback
   const feedbackEmoji = isCorrect ? '✅' : '❌';
-  await ctx.answerCallbackQuery({ text: isCorrect ? 'صح! 🎉' : 'غلط — بس مفيش مشكلة!' });
+  await ctx.answerCallbackQuery({ text: isCorrect ? 'صح! 🎉' : 'خطأ — لا مشكلة!' });
 
   // Remove buttons from answered question
   const q = QUIZ_QUESTIONS[step];
   await ctx.editMessageText(
-    `${q.text}\n\n${feedbackEmoji} ${isCorrect ? 'صح!' : 'غلط — بس مفيش مشكلة!'}`,
+    `${q.text}\n\n${feedbackEmoji} ${isCorrect ? 'صح!' : 'خطأ — لا مشكلة!'}`,
     { parse_mode: 'Markdown' },
   );
 
@@ -268,10 +268,10 @@ export async function handleQuizAnswer(ctx: BotContext) {
     const resultText =
       `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
       `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥋'} *${level.name}*!\n\n` +
-      `✅ *${nickname}* اتسجل! جاهز للتحدي! 🔥`;
+      `✅ تم تسجيل *${nickname}*! جاهز للتحدي! 🔥`;
 
     const keyboard = new InlineKeyboard()
-      .text('🥋 اختار مستوى تاني', 'change_quiz_level');
+      .text('🥋 اختر مستوى آخر', 'change_quiz_level');
 
     await ctx.reply(resultText, { parse_mode: 'Markdown', reply_markup: keyboard });
     logger.info('Profile created via quiz', {
@@ -292,7 +292,7 @@ export async function handleQuizAnswer(ctx: BotContext) {
 export async function handleChangeQuizLevel(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ، ابعت /start تاني' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ، أرسل /start مرة أخرى' });
     return;
   }
 
@@ -300,7 +300,7 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
 
   const { keyboard, levels } = await buildLevelKeyboard();
 
-  let levelInfo = 'اختار المستوى اللي تحبه:\n\n';
+  let levelInfo = 'اختر المستوى الذي يناسبك:\n\n';
   for (const level of levels) {
     levelInfo += `${level.iconEmoji || '🥋'} *${level.name}* — ${level.description || ''}\n`;
   }

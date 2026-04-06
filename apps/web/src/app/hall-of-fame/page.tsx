@@ -15,7 +15,7 @@ export default async function HallOfFamePage() {
     {
       emoji: '🔥',
       title: 'الثابت',
-      desc: 'أكتر لاعب نشط',
+      desc: 'أكثر لاعب نشاطاً',
       winner: categories.mostActive,
       stat: categories.mostActive
         ? `${categories.mostActive.activeDays} يوم نشط`
@@ -36,7 +36,7 @@ export default async function HallOfFamePage() {
       desc: 'أقل استخدام للتلميحات',
       winner: categories.independent,
       stat: categories.independent
-        ? `${categories.independent.hints} تلميح بس`
+        ? `${categories.independent.hints} تلميح فقط`
         : null,
     },
   ];
@@ -51,7 +51,7 @@ export default async function HallOfFamePage() {
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Monthly Categories */}
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6">⭐ أبطال الشهر ده</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6">⭐ أبطال هذا الشهر</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {categoryCards.map((cat) => (
               <div
@@ -67,7 +67,7 @@ export default async function HallOfFamePage() {
                     <p className="text-sm text-slate-500 mt-1">{cat.stat}</p>
                   </>
                 ) : (
-                  <p className="text-slate-400">مفيش فايز لسه</p>
+                  <p className="text-slate-400">لا يوجد فائز بعد</p>
                 )}
               </div>
             ))}
@@ -78,7 +78,7 @@ export default async function HallOfFamePage() {
         <section>
           <h2 className="text-2xl font-bold text-slate-800 mb-6">🏅 آخر الأوسمة</h2>
           {recentBadges.length === 0 ? (
-            <p className="text-slate-500 text-center py-10">مفيش أوسمة لسه</p>
+            <p className="text-slate-500 text-center py-10">لا توجد أوسمة بعد</p>
           ) : (
             <div className="space-y-3">
               {recentBadges.map((ub) => (

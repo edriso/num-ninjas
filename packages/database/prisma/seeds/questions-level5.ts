@@ -68,7 +68,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'في حصة العلوم، المُدرِّس بيشرح إن الخلايا بتنقسم وكل خلية بتبقى ٢.',
+    realLifeContext: 'في حصة العلوم، المُدرِّس بيشرح إن الخلايا بتنقسم وكل خلية تكون ٢.',
     questionText: 'لو بدأنا بخلية واحدة وانقسمت ١٠ مرات، كام خلية هيبقى عندنا؟ (٢¹⁰)',
     hintText: '٢¹⁰ يعني ٢ مضروبة في نفسها ١٠ مرات',
     explanation: '٢¹⁰ = ١٠٢٤ خلية',
@@ -132,8 +132,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'عايز تقارن بين ٣⁴ و ٤³ عشان تعرف أنهي أكبر.',
-    questionText: 'أنهي أكبر: ٣⁴ ولا ٤³؟',
+    realLifeContext: 'عايز تقارن بين ٣⁴ و ٤³ حتى تعرف أي أكبر.',
+    questionText: 'أي أكبر: ٣⁴ ولا ٤³؟',
     hintText: 'احسب كل واحدة لوحدها وقارن',
     explanation: '٣⁴ = ٨١ و ٤³ = ٦٤، يبقى ٣⁴ أكبر',
     options: [
@@ -172,7 +172,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'الكمبيوتر بيشتغل بالنظام الثنائي. كل بت بيضاعف الاحتمالات.',
+    realLifeContext: 'الكمبيوتر يعمل بالنظام الثنائي. كل بت بيضاعف الاحتمالات.',
     questionText: 'كام يساوي ٢⁸؟',
     correctAnswer: '٢٥٦',
     correctAnswerNumeric: 256,
@@ -184,7 +184,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'محتاج تحسب حجم صندوق مكعب طول ضلعه ٧ سم.',
+    realLifeContext: 'تحتاج أن تحسب حجم صندوق مكعب طول ضلعه ٧ سم.',
     questionText: 'كام يساوي ٧³؟',
     correctAnswer: '٣٤٣',
     correctAnswerNumeric: 343,
@@ -217,7 +217,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'أحمد بيروح الجيم كل ٦ أيام ومحمد كل ٨ أيام. النهارده راحوا مع بعض.',
+    realLifeContext: 'أحمد يذهب الجيم كل ٦ أيام ومحمد كل ٨ أيام. اليوم راحوا مع بعض.',
     questionText: 'بعد كام يوم هيروحوا مع بعض تاني؟ (المضاعف المشترك الأصغر لـ ٦ و ٨)',
     hintText: 'دور على أصغر عدد يقبل القسمة على ٦ و ٨',
     explanation: 'مضاعفات ٦: ٦، ١٢، ١٨، ٢٤... | مضاعفات ٨: ٨، ١٦، ٢٤... | المضاعف المشترك الأصغر = ٢٤ يوم',
@@ -235,7 +235,7 @@ export const level5Questions: QuestionSeed[] = [
     questionType: 'mcq',
     realLifeContext: 'عندك ٤٨ قلم أحمر و ٦٠ قلم أزرق وعايز توزعهم على مجموعات متساوية.',
     questionText: 'أكبر عدد مجموعات تقدر تعمله؟ (العامل المشترك الأكبر لـ ٤٨ و ٦٠)',
-    hintText: 'العامل المشترك الأكبر هو أكبر عدد يقسم الاتنين',
+    hintText: 'العامل المشترك الأكبر هو أكبر عدد يقسم الاثنين',
     explanation: '٤٨ = ٢⁴ × ٣ و ٦٠ = ٢² × ٣ × ٥ | العامل المشترك الأكبر = ٢² × ٣ = ١٢',
     options: [
       { optionText: '١٢', isCorrect: true },
@@ -249,7 +249,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'إشارة مرور بتبقى خضرا كل ٤ دقايق والتانية كل ٦ دقايق. الاتنين بقوا أخضر دلوقتي.',
+    realLifeContext: 'إشارة مرور تكون خضرا كل ٤ دقايق والتانية كل ٦ دقايق. الاثنين بقوا أخضر الآن.',
     questionText: 'بعد كام دقيقة هيبقوا أخضر مع بعض تاني؟',
     hintText: 'المضاعف المشترك الأصغر لـ ٤ و ٦',
     explanation: 'مضاعفات ٤: ٤، ٨، ١٢ | مضاعفات ٦: ٦، ١٢ | م.م.أ = ١٢ دقيقة',
@@ -281,7 +281,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'حافلة رقم ١ بتيجي كل ١٥ دقيقة وحافلة رقم ٢ كل ٢٠ دقيقة. الاتنين وصلوا المحطة دلوقتي.',
+    realLifeContext: 'حافلة رقم ١ تأتي كل ١٥ دقيقة وحافلة رقم ٢ كل ٢٠ دقيقة. الاثنين وصلوا المحطة الآن.',
     questionText: 'بعد كام دقيقة هيوصلوا المحطة مع بعض تاني؟',
     hintText: 'المضاعف المشترك الأصغر لـ ١٥ و ٢٠',
     explanation: '١٥ = ٣ × ٥ و ٢٠ = ٢² × ٥ | م.م.أ = ٢² × ٣ × ٥ = ٦٠ دقيقة',
@@ -313,8 +313,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'فاطمة بتسقي الزرع كل ١٢ يوم وبتسمّده كل ١٨ يوم. النهارده عملت الاتنين.',
-    questionText: 'بعد كام يوم هتعمل الاتنين مع بعض تاني؟',
+    realLifeContext: 'فاطمة تسقي الزرع كل ١٢ يوم وتسمّده كل ١٨ يوم. اليوم فعلت الاثنين.',
+    questionText: 'بعد كام يوم هتعمل الاثنين مع بعض تاني؟',
     hintText: 'م.م.أ لـ ١٢ و ١٨',
     explanation: '١٢ = ٢² × ٣ و ١٨ = ٢ × ٣² | م.م.أ = ٢² × ٣² = ٣٦ يوم',
     options: [
@@ -365,7 +365,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'open_ended',
-    realLifeContext: 'قطر بيعدي كل ١٦ دقيقة وأتوبيس كل ٢٤ دقيقة. عدوا مع بعض دلوقتي.',
+    realLifeContext: 'قطر يمر كل ١٦ دقيقة وأتوبيس كل ٢٤ دقيقة. عدوا مع بعض الآن.',
     questionText: 'بعد كام دقيقة هيعدوا مع بعض تاني؟ (م.م.أ لـ ١٦ و ٢٤)',
     correctAnswer: '٤٨',
     correctAnswerNumeric: 48,
@@ -383,7 +383,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'درجة الحرارة في موسكو كانت -٨ درجات وارتفعت ١٢ درجة.',
-    questionText: 'درجة الحرارة دلوقتي كام؟',
+    questionText: 'درجة الحرارة الآن كام؟',
     hintText: 'اجمع -٨ + ١٢',
     explanation: '-٨ + ١٢ = ٤ درجات',
     options: [
@@ -399,7 +399,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'أحمد كان في الدور الثالث تحت الأرض (-٣) وطلع ٧ أدوار بالأسانسير.',
-    questionText: 'هو في أنهي دور دلوقتي؟',
+    questionText: 'هو في أي دور الآن؟',
     hintText: '-٣ + ٧ = ؟',
     explanation: '-٣ + ٧ = ٤ | أحمد في الدور الرابع فوق الأرض',
     options: [
@@ -447,7 +447,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'غواصة كانت على عمق -٢٠٠ متر وطلعت ٧٥ متر.',
-    questionText: 'على أنهي عمق هي دلوقتي؟',
+    questionText: 'على أي عمق هي الآن؟',
     hintText: '-٢٠٠ + ٧٥ = ؟',
     explanation: '-٢٠٠ + ٧٥ = -١٢٥ متر',
     options: [
@@ -462,7 +462,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'محتاج تحسب (-٣) × (-٥) في امتحان الرياضيات.',
+    realLifeContext: 'تحتاج أن تحسب (-٣) × (-٥) في امتحان الرياضيات.',
     questionText: 'كام يساوي (-٣) × (-٥)؟',
     hintText: 'سالب × سالب = ؟',
     explanation: 'سالب × سالب = موجب | (-٣) × (-٥) = +١٥',
@@ -479,7 +479,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'رتب درجات الحرارة دي من الأبرد للأسخن: -٣، ٥، -٧، ٢، -١.',
-    questionText: 'أنهي ترتيب صح من الأبرد للأسخن؟',
+    questionText: 'أي ترتيب صح من الأبرد للأسخن؟',
     hintText: 'الأبرد هو الأصغر (أكبر سالب)',
     explanation: '-٧ < -٣ < -١ < ٢ < ٥',
     options: [
@@ -522,8 +522,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'open_ended',
-    realLifeContext: 'سمكة كانت على عمق -٤٠ متر ونزلت كمان ٣٥ متر.',
-    questionText: 'على أنهي عمق السمكة دلوقتي؟',
+    realLifeContext: 'سمكة كانت على عمق -٤٠ متر ونزلت ٣٥ متراً أخرى.',
+    questionText: 'على أي عمق السمكة الآن؟',
     correctAnswer: '-٧٥',
     correctAnswerNumeric: -75,
     hintText: '-٤٠ - ٣٥ = ؟',
@@ -676,7 +676,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'في كيس فيه ٥ كور حمرا و ٣ كور خضرا. سحبت كورة ورجعتها وسحبت تاني.',
-    questionText: 'احتمال الاتنين يطلعوا حمرا كام؟',
+    questionText: 'احتمال الاثنين يطلعوا حمرا كام؟',
     hintText: 'احتمال حمرا = ٥/٨ في كل مرة (بنرجع الكورة)',
     explanation: '٥/٨ × ٥/٨ = ٢٥/٦٤',
     options: [
@@ -824,7 +824,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'محتاج تعرف كام مكعب صغير (ضلعه ٥ سم) يملا صندوق ٢٠ × ١٥ × ١٠ سم.',
+    realLifeContext: 'تحتاج أن تعرف كام مكعب صغير (ضلعه ٥ سم) يملا صندوق ٢٠ × ١٥ × ١٠ سم.',
     questionText: 'كام مكعب صغير هيملا الصندوق؟',
     hintText: 'حجم الصندوق ÷ حجم المكعب الصغير',
     explanation: 'حجم الصندوق = ٢٠ × ١٥ × ١٠ = ٣٠٠٠ سم³ | حجم المكعب = ٥³ = ١٢٥ سم³ | العدد = ٣٠٠٠ ÷ ١٢٥ = ٢٤',
@@ -1107,7 +1107,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'في مسابقة ألغاز، المقدم عرض النمط ده: ٢، ٦، ١٨، ٥٤، ...',
-    questionText: 'العدد اللي بعد ٥٤ في النمط ده كام؟',
+    questionText: 'العدد اللي بعد ٥٤ في النمط هذا كام؟',
     hintText: 'كل عدد بيتضرب في ٣',
     explanation: 'النمط: × ٣ | ٥٤ × ٣ = ١٦٢',
     options: [
@@ -1155,7 +1155,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'لغز: عدد لو ضربته في نفسه يبقى ١٩٦.',
-    questionText: 'العدد ده كام؟',
+    questionText: 'العدد هذا كام؟',
     hintText: 'دور على عدد تربيعه = ١٩٦',
     explanation: '١٤ × ١٤ = ١٩٦',
     options: [
@@ -1271,7 +1271,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'لغز: عدد لو ضربته في نفسه ٣ مرات (تكعيب) يبقى ٥١٢.',
-    questionText: 'العدد ده كام؟',
+    questionText: 'العدد هذا كام؟',
     correctAnswer: '٨',
     correctAnswerNumeric: 8,
     hintText: 'جرب ٧³ و ٨³ و ٩³',

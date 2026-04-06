@@ -8,8 +8,8 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "ن��نجا الأرقام",
-  description: "بوت تليجرام لتعليم الرياضيات للأطفال الم��ريين",
+  title: "نينجا الأرقام",
+  description: "بوت تليجرام لتعليم الأطفال الرياضيات بطريقة ممتعة",
 };
 
 export default function RootLayout({

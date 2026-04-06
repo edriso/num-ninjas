@@ -52,8 +52,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'عندك ٣/٤ متر قماش وقصيت منه ١/٦ متر عشان تعمل شنطة صغيرة.',
-    questionText: 'كام متر قماش فاضل؟',
+    realLifeContext: 'عندك ٣/٤ متر قماش وقصيت منه ١/٦ متر حتى تعمل شنطة صغيرة.',
+    questionText: 'كام متر قماش المتبقي؟',
     hintText: 'المقام المشترك لـ ٤ و ٦ هو ١٢',
     explanation: '٣/٤ - ١/٦ = ٩/١٢ - ٢/١٢ = ٧/١٢ متر',
     options: [
@@ -68,7 +68,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'ماما عملت أرز بلبن لإفطار رمضان. حطت ٥/٦ كوباية سكر الأول وبعدين زادت ١/٤ كوباية.',
+    realLifeContext: 'ماما صنعت أرز بلبن لإفطار رمضان. حطت ٥/٦ كوباية سكر الأول وبعدين زادت ١/٤ كوباية.',
     questionText: 'كام كوباية سكر حطت كلها؟',
     hintText: 'المقام المشترك لـ ٦ و ٤ هو ١٢',
     explanation: '٥/٦ + ١/٤ = ١٠/١٢ + ٣/١٢ = ١٣/١٢ = ١ و ١/١٢ كوباية',
@@ -84,8 +84,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'في حصة العلوم، عملت تجربة ومليت ٢/٣ الكوباية ميّة وبعدين فضيت منها ٣/٨.',
-    questionText: 'كام من الكوباية فاضل فيها ميّة؟',
+    realLifeContext: 'في حصة العلوم، أجريت تجربة ومليت ٢/٣ الكوباية ميّة وبعدين فضيت منها ٣/٨.',
+    questionText: 'كام من الكوباية المتبقي فيها ميّة؟',
     hintText: 'المقام المشترك لـ ٣ و ٨ هو ٢٤',
     explanation: '٢/٣ - ٣/٨ = ١٦/٢٤ - ٩/٢٤ = ٧/٢٤',
     options: [
@@ -117,7 +117,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'كان معاك ٧/٨ لتر عصير مانجو وإديت صاحبك ٢/٥ لتر.',
-    questionText: 'كام لتر فاضل معاك؟',
+    questionText: 'كام لتر المتبقي معاك؟',
     hintText: 'المقام المشترك لـ ٨ و ٥ هو ٤٠',
     explanation: '٧/٨ - ٢/٥ = ٣٥/٤٠ - ١٦/٤٠ = ١٩/٤٠ لتر',
     options: [
@@ -161,7 +161,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'ماما اشترت ٣/٤ كيلو فراولة واستعملت ٢/٥ كيلو في العصير.',
-    questionText: 'كام كيلو فراولة فاضل؟ (اكتب الإجابة ككسر)',
+    questionText: 'كام كيلو فراولة المتبقي؟ (اكتب الإجابة ككسر)',
     correctAnswer: '7/20',
     correctAnswerNumeric: 0.35,
     hintText: 'المقام المشترك لـ ٤ و ٥ هو ٢٠',
@@ -185,7 +185,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'كان عندك ٥/٦ لتر لبن واستخدمت ٣/١٠ لتر في عمل البان كيك.',
-    questionText: 'كام لتر لبن فاضل؟ (اكتب الإجابة ككسر)',
+    questionText: 'كام لتر لبن المتبقي؟ (اكتب الإجابة ككسر)',
     correctAnswer: '8/15',
     correctAnswerNumeric: 0.5333,
     hintText: 'المقام المشترك لـ ٦ و ١٠ هو ٣٠',
@@ -201,7 +201,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'ماما عملت بسبوسة وعايزة تاخد ٢/٣ الوصفة. الوصفة الأصلية محتاجة ٣/٤ كوباية سكر.',
+    realLifeContext: 'ماما صنعت بسبوسة وتريد تاخد ٢/٣ الوصفة. الوصفة الأصلية محتاجة ٣/٤ كوباية سكر.',
     questionText: 'كام كوباية سكر هتحتاج؟',
     hintText: 'اضرب البسط × البسط والمقام × المقام',
     explanation: '٢/٣ × ٣/٤ = ٦/١٢ = ١/٢ كوباية',
@@ -217,7 +217,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'أحمد بيقطع خشب في حصة الأشغال. عنده لوح طوله ٤/٥ متر ومحتاج يقطع ١/٢ منه.',
+    realLifeContext: 'أحمد بيقطع خشب في حصة الأشغال. عنده لوح طوله ٤/٥ متر ويحتاج أن يقطع ١/٢ منه.',
     questionText: 'كام متر هيبقى طول القطعة اللي قطعها؟',
     hintText: 'اضرب الكسرين في بعض',
     explanation: '٤/٥ × ١/٢ = ٤/١٠ = ٢/٥ متر',
@@ -297,7 +297,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'في المطبخ، الوصفة محتاجة ٤/٩ كوباية زيت. ماما عايزة تعمل نص الوصفة بس.',
+    realLifeContext: 'في المطبخ، الوصفة محتاجة ٤/٩ كوباية زيت. ماما تريد تعمل نص الوصفة بس.',
     questionText: 'كام كوباية زيت هتستخدم؟',
     hintText: 'اضرب ٤/٩ × ١/٢',
     explanation: '٤/٩ × ١/٢ = ٤/١٨ = ٢/٩ كوباية',
@@ -313,7 +313,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'عندك ٧/٨ لتر عصير ليمون ومحتاج تاخد ٢/٣ منه تحطه في الثلاجة.',
+    realLifeContext: 'عندك ٧/٨ لتر عصير ليمون وتحتاج أن تاخد ٢/٣ منه تحطه في الثلاجة.',
     questionText: 'كام لتر هتحط في الثلاجة؟',
     hintText: 'اضرب ٧/٨ × ٢/٣',
     explanation: '٧/٨ × ٢/٣ = ١٤/٢٤ = ٧/١٢ لتر',
@@ -329,7 +329,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'open_ended',
-    realLifeContext: 'ماما عندها ٣/٤ كيلو لحمة وعايزة تستخدم ٢/٥ منها لشوربة الإفطار.',
+    realLifeContext: 'ماما عندها ٣/٤ كيلو لحمة وتريد تستخدم ٢/٥ منها لشوربة الإفطار.',
     questionText: 'كام كيلو لحمة هتستخدم في الشوربة؟ (اكتب الإجابة ككسر)',
     correctAnswer: '3/10',
     correctAnswerNumeric: 0.3,
@@ -365,7 +365,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'open_ended',
-    realLifeContext: 'في العيد، جدتي عملت ٦ صواني بسبوسة. كل صينية محتاجة ٣/٤ كوباية سكر.',
+    realLifeContext: 'في العيد، جدتي صنعت ٦ صواني بسبوسة. كل صينية محتاجة ٣/٤ كوباية سكر.',
     questionText: 'كام كوباية سكر محتاجة كلها؟ (اكتب الإجابة ككسر)',
     correctAnswer: '9/2',
     correctAnswerNumeric: 4.5,
@@ -398,7 +398,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'ماما عندها ٢/٣ لتر عصير وعايزة تملا أكواب كل واحد ١/٦ لتر.',
+    realLifeContext: 'ماما عندها ٢/٣ لتر عصير وتريد تملا أكواب كل واحد ١/٦ لتر.',
     questionText: 'كام كوباية هتقدر تملا؟',
     hintText: 'اقسم الكمية الكلية ÷ حجم الكوباية: ٢/٣ ÷ ١/٦',
     explanation: '٢/٣ ÷ ١/٦ = ٢/٣ × ٦/١ = ١٢/٣ = ٤ أكواب',
@@ -430,7 +430,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'حبل طوله ٥/٦ متر ومحتاج تقطعه قطع كل واحدة ١/٣ متر.',
+    realLifeContext: 'حبل طوله ٥/٦ متر وتحتاج أن تقطعه قطع كل واحدة ١/٣ متر.',
     questionText: 'كام قطعة هتطلع؟',
     hintText: 'اقسم ٥/٦ ÷ ١/٣ = ٥/٦ × ٣/١',
     explanation: '٥/٦ ÷ ١/٣ = ٥/٦ × ٣/١ = ١٥/٦ = ٥/٢ = ٢ و ١/٢ قطعة',
@@ -478,7 +478,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'خالتي عندها ٢/٣ متر شريطة ساتان وعايزة تعمل فيونكات كل واحدة ١/٩ متر.',
+    realLifeContext: 'خالتي عندها ٢/٣ متر شريطة ساتان وتريد تعمل فيونكات كل واحدة ١/٩ متر.',
     questionText: 'كام فيونكة هتقدر تعمل؟',
     hintText: 'اقسم ٢/٣ ÷ ١/٩',
     explanation: '٢/٣ ÷ ١/٩ = ٢/٣ × ٩/١ = ١٨/٣ = ٦ فيونكات',
@@ -494,7 +494,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'في المصنع، عندك ٥/٦ طن رمل ومحتاج تقسمه على شاحنات كل واحدة تشيل ٥/١٢ طن.',
+    realLifeContext: 'في المصنع، عندك ٥/٦ طن رمل وتحتاج أن تقسمه على شاحنات كل واحدة تشيل ٥/١٢ طن.',
     questionText: 'كام شاحنة محتاج؟',
     hintText: 'اقسم ٥/٦ ÷ ٥/١٢',
     explanation: '٥/٦ ÷ ٥/١٢ = ٥/٦ × ١٢/٥ = ٦٠/٣٠ = ٢ شاحنة',
@@ -510,7 +510,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'open_ended',
-    realLifeContext: 'ماما عندها ٤/٥ لتر لبن وعايزة توزعه على ٢ كوباية بالتساوي.',
+    realLifeContext: 'ماما عندها ٤/٥ لتر لبن وتريد توزعه على ٢ كوباية بالتساوي.',
     questionText: 'كل كوباية فيها كام لتر؟ (اكتب الإجابة ككسر)',
     correctAnswer: '2/5',
     correctAnswerNumeric: 0.4,
@@ -546,7 +546,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'open_ended',
-    realLifeContext: 'خالتي عملت ٢/٣ كيلو كحك العيد وعايزة تقسمه على ٤ علب.',
+    realLifeContext: 'خالتي صنعت ٢/٣ كيلو كحك العيد وتريد تقسمه على ٤ علب.',
     questionText: 'كل علبة فيها كام كيلو كحك؟ (اكتب الإجابة ككسر)',
     correctAnswer: '1/6',
     correctAnswerNumeric: 0.1667,
@@ -563,8 +563,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'mcq',
-    realLifeContext: 'ماما عملت ٢ و ١/٣ كيلو محشي وبعدين عملت ١ و ١/٤ كيلو تاني.',
-    questionText: 'كام كيلو محشي عملت كلها؟',
+    realLifeContext: 'ماما صنعت ٢ و ١/٣ كيلو محشي وبعدين صنعت ١ و ١/٤ كيلو تاني.',
+    questionText: 'كام كيلو محشي صنعت كلها؟',
     hintText: 'حوّل الأعداد الكسرية لكسور غير فعلية: ٧/٣ + ٥/٤',
     explanation: '٢ و ١/٣ + ١ و ١/٤ = ٧/٣ + ٥/٤ = ٢٨/١٢ + ١٥/١٢ = ٤٣/١٢ = ٣ و ٧/١٢',
     options: [
@@ -676,7 +676,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'ماما اشترت ٣ و ١/٥ كيلو برتقان واستعملت ١ و ٣/٥ كيلو في عصير.',
-    questionText: 'كام كيلو برتقان فاضل؟',
+    questionText: 'كام كيلو برتقان المتبقي؟',
     hintText: 'اطرح: ١٦/٥ - ٨/٥',
     explanation: '٣ و ١/٥ - ١ و ٣/٥ = ١٦/٥ - ٨/٥ = ٨/٥ = ١ و ٣/٥ كيلو',
     options: [
@@ -728,7 +728,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'كان عندك ٥ و ١/٦ أمتار حبل واستعملت ٢ و ٢/٣ أمتار.',
-    questionText: 'كام متر حبل فاضل؟ (اكتب الإجابة كعدد كسري)',
+    questionText: 'كام متر حبل المتبقي؟ (اكتب الإجابة كعدد كسري)',
     correctAnswer: '2 و 1/2',
     correctAnswerNumeric: 2.5,
     hintText: 'حوّل: ٣١/٦ - ٨/٣ = ٣١/٦ - ١٦/٦',
@@ -761,7 +761,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'اشتريت ٢.٤ كيلو عنب والكيلو بـ ١٥ جنيه.',
-    questionText: 'كام هتدفع؟',
+    questionText: 'كم ستدفع؟',
     hintText: 'اضرب ٢.٤ × ١٥',
     explanation: '٢.٤ × ١٥ = ٣٦ جنيه',
     options: [
@@ -776,7 +776,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'عندك ١٨.٦ لتر عصير ومحتاج توزعه على ٦ أكواب بالتساوي.',
+    realLifeContext: 'عندك ١٨.٦ لتر عصير وتحتاج أن توزعه على ٦ أكواب بالتساوي.',
     questionText: 'كل كوباية فيها كام لتر؟',
     hintText: 'اقسم ١٨.٦ ÷ ٦',
     explanation: '١٨.٦ ÷ ٦ = ٣.١ لتر',
@@ -825,7 +825,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'اشتريت ٠.٧٥ كيلو لحمة بـ ٢٨٠ جنيه للكيلو.',
-    questionText: 'كام هتدفع؟',
+    questionText: 'كم ستدفع؟',
     hintText: 'اضرب ٠.٧٥ × ٢٨٠',
     explanation: '٠.٧٥ × ٢٨٠ = ٢١٠ جنيه',
     options: [
@@ -873,7 +873,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'open_ended',
     realLifeContext: 'اشتريت ١.٥ كيلو مانجو والكيلو بـ ٣٥ جنيه.',
-    questionText: 'كام هتدفع؟',
+    questionText: 'كم ستدفع؟',
     correctAnswer: '52.5',
     correctAnswerNumeric: 52.5,
     hintText: 'اضرب ١.٥ × ٣٥',
@@ -908,7 +908,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'open_ended',
-    realLifeContext: 'عندك ٢٤.٨ متر سلك ومحتاج تقطعه ٨ قطع متساوية.',
+    realLifeContext: 'عندك ٢٤.٨ متر سلك وتحتاج أن تقطعه ٨ قطع متساوية.',
     questionText: 'كل قطعة طولها كام متر؟',
     correctAnswer: '3.1',
     correctAnswerNumeric: 3.1,
@@ -1138,7 +1138,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'ماما عايزة تعمل ميزانية للمدرسة. الكتب بـ ٢٥٠ جنيه، الأدوات بـ ١٥٠ جنيه، الشنطة بـ ٣٥٠ جنيه، والمعاها ١٠٠٠ جنيه.',
+    realLifeContext: 'ماما تريد تعمل ميزانية للمدرسة. الكتب بـ ٢٥٠ جنيه، الأدوات بـ ١٥٠ جنيه، الشنطة بـ ٣٥٠ جنيه، والمعاها ١٠٠٠ جنيه.',
     questionText: 'كام هيفضل معاها بعد المصاريف دي كلها؟',
     hintText: 'اجمع المصاريف كلها واطرحها من المبلغ المتاح',
     explanation: 'المصاريف = ٢٥٠ + ١٥٠ + ٣٥٠ = ٧٥٠. الباقي = ١٠٠٠ - ٧٥٠ = ٢٥٠ جنيه',
@@ -1218,8 +1218,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'عمرو بيجمع فلوس عشان يشتري دراجة بـ ٢٤٠٠ جنيه. كل أسبوع بيحوّش ٢٠٠ جنيه ومعاه فعلاً ٦٠٠ جنيه.',
-    questionText: 'كام أسبوع كمان محتاج عشان يجمع الفلوس كلها؟',
+    realLifeContext: 'عمرو يجمع مال حتى يشتري دراجة بـ ٢٤٠٠ جنيه. كل أسبوع يوفّر ٢٠٠ جنيه ومعاه فعلاً ٦٠٠ جنيه.',
+    questionText: 'كم أسبوعاً يحتاج حتى يجمع المال كلها؟',
     hintText: 'المبلغ المتبقي = ٢٤٠٠ - ٦٠٠. اقسم على المبلغ الأسبوعي',
     explanation: 'المتبقي = ٢٤٠٠ - ٦٠٠ = ١٨٠٠. عدد الأسابيع = ١٨٠٠ ÷ ٢٠٠ = ٩ أسابيع',
     options: [
@@ -1246,7 +1246,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'ماما عايزة تعمل ميزانية لشراء أدوات المدرسة لـ ٣ أطفال. كل واحد محتاج كشاكيل بـ ٨٠ جنيه وأقلام بـ ٤٠ جنيه وشنطة بـ ٢٥٠ جنيه.',
+    realLifeContext: 'ماما تريد تعمل ميزانية لشراء أدوات المدرسة لـ ٣ أطفال. كل واحد محتاج كشاكيل بـ ٨٠ جنيه وأقلام بـ ٤٠ جنيه وشنطة بـ ٢٥٠ جنيه.',
     questionText: 'كام الميزانية الكلية المحتاجة؟',
     correctAnswer: '1110',
     correctAnswerNumeric: 1110,

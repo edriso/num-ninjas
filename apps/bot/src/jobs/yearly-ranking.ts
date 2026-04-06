@@ -60,7 +60,7 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   message += '\n*الترتيب العام:*\n';
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-    message += `${medal} ${entry.nickname} — ${entry.correctCount} صح · ${entry.activeDays} يوم\n`;
+    message += `${medal} ${entry.nickname} — ${entry.correctCount} صحيحة · ${entry.activeDays} يوم\n`;
   }
 
   // Broadcast

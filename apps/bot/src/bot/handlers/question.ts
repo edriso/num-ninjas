@@ -38,12 +38,12 @@ function formatQuestion(
 }
 
 function formatCorrectFeedback(explanation: string, points: number): string {
-  return `✅ *صح! برافو عليك!* 🎉\n\n💡 ${explanation}\n\n✨ +${points} نقطة`;
+  return `✅ *إجابة صحيحة! أحسنت!* 🎉\n\n💡 ${explanation}\n\n✨ +${points} نقطة`;
 }
 
 function formatWrongFeedback(explanation: string, correctAnswer: string): string {
-  return `❌ *غلط — بس اتعلمت حاجة جديدة!*\n\n` +
-    `الإجابة الصح: *${correctAnswer}*\n💡 ${explanation}`;
+  return `❌ *تقريباً! لكن تعلمت شيئاً جديداً!*\n\n` +
+    `الإجابة الصحيحة: *${correctAnswer}*\n💡 ${explanation}`;
 }
 
 function formatDailySummary(
@@ -53,14 +53,14 @@ function formatDailySummary(
   streakDays: number,
   totalPoints: number,
 ): string {
-  let text = `🏁 *جلسة النهارده خلصت يا ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  let text = `🏁 *انتهى تحدي اليوم يا ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
 
   attempts.forEach((a, i) => {
-    text += `س${i + 1}  ${a.isCorrect ? '✅ صح' : '❌ غلط — بس اتعلمت!'}\n`;
+    text += `س${i + 1}  ${a.isCorrect ? '✅ صحيحة' : '❌ خطأ — لكن تعلمت!'}\n`;
   });
 
   const correct = attempts.filter((a) => a.isCorrect).length;
-  text += `\n${correct}/${attempts.length} صح · +${totalPointsToday} نقطة النهارده`;
+  text += `\n${correct}/${attempts.length} صحيحة · +${totalPointsToday} نقطة اليوم`;
   text += `\n🔥 السلسلة: ${streakDays} يوم   💎 المجموع: ${totalPoints} نقطة`;
 
   return text;
@@ -138,14 +138,14 @@ export async function handleMcqAnswer(ctx: BotContext) {
 
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
     return;
   }
 
   // Check if already answered
   const alreadyAnswered = await hasAnswered(profileId, questionId);
   if (alreadyAnswered) {
-    await ctx.answerCallbackQuery({ text: 'أنت جاوبت على السؤال ده خلاص!' });
+    await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
     return;
   }
 
@@ -160,7 +160,7 @@ export async function handleMcqAnswer(ctx: BotContext) {
   });
 
   if (!question || !option) {
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
     return;
   }
 
@@ -250,7 +250,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     const totalQuestions = await getSettingInt('questions_per_day');
     await markQuestionAnswered(session.id, totalQuestions);
 
-    await ctx.reply('⏭️ تم التخطي — مفيش مشكلة، حاول في السؤال الجاي! 💪');
+    await ctx.reply('⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪');
 
     const updatedSession = await getTodaySession(profileId);
     if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
@@ -287,7 +287,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   );
 
   if (parsed === null) {
-    await ctx.reply('🔢 ابعت رقم بس — أرقام عربي أو إنجليزي');
+    await ctx.reply('🔢 أرسل رقماً فقط — أرقام عربية أو إنجليزية');
     return; // Stay in awaiting_answer state
   }
 
@@ -353,20 +353,20 @@ export async function handleSkip(ctx: BotContext) {
 
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
     return;
   }
 
   // Check if already answered
   const alreadyAnswered = await hasAnswered(profileId, questionId);
   if (alreadyAnswered) {
-    await ctx.answerCallbackQuery({ text: 'أنت جاوبت على السؤال ده خلاص!' });
+    await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
     return;
   }
 
   const question = await prisma.question.findUnique({ where: { id: questionId } });
   if (!question) {
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
     return;
   }
 
@@ -392,7 +392,7 @@ export async function handleSkip(ctx: BotContext) {
   }
 
   await ctx.answerCallbackQuery();
-  await ctx.editMessageText('⏭️ تم التخطي — مفيش مشكلة، حاول في السؤال الجاي! 💪');
+  await ctx.editMessageText('⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪');
 
   // Send next question or summary
   const updatedSession = await getTodaySession(profileId);
@@ -423,7 +423,7 @@ export async function handleHint(ctx: BotContext) {
   const question = await prisma.question.findUnique({ where: { id: questionId } });
 
   if (!question?.hintText) {
-    await ctx.answerCallbackQuery({ text: 'مفيش تلميح للسؤال ده' });
+    await ctx.answerCallbackQuery({ text: 'لا يوجد تلميح لهذا السؤال' });
     return;
   }
 
@@ -517,13 +517,13 @@ async function showDailySummary(ctx: BotContext, userId: number) {
         const nextEmoji = nextLevel.iconEmoji || '🥋';
 
         const keyboard = new InlineKeyboard()
-          .text('🔼 اطلع للمستوى الجاي', `level_up:${nextLevel.id}`)
-          .text('🔄 كمّل في نفس المستوى', 'stay_level');
+          .text('🔼 انتقل للمستوى التالي', `level_up:${nextLevel.id}`)
+          .text('🔄 استمر في نفس المستوى', 'stay_level');
 
         await ctx.reply(
           `🎉🥷 *مبروك يا ${user.nickname}!*\n\n` +
-            `أنت أتقنت كل مواضيع ${levelEmoji} ${user.level.name}!\n\n` +
-            `جاهز تطلع لـ ${nextEmoji} ${nextLevel.name}؟`,
+            `لقد أتقنت جميع مواضيع ${levelEmoji} ${user.level.name}!\n\n` +
+            `هل أنت جاهز للانتقال إلى ${nextEmoji} ${nextLevel.name}؟`,
           { parse_mode: 'Markdown', reply_markup: keyboard },
         );
       }
@@ -543,13 +543,13 @@ export async function handleLevelUp(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
 
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
     return;
   }
 
   const nextLevel = await prisma.level.findUnique({ where: { id: nextLevelId } });
   if (!nextLevel) {
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
     return;
   }
 
@@ -561,7 +561,7 @@ export async function handleLevelUp(ctx: BotContext) {
   const emoji = nextLevel.iconEmoji || '🥋';
   await ctx.answerCallbackQuery();
   await ctx.editMessageText(
-    `🎉 *تم الترقية!*\n\nأنت دلوقتي في ${emoji} ${nextLevel.name}!\nيلا نكمل التحدي! 💪`,
+    `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevel.name}!\nهيا نستمر في التحدي! 💪`,
     { parse_mode: 'Markdown' },
   );
 }
@@ -569,7 +569,7 @@ export async function handleLevelUp(ctx: BotContext) {
 export async function handleStayLevel(ctx: BotContext) {
   await ctx.answerCallbackQuery();
   await ctx.editMessageText(
-    '👍 تمام! كمّل تمرن في نفس المستوى — الممارسة بتخلّيك أقوى! 💪',
+    '👍 ممتاز! استمر في نفس المستوى — التمرين يجعلك أقوى! 💪',
   );
 }
 

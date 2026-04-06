@@ -22,14 +22,14 @@ export default async function LeaderboardPage() {
     <div className="min-h-screen bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
         <h1 className="text-3xl font-bold">📊 الترتيب الأسبوعي</h1>
-        <p className="text-slate-400 mt-2">اللاعبين الأكثر نشاط الأسبوع ده</p>
+        <p className="text-slate-400 mt-2">اللاعبون الأكثر نشاطاً هذا الأسبوع</p>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10">
         {rankings.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-xl text-slate-500">مفيش ترتيب لسه الأسبوع ده</p>
-            <p className="text-slate-400 mt-2">ابدأ حل أسئلة عشان تظهر هنا!</p>
+            <p className="text-xl text-slate-500">لا يوجد ترتيب بعد لهذا الأسبوع</p>
+            <p className="text-slate-400 mt-2">ابدأ بحل الأسئلة حتى تظهر هنا!</p>
           </div>
         ) : (
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
@@ -39,7 +39,7 @@ export default async function LeaderboardPage() {
                   <th className="py-3 px-4 text-right font-semibold">الترتيب</th>
                   <th className="py-3 px-4 text-right font-semibold">الاسم</th>
                   <th className="py-3 px-4 text-center font-semibold">✅ صح</th>
-                  <th className="py-3 px-4 text-center font-semibold">❌ غلط</th>
+                  <th className="py-3 px-4 text-center font-semibold">❌ خطأ</th>
                   <th className="py-3 px-4 text-center font-semibold">💡 تلميحات</th>
                   <th className="py-3 px-4 text-center font-semibold">📅 أيام</th>
                 </tr>

@@ -37,9 +37,9 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'سارة معاها مصروف ٥٠ جنيه واشترت أدوات مدرسية',
-    questionText: 'سارة معاها ٥٠ جنيه واشترت كراسة بـ ١٢ جنيه وقلم بـ ٨ جنيه. فاضل معاها كام؟',
+    questionText: 'سارة معاها ٥٠ جنيه واشترت كراسة بـ ١٢ جنيه وقلم بـ ٨ جنيه. المتبقي معاها كام؟',
     hintText: 'اجمع اللي اشترته الأول وبعدين اطرح من الـ ٥٠',
-    explanation: '١٢ + ٨ = ٢٠ جنيه مشتريات. ٥٠ - ٢٠ = ٣٠ جنيه فاضلين',
+    explanation: '١٢ + ٨ = ٢٠ جنيه مشتريات. ٥٠ - ٢٠ = ٣٠ جنيه المتبقية',
     options: [
       { optionText: '٣٠ جنيه', isCorrect: true },
       { optionText: '٣٨ جنيه', isCorrect: false },
@@ -52,8 +52,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'كريم بيجمع فلوس الحصّالة بتاعته',
-    questionText: 'كريم عنده ١٢٥ جنيه في الحصّالة وحط كمان ٧٥ جنيه. المجموع كام؟',
+    realLifeContext: 'كريم يجمع مال الحصّالة بتاعته',
+    questionText: 'كريم عنده ١٢٥ جنيه في الحصّالة وأضاف ٧٥ جنيه. المجموع كام؟',
     hintText: 'اجمع الرقمين مع بعض',
     explanation: '١٢٥ + ٧٥ = ٢٠٠ جنيه',
     options: [
@@ -101,7 +101,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'ياسمين بتوفر من مصروفها كل أسبوع',
-    questionText: 'ياسمين وفرت ١٤٨ جنيه الشهر ده وصرفت ٥٩ جنيه على كتاب. فاضل كام؟',
+    questionText: 'ياسمين وفرت ١٤٨ جنيه هذا الشهر وصرفت ٥٩ جنيه على كتاب. كم يتبقى؟',
     hintText: 'اطرح ثمن الكتاب من اللي وفرته',
     explanation: '١٤٨ - ٥٩ = ٨٩ جنيه',
     options: [
@@ -160,8 +160,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'مريم معاها مصروف الأسبوع وعايزة تشتري أكل',
-    questionText: 'مريم معاها ١٠٠ جنيه واشترت أكل بـ ٦٤ جنيه. فاضل معاها كام جنيه؟',
+    realLifeContext: 'مريم معاها مصروف الأسبوع وتريد تشتري أكل',
+    questionText: 'مريم معاها ١٠٠ جنيه واشترت أكل بـ ٦٤ جنيه. المتبقي معاها كام جنيه؟',
     hintText: 'اطرح تمن الأكل من اللي معاها',
     explanation: '١٠٠ - ٦٤ = ٣٦ جنيه',
     correctAnswer: '٣٦',
@@ -172,10 +172,10 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'أحمد بيجمع فلوس عشان يشتري كورة',
-    questionText: 'أحمد معاه ٨٦ جنيه ومحتاج ١٥٠ جنيه عشان الكورة. محتاج يوفر كمان كام؟',
+    realLifeContext: 'أحمد يجمع مال حتى يشتري كورة',
+    questionText: 'أحمد معاه ٨٦ جنيه ومحتاج ١٥٠ جنيه حتى الكورة. يحتاج أن يوفر كم المزيد؟',
     hintText: 'اطرح اللي معاه من تمن الكورة',
-    explanation: '١٥٠ - ٨٦ = ٦٤ جنيه لسه محتاج يوفرهم',
+    explanation: '١٥٠ - ٨٦ = ٦٤ جنيه لسه يحتاج أن يوفرهم',
     correctAnswer: '٦٤',
     correctAnswerNumeric: 64,
   },
@@ -202,7 +202,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'سارة بتشتري كراسات لأخواتها الثلاثة',
-    questionText: 'كل كراسة بـ ١٢ جنيه وسارة عايزة ٣ كراسات. هتدفع كام؟',
+    questionText: 'كل كراسة بـ ١٢ جنيه وسارة تريد ٣ كراسات. كم ستدفع؟',
     hintText: 'اضرب تمن الكراسة في عدد الكراسات',
     explanation: '١٢ × ٣ = ٣٦ جنيه',
     options: [
@@ -282,7 +282,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'ياسمين بتشتري هدايا لصحابها في عيد ميلادها',
-    questionText: 'كل هدية بـ ٤٠ جنيه وياسمين عايزة ٧ هدايا. المجموع كام؟',
+    questionText: 'كل هدية بـ ٤٠ جنيه وياسمين تريد ٧ هدايا. المجموع كام؟',
     hintText: 'اضرب ٤٠ في ٧',
     explanation: '٤٠ × ٧ = ٢٨٠ جنيه',
     options: [
@@ -313,8 +313,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'نور بتحسب تمن الكعك اللي ماما عملته للعيد',
-    questionText: 'ماما عملت ١٢ صينية كعك وكل صينية محتاجة سمنة بـ ٢٠ جنيه. تمن السمنة كلها كام؟',
+    realLifeContext: 'نور بتحسب تمن الكعك اللي ماما صنعته للعيد',
+    questionText: 'ماما صنعت ١٢ صينية كعك وكل صينية محتاجة سمنة بـ ٢٠ جنيه. تمن السمنة كلها كام؟',
     hintText: 'اضرب ١٢ في ٢٠',
     explanation: '١٢ × ٢٠ = ٢٤٠ جنيه',
     options: [
@@ -354,7 +354,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'سارة بتحسب ثمن البيض اللي ماما طلبته',
-    questionText: 'كل كرتونة بيض بـ ٨٥ جنيه وماما عايزة ٣ كراتين. المجموع كام جنيه؟',
+    questionText: 'كل كرتونة بيض بـ ٨٥ جنيه وماما تريد ٣ كراتين. المجموع كام جنيه؟',
     hintText: 'اضرب ٨٥ في ٣',
     explanation: '٨٥ × ٣ = ٢٥٥ جنيه',
     correctAnswer: '٢٥٥',
@@ -398,8 +398,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'سارة عندها بونبوني وعايزة توزعها على زميلاتها',
-    questionText: 'سارة عندها ٢٥ بونبونة وعايزة توزعهم على ٤ زميلات بالتساوي. كل واحدة تاخد كام ويفضل كام؟',
+    realLifeContext: 'سارة عندها بونبوني وتريد توزعها على زميلاتها',
+    questionText: 'سارة عندها ٢٥ بونبونة وتريد توزعهم على ٤ زميلات بالتساوي. كل واحدة تاخد كام ويفضل كام؟',
     hintText: 'اقسم ٢٥ على ٤ وشوف الباقي',
     explanation: '٢٥ ÷ ٤ = ٦ لكل واحدة والباقي ١ (لأن ٤ × ٦ = ٢٤)',
     options: [
@@ -430,8 +430,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'المدرّسة بتقسم التلاميذ على فرق في حصة الرياضة',
-    questionText: 'الفصل فيه ٣٠ تلميذ والمدرّسة عايزة تقسمهم ٦ فرق. كل فريق فيه كام؟',
+    realLifeContext: 'المدرّسة تقسم التلاميذ على فرق في حصة الرياضة',
+    questionText: 'الفصل فيه ٣٠ تلميذ والمدرّسة تريد تقسمهم ٦ فرق. كل فريق فيه كام؟',
     hintText: 'اقسم ٣٠ على ٦',
     explanation: '٣٠ ÷ ٦ = ٥ تلاميذ في كل فريق',
     options: [
@@ -447,7 +447,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'نور بتوزع بسكويت على إخواتها',
-    questionText: 'نور عندها ٢٣ بسكويتة وعايزة توزعهم على ٣ إخوات. كل واحد ياخد كام ويفضل كام؟',
+    questionText: 'نور عندها ٢٣ بسكويتة وتريد توزعهم على ٣ إخوات. كل واحد ياخد كام ويفضل كام؟',
     hintText: 'اقسم ٢٣ على ٣',
     explanation: '٢٣ ÷ ٣ = ٧ لكل واحد والباقي ٢ (لأن ٣ × ٧ = ٢١)',
     options: [
@@ -462,8 +462,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'ياسمين بتقسم فلوس العيدية على أيام الأسبوع',
-    questionText: 'ياسمين أخدت عيدية ٥٠ جنيه وعايزة تقسمهم على ٧ أيام. كل يوم تصرف كام ويفضل كام؟',
+    realLifeContext: 'ياسمين تقسم مال العيدية على أيام الأسبوع',
+    questionText: 'ياسمين أخدت عيدية ٥٠ جنيه وتريد تقسمهم على ٧ أيام. كل يوم تصرف كام ويفضل كام؟',
     hintText: 'اقسم ٥٠ على ٧',
     explanation: '٥٠ ÷ ٧ = ٧ جنيه كل يوم والباقي ١ (لأن ٧ × ٧ = ٤٩)',
     options: [
@@ -510,8 +510,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'open_ended',
-    realLifeContext: 'مريم عندها حلويات وعايزة توزعها',
-    questionText: 'مريم عندها ٣٦ حلاوة وعايزة توزعهم على ٦ صحاب بالتساوي. كل واحدة تاخد كام؟',
+    realLifeContext: 'مريم عندها حلويات وتريد توزعها',
+    questionText: 'مريم عندها ٣٦ حلاوة وتريد توزعهم على ٦ صحاب بالتساوي. كل واحدة تاخد كام؟',
     hintText: 'اقسم ٣٦ على ٦',
     explanation: '٣٦ ÷ ٦ = ٦ حلاوات لكل واحدة',
     correctAnswer: '٦',
@@ -535,7 +535,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'سارة بتوزع أقلام على مجموعات الفصل',
-    questionText: 'سارة عندها ٥٦ قلم وعايزة توزعهم على ٧ مجموعات بالتساوي. كل مجموعة تاخد كام قلم؟',
+    questionText: 'سارة عندها ٥٦ قلم وتريد توزعهم على ٧ مجموعات بالتساوي. كل مجموعة تاخد كام قلم؟',
     hintText: 'اقسم ٥٦ على ٧',
     explanation: '٥٦ ÷ ٧ = ٨ أقلام لكل مجموعة',
     correctAnswer: '٨',
@@ -546,8 +546,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'open_ended',
-    realLifeContext: 'نور بتقسم ألعاب على إخواتها',
-    questionText: 'نور عندها ٣٤ لعبة وعايزة توزعهم على ٤ إخوات بالتساوي. الباقي كام لعبة؟',
+    realLifeContext: 'نور تقسم ألعاب على إخواتها',
+    questionText: 'نور عندها ٣٤ لعبة وتريد توزعهم على ٤ إخوات بالتساوي. الباقي كام لعبة؟',
     hintText: 'اقسم ٣٤ على ٤ وشوف الباقي',
     explanation: '٣٤ ÷ ٤ = ٨ لكل واحد والباقي ٢ (لأن ٤ × ٨ = ٣٢)',
     correctAnswer: '٢',
@@ -565,7 +565,7 @@ export const level1Questions: QuestionSeed[] = [
     questionType: 'mcq',
     realLifeContext: 'كريم بيقرأ عداد عربية بابا',
     questionText: 'العداد بيقول ٢٤٬٨٥٧ كيلومتر. الرقم ٤ قيمته المكانية كام؟',
-    hintText: 'شوف الـ ٤ في أنهي خانة',
+    hintText: 'شوف الـ ٤ في أي خانة',
     explanation: 'الـ ٤ في خانة الآلاف، فقيمتها المكانية = ٤٬٠٠٠',
     options: [
       { optionText: '٤٬٠٠٠', isCorrect: true },
@@ -596,7 +596,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'نور بتقارن أسعار موبايلين في محلين مختلفين',
-    questionText: 'أنهي أكبر: ٣٬٤٥٠ جنيه ولا ٣٬٥٤٠ جنيه؟',
+    questionText: 'أي أكبر: ٣٬٤٥٠ جنيه ولا ٣٬٥٤٠ جنيه؟',
     hintText: 'قارن الأرقام من الشمال لليمين',
     explanation: 'الألاف متساوية (٣). المئات: ٤ < ٥، فـ ٣٬٥٤٠ أكبر',
     options: [
@@ -660,7 +660,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'مريم بتقارن نتائج الامتحانات بين فصلين',
-    questionText: 'فصل أ مجموعه ١٬٢٥٠ وفصل ب مجموعه ١٬٢٠٥. أنهي فصل مجموعه أكبر؟',
+    questionText: 'فصل أ مجموعه ١٬٢٥٠ وفصل ب مجموعه ١٬٢٠٥. أي فصل مجموعه أكبر؟',
     hintText: 'قارن الأرقام من اليسار',
     explanation: 'الألاف والمئات متساويين. العشرات: ٥ > ٠، ففصل أ (١٬٢٥٠) أكبر',
     options: [
@@ -776,8 +776,8 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'كريم بيلعب لعبة الأرقام ومحتاج يعرف مضاعفات ٦',
-    questionText: 'أنهي رقم من دول مضاعف للعدد ٦؟',
+    realLifeContext: 'كريم بيلعب لعبة الأرقام ويحتاج أن يعرف مضاعفات ٦',
+    questionText: 'أي رقم من دول مضاعف للعدد ٦؟',
     hintText: 'مضاعفات ٦ هي: ٦، ١٢، ١٨، ٢٤، ٣٠...',
     explanation: '٢٤ = ٦ × ٤ فهو مضاعف للعدد ٦',
     options: [
@@ -841,7 +841,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'ياسمين بتوزع تفاح على أطباق بالتساوي',
-    questionText: 'ياسمين عندها ١٥ تفاحة. أنهي عدد أطباق تقدر توزع عليه بالتساوي من غير باقي؟',
+    questionText: 'ياسمين عندها ١٥ تفاحة. أي عدد أطباق تقدر توزع عليه بالتساوي من غير باقي؟',
     hintText: 'دوري على عوامل ١٥',
     explanation: 'عوامل ١٥ هي ١، ٣، ٥، ١٥. فتقدر توزع على ٣ أو ٥ أطباق بالتساوي',
     options: [
@@ -857,7 +857,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'خالد بيصنف الأعداد في حصة الرياضيات',
-    questionText: 'أنهي عدد من دول عدد فردي؟',
+    questionText: 'أي عدد من دول عدد فردي؟',
     hintText: 'العدد الفردي مش بيتقسم على ٢ بالتساوي',
     explanation: '٣٧ عدد فردي لأن ٣٧ ÷ ٢ = ١٨ والباقي ١',
     options: [
@@ -886,7 +886,7 @@ export const level1Questions: QuestionSeed[] = [
     questionType: 'open_ended',
     realLifeContext: 'نور بتعد عوامل رقم',
     questionText: 'العدد ١٨ له كام عامل؟ (العوامل: ١، ٢، ٣، ٦، ٩، ١٨)',
-    hintText: 'عد الأرقام اللي بتقسم ١٨ من غير باقي',
+    hintText: 'عد الأرقام اللي تقسم ١٨ من غير باقي',
     explanation: 'عوامل ١٨: ١، ٢، ٣، ٦، ٩، ١٨ = ٦ عوامل',
     correctAnswer: '٦',
     correctAnswerNumeric: 6,
@@ -926,7 +926,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'أحمد وعيلته بياكلوا بيتزا متقسمة ٨ حتت',
-    questionText: 'أحمد أكل ٣ حتت من ٨. أكل قد إيه من البيتزا؟',
+    questionText: 'أحمد أكل ٣ حتت من ٨. أكل كم من البيتزا؟',
     hintText: 'عدد اللي أكله على العدد الكلي',
     explanation: 'أكل ٣ من ٨ = ٣/٨ من البيتزا',
     options: [
@@ -942,7 +942,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'سارة قسمت الكيكة ٤ حتت متساوية',
-    questionText: 'سارة أكلت حتة واحدة من ٤. أنهي كسر يمثل اللي أكلته؟',
+    questionText: 'سارة أكلت حتة واحدة من ٤. أي كسر يمثل اللي أكلته؟',
     hintText: 'عدد الحتت اللي أكلتها فوق وعدد الحتت الكلي تحت',
     explanation: 'أكلت حتة من ٤ = ١/٤',
     options: [
@@ -958,7 +958,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'كريم عنده لوح شوكولاتة متقسم ١٠ مربعات',
-    questionText: 'أنهي كسر أكبر: ٣/١٠ ولا ٧/١٠؟',
+    questionText: 'أي كسر أكبر: ٣/١٠ ولا ٧/١٠؟',
     hintText: 'لو المقام واحد، قارن البسط',
     explanation: 'المقام واحد (١٠)، و ٧ > ٣، فـ ٧/١٠ أكبر',
     options: [
@@ -974,7 +974,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'نور أكلت جزء من البيتزا المقسمة ٦ حتت',
-    questionText: 'نور أكلت ٢/٦ من البيتزا. الكسر ده يساوي كام في أبسط صورة؟',
+    questionText: 'نور أكلت ٢/٦ من البيتزا. الكسر هذا يساوي كام في أبسط صورة؟',
     hintText: 'دوري على رقم يقسم البسط والمقام',
     explanation: '٢/٦ = ١/٣ (قسمنا البسط والمقام على ٢)',
     options: [
@@ -990,7 +990,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'عمر بيتعلم الكسور المتكافئة في حصة الرياضيات',
-    questionText: 'أنهي كسر يكافئ ١/٢؟',
+    questionText: 'أي كسر يكافئ ١/٢؟',
     hintText: 'اضرب البسط والمقام في نفس الرقم',
     explanation: '١/٢ = ٢/٤ = ٣/٦ = ٤/٨ (نضرب البسط والمقام في نفس العدد)',
     options: [
@@ -1005,7 +1005,7 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'mcq',
-    realLifeContext: 'ياسمين بتقسم لوح شوكولاتة على صحابها',
+    realLifeContext: 'ياسمين تقسم لوح شوكولاتة على صحابها',
     questionText: 'لوح الشوكولاتة متقسم ١٢ مربع. ياسمين أكلت ٤ مربعات. أكلت قد إيه؟',
     hintText: 'اكتبي الكسر وبسطيه',
     explanation: '٤/١٢ = ١/٣ (قسمنا على ٤)',
@@ -1022,7 +1022,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'مريم بتقارن حصص الكيك بين أخواتها',
-    questionText: 'أنهي أكبر: ١/٢ ولا ١/٤؟',
+    questionText: 'أي أكبر: ١/٢ ولا ١/٤؟',
     hintText: 'لو البسط واحد، المقام الأصغر يبقى الكسر الأكبر',
     explanation: 'نفس البسط (١)، والمقام ٢ < ٤، فـ ١/٢ أكبر من ١/٤',
     options: [
@@ -1038,9 +1038,9 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'خالد اشترى بيتزا كبيرة متقسمة ٨ حتت',
-    questionText: 'خالد أكل ٢/٨ وأخوه أكل ٢/٨. فاضل قد إيه؟',
+    questionText: 'خالد أكل ٢/٨ وأخوه أكل ٢/٨. المتبقي قد إيه؟',
     hintText: 'اجمع اللي اتاكل واطرح من ٨/٨',
-    explanation: '٢/٨ + ٢/٨ = ٤/٨. الفاضل = ٨/٨ - ٤/٨ = ٤/٨ = ١/٢',
+    explanation: '٢/٨ + ٢/٨ = ٤/٨. الالمتبقي = ٨/٨ - ٤/٨ = ٤/٨ = ١/٢',
     options: [
       { optionText: '٤/٨', isCorrect: true },
       { optionText: '٢/٨', isCorrect: false },
@@ -1054,7 +1054,7 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'open_ended',
     realLifeContext: 'أحمد أكل جزء من بيتزا مقسمة ٦ حتت',
-    questionText: 'أحمد أكل ٢ حتة من ٦. البسط في الكسر ده كام؟',
+    questionText: 'أحمد أكل ٢ حتة من ٦. البسط في الكسر هذا كام؟',
     hintText: 'البسط هو عدد الحتت اللي أكلها',
     explanation: 'أكل ٢ من ٦، فالكسر = ٢/٦ والبسط = ٢',
     correctAnswer: '٢',
@@ -1139,9 +1139,9 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'سارة بتملى زجاجات مياه للرحلة',
-    questionText: 'سارة عندها جركن ٥ لتر مياه وملت ٣ زجاجات كل واحدة نص لتر. فاضل كام لتر؟',
+    questionText: 'سارة عندها جركن ٥ لتر مياه وملت ٣ زجاجات كل واحدة نص لتر. كم يتبقى لتر؟',
     hintText: 'احسبي المياه اللي في الزجاجات واطرحيها',
-    explanation: '٣ زجاجات × ٠.٥ لتر = ١.٥ لتر. الفاضل = ٥ - ١.٥ = ٣.٥ لتر',
+    explanation: '٣ زجاجات × ٠.٥ لتر = ١.٥ لتر. الالمتبقي = ٥ - ١.٥ = ٣.٥ لتر',
     options: [
       { optionText: '٣ ونص لتر', isCorrect: true },
       { optionText: '٤ لتر', isCorrect: false },
@@ -1170,10 +1170,10 @@ export const level1Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'نور بتقيس قماش عشان تعمل فستان',
+    realLifeContext: 'نور بتقيس قماش حتى تعمل فستان',
     questionText: 'نور محتاجة ٢ متر قماش. لو القماش عندها ١٥٠ سم، ينفع ولا لأ؟',
     hintText: 'حولي المتر لسنتيمتر: ١ متر = ١٠٠ سم',
-    explanation: '٢ متر = ٢٠٠ سم. عندها ١٥٠ سم بس، فمش كفاية ومحتاجة ٥٠ سم كمان',
+    explanation: '٢ متر = ٢٠٠ سم. عندها ١٥٠ سم بس، فمش كفاية ومحتاجة ٥٠ سم إضافية',
     options: [
       { optionText: 'لأ، ناقصها ٥٠ سم', isCorrect: true },
       { optionText: 'أيوا، كفاية', isCorrect: false },

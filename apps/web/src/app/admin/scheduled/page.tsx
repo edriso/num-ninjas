@@ -43,12 +43,12 @@ export default async function ScheduledPage() {
       </div>
 
       <p className="text-sm text-gray-500 mb-4">
-        كل طالب بيحصل على أسئلة مختلفة بناء على نقاط ضعفه (صعوبة تكيفية)
+        كل طالب يحصل على أسئلة مختلفة بناءً على نقاط ضعفه (صعوبة تكيّفية)
       </p>
 
       {scheduled.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center text-gray-400">
-          لا يوجد أسئلة مجدولة لليوم — بتتحضر الساعة 12:30 الليل
+          لا توجد أسئلة مجدولة لليوم — يتم تحضيرها الساعة 12:30 ليلاً
         </div>
       ) : (
         <div className="space-y-4">
@@ -89,8 +89,8 @@ export default async function ScheduledPage() {
                             }`}
                           >
                             {sq.question.questionType === "mcq"
-                              ? "اختياري"
-                              : "مفتوح"}
+                              ? "اختيار متعدد"
+                              : "إجابة مفتوحة"}
                           </span>
                         </div>
                       </div>

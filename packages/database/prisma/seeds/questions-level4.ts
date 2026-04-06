@@ -20,8 +20,8 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'ماما بتعمل كشري لـ ٤ أشخاص ومحتاجة ٢ كوباية عدس. النهارده عندنا ٨ ضيوف.',
-    questionText: 'محتاجة كام كوباية عدس عشان تعمل كشري لـ ٨ أشخاص؟',
+    realLifeContext: 'ماما بتعمل كشري لـ ٤ أشخاص ومحتاجة ٢ كوباية عدس. اليوم عندنا ٨ ضيوف.',
+    questionText: 'محتاجة كام كوباية عدس حتى تعمل كشري لـ ٨ أشخاص؟',
     hintText: 'عدد الأشخاص اتضاعف، يبقى الكمية هتتضاعف',
     explanation: '٨ ÷ ٤ = ٢ (الضعف)، يبقى ٢ × ٢ = ٤ كوبايات عدس',
     options: [
@@ -68,7 +68,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'ماما بتعمل بسبوسة لـ ٦ أشخاص ومحتاجة ٣ كوبايات سميد. عايزة تعمل لـ ١٢ شخص.',
+    realLifeContext: 'ماما بتعمل بسبوسة لـ ٦ أشخاص ومحتاجة ٣ كوبايات سميد. تريد تعمل لـ ١٢ شخص.',
     questionText: 'محتاجة كام كوباية سميد لـ ١٢ شخص؟',
     hintText: '١٢ ÷ ٦ = ٢ يبقى الكمية هتتضاعف',
     explanation: '١٢ ÷ ٦ = ٢ (ضعف العدد)، يبقى ٣ × ٢ = ٦ كوبايات سميد',
@@ -84,7 +84,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'في مصنع مياه، كل ٣ لتر مياه بيحتاجوا ١ لتر شربات عشان يعملوا عصير.',
+    realLifeContext: 'في مصنع مياه، كل ٣ لتر مياه بيحتاجوا ١ لتر شربات حتى يعملوا عصير.',
     questionText: 'لو عندك ١٥ لتر مياه، محتاج كام لتر شربات؟',
     hintText: 'النسبة مياه : شربات = ٣ : ١',
     explanation: '١٥ ÷ ٣ = ٥ لتر شربات',
@@ -218,7 +218,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'الموبايل بتاع سارة البطارية بتاعته ١٠٠٪ الصبح. استخدمت ٣٥٪ لحد الضهر.',
-    questionText: 'كام في المية بطارية فاضلة؟',
+    questionText: 'كام في المية بطارية المتبقية؟',
     hintText: 'اطرح النسبة المستخدمة من ١٠٠',
     explanation: '١٠٠٪ - ٣٥٪ = ٦٥٪',
     options: [
@@ -233,7 +233,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'باقة النت بتاعتك ٢٠ جيجا. استخدمت ١٥ جيجا الشهر ده.',
+    realLifeContext: 'باقة النت بتاعتك ٢٠ جيجا. استخدمت ١٥ جيجا هذا الشهر.',
     questionText: 'كام في المية من النت استخدمته؟',
     hintText: 'اقسم المستخدم على الكلي واضرب في ١٠٠',
     explanation: '(١٥ ÷ ٢٠) × ١٠٠ = ٧٥٪',
@@ -282,7 +282,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'محمد عنده ٥٠ جنيه وصرف ٢٠ جنيه على الأكل.',
-    questionText: 'كام في المية من فلوسه صرفها؟',
+    questionText: 'كام في المية من ماله صرفها؟',
     hintText: 'اقسم اللي اتصرف على الكلي واضرب في ١٠٠',
     explanation: '(٢٠ ÷ ٥٠) × ١٠٠ = ٤٠٪',
     options: [
@@ -342,11 +342,11 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'البطارية كانت ١٠٠٪ ونزلت ٤٥٪ بعد ما لعبت.',
-    questionText: 'كام في المية بطارية فاضلة؟',
+    questionText: 'كام في المية بطارية المتبقية؟',
     correctAnswer: '٥٥',
     correctAnswerNumeric: 55,
     hintText: 'اطرح اللي نزل من ١٠٠',
-    explanation: '١٠٠ - ٤٥ = ٥٥٪ فاضلة',
+    explanation: '١٠٠ - ٤٥ = ٥٥٪ المتبقية',
   },
 
   // --- Topic 2, Open-ended 3 ---
@@ -383,7 +383,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'في الأوكازيون، تيشيرت سعره ٢٠٠ جنيه وعليه خصم ٣٠٪.',
-    questionText: 'هتدفع كام بعد الخصم؟',
+    questionText: 'كم ستدفع بعد الخصم؟',
     hintText: 'احسب قيمة الخصم الأول وبعدين اطرحها من السعر',
     explanation: 'الخصم = ٢٠٠ × ٣٠ ÷ ١٠٠ = ٦٠ جنيه. السعر بعد الخصم = ٢٠٠ - ٦٠ = ١٤٠ جنيه',
     options: [
@@ -479,7 +479,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'في السوبرماركت، علبة شيكولاتة سعرها ٨٠ جنيه وعليها ضريبة ٥٪.',
-    questionText: 'كام هتدفع كله؟',
+    questionText: 'كم ستدفع كله؟',
     hintText: 'الضريبة = ٨٠ × ٥ ÷ ١٠٠',
     explanation: 'الضريبة = ٨٠ × ٥ ÷ ١٠٠ = ٤ جنيه. الإجمالي = ٨٠ + ٤ = ٨٤ جنيه',
     options: [
@@ -495,7 +495,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'بنطلون جينز سعره ٨٠٠ جنيه. في الأوكازيون عليه خصم ٤٠٪.',
-    questionText: 'هتدفع كام بعد الخصم؟',
+    questionText: 'كم ستدفع بعد الخصم؟',
     hintText: 'الخصم = ٨٠٠ × ٤٠ ÷ ١٠٠',
     explanation: 'الخصم = ٨٠٠ × ٤٠ ÷ ١٠٠ = ٣٢٠ جنيه. السعر = ٨٠٠ - ٣٢٠ = ٤٨٠ جنيه',
     options: [
@@ -511,7 +511,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'ساعة يد سعرها ١٠٠٠ جنيه وعليها خصم ١٥٪.',
-    questionText: 'كام هتدفع بعد الخصم؟',
+    questionText: 'كم ستدفع بعد الخصم؟',
     correctAnswer: '٨٥٠',
     correctAnswerNumeric: 850,
     hintText: 'الخصم = ١٠٠٠ × ١٥ ÷ ١٠٠',
@@ -612,7 +612,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'فكّر في عدد. لو ضربته في ٤ وزوّدت ٣، الناتج ٣١.',
-    questionText: 'العدد ده كام؟',
+    questionText: 'العدد هذا كام؟',
     hintText: 'العدد × ٤ + ٣ = ٣١',
     explanation: '٤ × س + ٣ = ٣١، يبقى ٤س = ٢٨، يبقى س = ٧',
     options: [
@@ -627,7 +627,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'mcq',
-    realLifeContext: 'مريم عندها ٣ أكياس بونبوني متساوية وكمان ٤ بونبونيات لوحدهم. المجموع ٢٢ بونبونية.',
+    realLifeContext: 'مريم عندها ٣ أكياس بونبوني متساوية و٤ بونبونيات لوحدهم. المجموع ٢٢ بونبونية.',
     questionText: 'كام بونبونية في الكيس الواحد؟',
     hintText: 'لو الكيس = س، يبقى ٣س + ٤ = ٢٢',
     explanation: '٣س + ٤ = ٢٢، يبقى ٣س = ١٨، يبقى س = ٦ بونبونيات',
@@ -660,7 +660,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'فكّر في عدد. لو نقصت منه ٨ وقسمت على ٢ يبقى الناتج ٥.',
-    questionText: 'العدد ده كام؟',
+    questionText: 'العدد هذا كام؟',
     hintText: '(العدد - ٨) ÷ ٢ = ٥',
     explanation: '(س - ٨) ÷ ٢ = ٥، يبقى س - ٨ = ١٠، يبقى س = ١٨',
     options: [
@@ -704,7 +704,7 @@ export const level4Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'فكّر في عدد. لو ضربته في ٥ وطرحت ٣، الناتج ٣٢.',
-    questionText: 'العدد ده كام؟',
+    questionText: 'العدد هذا كام؟',
     correctAnswer: '٧',
     correctAnswerNumeric: 7,
     hintText: '٥ × العدد - ٣ = ٣٢',
@@ -727,7 +727,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'open_ended',
-    realLifeContext: 'عند خالد ٢ علبة ألوان متساوية وكمان ٦ ألوان لوحدهم. المجموع ١٨ لون.',
+    realLifeContext: 'عند خالد ٢ علبة ألوان متساوية و٦ ألوان لوحدهم. المجموع ١٨ لون.',
     questionText: 'كام لون في العلبة الواحدة؟',
     correctAnswer: '٦',
     correctAnswerNumeric: 6,
@@ -744,7 +744,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'أحمد كان معاه فلوس واشترى ساندوتش بـ ٥ جنيه. فضل معاه ٧ جنيه.',
+    realLifeContext: 'أحمد كان معاه مال واشترى ساندوتش بـ ٥ جنيه. فضل معاه ٧ جنيه.',
     questionText: 'كان معاه كام في الأول؟ (حل: س - ٥ = ٧)',
     hintText: 'زوّد ٥ على الطرفين',
     explanation: 'س - ٥ = ٧، يبقى س = ٧ + ٥ = ١٢ جنيه',
@@ -776,7 +776,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'سارة جمعت فلوس العيدية وحطت عليهم ٨ جنيه من مصروفها. بقى معاها ٢٠ جنيه.',
+    realLifeContext: 'سارة جمعت مال العيدية وحطت عليهم ٨ جنيه من مصروفها. بقى معاها ٢٠ جنيه.',
     questionText: 'العيدية كانت كام؟ (حل: س + ٨ = ٢٠)',
     hintText: 'اطرح ٨ من الطرفين',
     explanation: 'س + ٨ = ٢٠، يبقى س = ٢٠ - ٨ = ١٢ جنيه',
@@ -872,7 +872,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'open_ended',
-    realLifeContext: 'كان معاك فلوس واشتريت أيس كريم بـ ١٥ جنيه. فضل معاك ١٠ جنيه.',
+    realLifeContext: 'كان معاك مال واشتريت أيس كريم بـ ١٥ جنيه. فضل معاك ١٠ جنيه.',
     questionText: 'كان معاك كام في الأول؟ (حل: س - ١٥ = ١٠)',
     correctAnswer: '٢٥',
     correctAnswerNumeric: 25,
@@ -1065,7 +1065,7 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'open_ended',
-    realLifeContext: 'قطر ماشي بسرعة ١٢٠ كم/ساعة ومحتاج يقطع مسافة ٣٦٠ كم.',
+    realLifeContext: 'قطر ماشي بسرعة ١٢٠ كم/ساعة ويحتاج أن يقطع مسافة ٣٦٠ كم.',
     questionText: 'الرحلة هتاخد كام ساعة؟',
     correctAnswer: '٣',
     correctAnswerNumeric: 3,

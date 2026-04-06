@@ -79,7 +79,7 @@ export async function handlePlayers(ctx: BotContext) {
   // Show list with switch buttons + add child
   const keyboard = buildProfileKeyboard(profiles);
   await ctx.reply(
-    msg.playersList(playerLines.join('\n')) + '\n\nاضغط على اسم عشان تبدّل:',
+    msg.playersList(playerLines.join('\n')) + '\n\nاضغط على اسم للتبديل:',
     { parse_mode: 'Markdown', reply_markup: keyboard },
   );
 }
@@ -99,7 +99,7 @@ export async function handlePickProfile(ctx: BotContext) {
     const profile = profiles.find((p) => p.id === profileId);
 
     if (!profile) {
-      await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+      await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
       return;
     }
 
@@ -112,7 +112,7 @@ export async function handlePickProfile(ctx: BotContext) {
     logger.info('Profile switched', { telegramId: Number(telegramId), profileId });
   } catch (error) {
     logger.error('Failed to switch profile', { error: String(error) });
-    await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
   }
 }
 
@@ -121,7 +121,7 @@ export async function handleAddChildCallback(ctx: BotContext) {
   const count = await getProfileCount(telegramId);
 
   if (count >= MAX_PROFILES) {
-    await ctx.answerCallbackQuery({ text: 'وصلت لأقصى عدد (5)' });
+    await ctx.answerCallbackQuery({ text: 'وصلت للحد الأقصى (5)' });
     return;
   }
 

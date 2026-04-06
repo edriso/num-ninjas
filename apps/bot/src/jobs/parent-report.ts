@@ -51,7 +51,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
 
         profileSummaries.push(
           `${levelEmoji} *${user.nickname}:*\n` +
-            `✅ جاوب على ${total} سؤال (${correct} صح — ${accuracy}%)\n` +
+            `✅ أجاب على ${total} سؤال (${correct} صحيحة — ${accuracy}%)\n` +
             `🔥 السلسلة: ${user.streakDays} أيام${streakStar}\n` +
             `💎 النقاط: +${pointsEarned} نقطة`,
         );
@@ -63,7 +63,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
       const message =
         `📊 *تقرير الأسبوع*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
         profileSummaries.join('\n\n') +
-        `\n\nخلّي أولادك يكملوا التحدي! 💪`;
+        `\n\nشجّع أبناءك على مواصلة التحدي! 💪`;
 
       await bot.api.sendMessage(Number(account.telegramId), message, {
         parse_mode: 'Markdown',

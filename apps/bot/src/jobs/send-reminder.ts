@@ -48,9 +48,9 @@ export async function sendReminder(bot: Bot<BotContext>) {
         // Hasn't started
         await bot.api.sendMessage(
           chatId,
-          `👋 يا *${name}*! لسه معملتش أسئلة النهارده\n\n` +
-          `🥷 النينجا الحقيقي بيتمرن كل يوم!\n` +
-          `ابعت /start عشان تبدأ 💪`,
+          `👋 يا *${name}*! لم تجب على أسئلة اليوم بعد\n\n` +
+          `🥷 النينجا الحقيقي يتدرب كل يوم!\n` +
+          `أرسل /start لتبدأ 💪`,
           { parse_mode: 'Markdown' },
         );
       } else {
@@ -58,9 +58,9 @@ export async function sendReminder(bot: Bot<BotContext>) {
         const remaining = questionsPerDay - session.questionsAnswered;
         await bot.api.sendMessage(
           chatId,
-          `💪 يا *${name}*! فاضلك ${remaining} سؤال بس!\n\n` +
-          `كمّل عشان تحافظ على السلسلة 🔥\n` +
-          `ابعت /start عشان تكمّل`,
+          `💪 يا *${name}*! بقي لك ${remaining} سؤال فقط!\n\n` +
+          `أكمل للحفاظ على سلسلتك 🔥\n` +
+          `أرسل /start لتكمل`,
           { parse_mode: 'Markdown' },
         );
       }

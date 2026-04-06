@@ -116,7 +116,7 @@ export function QuestionForm({
           ))}
           {topics.length === 0 && (
             <option value="" disabled>
-              لا يوجد مواضيع في المستوى ده
+              لا توجد مواضيع في هذا المستوى
             </option>
           )}
         </select>
@@ -135,7 +135,7 @@ export function QuestionForm({
               onChange={() => setQuestionType("mcq")}
               className="accent-gray-900"
             />
-            <span className="text-sm">اختياري (MCQ)</span>
+            <span className="text-sm">اختيار متعدد (MCQ)</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -146,7 +146,7 @@ export function QuestionForm({
               onChange={() => setQuestionType("open_ended")}
               className="accent-gray-900"
             />
-            <span className="text-sm">مفتوح</span>
+            <span className="text-sm">إجابة مفتوحة</span>
           </label>
         </div>
       </div>
@@ -159,7 +159,7 @@ export function QuestionForm({
           defaultValue={question?.realLifeContext ?? ""}
           rows={2}
           className={inputClass}
-          placeholder="مثال: محمد راح السوبر ماركت..."
+          placeholder="مثال: ذهب محمد إلى المتجر..."
         />
       </div>
 
@@ -206,7 +206,7 @@ export function QuestionForm({
         <div>
           <label className={labelClass}>الخيارات *</label>
           <p className="text-xs text-gray-400 mb-3">
-            اختار الإجابة الصحيحة بالضغط على الراديو
+            اختر الإجابة الصحيحة بالضغط على الزر
           </p>
           <div className="space-y-3">
             {[0, 1, 2, 3].map((i) => (
@@ -281,14 +281,14 @@ export function QuestionForm({
           <div className="mr-auto">
             {showDeleteConfirm ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-red-600">متأكد؟</span>
+                <span className="text-sm text-red-600">هل أنت متأكد؟</span>
                 <button
                   type="button"
                   onClick={handleDelete}
                   disabled={submitting}
                   className="bg-red-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-red-700 disabled:opacity-50"
                 >
-                  أيوه، امسح
+                  نعم، احذف
                 </button>
                 <button
                   type="button"

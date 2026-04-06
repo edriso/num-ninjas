@@ -23,13 +23,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     include: { level: true },
   });
 
-  if (!user) return { title: 'بروفايل غير موجود' };
+  if (!user) return { title: 'الملف الشخصي غير موجود' };
 
   return {
     title: `${user.nickname} — نينجا الأرقام`,
     description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`,
     openGraph: {
-      title: `بروفايل ${user.nickname}`,
+      title: `الملف الشخصي — ${user.nickname}`,
       description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة`,
     },
   };
@@ -89,7 +89,7 @@ export default async function ProfilePage({ params }: Props) {
         <section>
           <h2 className="text-2xl font-bold text-slate-800 mb-4">🏅 الأوسمة</h2>
           {badges.length === 0 ? (
-            <p className="text-slate-500 text-center py-8">مفيش أوسمة لسه — استمر وهتكسب!</p>
+            <p className="text-slate-500 text-center py-8">لا توجد أوسمة بعد — استمر وستكسب!</p>
           ) : (
             <div className="space-y-3">
               {badges.map((ub) => (

@@ -80,8 +80,8 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
           <option value="">كل الأنواع</option>
-          <option value="mcq">اختياري</option>
-          <option value="open_ended">مفتوح</option>
+          <option value="mcq">اختيار متعدد</option>
+          <option value="open_ended">إجابة مفتوحة</option>
         </select>
 
         {hasFilters && (
@@ -89,7 +89,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
             onClick={() => router.push("/admin/questions")}
             className="text-sm text-red-500 hover:text-red-600"
           >
-            مسح الفلاتر
+            مسح التصفية
           </button>
         )}
       </div>

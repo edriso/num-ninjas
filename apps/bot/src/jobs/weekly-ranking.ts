@@ -35,7 +35,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
         badge.id,
         weekLabel,
         weekStart,
-        `${entry.correctCount} صح · ${entry.wrongCount} غلط · ${entry.hintCount} تلميح`,
+        `${entry.correctCount} صحيحة · ${entry.wrongCount} خطأ · ${entry.hintCount} تلميح`,
       );
     }
   }
@@ -46,7 +46,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
 
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-    message += `${medal} *${entry.nickname}* — ${entry.correctCount} صح`;
+    message += `${medal} *${entry.nickname}* — ${entry.correctCount} صحيحة`;
     if (entry.rank <= 3) {
       message += ` · ${entry.activeDays} يوم`;
     }

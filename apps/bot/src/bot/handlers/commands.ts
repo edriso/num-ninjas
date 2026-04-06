@@ -63,11 +63,11 @@ export async function handleProfile(ctx: BotContext) {
 
   // Streak with motivational message
   if (user.streakDays === 0) {
-    text += `🔥 السلسلة: *0 يوم* — ابدأ النهارده! 💪\n`;
+    text += `🔥 السلسلة: *0 يوم* — ابدأ اليوم! 💪\n`;
   } else if (user.streakDays < 7) {
-    text += `🔥 السلسلة: *${user.streakDays} يوم* — كمّل لـ 7 عشان شارة! 🥷\n`;
+    text += `🔥 السلسلة: *${user.streakDays} يوم* — استمر حتى 7 للحصول على وسام! 🥷\n`;
   } else if (user.streakDays < 14) {
-    text += `🔥🔥 السلسلة: *${user.streakDays} يوم* — رهيب! 💪\n`;
+    text += `🔥🔥 السلسلة: *${user.streakDays} يوم* — رائع! 💪\n`;
   } else if (user.streakDays < 30) {
     text += `🔥🔥🔥 السلسلة: *${user.streakDays} يوم* — أسطورة! 🌟\n`;
   } else {
@@ -106,7 +106,7 @@ export async function handleRank(ctx: BotContext) {
   const rankings = await computeRankings(weekStart, weekEnd);
 
   if (rankings.length === 0) {
-    await ctx.reply('📊 مفيش ترتيب لسه الأسبوع ده. ابدأ بالإجابة على الأسئلة! 💪');
+    await ctx.reply('📊 لا يوجد ترتيب بعد هذا الأسبوع. ابدأ بالإجابة على الأسئلة! 💪');
     return;
   }
 
@@ -116,13 +116,13 @@ export async function handleRank(ctx: BotContext) {
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
     const isMe = entry.userId === profileId ? ' ◀️' : '';
-    text += `${medal} *${entry.nickname}* — ${entry.correctCount} صح · ${entry.activeDays} يوم${isMe}\n`;
+    text += `${medal} *${entry.nickname}* — ${entry.correctCount} صحيحة · ${entry.activeDays} يوم${isMe}\n`;
   }
 
   // Show user's rank if not in top 10
   const myRank = rankings.find((r) => r.userId === profileId);
   if (myRank && myRank.rank > 10) {
-    text += `\n...\n${myRank.rank}. *${myRank.nickname}* — ${myRank.correctCount} صح ◀️`;
+    text += `\n...\n${myRank.rank}. *${myRank.nickname}* — ${myRank.correctCount} صحيحة ◀️`;
   }
 
   // Append recent hall of fame
@@ -155,7 +155,7 @@ export async function handleHall(ctx: BotContext) {
   });
 
   if (recentBadges.length === 0) {
-    await ctx.reply('🏛️ قاعة الشهرة فاضية لسه. كون أول بطل! 🏆');
+    await ctx.reply('🏛️ قاعة الشهرة فارغة بعد. كن أول بطل! 🏆');
     return;
   }
 
@@ -180,13 +180,13 @@ export async function handleStreak(ctx: BotContext) {
 
   let text: string;
   if (user.streakDays === 0) {
-    text = '🔥 السلسلة: *0 يوم*\n\nابدأ النهارده عشان تبني سلسلة! 💪';
+    text = '🔥 السلسلة: *0 يوم*\n\nابدأ اليوم لتبني سلسلتك! 💪';
   } else if (user.streakDays < 7) {
-    text = `🔥 السلسلة: *${user.streakDays} يوم*\n\nكمّل لـ 7 أيام عشان تاخد شارة النينجا المداوم! 🥷`;
+    text = `🔥 السلسلة: *${user.streakDays} يوم*\n\nاستمر حتى 7 أيام للحصول على وسام النينجا المثابر! 🥷`;
   } else if (user.streakDays < 14) {
-    text = `🔥🔥 السلسلة: *${user.streakDays} يوم*\n\nرهيب! كمّل لـ 14 يوم عشان شارة "أسبوعان بلا توقف"! 💪`;
+    text = `🔥🔥 السلسلة: *${user.streakDays} يوم*\n\nرائع! استمر حتى 14 يوماً للحصول على وسام "أسبوعان بلا توقف"! 💪`;
   } else if (user.streakDays < 30) {
-    text = `🔥🔥🔥 السلسلة: *${user.streakDays} يوم*\n\nأسطورة! كمّل لـ 30 يوم عشان شارة "شهر كامل"! 🌟`;
+    text = `🔥🔥🔥 السلسلة: *${user.streakDays} يوم*\n\nأسطوري! استمر حتى 30 يوماً للحصول على وسام "شهر كامل"! 🌟`;
   } else {
     text = `🔥🔥🔥🔥 السلسلة: *${user.streakDays} يوم*\n\nأنت نينجا حقيقي! لا يمكن إيقافك! 🥷✨`;
   }
@@ -209,7 +209,7 @@ export async function handleLevel(ctx: BotContext) {
   const { keyboard, levels } = await buildLevelKeyboard();
 
   let levelInfo = `المستوى الحالي: ${user.level.iconEmoji || '🥋'} *${user.level.name}*\n\n`;
-  levelInfo += 'اختار مستوى جديد:\n\n';
+  levelInfo += 'اختر مستوى جديداً:\n\n';
   for (const level of levels) {
     const current = level.id === user.levelId ? ' ◀️' : '';
     levelInfo += `${level.iconEmoji || '🥋'} *${level.name}* — ${level.description || ''}${current}\n`;
@@ -226,20 +226,20 @@ export async function handleLevel(ctx: BotContext) {
 export async function handleEditNickname(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
     return;
   }
 
   ctx.session.state = 'awaiting_nickname';
   ctx.session.pendingData.changingNickname = true;
   await ctx.answerCallbackQuery();
-  await ctx.reply('✏️ ابعتلي الاسم الجديد:');
+  await ctx.reply('✏️ أرسل لي الاسم الجديد:');
 }
 
 export async function handleEditLevel(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
     return;
   }
 

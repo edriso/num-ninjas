@@ -3,15 +3,15 @@ import Link from 'next/link';
 const levels = [
   { emoji: '🥋', name: 'الحزام الأبيض', desc: 'بناء الثقة — جمع وطرح وضرب وقسمة وأساسيات الأعداد' },
   { emoji: '🟡', name: 'الحزام الأصفر', desc: 'بناء المهارات — كسور وأعداد عشرية ومحيط ومساحة' },
-  { emoji: '🟠', name: 'الحزام البرتقالي', desc: 'الإتقان — كسور مختلفة المقامات وترتيب العمليات والفلوس' },
+  { emoji: '🟠', name: 'الحزام البرتقالي', desc: 'الإتقان — كسور مختلفة المقامات وترتيب العمليات والمال' },
   { emoji: '🟢', name: 'الحزام الأخضر', desc: 'خبير — نسبة مئوية وجبر وسرعة ومسافة وزمن' },
   { emoji: '⬛', name: 'الحزام الأسود', desc: 'أسطورة — أسس وأعداد سالبة واحتمالات وألغاز رياضية' },
 ];
 
 const steps = [
   { num: '١', title: 'ابدأ البوت', desc: 'افتح تليجرام وابدأ محادثة مع نينجا الأرقام' },
-  { num: '٢', title: 'اختار مستواك', desc: 'اختار الحزام المناسب ليك من ٥ مستويات' },
-  { num: '٣', title: 'حل كل يوم', desc: 'كل يوم هتوصلك ٣ أسئلة — حلهم واكسب نقاط' },
+  { num: '٢', title: 'اختر مستواك', desc: 'اختر الحزام المناسب لك من ٥ مستويات' },
+  { num: '٣', title: 'حُل كل يوم', desc: 'كل يوم تصلك ٣ أسئلة — حُلّها واكسب نقاط' },
 ];
 
 export default function Home() {
@@ -21,10 +21,10 @@ export default function Home() {
       <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-24 px-6 text-center">
         <h1 className="text-5xl font-bold mb-4">🥷 نينجا الأرقام</h1>
         <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-4">
-          بوت تليجرام بيعلّم أطفال مصر الرياضيات بطريقة ممتعة
+          بوت تليجرام يُعلّم الأطفال الرياضيات بطريقة ممتعة
         </p>
         <p className="text-lg text-slate-400 max-w-xl mx-auto mb-10">
-          ٣ أسئلة كل يوم، نظام أحزمة نينجا، نقاط وترتيب أسبوعي — كل ده ببلاش!
+          ٣ أسئلة كل يوم، نظام أحزمة نينجا، نقاط وترتيب أسبوعي — وكل ذلك مجاناً!
         </p>
         <a
           href="https://t.me/NumNinjasBot"
@@ -32,13 +32,13 @@ export default function Home() {
           rel="noopener noreferrer"
           className="inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg px-10 py-4 rounded-full transition-colors"
         >
-          ابدأ دلوقتي على تليجرام ←
+          هيا نبدأ على تليجرام ←
         </a>
       </section>
 
       {/* How it works */}
       <section className="py-20 px-6 bg-white">
-        <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">إزاي بيشتغل؟</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">كيف يعمل؟</h2>
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step) => (
             <div
@@ -76,8 +76,8 @@ export default function Home() {
 
       {/* CTA */}
       <section className="py-20 px-6 bg-gradient-to-b from-slate-800 to-slate-900 text-white text-center">
-        <h2 className="text-3xl font-bold mb-4">جاهز تبدأ رحلة النينجا؟</h2>
-        <p className="text-slate-400 mb-8">ابدأ دلوقتي واتحدى نفسك كل يوم</p>
+        <h2 className="text-3xl font-bold mb-4">هل أنت جاهز لرحلة النينجا؟</h2>
+        <p className="text-slate-400 mb-8">هيا ابدأ الآن وتحدَّ نفسك كل يوم</p>
         <a
           href="https://t.me/NumNinjasBot"
           target="_blank"
