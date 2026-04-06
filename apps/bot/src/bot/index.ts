@@ -9,7 +9,7 @@ import {
   handlePickProfile,
   handleAddChildCallback,
 } from './handlers/profile';
-import { handleMcqAnswer, handleHint, handleSkip, handleOpenEndedAnswer, tryHandlePendingAnswer, handleLevelUp, handleStayLevel } from './handlers/question';
+import { handleMcqAnswer, handleHint, handleSkip, handleOpenEndedAnswer, tryHandlePendingAnswer, handleLevelUp, handleStayLevel, handleRetryMcq, handleRetryOpen } from './handlers/question';
 import {
   handleProfile,
   handleRank,
@@ -59,6 +59,8 @@ bot.callbackQuery('edit_level', handleEditLevel);
 bot.callbackQuery(/^answer:/, handleMcqAnswer);
 bot.callbackQuery(/^hint:/, handleHint);
 bot.callbackQuery(/^skip:/, handleSkip);
+bot.callbackQuery(/^retry_mcq:/, handleRetryMcq);
+bot.callbackQuery(/^retry_open:/, handleRetryOpen);
 bot.callbackQuery(/^level_up:/, handleLevelUp);
 bot.callbackQuery('stay_level', handleStayLevel);
 

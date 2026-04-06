@@ -43,7 +43,8 @@ function formatCorrectFeedback(explanation: string, points: number): string {
 
 function formatWrongFeedback(explanation: string, correctAnswer: string): string {
   return `❌ *تقريباً! لكن تعلمت شيئاً جديداً!*\n\n` +
-    `الإجابة الصحيحة: *${correctAnswer}*\n💡 ${explanation}`;
+    `الإجابة الصحيحة: *${correctAnswer}*\n💡 ${explanation}\n\n` +
+    `💪 هل تريد المحاولة مرة أخرى؟`;
 }
 
 function formatDailySummary(
@@ -142,15 +143,37 @@ export async function handleMcqAnswer(ctx: BotContext) {
     return;
   }
 
-  // Check if already answered
-  const alreadyAnswered = await hasAnswered(profileId, questionId);
-  if (alreadyAnswered) {
-    await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
-    return;
+  // Check if this is a retry (practice, no points)
+  const isRetry = (ctx.session.pendingData[`retry_${questionId}`] as boolean) ?? false;
+
+  if (!isRetry) {
+    // Check if already answered (only for non-retries)
+    const alreadyAnswered = await hasAnswered(profileId, questionId);
+    if (alreadyAnswered) {
+      await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
+      return;
+    }
   }
 
   const isCorrect = await checkMcqAnswer(optionId);
   const pointsPerCorrect = await getSettingInt('points_per_correct');
+
+  // Handle retry: just show feedback, no recording
+  if (isRetry) {
+    ctx.session.pendingData[`retry_${questionId}`] = undefined;
+    await ctx.answerCallbackQuery();
+    if (isCorrect) {
+      await ctx.editMessageText('✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉', { parse_mode: 'Markdown' });
+    } else {
+      const question = await prisma.question.findUnique({ where: { id: questionId }, include: { options: true } });
+      const correctOption = question?.options.find((o) => o.isCorrect);
+      await ctx.editMessageText(
+        `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctOption?.optionText || ''}*\nلا تقلق، ستراجعها قريباً! 💪`,
+        { parse_mode: 'Markdown' },
+      );
+    }
+    return;
+  }
 
   // Get the selected option text for display
   const option = await prisma.option.findUnique({ where: { id: optionId } });
@@ -191,31 +214,16 @@ export async function handleMcqAnswer(ctx: BotContext) {
       { parse_mode: 'Markdown' },
     );
   } else {
+    const retryKeyboard = new InlineKeyboard()
+      .text('🔄 حاول مرة أخرى', `retry_mcq:${questionId}`);
     await ctx.editMessageText(
       formatWrongFeedback(question.explanation, correctText),
-      { parse_mode: 'Markdown' },
+      { parse_mode: 'Markdown', reply_markup: retryKeyboard },
     );
   }
 
   // Send next question or summary
-  const updatedSession = await getTodaySession(profileId);
-  if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
-    // Update streak
-    await updateStreak(profileId);
-    await showDailySummary(ctx, profileId);
-  } else {
-    const user = await prisma.user.findUnique({ where: { id: profileId } });
-    if (user) {
-      // Small delay so user can read feedback
-      setTimeout(async () => {
-        try {
-          await sendQuestionToUser(ctx, profileId, user.levelId);
-        } catch (err) {
-          logger.error('Failed to send next question', { error: String(err) });
-        }
-      }, 1500);
-    }
-  }
+  await proceedToNextOrSummary(ctx, profileId, totalQuestions);
 }
 
 // ─── Open-Ended Answer Handler ──────────────────────────────────────
@@ -291,7 +299,27 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     return; // Stay in awaiting_answer state
   }
 
-  // Record attempt
+  // Check if this is a retry (practice, no recording)
+  const isRetry = (ctx.session.pendingData[`retry_${questionId}`] as boolean) ?? false;
+
+  if (isRetry) {
+    ctx.session.state = 'idle';
+    ctx.session.pendingData.currentQuestionId = undefined;
+    ctx.session.pendingData[`retry_${questionId}`] = undefined;
+
+    if (isCorrect) {
+      await ctx.reply('✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉', { parse_mode: 'Markdown' });
+    } else {
+      const correctText = question.correctAnswer || String(question.correctAnswerNumeric);
+      await ctx.reply(
+        `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctText}*\nلا تقلق، ستراجعها قريباً! 💪`,
+        { parse_mode: 'Markdown' },
+      );
+    }
+    return;
+  }
+
+  // Record attempt (first try only)
   const hintUsed = (ctx.session.pendingData.hintUsed as boolean) ?? false;
   await recordAttempt({
     userId: profileId,
@@ -319,8 +347,11 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
       parse_mode: 'Markdown',
     });
   } else {
+    const retryKeyboard = new InlineKeyboard()
+      .text('🔄 حاول مرة أخرى', `retry_open:${questionId}`);
     await ctx.reply(formatWrongFeedback(question.explanation, correctText), {
       parse_mode: 'Markdown',
+      reply_markup: retryKeyboard,
     });
   }
 
@@ -478,6 +509,88 @@ export async function tryHandlePendingAnswer(ctx: BotContext): Promise<boolean> 
   ctx.session.pendingData.hintUsed = false;
   await handleOpenEndedAnswer(ctx);
   return true;
+}
+
+// ─── Proceed Helper ─────────────────────────────────────────────────
+
+async function proceedToNextOrSummary(ctx: BotContext, profileId: number, totalQuestions: number) {
+  const updatedSession = await getTodaySession(profileId);
+  if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
+    await updateStreak(profileId);
+    await showDailySummary(ctx, profileId);
+  } else {
+    const user = await prisma.user.findUnique({ where: { id: profileId } });
+    if (user) {
+      setTimeout(async () => {
+        try {
+          await sendQuestionToUser(ctx, profileId, user.levelId);
+        } catch (err) {
+          logger.error('Failed to send next question', { error: String(err) });
+        }
+      }, 1500);
+    }
+  }
+}
+
+// ─── Retry Handlers ─────────────────────────────────────────────────
+
+/**
+ * Retry an MCQ question after a wrong answer.
+ * Re-sends the question with shuffled options. No new attempt recorded — just practice.
+ */
+export async function handleRetryMcq(ctx: BotContext) {
+  const data = ctx.callbackQuery?.data;
+  if (!data?.startsWith('retry_mcq:')) return;
+
+  const questionId = parseInt(data.split(':')[1], 10);
+  const question = await prisma.question.findUnique({
+    where: { id: questionId },
+    include: { options: true },
+  });
+
+  if (!question) {
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    return;
+  }
+
+  await ctx.answerCallbackQuery();
+  await ctx.editMessageReplyMarkup({ reply_markup: undefined });
+
+  // Mark as retry so the MCQ answer handler knows not to record a new attempt
+  ctx.session.pendingData[`retry_${questionId}`] = true;
+
+  const text = `🔄 *حاول مرة أخرى!*\n\n❓ ${question.questionText}`;
+  const keyboard = buildMcqKeyboard(question.id, question.options, false);
+  await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
+/**
+ * Retry an open-ended question after a wrong answer.
+ * Re-enters awaiting_answer state. No new attempt recorded.
+ */
+export async function handleRetryOpen(ctx: BotContext) {
+  const data = ctx.callbackQuery?.data;
+  if (!data?.startsWith('retry_open:')) return;
+
+  const questionId = parseInt(data.split(':')[1], 10);
+  const question = await prisma.question.findUnique({ where: { id: questionId } });
+
+  if (!question) {
+    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    return;
+  }
+
+  await ctx.answerCallbackQuery();
+  await ctx.editMessageReplyMarkup({ reply_markup: undefined });
+
+  ctx.session.state = 'awaiting_answer';
+  ctx.session.pendingData.currentQuestionId = questionId;
+  ctx.session.pendingData.hintUsed = false;
+  ctx.session.pendingData[`retry_${questionId}`] = true;
+
+  await ctx.reply(`🔄 *حاول مرة أخرى!*\n\n❓ ${question.questionText}\n\n✏️ اكتب إجابتك:`, {
+    parse_mode: 'Markdown',
+  });
 }
 
 // ─── Daily Summary ──────────────────────────────────────────────────
