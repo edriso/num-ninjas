@@ -78,9 +78,6 @@ Once the community reaches ~500+ users, create a Telegram group for parents:
 
 ---
 
-### English Question Bank
-English question bank is complete — 420 questions matching the Arabic bank.
-
 ### More Languages
 - French for North Africa (Morocco, Tunisia, Algeria)
 - Urdu for Pakistan (large Muslim market, similar curriculum)

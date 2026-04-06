@@ -158,21 +158,22 @@
 - `admins.email`: UNIQUE — one admin per email
 - `settings.setting_key`: UNIQUE — one value per setting
 
-## Locale Support (i18n-ready)
+## Locale Support (Bilingual — Arabic + English)
 
-Columns added for future multi-language support (all nullable, default Arabic):
+Full bilingual support is implemented. Users choose their language via `/language` command or website footer button.
 
 **Locale preference:**
-- `users.locale` — `'ar'` (default) or `'en'`
-- `questions.locale` — which language the question content is in
+- `users.locale` — `'ar'` (default) or `'en'` — determines bot message language and question language
+- `questions.locale` — which language the question content is in (`'ar'` or `'en'`)
 
-**Translatable content (nullable `_en` columns):**
+**Translated content (`_en` columns, nullable):**
 - `levels.name_en`, `levels.description_en`
 - `topics.name_en`, `topics.description_en`
 - `badges.name_en`, `badges.description_en`, `badges.award_title_en`
+- `user_badges.period_label_en`, `user_badges.metric_summary_en`
 - `settings.description_en`
 
-When English is added: `user.locale === 'en' ? level.nameEn : level.name`
+**Pattern:** `locale === 'en' && level.nameEn ? level.nameEn : level.name`
 
 ## Performance Indexes
 

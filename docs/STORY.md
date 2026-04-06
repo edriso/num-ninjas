@@ -80,9 +80,9 @@ We chose this stack because it's boring and reliable. Grammy for Telegram becaus
 
 The bot has 840 questions (420 Arabic + 420 English) across 35 topics and 5 levels. That's enough for several months of daily practice without repeating. But the question bank needs to keep growing.
 
-We want to add shareable certificates, the kind of image a parent screenshots and sends to the family WhatsApp group. "Ahmed completed the Yellow Belt!" That's free marketing that money can't buy.
+Shareable certificates are already built — auto-generated OG images for profiles that parents can screenshot and share. "Ahmed completed the Yellow Belt!" Free marketing that money can't buy.
 
-There's also a Telegram channel (@NumNinjas) where weekly leaderboards and monthly ninja champions results get posted automatically. Parents subscribe, see their kid's name, share it around. That's the growth loop.
+The Telegram channel (@NumNinjas) auto-posts weekly leaderboards, monthly ninja champions, and yearly awards. Parents subscribe, see their kid's name, share it around. That's the growth loop.
 
 Long term? If this works in Egypt, the same model works anywhere Arabic is spoken. Same questions, same bot, same Spacetoon Arabic. 400 million Arabic speakers and most of their kids have access to Telegram.
 
@@ -152,7 +152,7 @@ Bismillah.
 
 ## اللي بعد كده
 
-البوت شغال. الأسئلة موجودة. الترتيب والأوسمة والتقارير، كله جاهز.
+البوت شغال بالعربي والإنجليزي. 840 سؤال (420 عربي + 420 إنجليزي). الترتيب والأوسمة والتقارير والشهادات، كله جاهز.
 
 بس الامتحان الحقيقي مش هل الكود شغال ولا لأ. الامتحان الحقيقي هل طفل هيفتح تيليجرام ويلاقي 3 أسئلة مستنياه وفعلاً يحب يحلهم. هل ولي أمر هيشوف التقرير الأسبوعي ويحس إن ابنه بيتقدم. هل مدرس هيسمع عن البوت ويقول "ده هينفع طلبتي."
 
