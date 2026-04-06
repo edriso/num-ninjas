@@ -171,7 +171,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 |------|-----|--------------|
 | Landing | `/` | What the bot is, 5 levels, link to Telegram |
 | Leaderboard | `/leaderboard` | Per-level weekly top players (updates hourly) |
-| ninja champions | `/hall-of-fame` | Monthly winners and badges (updates daily) |
+| ninja champions | `/champions` | Monthly winners and badges (updates daily) |
 | Profile | `/profile/123` | Any player's public stats, badges, OG tags for sharing |
 | Levels | `/levels` | All 5 levels and their topics explained |
 

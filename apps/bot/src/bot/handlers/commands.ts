@@ -139,7 +139,7 @@ export async function handleRank(ctx: BotContext) {
     text += `\n...\n${myRank.rank}. *${myRank.nickname}* — ${myRank.correctCount} صحيحة ◀️`;
   }
 
-  // Append recent hall of fame
+  // Append recent ninja champions
   const recentBadges = await prisma.userBadge.findMany({
     include: { badge: true, user: true },
     orderBy: { earnedAt: 'desc' },

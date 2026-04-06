@@ -125,7 +125,7 @@ src/
 ├── app/
 │   ├── page.tsx        → Landing page (static)
 │   ├── leaderboard/    → Per-level weekly rankings (ISR 1hr)
-│   ├── hall-of-fame/   → Monthly winners (ISR daily)
+│   ├── champions/   → Monthly winners (ISR daily)
 │   ├── profile/[userId]/ → Player profile with OG tags (SSR)
 │   ├── levels/         → Level explanations (ISR daily)
 │   └── admin/          → Auth-protected admin panel (9 pages + questions CRUD)

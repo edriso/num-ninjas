@@ -96,7 +96,7 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  // Last day of month 23:00 — Monthly hall of fame
+  // Last day of month 23:00 — Monthly ninja champions
   tasks.push(
     cron.schedule('0 23 28-31 * *', async () => {
       logger.info('[CRON] Checking monthly ranking...');
@@ -108,7 +108,7 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  // Dec 31 23:00 — Yearly hall of fame
+  // Dec 31 23:00 — Yearly ninja champions
   tasks.push(
     cron.schedule('0 23 31 12 *', async () => {
       logger.info('[CRON] Running yearly ranking...');

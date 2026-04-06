@@ -4,7 +4,7 @@ import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } f
 import { config } from '../config';
 
 /**
- * Run monthly hall of fame, award category badges.
+ * Run monthly ninja champions, award category badges.
  * Runs last day of month at 23:00 Cairo time.
  */
 export async function runMonthlyRanking(bot: Bot<BotContext>) {
@@ -47,7 +47,7 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
     }
   }
 
-  // Build and broadcast hall of fame message
+  // Build and broadcast ninja champions message
   let message = `🏆 *أبطال نينجا ${monthLabel}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   if (mostActive) {
@@ -61,7 +61,7 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   }
 
   if (!mostActive && !sharpest && !independent) {
-    logger.info('No monthly hall of fame data');
+    logger.info('No monthly ninja champions data');
     return;
   }
 

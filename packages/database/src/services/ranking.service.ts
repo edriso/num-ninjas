@@ -176,7 +176,7 @@ export function getYearStart(date: Date): Date {
 }
 
 /**
- * Monthly hall of fame categories (per-level).
+ * Monthly ninja champions categories (per-level).
  * - Most active (most completed days)
  * - Sharpest (highest accuracy %)
  * - Most independent (fewest hints used)

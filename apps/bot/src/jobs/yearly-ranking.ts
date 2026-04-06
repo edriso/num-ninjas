@@ -4,7 +4,7 @@ import { prisma, computeRankings, getYearStart, awardBadge, logger } from '@numn
 import { config } from '../config';
 
 /**
- * Run yearly hall of fame, award yearly badges.
+ * Run yearly ninja champions, award yearly badges.
  * Runs December 31 at 23:00 Cairo time.
  */
 export async function runYearlyRanking(bot: Bot<BotContext>) {

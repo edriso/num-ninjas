@@ -26,7 +26,7 @@ export function Footer() {
           الترتيب
         </Link>
         <Link
-          href="/hall-of-fame"
+          href="/champions"
           className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
           أبطال النينجا
