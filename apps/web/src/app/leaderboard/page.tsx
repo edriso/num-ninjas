@@ -40,7 +40,8 @@ export default async function LeaderboardPage() {
                   {level.levelEmoji} {level.levelName}
                 </h2>
               </div>
-              <table className="w-full text-sm">
+              <div className="overflow-x-auto">
+              <table className="w-full text-sm min-w-[500px]">
                 <thead>
                   <tr className="bg-slate-50 text-slate-500 text-xs">
                     <th className="py-2 px-4 text-right font-medium">الترتيب</th>
@@ -79,6 +80,7 @@ export default async function LeaderboardPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           ))
         )}

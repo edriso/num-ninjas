@@ -34,7 +34,7 @@ export default async function LevelsPage() {
         <p className="text-slate-400 mt-2">٥ مستويات × ٧ موضوعات = ٣٥ موضوع</p>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-10 space-y-6">
+      <main className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-6">
         {levels.map((level) => (
           <div
             key={level.id}
