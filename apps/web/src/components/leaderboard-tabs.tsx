@@ -106,7 +106,7 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                     className="border-t border-slate-50 hover:bg-slate-50 transition-colors"
                   >
                     <td
-                      className={`py-3 px-4 ${textAlign} font-bold text-lg`}
+                      className={`py-3 px-4 ${textAlign} ${entry.rank <= 3 ? 'text-xl' : 'text-sm text-slate-400'}`}
                     >
                       {rankBadge(entry.rank)}
                     </td>
