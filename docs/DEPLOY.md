@@ -355,7 +355,7 @@ NODE_ENV=production
 
 ### packages/database/.env (local dev only)
 ```
-DATABASE_URL=file:./dev.db
+DATABASE_URL=mysql://numninjas:password@localhost:3306/numninjas
 ADMIN_EMAIL=admin@numninjas.com
 ADMIN_PASSWORD=changeme123
 ```
