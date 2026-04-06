@@ -132,29 +132,25 @@ git push -u origin main
 
 ## Step 5: Deploy the Website on Hostinger
 
-1. In hPanel, go to **Websites** → **Manage**
-2. Go to **Advanced** → **Node.js** (or search for "Node.js")
-3. Click **Create Application**
-4. Configure:
-   - **Node.js version**: 20 (or latest LTS)
-   - **GitHub repository**: connect your GitHub account and select `num-ninjas`
+1. In hPanel, create a new website and connect your GitHub repo (`num-ninjas`)
+2. Configure **Build and output settings**:
+   - **Framework preset**: Other
    - **Branch**: `main`
-   - **Root directory**: leave empty (repo root)
-   - **Build command**:
-     ```
-     pnpm install && pnpm db:generate && pnpm --filter web build
-     ```
-   - **Start command**:
-     ```
-     pnpm --filter web start
-     ```
-   - **Port**: 3000
+   - **Node version**: 20.x
+   - **Root directory**: `./`
+   - **Build command**: select `pnpm run build:web` from the dropdown
+   - **Package manager**: pnpm
+   - **Output directory**: `apps/web/.next`
+   - **Entry file**: `apps/web/.next/standalone/server.js`
 
-5. Set **Environment Variables** in Hostinger:
+   > **Why these settings?** Hostinger doesn't have `pnpm` or `npx` in PATH for subprocesses. The `build:web` script in root package.json uses `node_modules/.bin/` paths directly. The standalone output bundles everything Next.js needs into a single server.js file.
+
+3. Set **Environment Variables** in Hostinger:
    ```
-   DATABASE_URL=mysql://numninja_admin:your-password@your-server.hostinger.com:3306/num_ninjas
+   DATABASE_URL=mysql://your-user:your-password@localhost:3306/your_database
    AUTH_SECRET=generate-a-random-string-here
    NODE_ENV=production
+   PORT=3000
    ```
    
    To generate AUTH_SECRET, run this on your computer:
@@ -162,18 +158,20 @@ git push -u origin main
    openssl rand -base64 32
    ```
 
-6. Click **Deploy** and wait for it to build
-7. Your website should be live at your Hostinger domain!
+   > **Password with special characters?** URL-encode them in DATABASE_URL: `@` → `%40`, `&` → `%26`, `#` → `%23`. Or use a password with only letters, numbers, `-`, `_`, `.` to avoid issues.
+
+4. Click **Deploy** and wait for it to build
+5. Your website should be live at your Hostinger domain!
 
 ### First-time database setup
-After the first deploy, create the tables and seed data.
-SSH into your Hostinger server (or use the terminal in hPanel):
+After the first deploy, SSH into your Hostinger server (hPanel → Advanced → SSH Access) and run:
 ```bash
-cd /path/to/your/app
-pnpm db:generate
-pnpm db:push
-pnpm db:seed
+cd ~/domains/your-domain.com/public_html/.builds/source/repository
+packages/database/node_modules/.bin/prisma db push --schema=packages/database/prisma/schema.prisma
+packages/database/node_modules/.bin/prisma db seed --schema=packages/database/prisma/schema.prisma
 ```
+
+> **Note:** Use the full `node_modules/.bin/prisma` path because `pnpm` and `npx` aren't in PATH on Hostinger.
 
 ---
 
@@ -231,7 +229,12 @@ pnpm db:seed
    - **Name**: `@` (or your domain)
    - **Content**: your Hostinger server IP (found in hPanel → Hosting → Server IP)
    - **Proxy**: ON (orange cloud)
-8. Cloudflare will auto-enable **SSL** (HTTPS) — no extra setup needed
+8. Set **SSL/TLS encryption mode** to **Flexible** (SSL/TLS → Overview):
+   - Hostinger's Node.js hosting doesn't have SSL on the origin server
+   - Cloudflare handles HTTPS for visitors and connects to Hostinger over HTTP
+   - Do NOT use "Full" or "Full (Strict)" — you'll get a 525 SSL handshake error
+9. (Optional) Add a `www` CNAME record:
+   - **Type**: CNAME, **Name**: `www`, **Content**: `numninjas.com`, **Proxy**: ON
 
 ---
 
