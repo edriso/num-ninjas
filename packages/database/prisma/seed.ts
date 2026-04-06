@@ -8,6 +8,11 @@ import { level2Questions } from './seeds/questions-level2';
 import { level3Questions } from './seeds/questions-level3';
 import { level4Questions } from './seeds/questions-level4';
 import { level5Questions } from './seeds/questions-level5';
+import { level1QuestionsEn } from './seeds/questions-level1-en';
+import { level2QuestionsEn } from './seeds/questions-level2-en';
+import { level3QuestionsEn } from './seeds/questions-level3-en';
+import { level4QuestionsEn } from './seeds/questions-level4-en';
+import { level5QuestionsEn } from './seeds/questions-level5-en';
 
 const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
 const prisma = new PrismaClient({ adapter });
@@ -87,16 +92,21 @@ async function main() {
 
   // ─── Questions ──────────────────────────────────────────────────────
   const allQuestions = [
-    { levelRank: 1, questions: level1Questions },
-    { levelRank: 2, questions: level2Questions },
-    { levelRank: 3, questions: level3Questions },
-    { levelRank: 4, questions: level4Questions },
-    { levelRank: 5, questions: level5Questions },
+    { levelRank: 1, questions: level1Questions, locale: 'ar' },
+    { levelRank: 2, questions: level2Questions, locale: 'ar' },
+    { levelRank: 3, questions: level3Questions, locale: 'ar' },
+    { levelRank: 4, questions: level4Questions, locale: 'ar' },
+    { levelRank: 5, questions: level5Questions, locale: 'ar' },
+    { levelRank: 1, questions: level1QuestionsEn, locale: 'en' },
+    { levelRank: 2, questions: level2QuestionsEn, locale: 'en' },
+    { levelRank: 3, questions: level3QuestionsEn, locale: 'en' },
+    { levelRank: 4, questions: level4QuestionsEn, locale: 'en' },
+    { levelRank: 5, questions: level5QuestionsEn, locale: 'en' },
   ];
 
   let totalQuestions = 0;
 
-  for (const { levelRank, questions } of allQuestions) {
+  for (const { levelRank, questions, locale } of allQuestions) {
     let levelCount = 0;
     for (const q of questions) {
       const topicId = topicIdMap[`${levelRank}-${q.topicIndex}`];
@@ -109,14 +119,15 @@ async function main() {
       await prisma.question.create({
         data: {
           topicId,
+          locale,
           ...questionData,
           ...(options ? { options: { create: options } } : {}),
         },
       });
       levelCount++;
     }
-    const levelName = levelsData[levelRank - 1].name;
-    console.log(`  📝 ${levelName}: ${levelCount} questions`);
+    const levelName = locale === 'en' ? levelsData[levelRank - 1].nameEn : levelsData[levelRank - 1].name;
+    console.log(`  📝 ${levelName} (${locale}): ${levelCount} questions`);
     totalQuestions += levelCount;
   }
   console.log(`✅ ${totalQuestions} questions total`);
