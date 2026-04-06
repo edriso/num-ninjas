@@ -1,11 +1,5 @@
 import { prisma } from "@numninjas/database";
-
-const typeLabels: Record<string, string> = {
-  string: "نص",
-  integer: "رقم",
-  boolean: "منطقي",
-  time: "وقت",
-};
+import { SettingRow } from "@/components/admin/setting-row";
 
 export default async function SettingsPage() {
   const settings = await prisma.setting.findMany({
@@ -29,22 +23,16 @@ export default async function SettingsPage() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {settings.map((setting) => (
-                <tr key={setting.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-mono text-xs text-gray-700" dir="ltr">
-                    {setting.settingKey}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900" dir="ltr">
-                    {setting.value}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-600">
-                      {typeLabels[setting.type] ?? setting.type}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-gray-500">
-                    {setting.description ?? "-"}
-                  </td>
-                </tr>
+                <SettingRow
+                  key={setting.id}
+                  setting={{
+                    id: setting.id,
+                    settingKey: setting.settingKey,
+                    value: setting.value,
+                    type: setting.type,
+                    description: setting.description,
+                  }}
+                />
               ))}
             </tbody>
           </table>
