@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev:bot": "pnpm --filter bot dev",
-    "build:bot": "pnpm db:generate && pnpm --filter bot build",
-    "build:web": "pnpm db:generate && pnpm --filter web build",
+    "build:bot": "pnpm --filter bot build",
+    "build:web": "pnpm --filter web build",
     "db:generate": "pnpm --filter @numninjas/database db:generate",
     "db:push": "pnpm --filter @numninjas/database db:push",
     "db:seed": "pnpm --filter @numninjas/database db:seed",
