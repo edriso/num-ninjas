@@ -1,7 +1,7 @@
 import type { Bot } from 'grammy';
-import type { BotContext } from '../bot/middleware/session.js';
+import type { BotContext } from '../bot/middleware/session';
 import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger } from '@numninja/database';
-import { sendQuestionToUser } from '../bot/handlers/question.js';
+import { sendQuestionToUser } from '../bot/handlers/question';
 
 /**
  * Send the first daily question (position=1) to all active users.
@@ -47,14 +47,14 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
       text += `❓ ${question.questionText}`;
 
       if (question.questionType === 'mcq') {
-        const { buildMcqKeyboard } = await import('../bot/keyboards/mcq.js');
+        const { buildMcqKeyboard } = await import('../bot/keyboards/mcq');
         const keyboard = buildMcqKeyboard(question.id, question.options, !!question.hintText);
         await bot.api.sendMessage(chatId, text, {
           parse_mode: 'Markdown',
           reply_markup: keyboard,
         });
       } else {
-        const { buildHintKeyboard } = await import('../bot/keyboards/mcq.js');
+        const { buildHintKeyboard } = await import('../bot/keyboards/mcq');
         const markup = question.hintText ? { reply_markup: buildHintKeyboard(question.id) } : {};
         await bot.api.sendMessage(chatId, text + '\n\n✏️ اكتب إجابتك:', {
           parse_mode: 'Markdown',

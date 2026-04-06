@@ -1,5 +1,5 @@
-import prisma from '../client.js';
-import { logger } from '../utils/logger.js';
+import prisma from '../client';
+import { logger } from '../utils/logger';
 
 /**
  * Award a badge to a user (idempotent via unique constraint).

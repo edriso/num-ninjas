@@ -1,9 +1,9 @@
-import type { BotContext } from '../middleware/session.js';
-import { config } from '../../config.js';
+import type { BotContext } from '../middleware/session';
+import { config } from '../../config';
 import { prisma, logger } from '@numninja/database';
-import { prepareScheduledQuestions } from '../../jobs/prepare-questions.js';
-import { sendFirstQuestion } from '../../jobs/send-first.js';
-import { bot } from '../index.js';
+import { prepareScheduledQuestions } from '../../jobs/prepare-questions';
+import { sendFirstQuestion } from '../../jobs/send-first';
+import { bot } from '../index';
 
 function isAdmin(ctx: BotContext): boolean {
   return ctx.from?.id === config.adminTelegramId;

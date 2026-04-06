@@ -1,12 +1,12 @@
 import 'dotenv/config';
-import { PrismaClient, type Level } from '../src/generated/prisma/client/client.js';
+import { PrismaClient, type Level } from '@prisma/client';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-import { levelsData, topicsPerLevel } from './seeds/levels-and-topics.js';
-import { level1Questions } from './seeds/questions-level1.js';
-import { level2Questions } from './seeds/questions-level2.js';
-import { level3Questions } from './seeds/questions-level3.js';
-import { level4Questions } from './seeds/questions-level4.js';
-import { level5Questions } from './seeds/questions-level5.js';
+import { levelsData, topicsPerLevel } from './seeds/levels-and-topics';
+import { level1Questions } from './seeds/questions-level1';
+import { level2Questions } from './seeds/questions-level2';
+import { level3Questions } from './seeds/questions-level3';
+import { level4Questions } from './seeds/questions-level4';
+import { level5Questions } from './seeds/questions-level5';
 
 const adapter = new PrismaBetterSqlite3({
   url: process.env.DATABASE_URL || 'file:./dev.db',

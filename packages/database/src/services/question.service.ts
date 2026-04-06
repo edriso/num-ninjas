@@ -1,6 +1,6 @@
-import prisma from '../client.js';
-import { todayCairoAsUtcMidnight } from '../utils/cairo-time.js';
-import { getSettingInt } from './setting.service.js';
+import prisma from '../client';
+import { todayCairoAsUtcMidnight } from '../utils/cairo-time';
+import { getSettingInt } from './setting.service';
 
 /**
  * Get today's scheduled questions for a level, ordered by position.

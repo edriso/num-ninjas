@@ -1,9 +1,9 @@
-import type { BotContext } from '../middleware/session.js';
-import { msg } from '../messages/arabic.js';
+import type { BotContext } from '../middleware/session';
+import { msg } from '../messages/arabic';
 import { prisma, findOrCreateAccount, createProfile, updateNickname, logger } from '@numninja/database';
-import { buildProfileKeyboard } from '../keyboards/profile.js';
-import { buildLevelKeyboard } from '../keyboards/level.js';
-import { sendQuestionToUser } from './question.js';
+import { buildProfileKeyboard } from '../keyboards/profile';
+import { buildLevelKeyboard } from '../keyboards/level';
+import { sendQuestionToUser } from './question';
 
 export async function handleStart(ctx: BotContext) {
   if (ctx.chat?.type !== 'private') {

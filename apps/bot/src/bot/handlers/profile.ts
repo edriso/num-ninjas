@@ -1,8 +1,8 @@
-import type { BotContext } from '../middleware/session.js';
-import { msg } from '../messages/arabic.js';
+import type { BotContext } from '../middleware/session';
+import { msg } from '../messages/arabic';
 import { getProfileCount, getProfiles, setActiveProfile, getActiveProfile, logger } from '@numninja/database';
-import { buildProfileKeyboard } from '../keyboards/profile.js';
-import { buildLevelKeyboard } from '../keyboards/level.js';
+import { buildProfileKeyboard } from '../keyboards/profile';
+import { buildLevelKeyboard } from '../keyboards/level';
 
 const MAX_PROFILES = 5;
 

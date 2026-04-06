@@ -1,5 +1,5 @@
 import type { Bot } from 'grammy';
-import type { BotContext } from '../bot/middleware/session.js';
+import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninja/database';
 
 /**

@@ -1,5 +1,5 @@
-import type { BotContext } from '../middleware/session.js';
-import { msg } from '../messages/arabic.js';
+import type { BotContext } from '../middleware/session';
+import { msg } from '../messages/arabic';
 import {
   prisma,
   getNextQuestion,
@@ -17,7 +17,7 @@ import {
   getActiveProfile,
   logger,
 } from '@numninja/database';
-import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq.js';
+import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq';
 
 // ─── Message Templates ──────────────────────────────────────────────
 

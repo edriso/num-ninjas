@@ -1,7 +1,7 @@
-import { config } from './config.js';
-import { bot, setBotCommands } from './bot/index.js';
-import { startScheduler, stopScheduler } from './jobs/scheduler.js';
-import { prepareScheduledQuestions } from './jobs/prepare-questions.js';
+import { config } from './config';
+import { bot, setBotCommands } from './bot/index';
+import { startScheduler, stopScheduler } from './jobs/scheduler';
+import { prepareScheduledQuestions } from './jobs/prepare-questions';
 import { loadSettings, logger } from '@numninja/database';
 
 async function main() {

@@ -1,5 +1,5 @@
-import prisma from '../client.js';
-import { todayCairoAsUtcMidnight } from '../utils/cairo-time.js';
+import prisma from '../client';
+import { todayCairoAsUtcMidnight } from '../utils/cairo-time';
 
 /**
  * Get or create today's study session for a user.

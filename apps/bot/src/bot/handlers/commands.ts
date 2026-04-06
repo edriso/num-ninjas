@@ -1,8 +1,8 @@
 import { InlineKeyboard } from 'grammy';
-import type { BotContext } from '../middleware/session.js';
-import { msg } from '../messages/arabic.js';
+import type { BotContext } from '../middleware/session';
+import { msg } from '../messages/arabic';
 import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, logger } from '@numninja/database';
-import { buildLevelKeyboard } from '../keyboards/level.js';
+import { buildLevelKeyboard } from '../keyboards/level';
 
 /**
  * Ensure user has an active profile, load it into session if needed.

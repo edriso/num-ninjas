@@ -1,17 +1,17 @@
-import cron from 'node-cron';
+import cron, { type ScheduledTask } from 'node-cron';
 import type { Bot } from 'grammy';
-import type { BotContext } from '../bot/middleware/session.js';
-import { prepareScheduledQuestions } from './prepare-questions.js';
-import { sendFirstQuestion } from './send-first.js';
-import { sendReminder } from './send-reminder.js';
-import { resetStreaks } from './reset-streaks.js';
-import { runWeeklyRanking } from './weekly-ranking.js';
-import { runMonthlyRanking } from './monthly-ranking.js';
-import { runYearlyRanking } from './yearly-ranking.js';
+import type { BotContext } from '../bot/middleware/session';
+import { prepareScheduledQuestions } from './prepare-questions';
+import { sendFirstQuestion } from './send-first';
+import { sendReminder } from './send-reminder';
+import { resetStreaks } from './reset-streaks';
+import { runWeeklyRanking } from './weekly-ranking';
+import { runMonthlyRanking } from './monthly-ranking';
+import { runYearlyRanking } from './yearly-ranking';
 import { logger } from '@numninja/database';
 
 const CAIRO_TZ = 'Africa/Cairo';
-const tasks: cron.ScheduledTask[] = [];
+const tasks: ScheduledTask[] = [];
 
 /**
  * Register all cron jobs. All times are Cairo time.

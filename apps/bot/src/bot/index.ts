@@ -1,15 +1,15 @@
 import { Bot } from 'grammy';
-import { config } from '../config.js';
-import { sessionMiddleware, type BotContext } from './middleware/session.js';
-import { handleStart, handleNicknameInput, handleLevelSelection } from './handlers/start.js';
+import { config } from '../config';
+import { sessionMiddleware, type BotContext } from './middleware/session';
+import { handleStart, handleNicknameInput, handleLevelSelection } from './handlers/start';
 import {
   handleAddChild,
   handleSwitch,
   handlePlayers,
   handlePickProfile,
   handleAddChildCallback,
-} from './handlers/profile.js';
-import { handleMcqAnswer, handleHint, handleOpenEndedAnswer, tryHandlePendingAnswer } from './handlers/question.js';
+} from './handlers/profile';
+import { handleMcqAnswer, handleHint, handleOpenEndedAnswer, tryHandlePendingAnswer } from './handlers/question';
 import {
   handleProfile,
   handleRank,
@@ -18,9 +18,9 @@ import {
   handleLevel,
   handleEditNickname,
   handleEditLevel,
-} from './handlers/commands.js';
-import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin.js';
-import { msg } from './messages/arabic.js';
+} from './handlers/commands';
+import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin';
+import { msg } from './messages/arabic';
 import { logger } from '@numninja/database';
 
 // Create bot instance

@@ -1,5 +1,5 @@
 // Prisma client
-export { default as prisma } from './client.js';
+export { default as prisma } from './client';
 
 // Re-export Prisma types from generated client
 export type {
@@ -16,24 +16,24 @@ export type {
   UserBadge,
   Setting,
   Admin,
-} from './generated/prisma/client/client.js';
+} from '@prisma/client';
 
 // Services
-export * from './services/account.service.js';
-export * from './services/attempt.service.js';
-export * from './services/badge.service.js';
-export * from './services/question.service.js';
-export * from './services/ranking.service.js';
-export * from './services/session.service.js';
-export * from './services/setting.service.js';
-export * from './services/validation.service.js';
-export * from './services/admin.service.js';
+export * from './services/account.service';
+export * from './services/attempt.service';
+export * from './services/badge.service';
+export * from './services/question.service';
+export * from './services/ranking.service';
+export * from './services/session.service';
+export * from './services/setting.service';
+export * from './services/validation.service';
+export * from './services/admin.service';
 
 // Utils
-export * from './utils/cairo-time.js';
-export * from './utils/arabic-numerals.js';
-export * from './utils/logger.js';
-export * from './utils/shuffle.js';
+export * from './utils/cairo-time';
+export * from './utils/arabic-numerals';
+export * from './utils/logger';
+export * from './utils/shuffle';
 
 // Types
-export * from './types.js';
+export * from './types';

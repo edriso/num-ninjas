@@ -1,4 +1,4 @@
-import prisma from '../client.js';
+import prisma from '../client';
 
 // In-memory cache for settings (refreshed on demand)
 const cache = new Map<string, string>();

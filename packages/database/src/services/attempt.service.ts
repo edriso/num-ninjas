@@ -1,8 +1,8 @@
-import prisma from '../client.js';
-import { getSettingInt } from './setting.service.js';
-import { checkAchievements } from './badge.service.js';
-import { todayCairoAsUtcMidnight } from '../utils/cairo-time.js';
-import { logger } from '../utils/logger.js';
+import prisma from '../client';
+import { getSettingInt } from './setting.service';
+import { checkAchievements } from './badge.service';
+import { todayCairoAsUtcMidnight } from '../utils/cairo-time';
+import { logger } from '../utils/logger';
 
 interface RecordAttemptParams {
   userId: number;

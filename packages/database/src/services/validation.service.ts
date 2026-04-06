@@ -1,5 +1,5 @@
-import prisma from '../client.js';
-import { parseNumericAnswer, isNumericMatch } from '../utils/arabic-numerals.js';
+import prisma from '../client';
+import { parseNumericAnswer, isNumericMatch } from '../utils/arabic-numerals';
 
 /**
  * Check if an MCQ answer (option ID) is correct.
