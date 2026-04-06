@@ -59,7 +59,7 @@ num-ninjas/
         ├── prisma/         → Schema, seeds (420 questions)
         ├── src/services/   → Business logic (ranking, badges, accounts...)
         ├── src/utils/      → Helpers (Cairo time, Arabic numerals...)
-        └── src/__tests__/  → 150 unit tests (vitest)
+        └── src/__tests__/  → 161 unit tests (vitest)
 ```
 
 **Why a monorepo?** Both the bot and website use the same database and the same business logic. One repo means one schema, one source of truth, zero duplication.
@@ -74,7 +74,7 @@ num-ninjas/
 | Website | Next.js 15 + Tailwind CSS v4 | Server Components, fast, easy to deploy |
 | Database | Prisma 7 + SQLite (dev) / MySQL (prod) | Type-safe queries, easy schema changes |
 | Auth | Auth.js v5 (admin only) | Simple credentials login for admin panel |
-| Testing | Vitest (150 unit tests) | Fast, native ESM, no config needed |
+| Testing | Vitest (161 unit tests) | Fast, native ESM, no config needed |
 | Package Manager | pnpm workspaces | Fast, handles monorepo dependencies well |
 | Deployment | Railway (bot) + Hostinger (website + MySQL) | Cheap, reliable, auto-deploy from GitHub |
 
@@ -123,7 +123,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | `pnpm --filter web dev` | Start the website at localhost:3000 |
 | `pnpm build:bot` | Compile the bot for production |
 | `pnpm build:web` | Build the website for production |
-| `pnpm test` | Run all 150 unit tests |
+| `pnpm test` | Run all 161 unit tests |
 | `pnpm db:generate` | Regenerate Prisma client (after schema changes) |
 | `pnpm db:push` | Apply schema changes to the database |
 | `pnpm db:seed` | Seed the database with all data |

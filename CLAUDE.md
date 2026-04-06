@@ -22,7 +22,7 @@ num-ninjas/
 | Bot | TypeScript, Grammy, node-cron, Node.js 20+ |
 | Website | Next.js 15 (App Router), Tailwind CSS v4, Auth.js v5 |
 | Database | Prisma 7 (prisma-client-js), SQLite (dev), MySQL (prod) |
-| Testing | Vitest (150 unit tests in database package) |
+| Testing | Vitest (161 unit tests in database package) |
 | Shared | @numninjas/database — services, utils, types, Prisma client |
 | Package Manager | pnpm workspaces |
 
@@ -34,7 +34,7 @@ pnpm dev:bot              # Start bot with hot reload
 pnpm --filter web dev     # Start website at localhost:3000
 pnpm build:bot            # Compile bot
 pnpm build:web            # Build Next.js website
-pnpm test                 # Run all 150 unit tests
+pnpm test                 # Run all 161 unit tests
 pnpm db:generate          # Regenerate Prisma client
 pnpm db:push              # Apply schema to database
 pnpm db:seed              # Seed levels, topics, 420 questions, badges, settings, admin
@@ -116,15 +116,15 @@ src/
 ├── client.ts           → Prisma singleton with adapter switching (SQLite/MySQL)
 ├── index.ts            → Barrel export: prisma, all services, all utils, all types
 ├── types.ts            → Shared constants (QUESTION_TYPE, BADGE_TYPE, SESSION_STATE)
-├── services/           → 10 service files (account, admin, attempt, badge, question, ranking, session, setting, topic-strength, validation)
+├── services/           → 11 service files (account, admin, attempt, badge, question, ranking, session, setting, spaced-repetition, topic-strength, validation)
 ├── utils/              → 4 utility files (cairo-time, arabic-numerals, logger, shuffle)
-└── __tests__/          → 6 test files, 150 unit tests (vitest)
+└── __tests__/          → 7 test files, 161 unit tests (vitest)
 ```
 
 ## Testing
 
 ```bash
-pnpm test               # Run all tests (150 unit tests)
+pnpm test               # Run all tests (161 unit tests)
 pnpm --filter @numninjas/database test:watch  # Watch mode
 ```
 
@@ -148,7 +148,7 @@ All tests are pure unit tests — no database access needed.
 - **Bot imports use @numninjas/database**: Never import from relative service/util paths in bot code. Always from the package.
 - **ScheduledQuestion is per-user**: Not per-level. Each kid gets personalized questions based on their weak topics.
 - **Rankings are per-level**: A Level 1 kid only competes with other Level 1 kids. Monthly/yearly are global.
-- **Default admin**: Seed creates admin@numninja.com with password from ADMIN_PASSWORD env var (default: changeme123). Change after first login.
+- **Default admin**: Seed creates admin@numninjas.com with password from ADMIN_PASSWORD env var (default: changeme123). Change after first login.
 
 ## Deployment
 

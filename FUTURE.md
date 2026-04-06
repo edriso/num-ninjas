@@ -122,7 +122,7 @@ These were planned features that have been built:
 - [x] Admin settings/topics/levels/badges CRUD
 - [x] Telegram channel auto-posting (weekly/monthly/yearly rankings)
 - [x] Spacetoon Arabic — warm MSA text for all Arab kids
-- [x] 150 unit tests — vitest for all shared logic
+- [x] 161 unit tests — vitest for all shared logic
 - [x] Shareable certificates — auto-generated images for level completion + profile OG
 - [x] Username system — unique usernames for shareable profile URLs
 - [x] Parent-first UX — safety message, topic names in summary, "next week focus" in reports
