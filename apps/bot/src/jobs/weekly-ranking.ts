@@ -39,6 +39,10 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
           `${weekLabel} — ${level.name}`,
           weekStart,
           `${entry.correctCount} صحيحة · ${entry.wrongCount} خطأ · ${entry.hintCount} تلميح`,
+          {
+            periodLabelEn: `Week of ${weekStart.toISOString().split('T')[0]} — ${level.nameEn || level.name}`,
+            metricSummaryEn: `${entry.correctCount} correct · ${entry.wrongCount} wrong · ${entry.hintCount} hints`,
+          },
         );
         totalBadges++;
       }

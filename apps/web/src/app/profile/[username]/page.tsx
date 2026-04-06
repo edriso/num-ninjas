@@ -115,9 +115,9 @@ export default async function ProfilePage({ params }: Props) {
                   <div className="flex-1">
                     <p className="font-bold text-slate-800">{locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}</p>
                     <p className="text-sm text-slate-500">
-                      {locale === 'en' && ub.badge.descriptionEn
-                        ? ub.badge.descriptionEn
-                        : ub.metricSummary || ub.periodLabel}
+                      {locale === 'en'
+                        ? (ub.metricSummaryEn || ub.badge.descriptionEn || ub.metricSummary || '')
+                        : (ub.metricSummary || ub.periodLabel)}
                     </p>
                   </div>
                   <span className="text-xs text-slate-500">

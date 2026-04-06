@@ -31,19 +31,24 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   );
 
   // Award badges
-  const badgeMap: Record<string, typeof mostActive> = {
-    'الثابت': mostActive,
-    'العقل الحاد': sharpest,
-    'المستقل': independent,
-  };
+  const monthLabelEn = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(monthStart);
 
-  for (const [badgeName, winner] of Object.entries(badgeMap)) {
+  const badgeEntries: { name: string; winner: typeof mostActive; metricAr: string; metricEn: string }[] = [
+    { name: 'الثابت', winner: mostActive, metricAr: mostActive ? `${mostActive.activeDays} يوم نشط` : '', metricEn: mostActive ? `${mostActive.activeDays} active days` : '' },
+    { name: 'العقل الحاد', winner: sharpest, metricAr: sharpest ? `${Math.round(sharpest.accuracy * 100)}% دقة` : '', metricEn: sharpest ? `${Math.round(sharpest.accuracy * 100)}% accuracy` : '' },
+    { name: 'المستقل', winner: independent, metricAr: independent ? `${independent.hints} تلميح فقط` : '', metricEn: independent ? `${independent.hints} hints only` : '' },
+  ];
+
+  for (const { name: badgeName, winner, metricAr, metricEn } of badgeEntries) {
     if (!winner) continue;
     const badge = await prisma.badge.findFirst({
       where: { name: badgeName, badgeType: 'monthly_rank' },
     });
     if (badge) {
-      await awardBadge(winner.userId, badge.id, monthLabel, monthStart);
+      await awardBadge(winner.userId, badge.id, monthLabel, monthStart, metricAr, {
+        periodLabelEn: monthLabelEn,
+        metricSummaryEn: metricEn,
+      });
     }
   }
 

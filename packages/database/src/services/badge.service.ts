@@ -10,13 +10,18 @@ export async function awardBadge(
   periodLabel: string,
   periodStart: Date,
   metricSummary?: string,
+  options?: { periodLabelEn?: string; metricSummaryEn?: string },
 ) {
   try {
     await prisma.userBadge.upsert({
       where: {
         user_badge_period: { userId, badgeId, periodStart },
       },
-      create: { userId, badgeId, periodLabel, periodStart, metricSummary },
+      create: {
+        userId, badgeId, periodLabel, periodStart, metricSummary,
+        periodLabelEn: options?.periodLabelEn,
+        metricSummaryEn: options?.metricSummaryEn,
+      },
       update: {},
     });
     logger.info('Badge awarded', { userId, badgeId, periodLabel });
@@ -55,6 +60,7 @@ export async function checkAchievements(userId: number) {
           `سلسلة ${days} يوم`,
           today,
           `${user.streakDays} يوم متواصل`,
+          { periodLabelEn: `${days} day streak`, metricSummaryEn: `${user.streakDays} consecutive days` },
         );
       }
     }
@@ -76,6 +82,7 @@ export async function checkAchievements(userId: number) {
         '100 إجابة صحيحة',
         today,
         `${totalCorrect} إجابة صحيحة`,
+        { periodLabelEn: '100 correct answers', metricSummaryEn: `${totalCorrect} correct answers` },
       );
     }
   }

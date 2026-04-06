@@ -163,13 +163,17 @@ async function main() {
   const weeklyBadges = badges.filter((b) => b.badgeType === 'weekly_rank');
 
   for (let i = 0; i < Math.min(topUsers.length, weeklyBadges.length); i++) {
+    const correct = randomInt(15, 21);
+    const wrong = randomInt(0, 3);
     await prisma.userBadge.create({
       data: {
         userId: topUsers[i].id,
         badgeId: weeklyBadges[i].id,
         periodLabel: `أسبوع ${weekStart.toISOString().split('T')[0]}`,
+        periodLabelEn: `Week of ${weekStart.toISOString().split('T')[0]}`,
         periodStart: weekStart,
-        metricSummary: `${randomInt(15, 21)} صحيحة · ${randomInt(0, 3)} خطأ`,
+        metricSummary: `${correct} صحيحة · ${wrong} خطأ`,
+        metricSummaryEn: `${correct} correct · ${wrong} wrong`,
       },
     });
     badgeCount++;
@@ -177,15 +181,19 @@ async function main() {
 
   // Monthly category badges
   const monthlyBadges = badges.filter((b) => b.badgeType === 'monthly_rank');
+  const monthLabelEn = monthStart.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   for (let i = 0; i < Math.min(3, monthlyBadges.length); i++) {
     const randomUser = users[randomInt(0, users.length - 1)];
+    const activeDays = randomInt(10, 28);
     await prisma.userBadge.create({
       data: {
         userId: randomUser.id,
         badgeId: monthlyBadges[i].id,
         periodLabel: monthStart.toLocaleDateString('ar-EG', { month: 'long', year: 'numeric' }),
+        periodLabelEn: monthLabelEn,
         periodStart: monthStart,
-        metricSummary: `${randomInt(10, 28)} يوم نشط`,
+        metricSummary: `${activeDays} يوم نشط`,
+        metricSummaryEn: `${activeDays} active days`,
       },
     });
     badgeCount++;
@@ -201,8 +209,10 @@ async function main() {
           userId: randomUser.id,
           badgeId: badge.id,
           periodLabel: badge.description || '',
+          periodLabelEn: badge.descriptionEn || '',
           periodStart: daysAgo(randomInt(1, 30)),
           metricSummary: badge.description,
+          metricSummaryEn: badge.descriptionEn,
         },
       });
       badgeCount++;
