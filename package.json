@@ -4,7 +4,7 @@
   "scripts": {
     "dev:bot": "pnpm --filter bot dev",
     "build:bot": "pnpm --filter bot build",
-    "build:web": "cd apps/web && prisma generate --schema=../../packages/database/prisma/schema.prisma && npx next build",
+    "build:web": "cd apps/web && npx prisma generate --schema=../../packages/database/prisma/schema.prisma && npx next build",
     "db:generate": "pnpm --filter @numninjas/database db:generate",
     "db:push": "pnpm --filter @numninjas/database db:push",
     "db:seed": "pnpm --filter @numninjas/database db:seed",
