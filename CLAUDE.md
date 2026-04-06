@@ -38,6 +38,7 @@ pnpm test                 # Run all 161 unit tests
 pnpm db:generate          # Regenerate Prisma client
 pnpm db:push              # Apply schema to database
 pnpm db:seed              # Seed levels, topics, 420 questions, badges, settings, admin
+pnpm db:seed:demo         # Add 15 fake users with activity data (dev only!)
 pnpm db:reset             # DELETE all data + re-seed (dev only!)
 ```
 

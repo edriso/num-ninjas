@@ -136,6 +136,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | `pnpm db:generate` | Regenerate Prisma client (after schema changes) |
 | `pnpm db:push` | Apply schema changes to the database |
 | `pnpm db:seed` | Seed the database with all data |
+| `pnpm db:seed:demo` | Add 15 fake users with activity (dev only!) |
 | `pnpm db:reset` | **Delete everything** and re-seed (dev only!) |
 
 ---
