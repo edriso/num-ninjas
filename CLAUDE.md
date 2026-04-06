@@ -57,6 +57,9 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display
 - **Adapter pattern for DB**: SQLite (dev) and MySQL (prod) via Prisma driver adapters, isolated in `packages/database/src/client.ts`
 - **Telegram channel**: Weekly/monthly/yearly rankings auto-posted to @NumNinjas channel (optional, set CHANNEL_USERNAME in bot .env)
+- **Spaced repetition**: Questions reappear based on last result: wrong→2d, hint→5d, correct→14d (spaced-repetition.service.ts)
+- **Parent-first UX**: Welcome explains safety to parents, daily summary shows topic names, weekly report includes "next week focus" (weak topics), profile page has share button
+- **Database package has no build step**: Consumed as raw TypeScript source. Never run tsc on it. If a dist/ folder appears, delete it (it causes IDE type errors)
 
 ## Environment Variables
 
