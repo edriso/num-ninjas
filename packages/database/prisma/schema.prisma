@@ -34,9 +34,10 @@ model User {
   account          Account          @relation("AccountUsers", fields: [accountId], references: [telegramId])
   activeForAccount Account?         @relation("ActiveProfile")
   level            Level            @relation(fields: [levelId], references: [id])
-  studySessions    StudySession[]
-  questionAttempts QuestionAttempt[]
-  userBadges       UserBadge[]
+  studySessions      StudySession[]
+  questionAttempts   QuestionAttempt[]
+  userBadges         UserBadge[]
+  scheduledQuestions  ScheduledQuestion[]
 
   @@map("users")
 }
@@ -54,7 +55,6 @@ model Level {
 
   topics             Topic[]
   users              User[]
-  scheduledQuestions  ScheduledQuestion[]
 
   @@map("levels")
 }
@@ -115,16 +115,16 @@ model Option {
 
 model ScheduledQuestion {
   id            Int      @id @default(autoincrement())
-  levelId       Int      @map("level_id")
+  userId        Int      @map("user_id")
   questionId    Int      @map("question_id")
   position      Int
   scheduledDate DateTime @map("scheduled_date")
   createdAt     DateTime @default(now()) @map("created_at")
 
-  level    Level    @relation(fields: [levelId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
   question Question @relation(fields: [questionId], references: [id])
 
-  @@unique([levelId, position, scheduledDate], name: "level_position_date")
+  @@unique([userId, position, scheduledDate], name: "user_position_date")
   @@map("scheduled_questions")
 }
 

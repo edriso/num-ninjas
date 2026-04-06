@@ -5,31 +5,27 @@ export default async function ScheduledPage() {
 
   const scheduled = await prisma.scheduledQuestion.findMany({
     where: { scheduledDate: today },
-    orderBy: [{ levelId: "asc" }, { position: "asc" }],
+    orderBy: [{ userId: "asc" }, { position: "asc" }],
     include: {
-      level: true,
-      question: {
-        include: {
-          topic: true,
-        },
-      },
+      user: { include: { level: true } },
+      question: { include: { topic: true } },
     },
   });
 
-  // Group by level
+  // Group by user
   const grouped = new Map<
     number,
     {
-      level: (typeof scheduled)[0]["level"];
+      user: (typeof scheduled)[0]["user"];
       items: typeof scheduled;
     }
   >();
 
   for (const sq of scheduled) {
-    if (!grouped.has(sq.levelId)) {
-      grouped.set(sq.levelId, { level: sq.level, items: [] });
+    if (!grouped.has(sq.userId)) {
+      grouped.set(sq.userId, { user: sq.user, items: [] });
     }
-    grouped.get(sq.levelId)!.items.push(sq);
+    grouped.get(sq.userId)!.items.push(sq);
   }
 
   const todayStr = today.toLocaleDateString("ar-EG", {
@@ -46,24 +42,28 @@ export default async function ScheduledPage() {
         <span className="text-sm text-gray-500">{todayStr}</span>
       </div>
 
+      <p className="text-sm text-gray-500 mb-4">
+        كل طالب بيحصل على أسئلة مختلفة بناء على نقاط ضعفه (صعوبة تكيفية)
+      </p>
+
       {scheduled.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center text-gray-400">
-          لا يوجد أسئلة مجدولة لليوم
+          لا يوجد أسئلة مجدولة لليوم — بتتحضر الساعة 12:30 الليل
         </div>
       ) : (
-        <div className="space-y-6">
-          {Array.from(grouped.values()).map(({ level, items }) => (
+        <div className="space-y-4">
+          {Array.from(grouped.values()).map(({ user, items }) => (
             <div
-              key={level.id}
+              key={user.id}
               className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
             >
-              <div className="bg-gray-50 px-5 py-3 border-b border-gray-100">
+              <div className="bg-gray-50 px-5 py-3 border-b border-gray-100 flex items-center justify-between">
                 <h2 className="font-bold text-gray-800">
-                  {level.iconEmoji} {level.name}
-                  <span className="text-sm font-normal text-gray-500 mr-2">
-                    ({items.length} أسئلة)
-                  </span>
+                  {user.level.iconEmoji} {user.nickname}
                 </h2>
+                <span className="text-xs text-gray-500">
+                  {user.level.name} — {items.length} أسئلة
+                </span>
               </div>
 
               <div className="divide-y divide-gray-100">

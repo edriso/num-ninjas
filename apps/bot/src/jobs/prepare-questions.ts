@@ -1,9 +1,25 @@
-import { prisma, todayCairoAsUtcMidnight, getSettingInt, shuffle, logger } from '@numninja/database';
+import {
+  prisma,
+  todayCairoAsUtcMidnight,
+  getSettingInt,
+  shuffle,
+  logger,
+  getTopicStrengths,
+  pickWeightedTopics,
+} from '@numninja/database';
 
 /**
- * Prepare today's scheduled questions for each level.
- * Selects 3 random questions per level, avoiding recently used ones.
- * Idempotent: uses upsert so safe to run multiple times.
+ * Prepare today's questions for each active user.
+ *
+ * Adaptive difficulty:
+ * 1. For each user, calculate per-topic accuracy (last 30 days)
+ * 2. Weight topics by weakness (low accuracy → higher chance of being picked)
+ * 3. Pick N topics via weighted random, then 1 question per topic
+ * 4. Store as per-user ScheduledQuestion rows
+ *
+ * This means each kid gets different questions based on what they struggle with.
+ * A kid failing fractions will see more fraction questions. A kid who mastered
+ * addition will rarely see addition but still gets it occasionally (weight 0.1).
  */
 export async function prepareScheduledQuestions() {
   const today = todayCairoAsUtcMidnight();
@@ -13,72 +29,83 @@ export async function prepareScheduledQuestions() {
   const cutoffDate = new Date(today);
   cutoffDate.setUTCDate(cutoffDate.getUTCDate() - repeatDays);
 
-  const levels = await prisma.level.findMany();
+  // Get all users with active profiles
+  const users = await prisma.user.findMany({
+    include: { level: true },
+  });
 
-  for (const level of levels) {
-    // Find recently used question IDs for this level
+  let prepared = 0;
+
+  for (const user of users) {
+    // Skip if already prepared today
+    const existing = await prisma.scheduledQuestion.findFirst({
+      where: { userId: user.id, scheduledDate: today },
+    });
+    if (existing) continue;
+
+    // Get topic strengths for this user
+    const strengths = await getTopicStrengths(user.id, user.levelId);
+
+    if (strengths.length === 0) {
+      logger.warn(`No topics for user ${user.id} (${user.nickname}) at level ${user.levelId}`);
+      continue;
+    }
+
+    // Pick topics weighted by weakness
+    const pickedTopics = pickWeightedTopics(strengths, questionsPerDay);
+
+    // Find recently used question IDs for this user
     const recentScheduled = await prisma.scheduledQuestion.findMany({
       where: {
-        levelId: level.id,
+        userId: user.id,
         scheduledDate: { gte: cutoffDate },
       },
       select: { questionId: true },
     });
-    const recentIds = recentScheduled.map((r) => r.questionId);
+    const recentIds = new Set(recentScheduled.map((r) => r.questionId));
 
-    // Find available questions for this level
-    const available = await prisma.question.findMany({
-      where: {
-        topic: { levelId: level.id },
-        ...(recentIds.length > 0 ? { id: { notIn: recentIds } } : {}),
-      },
-    });
+    // Pick 1 question per selected topic
+    const selectedQuestions: { id: number }[] = [];
 
-    if (available.length === 0) {
-      // Fallback: use any questions from this level
-      const fallback = await prisma.question.findMany({
-        where: { topic: { levelId: level.id } },
+    for (const topic of pickedTopics) {
+      const available = await prisma.question.findMany({
+        where: {
+          topicId: topic.topicId,
+          ...(recentIds.size > 0 ? { id: { notIn: [...recentIds] } } : {}),
+        },
+        select: { id: true },
       });
 
-      if (fallback.length === 0) {
-        logger.warn(`No questions available for level ${level.id} (${level.name})`);
-        continue;
+      if (available.length > 0) {
+        const picked = shuffle(available)[0];
+        selectedQuestions.push(picked);
+        recentIds.add(picked.id); // Prevent duplicate in same day
+      } else {
+        // Fallback: allow any question from this topic
+        const fallback = await prisma.question.findMany({
+          where: { topicId: topic.topicId },
+          select: { id: true },
+        });
+        if (fallback.length > 0) {
+          selectedQuestions.push(shuffle(fallback)[0]);
+        }
       }
-
-      // Use fallback pool
-      const selected = shuffle(fallback).slice(0, questionsPerDay);
-      await scheduleQuestions(level.id, selected, today);
-      logger.info(`Prepared ${selected.length} questions for ${level.name} (fallback pool)`);
-      continue;
     }
 
-    const selected = shuffle(available).slice(0, questionsPerDay);
-    await scheduleQuestions(level.id, selected, today);
-    logger.info(`Prepared ${selected.length} questions for ${level.name}`);
-  }
-}
-
-async function scheduleQuestions(
-  levelId: number,
-  questions: { id: number }[],
-  date: Date,
-) {
-  for (let i = 0; i < questions.length; i++) {
-    await prisma.scheduledQuestion.upsert({
-      where: {
-        level_position_date: {
-          levelId,
+    // Schedule the questions
+    for (let i = 0; i < selectedQuestions.length; i++) {
+      await prisma.scheduledQuestion.create({
+        data: {
+          userId: user.id,
+          questionId: selectedQuestions[i].id,
           position: i + 1,
-          scheduledDate: date,
+          scheduledDate: today,
         },
-      },
-      create: {
-        levelId,
-        questionId: questions[i].id,
-        position: i + 1,
-        scheduledDate: date,
-      },
-      update: {},
-    });
+      });
+    }
+
+    prepared++;
   }
+
+  logger.info(`Prepared adaptive questions for ${prepared} users`);
 }

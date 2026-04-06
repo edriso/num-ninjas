@@ -28,6 +28,7 @@ export * from './services/session.service';
 export * from './services/setting.service';
 export * from './services/validation.service';
 export * from './services/admin.service';
+export * from './services/topic-strength.service';
 
 // Utils
 export * from './utils/cairo-time';
