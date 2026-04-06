@@ -74,16 +74,14 @@ export default async function ProfilePage({ params }: Props) {
         {user.username && (
           <p className="text-slate-500 text-sm mt-1">@{user.username}</p>
         )}
+        <div className="mt-4">
+          <CopyLinkButton label={d.profile.copyLink} copiedLabel={d.profile.copied} />
+        </div>
       </header>
 
       <main className="max-w-2xl mx-auto px-6 py-10">
-        {/* Copy Link Button */}
-        <div className="flex justify-center mb-6">
-          <CopyLinkButton label={d.profile.copyLink} copiedLabel={d.profile.copied} />
-        </div>
-
         {/* Stats Grid */}
-        <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
             { label: d.profile.points, value: user.totalPoints, emoji: '⭐' },
             { label: d.profile.streak, value: `${user.streakDays} ${d.profile.day}`, emoji: '🔥' },
@@ -103,7 +101,7 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span>🏅</span> {d.profile.badges}</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span>🏅</span> {d.profile.badges}</h2>
           {badges.length === 0 ? (
             <p className="text-slate-500 text-center py-8">{d.profile.noBadges}</p>
           ) : (
