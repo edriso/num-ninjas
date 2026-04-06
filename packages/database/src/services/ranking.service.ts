@@ -21,7 +21,21 @@ export interface RankEntry {
  * If levelId is omitted, computes a global ranking across all levels
  * (used for yearly awards where everyone competes).
  */
-export async function computeRankings(start: Date, end: Date, levelId?: number): Promise<RankEntry[]> {
+/**
+ * Sort modes for rankings:
+ * - 'accuracy': wrongCount ASC → hintCount ASC → activeDays DESC
+ *   Best for weekly — in 7 days most kids tie on total, accuracy differentiates
+ * - 'consistency': correctCount DESC → wrongCount ASC → hintCount ASC → activeDays DESC
+ *   Best for yearly — over long periods, showing up matters most
+ */
+export type RankingSortMode = 'accuracy' | 'consistency';
+
+export async function computeRankings(
+  start: Date,
+  end: Date,
+  levelId?: number,
+  sortMode: RankingSortMode = 'consistency',
+): Promise<RankEntry[]> {
   // Get attempts, optionally filtered by question level
   const attempts = await prisma.questionAttempt.findMany({
     where: {
@@ -94,6 +108,13 @@ export async function computeRankings(start: Date, end: Date, levelId?: number):
       };
     })
     .sort((a, b) => {
+      if (sortMode === 'accuracy') {
+        // Weekly: fewest wrong → fewest hints → most active days
+        if (a.wrongCount !== b.wrongCount) return a.wrongCount - b.wrongCount;
+        if (a.hintCount !== b.hintCount) return a.hintCount - b.hintCount;
+        return b.activeDays - a.activeDays;
+      }
+      // Consistency (default): most correct → fewest wrong → fewest hints → most active
       if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
       if (a.wrongCount !== b.wrongCount) return a.wrongCount - b.wrongCount;
       if (a.hintCount !== b.hintCount) return a.hintCount - b.hintCount;

@@ -6,8 +6,7 @@ import {
   getOrCreateTodaySession,
   getTodaySession,
   markQuestionSent,
-  markQuestionAnswered,
-  recordAttempt,
+  recordAttemptAndProgress,
   hasAnswered,
   getTodayAttempts,
   checkMcqAnswer,
@@ -187,20 +186,16 @@ export async function handleMcqAnswer(ctx: BotContext) {
     return;
   }
 
-  // Record the attempt
+  // Record attempt + update session in a single transaction
   const hintUsed = (ctx.session.pendingData[`hint_${questionId}`] as boolean) ?? false;
-  await recordAttempt({
+  const { session } = await recordAttemptAndProgress({
     userId: profileId,
     questionId,
     userAnswer: option.optionText,
     isCorrect,
     hintUsed,
   });
-
-  // Update session progress
-  const session = await getOrCreateTodaySession(profileId);
   const totalQuestions = await getSettingInt('questions_per_day');
-  await markQuestionAnswered(session.id, totalQuestions);
 
   // Show feedback
   const correctOption = question.options.find((o) => o.isCorrect);
@@ -243,24 +238,21 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   // Handle text-based skip ("تخطي" or "skip")
   if (text === 'تخطي' || text.toLowerCase() === 'skip') {
     const hintUsed = (ctx.session.pendingData.hintUsed as boolean) ?? false;
-    await recordAttempt({
+    const { session } = await recordAttemptAndProgress({
       userId: profileId,
       questionId,
       userAnswer: '[skipped]',
       isCorrect: false,
       hintUsed,
     });
+    const totalQuestions = await getSettingInt('questions_per_day');
 
     ctx.session.state = 'idle';
     ctx.session.pendingData.currentQuestionId = undefined;
 
-    const session = await getOrCreateTodaySession(profileId);
-    const totalQuestions = await getSettingInt('questions_per_day');
-    await markQuestionAnswered(session.id, totalQuestions);
-
     await ctx.reply('⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪');
 
-    const updatedSession = await getTodaySession(profileId);
+    const updatedSession = session;
     if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
       await updateStreak(profileId);
       await showDailySummary(ctx, profileId);
@@ -319,24 +311,20 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     return;
   }
 
-  // Record attempt (first try only)
+  // Record attempt + update session in a single transaction
   const hintUsed = (ctx.session.pendingData.hintUsed as boolean) ?? false;
-  await recordAttempt({
+  const { session } = await recordAttemptAndProgress({
     userId: profileId,
     questionId,
     userAnswer: text,
     isCorrect,
     hintUsed,
   });
+  const totalQuestions = await getSettingInt('questions_per_day');
 
   // Reset state
   ctx.session.state = 'idle';
   ctx.session.pendingData.currentQuestionId = undefined;
-
-  // Update session
-  const session = await getOrCreateTodaySession(profileId);
-  const totalQuestions = await getSettingInt('questions_per_day');
-  await markQuestionAnswered(session.id, totalQuestions);
 
   // Show feedback
   const pointsPerCorrect = await getSettingInt('points_per_correct');
@@ -403,18 +391,15 @@ export async function handleSkip(ctx: BotContext) {
 
   // Record attempt as wrong with [skipped] marker
   const hintUsed = (ctx.session.pendingData[`hint_${questionId}`] as boolean) ?? false;
-  await recordAttempt({
+  // Record skip + update session in a single transaction
+  const { session } = await recordAttemptAndProgress({
     userId: profileId,
     questionId,
     userAnswer: '[skipped]',
     isCorrect: false,
     hintUsed,
   });
-
-  // Update session progress
-  const session = await getOrCreateTodaySession(profileId);
   const totalQuestions = await getSettingInt('questions_per_day');
-  await markQuestionAnswered(session.id, totalQuestions);
 
   // Clear open-ended state if active
   if (ctx.session.state === 'awaiting_answer') {

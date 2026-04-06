@@ -18,7 +18,7 @@ export async function getWeeklyRankings(): Promise<LevelRanking[]> {
 
   const result: LevelRanking[] = [];
   for (const level of levels) {
-    const rankings = await computeRankings(weekStart, now, level.id);
+    const rankings = await computeRankings(weekStart, now, level.id, 'accuracy');
     if (rankings.length > 0) {
       result.push({
         levelId: level.id,

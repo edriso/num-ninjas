@@ -25,7 +25,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
   const allMessages: string[] = [];
 
   for (const level of levels) {
-    const rankings = await computeRankings(weekStart, weekEnd, level.id);
+    const rankings = await computeRankings(weekStart, weekEnd, level.id, 'accuracy');
     if (rankings.length === 0) continue;
 
     // Award badges to top 3 in this level

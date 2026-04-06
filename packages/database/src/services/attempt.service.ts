@@ -13,36 +13,66 @@ interface RecordAttemptParams {
 }
 
 /**
- * Record a question attempt and update user points if correct.
- * Uses a transaction to keep attempts and points in sync.
+ * Record a question attempt, update points, and update session progress
+ * all in a single transaction. If any step fails, everything rolls back.
+ *
+ * Returns { attempt, session } where session is the updated study session.
  */
-export async function recordAttempt(params: RecordAttemptParams) {
+export async function recordAttemptAndProgress(params: RecordAttemptParams) {
   const { userId, questionId, userAnswer, isCorrect, hintUsed } = params;
 
   const pointsPerCorrect = await getSettingInt('points_per_correct');
+  const totalQuestions = await getSettingInt('questions_per_day');
+  const today = todayCairoAsUtcMidnight();
 
-  const attempt = await prisma.questionAttempt.create({
-    data: {
-      userId,
-      questionId,
-      userAnswer,
-      isCorrect,
-      hintUsed,
-    },
+  const result = await prisma.$transaction(async (tx) => {
+    // 1. Create the attempt
+    const attempt = await tx.questionAttempt.create({
+      data: { userId, questionId, userAnswer, isCorrect, hintUsed },
+    });
+
+    // 2. Update points if correct
+    if (isCorrect) {
+      await tx.user.update({
+        where: { id: userId },
+        data: { totalPoints: { increment: pointsPerCorrect } },
+      });
+    }
+
+    // 3. Get or create today's session
+    const session = await tx.studySession.upsert({
+      where: { user_session_date: { userId, sessionDate: today } },
+      update: {},
+      create: { userId, sessionDate: today, questionsSent: 0, questionsAnswered: 0 },
+    });
+
+    // 4. Increment questionsAnswered and check completion
+    const updated = await tx.studySession.update({
+      where: { id: session.id },
+      data: { questionsAnswered: { increment: 1 } },
+    });
+
+    // 5. Mark complete if all questions answered
+    if (updated.questionsAnswered >= totalQuestions) {
+      await tx.studySession.update({
+        where: { id: session.id },
+        data: { isComplete: true },
+      });
+    }
+
+    return {
+      attempt,
+      session: { ...updated, questionsAnswered: updated.questionsAnswered, isComplete: updated.questionsAnswered >= totalQuestions },
+    };
   });
 
-  if (isCorrect) {
-    await prisma.user.update({
-      where: { id: userId },
-      data: { totalPoints: { increment: pointsPerCorrect } },
-    });
-  }
-
-  logger.debug('Attempt recorded', {
+  logger.debug('Attempt + session recorded', {
     userId,
     questionId,
     isCorrect,
     hintUsed,
+    questionsAnswered: result.session.questionsAnswered,
+    isComplete: result.session.isComplete,
   });
 
   // Check achievement badges asynchronously (don't block the response)
@@ -50,7 +80,15 @@ export async function recordAttempt(params: RecordAttemptParams) {
     logger.error('Achievement check failed', { error: String(err) }),
   );
 
-  return attempt;
+  return result;
+}
+
+/**
+ * @deprecated Use recordAttemptAndProgress instead for transaction safety.
+ * Kept for backwards compatibility with retry flow (no session update needed).
+ */
+export async function recordAttempt(params: RecordAttemptParams) {
+  return (await recordAttemptAndProgress(params)).attempt;
 }
 
 /**

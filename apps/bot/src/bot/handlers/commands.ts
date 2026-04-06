@@ -117,7 +117,7 @@ export async function handleRank(ctx: BotContext) {
   const weekEnd = new Date(weekStart);
   weekEnd.setUTCDate(weekEnd.getUTCDate() + 7);
 
-  const rankings = await computeRankings(weekStart, weekEnd, user.levelId);
+  const rankings = await computeRankings(weekStart, weekEnd, user.levelId, 'accuracy');
 
   if (rankings.length === 0) {
     await ctx.reply('📊 لا يوجد ترتيب بعد هذا الأسبوع. ابدأ بالإجابة على الأسئلة! 💪');
