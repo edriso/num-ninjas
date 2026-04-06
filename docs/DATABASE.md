@@ -128,7 +128,7 @@
 | users | 0 | Player profiles (up to 5 per account, with locale) |
 | levels | 5 | Ninja belt levels (⚪🟡🟠🟢🥋) |
 | topics | 35 | 7 topics per level |
-| questions | 420 | 12 per topic, MCQ + open-ended (locale: ar) |
+| questions | 840 | 12 per topic per language, MCQ + open-ended (420 AR + 420 EN) |
 | options | ~1260 | 3-4 options per MCQ question |
 | scheduled_questions | dynamic | Per-user daily question assignments |
 | study_sessions | dynamic | Daily progress tracking per user |

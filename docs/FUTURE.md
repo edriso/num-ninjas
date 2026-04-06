@@ -79,7 +79,7 @@ Once the community reaches ~500+ users, create a Telegram group for parents:
 ---
 
 ### English Question Bank
-The i18n infrastructure is built (bot + website). What's missing is 420 English questions with localized scenarios. When created, they just need `locale: 'en'` and the system handles everything else.
+English question bank is complete — 420 questions matching the Arabic bank.
 
 ### More Languages
 - French for North Africa (Morocco, Tunisia, Algeria)
@@ -134,3 +134,4 @@ These were planned features that have been built:
 - [x] Full i18n (Arabic + English) — bot messages, website dictionaries, auto-detection, /language command, footer switcher
 - [x] i18n-ready DB columns — nameEn/descriptionEn on levels, topics, badges, settings
 - [x] Performance indexes — 6 indexes on high-query tables
+- [x] English question bank — 420 questions matching Arabic (840 total)

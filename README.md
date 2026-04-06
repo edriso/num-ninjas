@@ -30,7 +30,7 @@ The **@NumNinjas channel** auto-posts weekly leaderboards, monthly ninja champio
 - **Onboarding Quiz** — 3 questions auto-detect the right level (kids can override)
 - **3 Daily Questions** — Sent at 2:30 PM Cairo time, personalized per student
 - **5 Ninja Belt Levels** — From White Belt (basics) to Black Belt (legend)
-- **420 Questions** — Across 35 topics, all with real-life Arab scenarios
+- **840 Questions** — Across 35 topics, all with real-life Arab scenarios
 - **Per-Level Rankings** — Fair leaderboards within the same difficulty level
 - **Skip Button** — Too hard? Skip it and keep the session going
 - **Level Completion** — Master all 7 topics → celebration + level-up suggestion
@@ -56,7 +56,7 @@ num-ninjas/
 │   └── web/                → Website (Next.js 15 + Tailwind CSS)
 └── packages/
     └── database/           → Shared database layer (@numninjas/database)
-        ├── prisma/         → Schema, seeds (420 questions)
+        ├── prisma/         → Schema, seeds (840 questions (420 AR + 420 EN))
         ├── src/services/   → Business logic (ranking, badges, accounts...)
         ├── src/utils/      → Helpers (Cairo time, Arabic numerals...)
         └── src/__tests__/  → 161 unit tests (vitest)
@@ -117,7 +117,7 @@ cp apps/web/.env.example apps/web/.env.local
 # 4. Set up the database
 pnpm db:generate    # Generate the Prisma client
 pnpm db:push        # Create all tables
-pnpm db:seed        # Fill with 5 levels, 35 topics, 420 questions, badges, admin
+pnpm db:seed        # Fill with 5 levels, 35 topics, 840 questions (420 AR + 420 EN), badges, admin
 
 # 5. Start developing!
 pnpm dev:bot                # Start the Telegram bot (with hot reload)
@@ -215,7 +215,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | 🟢 4 | Green Belt | Percentages, intro to algebra, speed/distance/time |
 | 🥋 5 | Black Belt | Exponents, probability, negative numbers, math puzzles |
 
-Each level has 7 topics with 12 questions each = **420 total questions**, all with real-life Arab scenarios.
+Each level has 7 topics with 12 questions each = **840 total questions (420 Arabic + 420 English), all with real-life scenarios.
 
 ---
 

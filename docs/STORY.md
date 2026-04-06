@@ -78,7 +78,7 @@ We chose this stack because it's boring and reliable. Grammy for Telegram becaus
 
 ## What's next
 
-The bot has 420 questions across 35 topics and 5 levels. That's enough for several months of daily practice without repeating. But the question bank needs to keep growing.
+The bot has 840 questions (420 Arabic + 420 English) across 35 topics and 5 levels. That's enough for several months of daily practice without repeating. But the question bank needs to keep growing.
 
 We want to add shareable certificates, the kind of image a parent screenshots and sends to the family WhatsApp group. "Ahmed completed the Yellow Belt!" That's free marketing that money can't buy.
 
