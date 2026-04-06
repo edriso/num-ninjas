@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
+import { getLocale } from "@/lib/locale";
 import "./globals.css";
 
 const geist = Geist({
@@ -51,13 +52,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   return (
-    <html lang="ar" dir="rtl" className={`${geist.variable} antialiased`}>
+    <html lang={locale} dir={dir} className={`${geist.variable} antialiased`}>
       <body className="min-h-dvh flex flex-col font-sans">{children}</body>
     </html>
   );

@@ -1,58 +1,70 @@
 import { getHallOfFame } from '@/lib/queries/leaderboard';
 import { Footer } from '@/components/footer';
+import { getLocale } from '@/lib/locale';
+import { getDictionary } from '@/lib/dictionaries';
+import type { Metadata } from 'next';
 
 export const revalidate = 86400;
 
-export const metadata = {
-  title: 'أبطال النينجا — نينجا الأرقام',
-  description: 'أبطال الشهر وأحدث الأوسمة في نينجا الأرقام',
-  openGraph: { title: 'أبطال النينجا — نينجا الأرقام' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const d = getDictionary(locale);
+  const title = `${d.champions.title} — ${d.siteName}`;
+  return {
+    title,
+    description: d.champions.subtitle,
+    openGraph: { title },
+  };
+}
 
 export default async function HallOfFamePage() {
+  const locale = await getLocale();
+  const d = getDictionary(locale);
   const { categories, recentBadges } = await getHallOfFame();
 
   const categoryCards = [
     {
       emoji: '🔥',
-      title: 'الثابت',
-      desc: 'أكثر لاعب نشاطاً',
+      title: d.champions.mostActive,
+      desc: d.champions.mostActiveDesc,
       winner: categories.mostActive,
       stat: categories.mostActive
-        ? `${categories.mostActive.activeDays} يوم نشط`
+        ? d.champions.activeDays(categories.mostActive.activeDays)
         : null,
     },
     {
       emoji: '🎯',
-      title: 'العقل الحاد',
-      desc: 'أعلى نسبة إجابات صحيحة',
+      title: d.champions.sharpest,
+      desc: d.champions.sharpestDesc,
       winner: categories.sharpest,
       stat: categories.sharpest
-        ? `${Math.round(categories.sharpest.accuracy * 100)}% دقة`
+        ? d.champions.accuracy(Math.round(categories.sharpest.accuracy * 100))
         : null,
     },
     {
       emoji: '⚡',
-      title: 'المستقل',
-      desc: 'أقل استخدام للتلميحات',
+      title: d.champions.independent,
+      desc: d.champions.independentDesc,
       winner: categories.independent,
       stat: categories.independent
-        ? `${categories.independent.hints} تلميح فقط`
+        ? d.champions.hintsOnly(categories.independent.hints)
         : null,
     },
   ];
 
+  const dateLocale = locale === 'en' ? 'en-US' : 'ar-EG';
+
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
-        <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🏆</span> أبطال النينجا</h1>
-        <p className="text-slate-400 mt-2">أبطال الشهر</p>
+        <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🏆</span> {d.champions.title}</h1>
+        <p className="text-slate-400 mt-2">{d.champions.subtitle}</p>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Monthly Categories */}
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>⭐</span> أبطال هذا الشهر</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>⭐</span> {d.champions.monthlyTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {categoryCards.map((cat) => (
               <div
@@ -68,7 +80,7 @@ export default async function HallOfFamePage() {
                     <p className="text-sm text-slate-500 mt-1">{cat.stat}</p>
                   </>
                 ) : (
-                  <p className="text-slate-500">لا يوجد فائز بعد</p>
+                  <p className="text-slate-500">{d.champions.noWinner}</p>
                 )}
               </div>
             ))}
@@ -77,9 +89,9 @@ export default async function HallOfFamePage() {
 
         {/* Recent Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>🏅</span> آخر الأوسمة</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>🏅</span> {d.champions.recentBadges}</h2>
           {recentBadges.length === 0 ? (
-            <p className="text-slate-500 text-center py-10">لا توجد أوسمة بعد</p>
+            <p className="text-slate-500 text-center py-10">{d.champions.noBadges}</p>
           ) : (
             <div className="space-y-3">
               {recentBadges.map((ub) => (
@@ -91,11 +103,11 @@ export default async function HallOfFamePage() {
                   <div className="flex-1">
                     <p className="font-bold text-slate-800">{ub.user.nickname}</p>
                     <p className="text-sm text-slate-500">
-                      {ub.badge.name} — {ub.periodLabel}
+                      {locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name} — {ub.periodLabel}
                     </p>
                   </div>
                   <span className="text-xs text-slate-500">
-                    {new Date(ub.earnedAt).toLocaleDateString('ar-EG')}
+                    {new Date(ub.earnedAt).toLocaleDateString(dateLocale)}
                   </span>
                 </div>
               ))}
@@ -103,7 +115,7 @@ export default async function HallOfFamePage() {
           )}
         </section>
       </main>
-      <Footer />
+      <Footer d={d} locale={locale} />
     </div>
   );
 }

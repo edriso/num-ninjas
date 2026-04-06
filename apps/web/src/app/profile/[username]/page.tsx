@@ -1,6 +1,8 @@
 import { prisma, getUserBadges, findUserByUsername } from '@numninjas/database';
 import { Footer } from '@/components/footer';
 import { notFound } from 'next/navigation';
+import { getLocale } from '@/lib/locale';
+import { getDictionary } from '@/lib/dictionaries';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -26,16 +28,18 @@ async function resolveUser(usernameOrId: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
+  const locale = await getLocale();
+  const d = getDictionary(locale);
   const user = await resolveUser(username);
 
-  if (!user) return { title: 'الملف الشخصي غير موجود' };
+  if (!user) return { title: d.profile.notFound };
 
   return {
-    title: `${user.nickname} — نينجا الأرقام`,
-    description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`,
+    title: `${user.nickname} — ${d.siteName}`,
+    description: `${user.level.iconEmoji} ${locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name} · ${user.totalPoints} ${d.profile.points} · ${user.streakDays} ${d.profile.day}`,
     openGraph: {
-      title: `الملف الشخصي — ${user.nickname}`,
-      description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة`,
+      title: `${user.nickname} — ${d.siteName}`,
+      description: `${user.level.iconEmoji} ${locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name} · ${user.totalPoints} ${d.profile.points}`,
       images: [`/api/certificate/${user.username || user.id}`],
     },
   };
@@ -43,6 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProfilePage({ params }: Props) {
   const { username } = await params;
+  const locale = await getLocale();
+  const d = getDictionary(locale);
   const user = await resolveUser(username);
 
   if (!user) notFound();
@@ -54,14 +60,16 @@ export default async function ProfilePage({ params }: Props) {
   const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
 
   const levelEmoji = user.level.iconEmoji || '🥷';
+  const levelName = locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
   const profileSlug = user.username || String(user.id);
+  const dateLocale = locale === 'en' ? 'en-US' : 'ar-EG';
 
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
         <span className="text-5xl block mb-3">{levelEmoji}</span>
         <h1 className="text-3xl font-bold">{user.nickname}</h1>
-        <p className="text-slate-400 mt-1">{user.level.name}</p>
+        <p className="text-slate-400 mt-1">{levelName}</p>
         {user.username && (
           <p className="text-slate-500 text-sm mt-1">@{user.username}</p>
         )}
@@ -71,22 +79,22 @@ export default async function ProfilePage({ params }: Props) {
         {/* Share Button */}
         <div className="flex justify-center mb-6">
           <a
-            href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${profileSlug}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — نينجا الأرقام\n${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`)}`}
+            href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${profileSlug}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — ${d.siteName}\n${user.totalPoints} ${d.profile.points} · ${user.streakDays} ${d.profile.day}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
           >
-            📤 شارك الملف الشخصي
+            📤 {d.profile.share}
           </a>
         </div>
 
         {/* Stats Grid */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
-            { label: 'النقاط', value: user.totalPoints, emoji: '⭐' },
-            { label: 'سلسلة الأيام', value: `${user.streakDays} يوم`, emoji: '🔥' },
-            { label: 'الدقة', value: `${accuracy}%`, emoji: '🎯' },
-            { label: 'إجابات صحيحة', value: correct, emoji: '✅' },
+            { label: d.profile.points, value: user.totalPoints, emoji: '⭐' },
+            { label: d.profile.streak, value: `${user.streakDays} ${d.profile.day}`, emoji: '🔥' },
+            { label: d.profile.accuracy, value: `${accuracy}%`, emoji: '🎯' },
+            { label: d.profile.correctAnswers, value: correct, emoji: '✅' },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -101,9 +109,9 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span>🏅</span> الأوسمة</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span>🏅</span> {d.profile.badges}</h2>
           {badges.length === 0 ? (
-            <p className="text-slate-500 text-center py-8">لا توجد أوسمة بعد — استمر وستكسب!</p>
+            <p className="text-slate-500 text-center py-8">{d.profile.noBadges}</p>
           ) : (
             <div className="space-y-3">
               {badges.map((ub) => (
@@ -113,14 +121,14 @@ export default async function ProfilePage({ params }: Props) {
                 >
                   <span className="text-2xl">{ub.badge.iconEmoji || '🏅'}</span>
                   <div className="flex-1">
-                    <p className="font-bold text-slate-800">{ub.badge.name}</p>
+                    <p className="font-bold text-slate-800">{locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}</p>
                     <p className="text-sm text-slate-500">{ub.periodLabel}</p>
                     {ub.metricSummary && (
                       <p className="text-xs text-slate-500">{ub.metricSummary}</p>
                     )}
                   </div>
                   <span className="text-xs text-slate-500">
-                    {new Date(ub.earnedAt).toLocaleDateString('ar-EG')}
+                    {new Date(ub.earnedAt).toLocaleDateString(dateLocale)}
                   </span>
                 </div>
               ))}
@@ -128,7 +136,7 @@ export default async function ProfilePage({ params }: Props) {
           )}
         </section>
       </main>
-      <Footer />
+      <Footer d={d} locale={locale} />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { computeRankings, computeMonthlyCategories, getWeekStart, getMonthStart,
 export interface LevelRanking {
   levelId: number;
   levelName: string;
+  levelNameEn: string | null;
   levelEmoji: string;
   rankings: RankEntry[];
 }
@@ -23,6 +24,7 @@ export async function getWeeklyRankings(): Promise<LevelRanking[]> {
       result.push({
         levelId: level.id,
         levelName: level.name,
+        levelNameEn: level.nameEn,
         levelEmoji: level.iconEmoji || '🥋',
         rankings,
       });
