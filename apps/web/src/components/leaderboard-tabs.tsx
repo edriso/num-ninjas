@@ -80,7 +80,7 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
             <table className="w-full text-sm min-w-[480px]">
               <thead>
                 <tr className="bg-slate-50 text-slate-500 text-xs">
-                  <th className={`py-2.5 px-4 ${textAlign} font-medium`}>
+                  <th className="py-2.5 px-4 text-center font-medium w-16">
                     {labels.rank}
                   </th>
                   <th className={`py-2.5 px-4 ${textAlign} font-medium`}>
@@ -107,7 +107,7 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                     className="border-t border-slate-50 hover:bg-slate-50 transition-colors"
                   >
                     <td
-                      className={`py-3 px-4 ${textAlign} ${entry.rank <= 3 ? 'text-xl' : 'text-sm text-slate-400'}`}
+                      className={`py-3 px-4 text-center w-16 ${entry.rank <= 3 ? 'text-xl' : 'text-sm text-slate-400'}`}
                     >
                       {rankBadge(entry.rank)}
                     </td>

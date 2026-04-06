@@ -20,6 +20,9 @@ import {
   handleEditLevel,
   handleEditUsername,
   handleUsernameInput,
+  handleSettings,
+  handleShowLang,
+  handleShowPrivacy,
   handleLanguage,
   handleSetLanguage,
   handlePrivacy,
@@ -49,8 +52,9 @@ bot.command('rank', handleRank);
 bot.command('hall', handleHall);
 bot.command('streak', handleStreak);
 bot.command('level', handleLevel);
-bot.command('language', handleLanguage);
-bot.command('privacy', handlePrivacy);
+bot.command('settings', handleSettings);
+bot.command('language', handleLanguage); // hidden alias
+bot.command('privacy', handlePrivacy); // hidden alias
 
 // Admin commands
 bot.command('admin_send', handleAdminSend);
@@ -73,6 +77,8 @@ bot.callbackQuery(/^retry_mcq:/, handleRetryMcq);
 bot.callbackQuery(/^retry_open:/, handleRetryOpen);
 bot.callbackQuery(/^level_up:/, handleLevelUp);
 bot.callbackQuery('stay_level', handleStayLevel);
+bot.callbackQuery('show_lang', handleShowLang);
+bot.callbackQuery('show_privacy', handleShowPrivacy);
 bot.callbackQuery(/^set_lang:/, handleSetLanguage);
 bot.callbackQuery(/^set_privacy:/, handleSetPrivacy);
 
@@ -120,7 +126,7 @@ async function setBotCommands() {
     { command: 'profile', description: 'My profile / ملفي الشخصي' },
     { command: 'rank', description: 'Leaderboard / الترتيب' },
     { command: 'players', description: 'Players / اللاعبون' },
-    { command: 'language', description: 'Language / اللغة' },
+    { command: 'settings', description: 'Settings / الإعدادات' },
     { command: 'help', description: 'Help / المساعدة' },
   ]);
 }

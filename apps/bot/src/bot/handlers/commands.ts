@@ -403,7 +403,44 @@ export async function handleUsernameInput(ctx: BotContext, text: string): Promis
   }
 }
 
-// ─── /language ──────────────────────────────────────────────────────
+// ─── /settings (language + privacy in one view) ────────────────────
+
+export async function handleSettings(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
+  const profileId = ctx.session.activeProfileId;
+
+  const user = profileId
+    ? await prisma.user.findUnique({ where: { id: profileId } })
+    : null;
+
+  const langLabel = locale === 'ar' ? 'العربية 🇪🇬' : 'English 🇬🇧';
+  const privacyLabel = user?.isPublic !== false
+    ? (locale === 'en' ? 'Public 🔓' : 'عام 🔓')
+    : (locale === 'en' ? 'Private 🔒' : 'خاص 🔒');
+
+  const text = locale === 'en'
+    ? `⚙️ *Settings*\n\n🌍 Language: *${langLabel}*\n🔒 Profile: *${privacyLabel}*`
+    : `⚙️ *الإعدادات*\n\n🌍 اللغة: *${langLabel}*\n🔒 الملف الشخصي: *${privacyLabel}*`;
+
+  const keyboard = new InlineKeyboard()
+    .text(locale === 'en' ? '🌍 Change Language' : '🌍 تغيير اللغة', 'show_lang')
+    .row()
+    .text(locale === 'en' ? '🔒 Change Privacy' : '🔒 تغيير الخصوصية', 'show_privacy');
+
+  await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
+export async function handleShowLang(ctx: BotContext) {
+  await ctx.answerCallbackQuery();
+  await handleLanguage(ctx);
+}
+
+export async function handleShowPrivacy(ctx: BotContext) {
+  await ctx.answerCallbackQuery();
+  await handlePrivacy(ctx);
+}
+
+// ─── /language (also accessible directly) ───────────────────────────
 
 export async function handleLanguage(ctx: BotContext) {
   const keyboard = new InlineKeyboard()

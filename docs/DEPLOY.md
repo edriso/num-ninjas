@@ -59,13 +59,13 @@ start - Start / ابدأ
 profile - My profile / ملفي الشخصي
 rank - Leaderboard / الترتيب
 players - Players / اللاعبون
-language - Language / اللغة
+settings - Settings / الإعدادات
 help - Help / المساعدة
 ```
 
 This creates the command menu that appears when users tap the `/` button or the menu icon in Telegram.
 
-> **Note:** Admin commands (`admin_send`, `admin_prepare`, `admin_stats`) are NOT listed here on purpose. They work when typed but don't show in the public menu.
+> **Note:** `/language`, `/privacy`, `/level`, `/streak`, `/hall`, `/addchild`, `/switch` all still work when typed — they're just not in the menu to keep it clean. Admin commands (`admin_send`, `admin_prepare`, `admin_stats`) are also hidden.
 
 ### Get your Telegram ID
 1. Search for **@userinfobot** on Telegram
