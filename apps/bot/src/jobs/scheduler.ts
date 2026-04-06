@@ -8,6 +8,7 @@ import { resetStreaks } from './reset-streaks';
 import { runWeeklyRanking } from './weekly-ranking';
 import { runMonthlyRanking } from './monthly-ranking';
 import { runYearlyRanking } from './yearly-ranking';
+import { sendParentReports } from './parent-report';
 import { logger } from '@numninja/database';
 
 const CAIRO_TZ = 'Africa/Cairo';
@@ -71,6 +72,18 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
+  // Sunday 22:00 — Parent weekly report
+  tasks.push(
+    cron.schedule('0 22 * * 0', async () => {
+      logger.info('[CRON] Sending parent reports...');
+      try {
+        await sendParentReports(bot);
+      } catch (err) {
+        logger.error('[CRON] Parent report failed', { error: String(err) });
+      }
+    }, { timezone: CAIRO_TZ }),
+  );
+
   // Sunday 23:00 — Weekly ranking
   tasks.push(
     cron.schedule('0 23 * * 0', async () => {
@@ -107,7 +120,7 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  logger.info('Scheduler started with 7 jobs (Cairo time)');
+  logger.info('Scheduler started with 8 jobs (Cairo time)');
 }
 
 export function stopScheduler() {

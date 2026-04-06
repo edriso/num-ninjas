@@ -15,8 +15,10 @@ import {
   checkOpenEndedAnswer,
   getSettingInt,
   getActiveProfile,
+  checkLevelCompletion,
   logger,
 } from '@numninja/database';
+import { InlineKeyboard } from 'grammy';
 import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq';
 
 // ─── Message Templates ──────────────────────────────────────────────
@@ -482,7 +484,10 @@ export async function tryHandlePendingAnswer(ctx: BotContext): Promise<boolean> 
 
 async function showDailySummary(ctx: BotContext, userId: number) {
   const attempts = await getTodayAttempts(userId);
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { level: true },
+  });
   if (!user) return;
 
   const pointsPerCorrect = await getSettingInt('points_per_correct');
@@ -498,6 +503,73 @@ async function showDailySummary(ctx: BotContext, userId: number) {
       user.totalPoints,
     ),
     { parse_mode: 'Markdown' },
+  );
+
+  // Check if user has completed all topics in their level
+  try {
+    const completion = await checkLevelCompletion(userId, user.levelId);
+    if (completion.isComplete && completion.nextLevelId) {
+      const nextLevel = await prisma.level.findUnique({
+        where: { id: completion.nextLevelId },
+      });
+      if (nextLevel) {
+        const levelEmoji = user.level.iconEmoji || '🥋';
+        const nextEmoji = nextLevel.iconEmoji || '🥋';
+
+        const keyboard = new InlineKeyboard()
+          .text('🔼 اطلع للمستوى الجاي', `level_up:${nextLevel.id}`)
+          .text('🔄 كمّل في نفس المستوى', 'stay_level');
+
+        await ctx.reply(
+          `🎉🥷 *مبروك يا ${user.nickname}!*\n\n` +
+            `أنت أتقنت كل مواضيع ${levelEmoji} ${user.level.name}!\n\n` +
+            `جاهز تطلع لـ ${nextEmoji} ${nextLevel.name}؟`,
+          { parse_mode: 'Markdown', reply_markup: keyboard },
+        );
+      }
+    }
+  } catch (err) {
+    logger.error('Failed to check level completion', { error: String(err) });
+  }
+}
+
+// ─── Level Up / Stay Handlers ──────────────────────────────────────
+
+export async function handleLevelUp(ctx: BotContext) {
+  const data = ctx.callbackQuery?.data;
+  if (!data?.startsWith('level_up:')) return;
+
+  const nextLevelId = parseInt(data.split(':')[1], 10);
+  const profileId = ctx.session.activeProfileId;
+
+  if (!profileId) {
+    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    return;
+  }
+
+  const nextLevel = await prisma.level.findUnique({ where: { id: nextLevelId } });
+  if (!nextLevel) {
+    await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    return;
+  }
+
+  await prisma.user.update({
+    where: { id: profileId },
+    data: { levelId: nextLevelId },
+  });
+
+  const emoji = nextLevel.iconEmoji || '🥋';
+  await ctx.answerCallbackQuery();
+  await ctx.editMessageText(
+    `🎉 *تم الترقية!*\n\nأنت دلوقتي في ${emoji} ${nextLevel.name}!\nيلا نكمل التحدي! 💪`,
+    { parse_mode: 'Markdown' },
+  );
+}
+
+export async function handleStayLevel(ctx: BotContext) {
+  await ctx.answerCallbackQuery();
+  await ctx.editMessageText(
+    '👍 تمام! كمّل تمرن في نفس المستوى — الممارسة بتخلّيك أقوى! 💪',
   );
 }
 

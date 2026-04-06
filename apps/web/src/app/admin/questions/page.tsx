@@ -1,40 +1,77 @@
-import { prisma } from "@numninja/database";
+import { prisma, listQuestions } from "@numninja/database";
 import Link from "next/link";
-
-const PAGE_SIZE = 20;
+import { QuestionFilters } from "@/components/admin/question-filters";
 
 export default async function QuestionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    levelId?: string;
+    topicId?: string;
+    type?: string;
+  }>;
 }) {
-  const { page: pageParam } = await searchParams;
-  const page = Math.max(1, Number(pageParam) || 1);
-  const skip = (page - 1) * PAGE_SIZE;
+  const sp = await searchParams;
+  const page = Math.max(1, Number(sp.page) || 1);
+  const levelId = sp.levelId ? Number(sp.levelId) : undefined;
+  const topicId = sp.topicId ? Number(sp.topicId) : undefined;
+  const type = sp.type || undefined;
 
-  const [questions, total] = await Promise.all([
-    prisma.question.findMany({
-      skip,
-      take: PAGE_SIZE,
-      orderBy: { id: "asc" },
-      include: {
-        topic: {
-          include: { level: true },
-        },
-      },
-    }),
-    prisma.question.count(),
-  ]);
+  const levels = await prisma.level.findMany({
+    orderBy: { rankOrder: "asc" },
+    include: { topics: { orderBy: { orderInLevel: "asc" } } },
+  });
 
-  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const { questions, total, totalPages } = await listQuestions({
+    levelId,
+    topicId,
+    type,
+    page,
+  });
+
+  // Build query string preserving current filters
+  function buildHref(overrides: Record<string, string | undefined>) {
+    const params = new URLSearchParams();
+    const merged = {
+      page: String(page),
+      levelId: sp.levelId,
+      topicId: sp.topicId,
+      type: sp.type,
+      ...overrides,
+    };
+    for (const [k, v] of Object.entries(merged)) {
+      if (v) params.set(k, v);
+    }
+    return `/admin/questions?${params.toString()}`;
+  }
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">الأسئلة</h1>
-        <span className="text-sm text-gray-500">{total} سؤال</span>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-500">{total} سؤال</span>
+          <Link
+            href="/admin/questions/new"
+            className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition-colors"
+          >
+            إضافة سؤال
+          </Link>
+        </div>
       </div>
 
+      {/* Filter bar (client component) */}
+      <QuestionFilters
+        levels={levels.map((l) => ({
+          id: l.id,
+          name: l.name,
+          iconEmoji: l.iconEmoji,
+          topics: l.topics.map((t) => ({ id: t.id, name: t.name })),
+        }))}
+      />
+
+      {/* Table */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -45,7 +82,7 @@ export default async function QuestionsPage({
                 <th className="px-4 py-3 text-right font-medium">النوع</th>
                 <th className="px-4 py-3 text-right font-medium">المستوى</th>
                 <th className="px-4 py-3 text-right font-medium">الموضوع</th>
-                <th className="px-4 py-3 text-right font-medium">تاريخ الإنشاء</th>
+                <th className="px-4 py-3 text-right font-medium">الإجراءات</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -53,7 +90,9 @@ export default async function QuestionsPage({
                 <tr key={q.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-gray-500">{q.id}</td>
                   <td className="px-4 py-3 max-w-xs truncate">
-                    {q.questionText}
+                    {q.questionText.length > 60
+                      ? q.questionText.slice(0, 60) + "..."
+                      : q.questionText}
                   </td>
                   <td className="px-4 py-3">
                     <span
@@ -70,11 +109,26 @@ export default async function QuestionsPage({
                     {q.topic.level.iconEmoji} {q.topic.level.name}
                   </td>
                   <td className="px-4 py-3">{q.topic.name}</td>
-                  <td className="px-4 py-3 text-gray-500" dir="ltr">
-                    {q.createdAt.toLocaleDateString("ar-EG")}
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/admin/questions/${q.id}`}
+                      className="text-blue-600 hover:text-blue-800 text-sm"
+                    >
+                      تعديل
+                    </Link>
                   </td>
                 </tr>
               ))}
+              {questions.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-4 py-8 text-center text-gray-400"
+                  >
+                    لا يوجد أسئلة
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -85,7 +139,7 @@ export default async function QuestionsPage({
         <div className="flex items-center justify-center gap-2 mt-6">
           {page > 1 && (
             <Link
-              href={`/admin/questions?page=${page - 1}`}
+              href={buildHref({ page: String(page - 1) })}
               className="px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
             >
               السابق
@@ -96,7 +150,7 @@ export default async function QuestionsPage({
           </span>
           {page < totalPages && (
             <Link
-              href={`/admin/questions?page=${page + 1}`}
+              href={buildHref({ page: String(page + 1) })}
               className="px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
             >
               التالي

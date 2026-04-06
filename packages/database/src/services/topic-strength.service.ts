@@ -91,6 +91,84 @@ export async function getTopicStrengths(
 }
 
 /**
+ * Check if a user has completed all topics in their current level.
+ *
+ * A topic is "completed" when the user has:
+ * - At least 3 attempts on questions from that topic
+ * - At least 70% accuracy on those attempts
+ *
+ * Returns completion status and the next level ID if available.
+ */
+export async function checkLevelCompletion(
+  userId: number,
+  levelId: number,
+): Promise<{
+  isComplete: boolean;
+  topicsCompleted: number;
+  totalTopics: number;
+  nextLevelId: number | null;
+}> {
+  const topics = await prisma.topic.findMany({
+    where: { levelId },
+    orderBy: { orderInLevel: 'asc' },
+  });
+
+  const totalTopics = topics.length;
+  if (totalTopics === 0) {
+    return { isComplete: false, topicsCompleted: 0, totalTopics: 0, nextLevelId: null };
+  }
+
+  // Get all attempts for this user on questions in this level
+  const attempts = await prisma.questionAttempt.findMany({
+    where: {
+      userId,
+      question: { topic: { levelId } },
+    },
+    select: {
+      isCorrect: true,
+      question: { select: { topicId: true } },
+    },
+  });
+
+  // Aggregate per topic
+  const topicStats = new Map<number, { total: number; correct: number }>();
+  for (const a of attempts) {
+    const stats = topicStats.get(a.question.topicId) ?? { total: 0, correct: 0 };
+    stats.total++;
+    if (a.isCorrect) stats.correct++;
+    topicStats.set(a.question.topicId, stats);
+  }
+
+  // Count completed topics (>= 3 attempts AND >= 70% accuracy)
+  let topicsCompleted = 0;
+  for (const topic of topics) {
+    const stats = topicStats.get(topic.id);
+    if (stats && stats.total >= 3) {
+      const accuracy = stats.correct / stats.total;
+      if (accuracy >= 0.7) {
+        topicsCompleted++;
+      }
+    }
+  }
+
+  const isComplete = topicsCompleted === totalTopics;
+
+  // Find next level by rankOrder
+  let nextLevelId: number | null = null;
+  if (isComplete) {
+    const currentLevel = await prisma.level.findUnique({ where: { id: levelId } });
+    if (currentLevel) {
+      const nextLevel = await prisma.level.findFirst({
+        where: { rankOrder: currentLevel.rankOrder + 1 },
+      });
+      nextLevelId = nextLevel?.id ?? null;
+    }
+  }
+
+  return { isComplete, topicsCompleted, totalTopics, nextLevelId };
+}
+
+/**
  * Pick N distinct topics using weighted random selection.
  * Topics with higher weight (lower accuracy) are more likely to be picked.
  */
