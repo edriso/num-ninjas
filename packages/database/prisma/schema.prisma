@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // change to "mysql" for production
+  provider = "mysql"
 }
 
 // ─── Accounts & Profiles ────────────────────────────────────────────

@@ -21,7 +21,7 @@ num-ninjas/
 |------|-------|
 | Bot | TypeScript, Grammy, node-cron, Node.js 20+ |
 | Website | Next.js 15 (App Router), Tailwind CSS v4, Auth.js v5 |
-| Database | Prisma 7 (prisma-client-js), SQLite (dev), MySQL (prod) |
+| Database | Prisma 7 (prisma-client-js), MySQL (both dev and production) |
 | Testing | Vitest (161 unit tests in database package) |
 | Shared | @numninjas/database — services, utils, types, Prisma client |
 | Package Manager | pnpm workspaces |
@@ -55,7 +55,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Onboarding quiz**: 3 diagnostic questions auto-detect the right level (0/3→L1, 1/3→L2, 2/3→L3, 3/3→L4). Kid can override with manual picker.
 - **Level completion**: When all 7 topics mastered (≥3 attempts, ≥70% accuracy each), celebration + suggest next level
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display
-- **Adapter pattern for DB**: SQLite (dev) and MySQL (prod) via Prisma driver adapters, isolated in `packages/database/src/client.ts`
+- **Adapter pattern for DB**: MySQL via @prisma/adapter-mariadb, isolated in `packages/database/src/client.ts`
 - **Telegram channel**: Weekly/monthly/yearly rankings auto-posted to @NumNinjas channel (optional, set CHANNEL_USERNAME in bot .env)
 - **Spaced repetition**: Questions reappear based on last result: wrong→2d, hint→5d, correct→14d (spaced-repetition.service.ts)
 - **Parent-first UX**: Welcome explains safety to parents, daily summary shows topic names, weekly report includes "next week focus" (weak topics), profile page has share button

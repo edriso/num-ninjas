@@ -72,7 +72,7 @@ num-ninjas/
 |------|------|-----|
 | Bot | TypeScript + Grammy + node-cron | Modern Telegram framework, great TS support |
 | Website | Next.js 15 + Tailwind CSS v4 | Server Components, fast, easy to deploy |
-| Database | Prisma 7 + SQLite (dev) / MySQL (prod) | Type-safe queries, easy schema changes |
+| Database | Prisma 7 + MySQL | Type-safe queries, easy schema changes |
 | Auth | Auth.js v5 (admin only) | Simple credentials login for admin panel |
 | Testing | Vitest (161 unit tests) | Fast, native ESM, no config needed |
 | Package Manager | pnpm workspaces | Fast, handles monorepo dependencies well |
@@ -86,7 +86,17 @@ num-ninjas/
 
 - **Node.js 20+** — Check with `node --version`
 - **pnpm** — Install with `npm install -g pnpm`
+- **MySQL** — Install locally or use a remote server
 - **A Telegram bot token** — Get one from [@BotFather](https://t.me/BotFather) on Telegram
+
+### MySQL Setup (one-time)
+
+```sql
+CREATE DATABASE numninjas;
+CREATE USER 'numninjas'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON numninjas.* TO 'numninjas'@'localhost';
+FLUSH PRIVILEGES;
+```
 
 ### Setup
 
