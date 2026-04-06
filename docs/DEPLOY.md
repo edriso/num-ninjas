@@ -274,11 +274,13 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
 
 There's no password change screen in the app. Use **phpMyAdmin** to update it:
 
-1. Generate a bcrypt hash of your new password. Run this on your computer:
+1. Generate a bcrypt hash of your new password. From the project root, run:
    ```bash
-   node -e "import('bcryptjs').then(b => console.log(b.default.hashSync('YOUR_NEW_PASSWORD', 10)))"
+   node docs/generate-hash.js YOUR_NEW_PASSWORD
    ```
    Replace `YOUR_NEW_PASSWORD` with your actual password. It outputs a hash like `$2b$10$...`.
+
+   **Or** use an online generator: https://bcrypt-generator.com — enter your password, use 10 rounds, and copy the hash.
 
 2. Go to **hPanel → Databases → phpMyAdmin → Enter phpMyAdmin**
 3. Select your database, click the **SQL** tab, and run:
