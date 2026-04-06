@@ -81,7 +81,7 @@ export async function getTodayAttempts(userId: number) {
       userId,
       answeredAt: { gte: today },
     },
-    include: { question: true },
+    include: { question: { include: { topic: true } } },
     orderBy: { answeredAt: 'asc' },
   });
 }

@@ -48,7 +48,7 @@ function formatWrongFeedback(explanation: string, correctAnswer: string): string
 
 function formatDailySummary(
   nickname: string,
-  attempts: { isCorrect: boolean }[],
+  attempts: { isCorrect: boolean; question: { topic: { name: string } } }[],
   totalPointsToday: number,
   streakDays: number,
   totalPoints: number,
@@ -56,7 +56,8 @@ function formatDailySummary(
   let text = `🏁 *انتهى تحدي اليوم يا ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
 
   attempts.forEach((a, i) => {
-    text += `س${i + 1}  ${a.isCorrect ? '✅ صحيحة' : '❌ خطأ — لكن تعلمت!'}\n`;
+    const icon = a.isCorrect ? '✅' : '❌';
+    text += `${icon} س${i + 1} — ${a.question.topic.name}\n`;
   });
 
   const correct = attempts.filter((a) => a.isCorrect).length;

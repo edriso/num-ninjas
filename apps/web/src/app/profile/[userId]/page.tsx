@@ -66,6 +66,18 @@ export default async function ProfilePage({ params }: Props) {
       </header>
 
       <main className="max-w-2xl mx-auto px-6 py-10">
+        {/* Share Button */}
+        <div className="flex justify-center mb-6">
+          <a
+            href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${id}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — نينجا الأرقام\n${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors"
+          >
+            📤 شارك الملف الشخصي
+          </a>
+        </div>
+
         {/* Stats Grid */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
