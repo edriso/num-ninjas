@@ -263,12 +263,29 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
 - Check the leaderboard, levels, ninja champions pages
 - Log in to admin panel at `/admin/login`
   - Email: `admin@numninjas.com` (or whatever you set in ADMIN_EMAIL)
-  - Password: `changeme123` (or whatever you set in ADMIN_PASSWORD)
-  - **Change this password immediately** via the database
+  - Password: `password` (default from seed.sql)
+  - **Change this password immediately** — see "Changing the admin password" below
 
 ### Test the channel
 - Wait for Sunday 11 PM Cairo time (or use `/admin_send` to trigger manually)
 - Check that the weekly ranking appears in your @NumNinjas channel
+
+### Changing the admin password
+
+There's no password change screen in the app. Use **phpMyAdmin** to update it:
+
+1. Generate a bcrypt hash of your new password. Run this on your computer:
+   ```bash
+   node -e "import('bcryptjs').then(b => console.log(b.default.hashSync('YOUR_NEW_PASSWORD', 10)))"
+   ```
+   Replace `YOUR_NEW_PASSWORD` with your actual password. It outputs a hash like `$2b$10$...`.
+
+2. Go to **hPanel → Databases → phpMyAdmin → Enter phpMyAdmin**
+3. Select your database, click the **SQL** tab, and run:
+   ```sql
+   UPDATE admins SET password = '$2b$10$YOUR_HASH_HERE' WHERE email = 'admin@numninjas.com';
+   ```
+   Replace `$2b$10$YOUR_HASH_HERE` with the hash from step 1.
 
 ---
 
