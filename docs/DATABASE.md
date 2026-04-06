@@ -157,3 +157,12 @@
 - `users.username`: UNIQUE — shareable profile URLs
 - `admins.email`: UNIQUE — one admin per email
 - `settings.setting_key`: UNIQUE — one value per setting
+
+## Locale Support
+
+Two tables have a `locale` column (default `'ar'`) for future multi-language support:
+
+- **`users.locale`** — user's language preference (`'ar'` or `'en'`)
+- **`questions.locale`** — which language the question content is in
+
+Currently all content is Arabic. When English is added, filter questions by `WHERE locale = user.locale` and use the matching message file in the bot.

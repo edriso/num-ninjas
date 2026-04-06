@@ -79,11 +79,22 @@ Once the community reaches ~500+ users, create a Telegram group for parents:
 ---
 
 ### Multi-Language Support
-The bot currently uses Spacetoon Arabic. Potential expansions:
-- English version for international Arab families
-- French version for North African countries (Morocco, Tunisia, Algeria)
+Launch Arabic first. Add English after 500+ active users validate the product.
 
-**How:** Replace hardcoded strings in `arabic.ts` with an i18n system. Store user language preference.
+**Why wait:** In English you compete with Khan Academy, Photomath, IXL, and hundreds more. In Arabic you're one of very few. Serve the underserved market first.
+
+**When ready, the plan:**
+1. The `locale` column already exists on `users` and `questions` tables (added at launch, defaults to `'ar'`)
+2. Create `english.ts` alongside `arabic.ts` in the bot — same message keys, English values
+3. Add 420 English questions with the same topic structure but localized scenarios
+4. Bot: check `user.locale` and pick the right message file
+5. Website: use `next-intl` for RTL Arabic + LTR English
+6. Onboarding: ask language preference before the nickname step
+7. Questions table: filter by `locale` so Arabic kids get Arabic questions
+
+**Potential expansions after English:**
+- French for North Africa (Morocco, Tunisia, Algeria)
+- Urdu for Pakistan (large Muslim market, similar curriculum)
 
 ---
 

@@ -25,6 +25,7 @@ model User {
   accountId    BigInt    @map("account_id")
   nickname     String
   username     String?   @unique
+  locale       String    @default("ar") // "ar" or "en"
   levelId      Int       @map("level_id")
   streakDays   Int       @default(0) @map("streak_days")
   totalPoints  Int       @default(0) @map("total_points")
@@ -81,6 +82,7 @@ model Question {
   id                   Int      @id @default(autoincrement())
   topicId              Int      @map("topic_id")
   questionType         String   @map("question_type") // "mcq" | "open_ended"
+  locale               String   @default("ar") // "ar" or "en"
   realLifeContext      String?  @map("real_life_context")
   questionText         String   @map("question_text")
   correctAnswer        String?  @map("correct_answer")
