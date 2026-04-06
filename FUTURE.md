@@ -6,6 +6,24 @@ Ideas for future development, ordered by impact. Check off items as they're impl
 
 ## High Impact — Should Do
 
+### Weekly Ranking: Accuracy-First Sort Order
+Currently weekly ranks by `correctCount DESC → wrongCount ASC → hintCount ASC → activeDays DESC`. The brainstormed design argues weekly should rank by `wrongCount ASC → hintCount ASC → activeDays DESC` instead — accuracy first, not quantity.
+
+**Why:** In a week, most active kids answer ~21 questions (3/day × 7 days), so correctCount is similar for everyone. wrongCount is the real differentiator — a kid who got 20/21 correct should rank above a kid who got 18/21 correct, regardless of who played more days.
+
+Monthly/yearly should keep the current sort (active_days as primary) since consistency over 30-365 days is the real achievement.
+
+**How:** Change the `.sort()` in `ranking.service.ts` `computeRankings()` to put wrongCount first for weekly calls, keep correctCount first for yearly.
+
+---
+
+### Transaction Safety for Answer Recording
+Currently `recordAttempt` (insert attempt) and `markQuestionAnswered` (update session) are separate calls. If one fails, the other could succeed, leaving inconsistent state.
+
+**How:** Wrap both in a Prisma `$transaction()` so they always succeed or fail together.
+
+---
+
 ### Admin Analytics Dashboard
 Replace the simple stats cards with proper charts:
 - Daily active users over 30 days (line chart)
