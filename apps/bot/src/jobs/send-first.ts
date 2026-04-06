@@ -30,6 +30,7 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
       const chatId = Number(account.telegramId);
       const userId = account.activeProfile.id;
       const levelId = account.activeProfile.levelId;
+      const locale = account.activeProfile.locale || 'ar';
 
       const next = await getNextQuestion(userId, levelId);
 
@@ -42,21 +43,24 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
       });
 
       // Build message
-      let text = `${user?.level.iconEmoji || '🥷'} *سؤال ${position}/${totalQuestions}* — ${question.topic.name}\n\n`;
+      const questionLabel = locale === 'en' ? 'Question' : 'سؤال';
+      const topicName = (locale === 'en' && question.topic.nameEn) ? question.topic.nameEn : question.topic.name;
+      let text = `${user?.level.iconEmoji || '🥷'} *${questionLabel} ${position}/${totalQuestions}* — ${topicName}\n\n`;
       if (question.realLifeContext) text += `${question.realLifeContext}\n\n`;
       text += `❓ ${question.questionText}`;
 
       if (question.questionType === 'mcq') {
         const { buildMcqKeyboard } = await import('../bot/keyboards/mcq');
-        const keyboard = buildMcqKeyboard(question.id, question.options, !!question.hintText);
+        const keyboard = buildMcqKeyboard(question.id, question.options, !!question.hintText, locale);
         await bot.api.sendMessage(chatId, text, {
           parse_mode: 'Markdown',
           reply_markup: keyboard,
         });
       } else {
         const { buildHintKeyboard } = await import('../bot/keyboards/mcq');
-        const markup = question.hintText ? { reply_markup: buildHintKeyboard(question.id) } : {};
-        await bot.api.sendMessage(chatId, text + '\n\n✏️ اكتب إجابتك:', {
+        const markup = question.hintText ? { reply_markup: buildHintKeyboard(question.id, locale) } : {};
+        const writeAnswer = locale === 'en' ? '✏️ Type your answer:' : '✏️ اكتب إجابتك:';
+        await bot.api.sendMessage(chatId, text + '\n\n' + writeAnswer, {
           parse_mode: 'Markdown',
           ...markup,
         });

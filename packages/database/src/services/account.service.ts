@@ -30,12 +30,13 @@ export async function createProfile(
   nickname: string,
   levelId: number,
   telegramUsername?: string,
+  locale?: string,
 ) {
   // Generate a unique username
   const username = await generateUniqueUsername(nickname, telegramUsername);
 
   const user = await prisma.user.create({
-    data: { accountId, nickname, username, levelId },
+    data: { accountId, nickname, username, levelId, ...(locale ? { locale } : {}) },
     include: { level: true },
   });
 

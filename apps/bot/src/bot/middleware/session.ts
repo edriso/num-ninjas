@@ -5,6 +5,7 @@ export interface SessionData {
   activeProfileId: number | null;
   state: SessionState;
   pendingData: Record<string, unknown>;
+  locale: string;
 }
 
 export type BotContext = Context & SessionFlavor<SessionData>;
@@ -14,6 +15,7 @@ function initialSession(): SessionData {
     activeProfileId: null,
     state: 'idle',
     pendingData: {},
+    locale: 'ar',
   };
 }
 

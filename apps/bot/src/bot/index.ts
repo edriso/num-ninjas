@@ -20,20 +20,23 @@ import {
   handleEditLevel,
   handleEditUsername,
   handleUsernameInput,
+  handleLanguage,
+  handleSetLanguage,
 } from './handlers/commands';
 import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin';
-import { msg } from './messages/arabic';
+import { getMsg } from './helpers/get-msg';
 import { logger } from '@numninjas/database';
 
 // Create bot instance
 const bot = new Bot<BotContext>(config.botToken);
 
-// ─── Middleware ──────────���───────────────────────────────────────────
+// ─── Middleware ──────────────────────────────────────────────────────
 bot.use(sessionMiddleware());
 
-// ─── Commands ───────���───────────────────────────────────────────────
+// ─── Commands ───────────────────────────────────────────────────────
 bot.command('start', handleStart);
 bot.command('help', async (ctx) => {
+  const msg = getMsg(ctx);
   await ctx.reply(msg.help, { parse_mode: 'Markdown' });
 });
 bot.command('addchild', handleAddChild);
@@ -44,13 +47,14 @@ bot.command('rank', handleRank);
 bot.command('hall', handleHall);
 bot.command('streak', handleStreak);
 bot.command('level', handleLevel);
+bot.command('language', handleLanguage);
 
 // Admin commands
 bot.command('admin_send', handleAdminSend);
 bot.command('admin_prepare', handleAdminPrepare);
 bot.command('admin_stats', handleAdminStats);
 
-// ─── Callback Queries ────────────��──────────────────────────────────
+// ─── Callback Queries ───────────────────────────────────────────────
 bot.callbackQuery(/^quiz_answer:/, handleQuizAnswer);
 bot.callbackQuery('change_quiz_level', handleChangeQuizLevel);
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
@@ -66,6 +70,7 @@ bot.callbackQuery(/^retry_mcq:/, handleRetryMcq);
 bot.callbackQuery(/^retry_open:/, handleRetryOpen);
 bot.callbackQuery(/^level_up:/, handleLevelUp);
 bot.callbackQuery('stay_level', handleStayLevel);
+bot.callbackQuery(/^set_lang:/, handleSetLanguage);
 
 // ─── Text Messages (state machine) ─────────────────────────────────
 bot.on('message:text', async (ctx) => {
@@ -97,19 +102,21 @@ bot.on('message:text', async (ctx) => {
   }
 });
 
-// ─── Error Handler ───────────���──────────────────────────────────────
+// ─── Error Handler ──────────────────────────────────────────────────
 bot.catch((err) => {
   logger.error('Bot error', { error: String(err.error), update: err.ctx.update.update_id });
+  const msg = getMsg(err.ctx);
   err.ctx.reply(msg.error).catch(() => {});
 });
 
-// ─── Bot Menu Commands ───────���──────────────────────────────────────
+// ─── Bot Menu Commands ──────────────────────────────────────────────
 async function setBotCommands() {
   await bot.api.setMyCommands([
     { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
     { command: 'profile', description: 'بروفايلي والإحصائيات' },
     { command: 'rank', description: 'الترتيب وأبطال النينجا' },
     { command: 'players', description: 'اللاعبين (تبديل/إضافة)' },
+    { command: 'language', description: 'Change language / تغيير اللغة' },
     { command: 'help', description: 'المساعدة' },
   ]);
 }

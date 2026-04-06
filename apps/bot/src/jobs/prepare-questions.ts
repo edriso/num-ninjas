@@ -63,6 +63,7 @@ export async function prepareScheduledQuestions() {
       const available = await prisma.question.findMany({
         where: {
           topicId: topic.topicId,
+          locale: user.locale || 'ar',
           ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
         },
         select: { id: true },
@@ -75,7 +76,7 @@ export async function prepareScheduledQuestions() {
       } else {
         // Fallback: allow any question from this topic (all in cooldown)
         const fallback = await prisma.question.findMany({
-          where: { topicId: topic.topicId },
+          where: { topicId: topic.topicId, locale: user.locale || 'ar' },
           select: { id: true },
         });
         if (fallback.length > 0) {

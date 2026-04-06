@@ -1,5 +1,5 @@
 import type { BotContext } from '../middleware/session';
-import { msg } from '../messages/arabic';
+import { getMsg } from '../helpers/get-msg';
 import {
   prisma,
   getNextQuestion,
@@ -28,18 +28,28 @@ function formatQuestion(
   levelEmoji: string,
   context: string | null,
   questionText: string,
+  locale: string,
 ): string {
-  let text = `${levelEmoji} *سؤال ${position}/${total}* — ${topicName}\n\n`;
+  const label = locale === 'en' ? 'Question' : 'سؤال';
+  let text = `${levelEmoji} *${label} ${position}/${total}* — ${topicName}\n\n`;
   if (context) text += `${context}\n\n`;
   text += `❓ ${questionText}`;
   return text;
 }
 
-function formatCorrectFeedback(explanation: string, points: number): string {
+function formatCorrectFeedback(explanation: string, points: number, locale: string): string {
+  if (locale === 'en') {
+    return `✅ *Correct! Well done!* 🎉\n\n💡 ${explanation}\n\n✨ +${points} points`;
+  }
   return `✅ *إجابة صحيحة! أحسنت!* 🎉\n\n💡 ${explanation}\n\n✨ +${points} نقطة`;
 }
 
-function formatWrongFeedback(explanation: string, correctAnswer: string): string {
+function formatWrongFeedback(explanation: string, correctAnswer: string, locale: string): string {
+  if (locale === 'en') {
+    return `❌ *Almost! But you learned something new!*\n\n` +
+      `The correct answer: *${correctAnswer}*\n💡 ${explanation}\n\n` +
+      `💪 Want to try again?`;
+  }
   return `❌ *تقريباً! لكن تعلمت شيئاً جديداً!*\n\n` +
     `الإجابة الصحيحة: *${correctAnswer}*\n💡 ${explanation}\n\n` +
     `💪 هل تريد المحاولة مرة أخرى؟`;
@@ -47,28 +57,40 @@ function formatWrongFeedback(explanation: string, correctAnswer: string): string
 
 function formatDailySummary(
   nickname: string,
-  attempts: { isCorrect: boolean; question: { topic: { name: string } } }[],
+  attempts: { isCorrect: boolean; question: { topic: { name: string; nameEn: string | null } } }[],
   totalPointsToday: number,
   streakDays: number,
   totalPoints: number,
+  locale: string,
 ): string {
-  let text = `🏁 *انتهى تحدي اليوم يا ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  if (locale === 'en') {
+    let text = `🏁 *Today's challenge is done, ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    attempts.forEach((a, i) => {
+      const icon = a.isCorrect ? '✅' : '❌';
+      const topicName = a.question.topic.nameEn || a.question.topic.name;
+      text += `${icon} Q${i + 1} — ${topicName}\n`;
+    });
+    const correct = attempts.filter((a) => a.isCorrect).length;
+    text += `\n${correct}/${attempts.length} correct · +${totalPointsToday} points today`;
+    text += `\n🔥 Streak: ${streakDays} days   💎 Total: ${totalPoints} points`;
+    return text;
+  }
 
+  let text = `🏁 *انتهى تحدي اليوم يا ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   attempts.forEach((a, i) => {
     const icon = a.isCorrect ? '✅' : '❌';
     text += `${icon} س${i + 1} — ${a.question.topic.name}\n`;
   });
-
   const correct = attempts.filter((a) => a.isCorrect).length;
   text += `\n${correct}/${attempts.length} صحيحة · +${totalPointsToday} نقطة اليوم`;
   text += `\n🔥 السلسلة: ${streakDays} يوم   💎 المجموع: ${totalPoints} نقطة`;
-
   return text;
 }
 
 // ─── Send Question to User ──────────────────────────────────────────
 
 export async function sendQuestionToUser(ctx: BotContext, userId: number, levelId: number) {
+  const locale = ctx.session.locale || 'ar';
   const next = await getNextQuestion(userId, levelId);
 
   if (!next) {
@@ -89,13 +111,15 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
     include: { level: true },
   });
 
+  const topicName = (locale === 'en' && question.topic.nameEn) ? question.topic.nameEn : question.topic.name;
   const text = formatQuestion(
     position,
     totalQuestions,
-    question.topic.name,
+    topicName,
     user?.level.iconEmoji || '🥷',
     question.realLifeContext,
     question.questionText,
+    locale,
   );
 
   if (question.questionType === 'mcq') {
@@ -103,6 +127,7 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
       question.id,
       question.options,
       !!question.hintText,
+      locale,
     );
     await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
     // MCQ: state stays idle, answers come via callback
@@ -112,14 +137,15 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
     ctx.session.pendingData.currentQuestionId = question.id;
     ctx.session.pendingData.hintUsed = false;
 
+    const writeAnswer = locale === 'en' ? '\n\n✏️ Type your answer:' : '\n\n✏️ اكتب إجابتك:';
     if (question.hintText) {
-      const keyboard = buildHintKeyboard(question.id);
-      await ctx.reply(text + '\n\n✏️ اكتب إجابتك:', {
+      const keyboard = buildHintKeyboard(question.id, locale);
+      await ctx.reply(text + writeAnswer, {
         parse_mode: 'Markdown',
         reply_markup: keyboard,
       });
     } else {
-      await ctx.reply(text + '\n\n✏️ اكتب إجابتك:', { parse_mode: 'Markdown' });
+      await ctx.reply(text + writeAnswer, { parse_mode: 'Markdown' });
     }
   }
 
@@ -129,6 +155,7 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
 // ─── MCQ Answer Handler ─────────────────────────────────────────────
 
 export async function handleMcqAnswer(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('answer:')) return;
 
@@ -138,7 +165,8 @@ export async function handleMcqAnswer(ctx: BotContext) {
 
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
+    const text = locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
@@ -149,7 +177,8 @@ export async function handleMcqAnswer(ctx: BotContext) {
     // Check if already answered (only for non-retries)
     const alreadyAnswered = await hasAnswered(profileId, questionId);
     if (alreadyAnswered) {
-      await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
+      const text = locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
+      await ctx.answerCallbackQuery({ text });
       return;
     }
   }
@@ -162,14 +191,17 @@ export async function handleMcqAnswer(ctx: BotContext) {
     ctx.session.pendingData[`retry_${questionId}`] = undefined;
     await ctx.answerCallbackQuery();
     if (isCorrect) {
-      await ctx.editMessageText('✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉', { parse_mode: 'Markdown' });
+      const retryCorrect = locale === 'en'
+        ? '✅ *Well done! Correct this time!* 🎉'
+        : '✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉';
+      await ctx.editMessageText(retryCorrect, { parse_mode: 'Markdown' });
     } else {
       const question = await prisma.question.findUnique({ where: { id: questionId }, include: { options: true } });
       const correctOption = question?.options.find((o) => o.isCorrect);
-      await ctx.editMessageText(
-        `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctOption?.optionText || ''}*\nلا تقلق، ستراجعها قريباً! 💪`,
-        { parse_mode: 'Markdown' },
-      );
+      const retryWrong = locale === 'en'
+        ? `❌ Not the correct answer.\n\nThe correct answer: *${correctOption?.optionText || ''}*\nDon't worry, you'll review it soon! 💪`
+        : `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctOption?.optionText || ''}*\nلا تقلق، ستراجعها قريباً! 💪`;
+      await ctx.editMessageText(retryWrong, { parse_mode: 'Markdown' });
     }
     return;
   }
@@ -182,7 +214,8 @@ export async function handleMcqAnswer(ctx: BotContext) {
   });
 
   if (!question || !option) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
+    await ctx.answerCallbackQuery({ text: errText });
     return;
   }
 
@@ -205,14 +238,15 @@ export async function handleMcqAnswer(ctx: BotContext) {
 
   if (isCorrect) {
     await ctx.editMessageText(
-      formatCorrectFeedback(question.explanation, pointsPerCorrect),
+      formatCorrectFeedback(question.explanation, pointsPerCorrect, locale),
       { parse_mode: 'Markdown' },
     );
   } else {
+    const retryLabel = locale === 'en' ? '🔄 Try again' : '🔄 حاول مرة أخرى';
     const retryKeyboard = new InlineKeyboard()
-      .text('🔄 حاول مرة أخرى', `retry_mcq:${questionId}`);
+      .text(retryLabel, `retry_mcq:${questionId}`);
     await ctx.editMessageText(
-      formatWrongFeedback(question.explanation, correctText),
+      formatWrongFeedback(question.explanation, correctText, locale),
       { parse_mode: 'Markdown', reply_markup: retryKeyboard },
     );
   }
@@ -227,6 +261,8 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   const text = ctx.message?.text?.trim();
   if (!text) return;
 
+  const locale = ctx.session.locale || 'ar';
+  const msg = getMsg(ctx);
   const profileId = ctx.session.activeProfileId;
   const questionId = ctx.session.pendingData.currentQuestionId as number | undefined;
 
@@ -250,7 +286,10 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     ctx.session.state = 'idle';
     ctx.session.pendingData.currentQuestionId = undefined;
 
-    await ctx.reply('⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪');
+    const skipText = locale === 'en'
+      ? '⏭️ Skipped — no worries, let\'s try the next one! 💪'
+      : '⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪';
+    await ctx.reply(skipText);
 
     const updatedSession = session;
     if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
@@ -287,7 +326,10 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   );
 
   if (parsed === null) {
-    await ctx.reply('🔢 أرسل رقماً فقط — أرقام عربية أو إنجليزية');
+    const numOnly = locale === 'en'
+      ? '🔢 Send a number only — Arabic or English digits'
+      : '🔢 أرسل رقماً فقط — أرقام عربية أو إنجليزية';
+    await ctx.reply(numOnly);
     return; // Stay in awaiting_answer state
   }
 
@@ -300,13 +342,16 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     ctx.session.pendingData[`retry_${questionId}`] = undefined;
 
     if (isCorrect) {
-      await ctx.reply('✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉', { parse_mode: 'Markdown' });
+      const retryCorrect = locale === 'en'
+        ? '✅ *Well done! Correct this time!* 🎉'
+        : '✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉';
+      await ctx.reply(retryCorrect, { parse_mode: 'Markdown' });
     } else {
       const correctText = question.correctAnswer || String(question.correctAnswerNumeric);
-      await ctx.reply(
-        `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctText}*\nلا تقلق، ستراجعها قريباً! 💪`,
-        { parse_mode: 'Markdown' },
-      );
+      const retryWrong = locale === 'en'
+        ? `❌ Not the correct answer.\n\nThe correct answer: *${correctText}*\nDon't worry, you'll review it soon! 💪`
+        : `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctText}*\nلا تقلق، ستراجعها قريباً! 💪`;
+      await ctx.reply(retryWrong, { parse_mode: 'Markdown' });
     }
     return;
   }
@@ -331,13 +376,14 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   const correctText = question.correctAnswer || String(question.correctAnswerNumeric);
 
   if (isCorrect) {
-    await ctx.reply(formatCorrectFeedback(question.explanation, pointsPerCorrect), {
+    await ctx.reply(formatCorrectFeedback(question.explanation, pointsPerCorrect, locale), {
       parse_mode: 'Markdown',
     });
   } else {
+    const retryLabel = locale === 'en' ? '🔄 Try again' : '🔄 حاول مرة أخرى';
     const retryKeyboard = new InlineKeyboard()
-      .text('🔄 حاول مرة أخرى', `retry_open:${questionId}`);
-    await ctx.reply(formatWrongFeedback(question.explanation, correctText), {
+      .text(retryLabel, `retry_open:${questionId}`);
+    await ctx.reply(formatWrongFeedback(question.explanation, correctText, locale), {
       parse_mode: 'Markdown',
       reply_markup: retryKeyboard,
     });
@@ -365,6 +411,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
 // ─── Skip Handler ──────────────────────────────────────────────────
 
 export async function handleSkip(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('skip:')) return;
 
@@ -372,20 +419,23 @@ export async function handleSkip(ctx: BotContext) {
 
   const profileId = ctx.session.activeProfileId;
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
+    const text = locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
   // Check if already answered
   const alreadyAnswered = await hasAnswered(profileId, questionId);
   if (alreadyAnswered) {
-    await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
+    const text = locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
   const question = await prisma.question.findUnique({ where: { id: questionId } });
   if (!question) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
+    await ctx.answerCallbackQuery({ text: errText });
     return;
   }
 
@@ -408,7 +458,10 @@ export async function handleSkip(ctx: BotContext) {
   }
 
   await ctx.answerCallbackQuery();
-  await ctx.editMessageText('⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪');
+  const skipText = locale === 'en'
+    ? '⏭️ Skipped — no worries, let\'s try the next one! 💪'
+    : '⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪';
+  await ctx.editMessageText(skipText);
 
   // Send next question or summary
   const updatedSession = await getTodaySession(profileId);
@@ -432,6 +485,7 @@ export async function handleSkip(ctx: BotContext) {
 // ─── Hint Handler ───────────────────────────────────────────────────
 
 export async function handleHint(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('hint:')) return;
 
@@ -439,7 +493,8 @@ export async function handleHint(ctx: BotContext) {
   const question = await prisma.question.findUnique({ where: { id: questionId } });
 
   if (!question?.hintText) {
-    await ctx.answerCallbackQuery({ text: 'لا يوجد تلميح لهذا السؤال' });
+    const text = locale === 'en' ? 'No hint for this question' : 'لا يوجد تلميح لهذا السؤال';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
@@ -450,7 +505,8 @@ export async function handleHint(ctx: BotContext) {
   }
 
   await ctx.answerCallbackQuery();
-  await ctx.reply(`💡 *تلميح:* ${question.hintText}`, { parse_mode: 'Markdown' });
+  const hintLabel = locale === 'en' ? 'Hint' : 'تلميح';
+  await ctx.reply(`💡 *${hintLabel}:* ${question.hintText}`, { parse_mode: 'Markdown' });
 }
 
 // ─── Auto-detect Open-Ended Answer (for cron-sent questions) ────────
@@ -469,6 +525,7 @@ export async function tryHandlePendingAnswer(ctx: BotContext): Promise<boolean> 
     const profile = await getActiveProfile(telegramId);
     if (!profile) return false;
     ctx.session.activeProfileId = profile.id;
+    ctx.session.locale = profile.locale || 'ar';
     profileId = profile.id;
   }
 
@@ -524,6 +581,7 @@ async function proceedToNextOrSummary(ctx: BotContext, profileId: number, totalQ
  * Re-sends the question with shuffled options. No new attempt recorded — just practice.
  */
 export async function handleRetryMcq(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('retry_mcq:')) return;
 
@@ -534,7 +592,8 @@ export async function handleRetryMcq(ctx: BotContext) {
   });
 
   if (!question) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
+    await ctx.answerCallbackQuery({ text: errText });
     return;
   }
 
@@ -544,8 +603,9 @@ export async function handleRetryMcq(ctx: BotContext) {
   // Mark as retry so the MCQ answer handler knows not to record a new attempt
   ctx.session.pendingData[`retry_${questionId}`] = true;
 
-  const text = `🔄 *حاول مرة أخرى!*\n\n❓ ${question.questionText}`;
-  const keyboard = buildMcqKeyboard(question.id, question.options, false);
+  const retryLabel = locale === 'en' ? 'Try again!' : 'حاول مرة أخرى!';
+  const text = `🔄 *${retryLabel}*\n\n❓ ${question.questionText}`;
+  const keyboard = buildMcqKeyboard(question.id, question.options, false, locale);
   await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
 
@@ -554,6 +614,7 @@ export async function handleRetryMcq(ctx: BotContext) {
  * Re-enters awaiting_answer state. No new attempt recorded.
  */
 export async function handleRetryOpen(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('retry_open:')) return;
 
@@ -561,7 +622,8 @@ export async function handleRetryOpen(ctx: BotContext) {
   const question = await prisma.question.findUnique({ where: { id: questionId } });
 
   if (!question) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
+    await ctx.answerCallbackQuery({ text: errText });
     return;
   }
 
@@ -573,7 +635,9 @@ export async function handleRetryOpen(ctx: BotContext) {
   ctx.session.pendingData.hintUsed = false;
   ctx.session.pendingData[`retry_${questionId}`] = true;
 
-  await ctx.reply(`🔄 *حاول مرة أخرى!*\n\n❓ ${question.questionText}\n\n✏️ اكتب إجابتك:`, {
+  const retryLabel = locale === 'en' ? 'Try again!' : 'حاول مرة أخرى!';
+  const writeAnswer = locale === 'en' ? 'Type your answer:' : 'اكتب إجابتك:';
+  await ctx.reply(`🔄 *${retryLabel}*\n\n❓ ${question.questionText}\n\n✏️ ${writeAnswer}`, {
     parse_mode: 'Markdown',
   });
 }
@@ -581,6 +645,7 @@ export async function handleRetryOpen(ctx: BotContext) {
 // ─── Daily Summary ──────────────────────────────────────────────────
 
 async function showDailySummary(ctx: BotContext, userId: number) {
+  const locale = ctx.session.locale || 'ar';
   const attempts = await getTodayAttempts(userId);
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -599,6 +664,7 @@ async function showDailySummary(ctx: BotContext, userId: number) {
       totalPointsToday,
       user.streakDays,
       user.totalPoints,
+      locale,
     ),
     { parse_mode: 'Markdown' },
   );
@@ -613,29 +679,39 @@ async function showDailySummary(ctx: BotContext, userId: number) {
       if (nextLevel) {
         const levelEmoji = user.level.iconEmoji || '🥷';
         const nextEmoji = nextLevel.iconEmoji || '🥷';
+        const levelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
+        const nextLevelName = (locale === 'en' && nextLevel.nameEn) ? nextLevel.nameEn : nextLevel.name;
 
+        const levelUpLabel = locale === 'en' ? '🔼 Go to next level' : '🔼 انتقل للمستوى التالي';
+        const stayLabel = locale === 'en' ? '🔄 Stay at this level' : '🔄 استمر في نفس المستوى';
         const keyboard = new InlineKeyboard()
-          .text('🔼 انتقل للمستوى التالي', `level_up:${nextLevel.id}`)
-          .text('🔄 استمر في نفس المستوى', 'stay_level');
+          .text(levelUpLabel, `level_up:${nextLevel.id}`)
+          .text(stayLabel, 'stay_level');
 
         // Send certificate image
         const profileSlug = user.username || String(user.id);
-        const certUrl = `https://numninjas.com/api/certificate/${profileSlug}?type=level&levelName=${encodeURIComponent(user.level.name)}`;
+        const certUrl = `https://numninjas.com/api/certificate/${profileSlug}?type=level&levelName=${encodeURIComponent(levelName)}`;
         try {
+          const certCaption = locale === 'en'
+            ? `🎉 *Congratulations, ${user.nickname}!*\nYou've mastered ${levelEmoji} ${levelName}!`
+            : `🎉 *مبروك يا ${user.nickname}!*\nلقد أتقنت ${levelEmoji} ${levelName}!`;
           await ctx.replyWithPhoto(certUrl, {
-            caption: `🎉 *مبروك يا ${user.nickname}!*\nلقد أتقنت ${levelEmoji} ${user.level.name}!`,
+            caption: certCaption,
             parse_mode: 'Markdown',
           });
         } catch {
           // Fallback if image fails (e.g., site not deployed yet)
         }
 
-        await ctx.reply(
-          `🎉🥷 *مبروك يا ${user.nickname}!*\n\n` +
-            `لقد أتقنت جميع مواضيع ${levelEmoji} ${user.level.name}!\n\n` +
-            `هل أنت جاهز للانتقال إلى ${nextEmoji} ${nextLevel.name}؟`,
-          { parse_mode: 'Markdown', reply_markup: keyboard },
-        );
+        const completionText = locale === 'en'
+          ? `🎉🥷 *Congratulations, ${user.nickname}!*\n\n` +
+            `You've mastered all topics in ${levelEmoji} ${levelName}!\n\n` +
+            `Are you ready to move to ${nextEmoji} ${nextLevelName}?`
+          : `🎉🥷 *مبروك يا ${user.nickname}!*\n\n` +
+            `لقد أتقنت جميع مواضيع ${levelEmoji} ${levelName}!\n\n` +
+            `هل أنت جاهز للانتقال إلى ${nextEmoji} ${nextLevelName}؟`;
+
+        await ctx.reply(completionText, { parse_mode: 'Markdown', reply_markup: keyboard });
       }
     }
   } catch (err) {
@@ -646,6 +722,7 @@ async function showDailySummary(ctx: BotContext, userId: number) {
 // ─── Level Up / Stay Handlers ──────────────────────────────────────
 
 export async function handleLevelUp(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('level_up:')) return;
 
@@ -653,13 +730,15 @@ export async function handleLevelUp(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
 
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
+    const text = locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
   const nextLevel = await prisma.level.findUnique({ where: { id: nextLevelId } });
   if (!nextLevel) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+    const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
+    await ctx.answerCallbackQuery({ text: errText });
     return;
   }
 
@@ -669,18 +748,22 @@ export async function handleLevelUp(ctx: BotContext) {
   });
 
   const emoji = nextLevel.iconEmoji || '🥷';
+  const nextLevelName = (locale === 'en' && nextLevel.nameEn) ? nextLevel.nameEn : nextLevel.name;
   await ctx.answerCallbackQuery();
-  await ctx.editMessageText(
-    `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevel.name}!\nهيا نستمر في التحدي! 💪`,
-    { parse_mode: 'Markdown' },
-  );
+
+  const levelUpText = locale === 'en'
+    ? `🎉 *Promoted!*\n\nYou're now at ${emoji} ${nextLevelName}!\nLet's keep the challenge going! 💪`
+    : `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevelName}!\nهيا نستمر في التحدي! 💪`;
+  await ctx.editMessageText(levelUpText, { parse_mode: 'Markdown' });
 }
 
 export async function handleStayLevel(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
   await ctx.answerCallbackQuery();
-  await ctx.editMessageText(
-    '👍 ممتاز! استمر في نفس المستوى — التمرين يجعلك أقوى! 💪',
-  );
+  const stayText = locale === 'en'
+    ? '👍 Great! Keep practicing at this level — practice makes you stronger! 💪'
+    : '👍 ممتاز! استمر في نفس المستوى — التمرين يجعلك أقوى! 💪';
+  await ctx.editMessageText(stayText);
 }
 
 // ─── Streak Update ──────────────────────────────────────────────────

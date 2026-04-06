@@ -11,39 +11,39 @@ function isAdmin(ctx: BotContext): boolean {
 
 export async function handleAdminSend(ctx: BotContext) {
   if (!isAdmin(ctx)) {
-    await ctx.reply('🚫 هذا الأمر للمشرف فقط');
+    await ctx.reply('🚫 Admin only');
     return;
   }
 
-  await ctx.reply('⏳ جارٍ إرسال الأسئلة...');
+  await ctx.reply('⏳ Sending questions...');
   try {
     await sendFirstQuestion(bot);
-    await ctx.reply('✅ تم إرسال الأسئلة!');
+    await ctx.reply('✅ Questions sent!');
   } catch (error) {
     logger.error('Admin send failed', { error: String(error) });
-    await ctx.reply('❌ حدث خطأ أثناء الإرسال');
+    await ctx.reply('❌ Error sending questions');
   }
 }
 
 export async function handleAdminPrepare(ctx: BotContext) {
   if (!isAdmin(ctx)) {
-    await ctx.reply('🚫 هذا الأمر للمشرف فقط');
+    await ctx.reply('🚫 Admin only');
     return;
   }
 
-  await ctx.reply('⏳ جارٍ تحضير الأسئلة...');
+  await ctx.reply('⏳ Preparing questions...');
   try {
     await prepareScheduledQuestions();
-    await ctx.reply('✅ تم تحضير أسئلة اليوم!');
+    await ctx.reply('✅ Today\'s questions prepared!');
   } catch (error) {
     logger.error('Admin prepare failed', { error: String(error) });
-    await ctx.reply('❌ حدث خطأ أثناء التحضير');
+    await ctx.reply('❌ Error preparing questions');
   }
 }
 
 export async function handleAdminStats(ctx: BotContext) {
   if (!isAdmin(ctx)) {
-    await ctx.reply('🚫 هذا الأمر للمشرف فقط');
+    await ctx.reply('🚫 Admin only');
     return;
   }
 
@@ -72,13 +72,13 @@ export async function handleAdminStats(ctx: BotContext) {
   });
 
   const text =
-    `📊 *إحصائيات البوت*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-    `👥 الحسابات: ${accountCount}\n` +
-    `🧒 اللاعبين: ${userCount}\n` +
-    `📝 الأسئلة في البنك: ${questionCount}\n` +
-    `✍️ إجمالي الإجابات: ${attemptCount}\n` +
-    `📅 جلسات اليوم: ${todaySessions}\n` +
-    `✅ أكملوا اليوم: ${completedToday}`;
+    `📊 *Bot Stats*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+    `👥 Accounts: ${accountCount}\n` +
+    `🧒 Players: ${userCount}\n` +
+    `📝 Questions in bank: ${questionCount}\n` +
+    `✍️ Total attempts: ${attemptCount}\n` +
+    `📅 Today's sessions: ${todaySessions}\n` +
+    `✅ Completed today: ${completedToday}`;
 
   await ctx.reply(text, { parse_mode: 'Markdown' });
 }

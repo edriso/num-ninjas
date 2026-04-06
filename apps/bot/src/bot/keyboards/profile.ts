@@ -3,7 +3,7 @@ import type { User, Level } from '@numninjas/database';
 
 type UserWithLevel = User & { level: Level };
 
-export function buildProfileKeyboard(profiles: UserWithLevel[], showAddButton = true) {
+export function buildProfileKeyboard(profiles: UserWithLevel[], showAddButton = true, locale = 'ar') {
   const keyboard = new InlineKeyboard();
 
   for (const profile of profiles) {
@@ -14,7 +14,8 @@ export function buildProfileKeyboard(profiles: UserWithLevel[], showAddButton = 
   }
 
   if (showAddButton && profiles.length < 5) {
-    keyboard.text('➕ إضافة طفل', 'add_child').row();
+    const addLabel = locale === 'en' ? '➕ Add a child' : '➕ إضافة طفل';
+    keyboard.text(addLabel, 'add_child').row();
   }
 
   return keyboard;

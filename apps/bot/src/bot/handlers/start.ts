@@ -1,6 +1,7 @@
 import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session';
-import { msg } from '../messages/arabic';
+import { getMsg } from '../helpers/get-msg';
+import { getMessages } from '../messages';
 import { prisma, findOrCreateAccount, createProfile, updateNickname, logger } from '@numninjas/database';
 import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
@@ -8,7 +9,7 @@ import { sendQuestionToUser } from './question';
 
 // ─── Onboarding Quiz Questions ─────────────────────────────────────
 
-const QUIZ_QUESTIONS = [
+const QUIZ_QUESTIONS_AR = [
   {
     text: '🧮 *سؤال 1/3*\n\nأنت في السوبر ماركت، اشتريت أغراضاً بـ 47 جنيه ودفعت 100 جنيه.\nكم يتبقى؟',
     options: [
@@ -35,6 +36,37 @@ const QUIZ_QUESTIONS = [
   },
 ];
 
+const QUIZ_QUESTIONS_EN = [
+  {
+    text: '🧮 *Question 1/3*\n\nYou\'re at the supermarket, you bought items for 47 pounds and paid 100 pounds.\nHow much change do you get?',
+    options: [
+      { text: '53 pounds', correct: true },
+      { text: '47 pounds', correct: false },
+      { text: '63 pounds', correct: false },
+    ],
+  },
+  {
+    text: '🧮 *Question 2/3*\n\nYou have ½ a pizza and you ate ¼ of it. How much is left?',
+    options: [
+      { text: '¼', correct: true },
+      { text: '¾', correct: false },
+      { text: '½', correct: false },
+    ],
+  },
+  {
+    text: '🧮 *Question 3/3*\n\nA clothing store offers a 20% discount on a jacket that costs 150 pounds.\nHow much will you pay?',
+    options: [
+      { text: '120 pounds', correct: true },
+      { text: '130 pounds', correct: false },
+      { text: '100 pounds', correct: false },
+    ],
+  },
+];
+
+function getQuizQuestions(locale: string) {
+  return locale === 'en' ? QUIZ_QUESTIONS_EN : QUIZ_QUESTIONS_AR;
+}
+
 /** Map quiz score (0-3 correct) → level rankOrder (1-4) */
 function quizScoreToLevelRank(correct: number): number {
   // 0→1(White), 1→2(Yellow), 2→3(Orange), 3→4(Green). Never 5(Black Belt).
@@ -42,7 +74,7 @@ function quizScoreToLevelRank(correct: number): number {
 }
 
 /** Build inline keyboard for a quiz question. Options are shuffled. */
-function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS[number]['options']) {
+function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS_AR[number]['options']) {
   const keyboard = new InlineKeyboard();
   // Shuffle options
   const shuffled = [...options].sort(() => Math.random() - 0.5);
@@ -54,12 +86,16 @@ function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS[number][
 
 /** Send a quiz question to the user */
 async function sendQuizQuestion(ctx: BotContext, step: number) {
-  const q = QUIZ_QUESTIONS[step];
+  const locale = ctx.session.locale || 'ar';
+  const questions = getQuizQuestions(locale);
+  const q = questions[step];
   const keyboard = buildQuizKeyboard(step, q.options);
   await ctx.reply(q.text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
 
 export async function handleStart(ctx: BotContext) {
+  const msg = getMsg(ctx);
+
   if (ctx.chat?.type !== 'private') {
     await ctx.reply(msg.privateChatOnly);
     return;
@@ -70,10 +106,18 @@ export async function handleStart(ctx: BotContext) {
 
   // No profiles yet → start onboarding
   if (account.users.length === 0) {
+    // Detect locale from Telegram client language
+    const telegramLang = ctx.from?.language_code || 'ar';
+    const locale = telegramLang.startsWith('ar') ? 'ar' : 'en';
+    ctx.session.locale = locale;
+
+    // Re-get messages with detected locale
+    const localMsg = getMessages(locale);
+
     ctx.session.state = 'awaiting_nickname';
     ctx.session.pendingData = {};
-    await ctx.reply(msg.welcome, { parse_mode: 'Markdown' });
-    await ctx.reply(msg.askNickname);
+    await ctx.reply(localMsg.welcome, { parse_mode: 'Markdown' });
+    await ctx.reply(localMsg.askNickname);
     return;
   }
 
@@ -81,9 +125,12 @@ export async function handleStart(ctx: BotContext) {
   if (account.activeProfile) {
     const profile = account.activeProfile;
     ctx.session.activeProfileId = profile.id;
+    ctx.session.locale = profile.locale || 'ar';
     ctx.session.state = 'idle';
+
+    const localMsg = getMessages(ctx.session.locale);
     await ctx.reply(
-      msg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥷'),
+      localMsg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥷'),
       { parse_mode: 'Markdown' },
     );
 
@@ -94,11 +141,12 @@ export async function handleStart(ctx: BotContext) {
 
   // Account exists but no active profile → show picker
   const profiles = account.users;
-  const keyboard = buildProfileKeyboard(profiles);
+  const keyboard = buildProfileKeyboard(profiles, true, ctx.session.locale || 'ar');
   await ctx.reply(msg.whoIsPlaying, { reply_markup: keyboard });
 }
 
 export async function handleNicknameInput(ctx: BotContext) {
+  const msg = getMsg(ctx);
   const text = ctx.message?.text?.trim();
   if (!text || text.length < 2 || text.length > 20) {
     await ctx.reply(msg.invalidNickname);
@@ -116,7 +164,11 @@ export async function handleNicknameInput(ctx: BotContext) {
     await updateNickname(ctx.session.activeProfileId, text);
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
-    await ctx.reply(`✅ تم تغيير الاسم لـ *${text}*`, { parse_mode: 'Markdown' });
+    const locale = ctx.session.locale || 'ar';
+    const confirmText = locale === 'en'
+      ? `✅ Name changed to *${text}*`
+      : `✅ تم تغيير الاسم لـ *${text}*`;
+    await ctx.reply(confirmText, { parse_mode: 'Markdown' });
     logger.info('Nickname changed', { profileId: ctx.session.activeProfileId, newName: text });
     return true;
   }
@@ -127,22 +179,28 @@ export async function handleNicknameInput(ctx: BotContext) {
   ctx.session.pendingData.quizStep = 0;
   ctx.session.pendingData.quizCorrect = 0;
 
-  await ctx.reply(
-    `👋 مرحباً يا *${text}*!\n\n` +
-    '🧪 سنسألك 3 أسئلة سريعة لتحديد مستواك.\n' +
-    'أجب براحتك — لا صحيح ولا خطأ هنا! 😊',
-    { parse_mode: 'Markdown' },
-  );
+  const locale = ctx.session.locale || 'ar';
+  const quizIntro = locale === 'en'
+    ? `👋 Hi *${text}*!\n\n` +
+      '🧪 We\'ll ask you 3 quick questions to find your level.\n' +
+      'Take your time — no right or wrong here! 😊'
+    : `👋 مرحباً يا *${text}*!\n\n` +
+      '🧪 سنسألك 3 أسئلة سريعة لتحديد مستواك.\n' +
+      'أجب براحتك — لا صحيح ولا خطأ هنا! 😊';
+
+  await ctx.reply(quizIntro, { parse_mode: 'Markdown' });
   await sendQuizQuestion(ctx, 0);
   return true;
 }
 
 export async function handleLevelSelection(ctx: BotContext) {
+  const msg = getMsg(ctx);
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('select_level:')) return;
 
   const levelId = parseInt(data.split(':')[1], 10);
   const telegramId = BigInt(ctx.from!.id);
+  const locale = ctx.session.locale || 'ar';
 
   // Case 1: Changing level for existing profile (from /level command)
   if (ctx.session.pendingData.changingLevel && ctx.session.activeProfileId) {
@@ -154,14 +212,16 @@ export async function handleLevelSelection(ctx: BotContext) {
       });
       ctx.session.pendingData = {};
       await ctx.answerCallbackQuery();
-      await ctx.editMessageText(
-        `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${level?.name}*`,
-        { parse_mode: 'Markdown' },
-      );
+      const levelName = (locale === 'en' && level?.nameEn) ? level.nameEn : level?.name;
+      const confirmText = locale === 'en'
+        ? `✅ Level changed to ${level?.iconEmoji || '🥷'} *${levelName}*`
+        : `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${levelName}*`;
+      await ctx.editMessageText(confirmText, { parse_mode: 'Markdown' });
       logger.info('Level changed', { profileId: ctx.session.activeProfileId, levelId });
     } catch (error) {
       logger.error('Failed to change level', { error: String(error) });
-      await ctx.answerCallbackQuery({ text: 'حدث خطأ' });
+      const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
+      await ctx.answerCallbackQuery({ text: errText });
     }
     return;
   }
@@ -169,27 +229,30 @@ export async function handleLevelSelection(ctx: BotContext) {
   // Case 2: Creating new profile (onboarding or quiz override)
   const nickname = ctx.session.pendingData.nickname as string;
   if (!nickname) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ، أرسل /start مرة أخرى' });
+    const errText = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
+    await ctx.answerCallbackQuery({ text: errText });
     ctx.session.state = 'idle';
     return;
   }
 
   try {
     const tgUsername = ctx.from?.username;
-    const profile = await createProfile(telegramId, nickname, levelId, tgUsername);
+    const profile = await createProfile(telegramId, nickname, levelId, tgUsername, locale);
     ctx.session.activeProfileId = profile.id;
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
 
     await ctx.answerCallbackQuery();
+    const levelName = (locale === 'en' && profile.level.nameEn) ? profile.level.nameEn : profile.level.name;
     await ctx.editMessageText(
-      msg.profileCreated(profile.nickname, profile.level.iconEmoji || '🥷', profile.level.name),
+      msg.profileCreated(profile.nickname, profile.level.iconEmoji || '🥷', levelName),
       { parse_mode: 'Markdown' },
     );
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
   } catch (error) {
     logger.error('Failed to create profile', { error: String(error) });
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ، حاول مرة أخرى' });
+    const errText = locale === 'en' ? 'An error occurred, try again' : 'حدث خطأ، حاول مرة أخرى';
+    await ctx.answerCallbackQuery({ text: errText });
     ctx.session.state = 'idle';
   }
 }
@@ -197,16 +260,20 @@ export async function handleLevelSelection(ctx: BotContext) {
 // ─── Onboarding Quiz Answer Handler ────────────────────────────────
 
 export async function handleQuizAnswer(ctx: BotContext) {
+  const msg = getMsg(ctx);
   const data = ctx.callbackQuery?.data;
   if (!data?.startsWith('quiz_answer:')) return;
 
   const parts = data.split(':');
   const step = parseInt(parts[1], 10);
   const isCorrect = parts[2] === '1';
+  const locale = ctx.session.locale || 'ar';
+  const questions = getQuizQuestions(locale);
 
   // Validate state
   if (ctx.session.state !== 'onboarding_quiz') {
-    await ctx.answerCallbackQuery({ text: 'الاختبار انتهى بالفعل' });
+    const text = locale === 'en' ? 'The quiz is already finished' : 'الاختبار انتهى بالفعل';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
@@ -214,7 +281,8 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   // Prevent answering same question twice
   if (step !== currentStep) {
-    await ctx.answerCallbackQuery({ text: 'لقد أجبت على هذا السؤال بالفعل!' });
+    const text = locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
+    await ctx.answerCallbackQuery({ text });
     return;
   }
 
@@ -225,18 +293,22 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   // Show per-question feedback
   const feedbackEmoji = isCorrect ? '✅' : '❌';
-  await ctx.answerCallbackQuery({ text: isCorrect ? 'صح! 🎉' : 'خطأ — لا مشكلة!' });
+  const correctCb = locale === 'en' ? 'Correct! 🎉' : 'صح! 🎉';
+  const wrongCb = locale === 'en' ? 'Wrong — no worries!' : 'خطأ — لا مشكلة!';
+  await ctx.answerCallbackQuery({ text: isCorrect ? correctCb : wrongCb });
 
   // Remove buttons from answered question
-  const q = QUIZ_QUESTIONS[step];
+  const q = questions[step];
+  const correctLabel = locale === 'en' ? 'Correct!' : 'صح!';
+  const wrongLabel = locale === 'en' ? 'Wrong — no worries!' : 'خطأ — لا مشكلة!';
   await ctx.editMessageText(
-    `${q.text}\n\n${feedbackEmoji} ${isCorrect ? 'صح!' : 'خطأ — لا مشكلة!'}`,
+    `${q.text}\n\n${feedbackEmoji} ${isCorrect ? correctLabel : wrongLabel}`,
     { parse_mode: 'Markdown' },
   );
 
   const nextStep = step + 1;
 
-  if (nextStep < QUIZ_QUESTIONS.length) {
+  if (nextStep < questions.length) {
     // Send next question
     ctx.session.pendingData.quizStep = nextStep;
     await sendQuizQuestion(ctx, nextStep);
@@ -262,18 +334,23 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   try {
     const tgUsername = ctx.from?.username;
-    const profile = await createProfile(telegramId, nickname, level.id, tgUsername);
+    const profile = await createProfile(telegramId, nickname, level.id, tgUsername, locale);
     ctx.session.activeProfileId = profile.id;
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
 
-    const resultText =
-      `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
-      `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥷'} *${level.name}*!\n\n` +
-      `✅ تم تسجيل *${nickname}*! جاهز للتحدي! 🔥`;
+    const levelName = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
+    const resultText = locale === 'en'
+      ? `🎯 *Quiz result: ${quizCorrect}/3*\n\n` +
+        `Based on your answers, your level is ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
+        `✅ *${nickname}* is registered! Ready for the challenge! 🔥`
+      : `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
+        `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
+        `✅ تم تسجيل *${nickname}*! جاهز للتحدي! 🔥`;
 
+    const chooseLevelText = locale === 'en' ? '🥷 Choose a different level' : '🥷 اختر مستوى آخر';
     const keyboard = new InlineKeyboard()
-      .text('🥷 اختر مستوى آخر', 'change_quiz_level');
+      .text(chooseLevelText, 'change_quiz_level');
 
     await ctx.reply(resultText, { parse_mode: 'Markdown', reply_markup: keyboard });
     logger.info('Profile created via quiz', {
@@ -293,8 +370,10 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
 export async function handleChangeQuizLevel(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
+  const locale = ctx.session.locale || 'ar';
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: 'حدث خطأ، أرسل /start مرة أخرى' });
+    const errText = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
+    await ctx.answerCallbackQuery({ text: errText });
     return;
   }
 
@@ -302,9 +381,12 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
 
   const { keyboard, levels } = await buildLevelKeyboard();
 
-  let levelInfo = 'اختر المستوى الذي يناسبك:\n\n';
+  const chooseText = locale === 'en' ? 'Choose the level that suits you:\n\n' : 'اختر المستوى الذي يناسبك:\n\n';
+  let levelInfo = chooseText;
   for (const level of levels) {
-    levelInfo += `${level.iconEmoji || '🥷'} *${level.name}* — ${level.description || ''}\n`;
+    const levelName = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
+    const levelDesc = (locale === 'en' && level.descriptionEn) ? level.descriptionEn : (level.description || '');
+    levelInfo += `${level.iconEmoji || '🥷'} *${levelName}* — ${levelDesc}\n`;
   }
 
   await ctx.reply(levelInfo, { parse_mode: 'Markdown', reply_markup: keyboard });

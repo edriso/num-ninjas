@@ -10,6 +10,7 @@ export function buildMcqKeyboard(
   questionId: number,
   options: Option[],
   showHint: boolean,
+  locale = 'ar',
 ) {
   const keyboard = new InlineKeyboard();
   const shuffled = shuffle(options);
@@ -19,10 +20,12 @@ export function buildMcqKeyboard(
   }
 
   if (showHint) {
-    keyboard.text('💡 تلميح', `hint:${questionId}`).row();
+    const hintLabel = locale === 'en' ? '💡 Hint' : '💡 تلميح';
+    keyboard.text(hintLabel, `hint:${questionId}`).row();
   }
 
-  keyboard.text('تخطي ⏭️', `skip:${questionId}`).row();
+  const skipLabel = locale === 'en' ? 'Skip ⏭️' : 'تخطي ⏭️';
+  keyboard.text(skipLabel, `skip:${questionId}`).row();
 
   return keyboard;
 }
@@ -30,9 +33,11 @@ export function buildMcqKeyboard(
 /**
  * Build hint-only keyboard for open-ended questions.
  */
-export function buildHintKeyboard(questionId: number) {
+export function buildHintKeyboard(questionId: number, locale = 'ar') {
+  const hintLabel = locale === 'en' ? '💡 Hint' : '💡 تلميح';
+  const skipLabel = locale === 'en' ? 'Skip ⏭️' : 'تخطي ⏭️';
   return new InlineKeyboard()
-    .text('💡 تلميح', `hint:${questionId}`)
+    .text(hintLabel, `hint:${questionId}`)
     .row()
-    .text('تخطي ⏭️', `skip:${questionId}`);
+    .text(skipLabel, `skip:${questionId}`);
 }
