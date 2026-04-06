@@ -51,7 +51,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Spacetoon Arabic**: All user-facing text uses warm, accessible MSA (not Egyptian dialect, not formal فصحى). Understood by all Arab kids regardless of country.
 - **Session state machine**: Bot uses Grammy sessions with state field (idle, awaiting_nickname, awaiting_level, awaiting_answer, onboarding_quiz)
 - **Adaptive difficulty**: Each kid gets different questions based on weak topics (topic-strength.service.ts). Questions selected per-user at 00:30, not per-level.
-- **Per-level rankings**: Each level has its own leaderboard. Level 1 kids compete with Level 1, not Level 5. Monthly hall of fame and yearly awards are global.
+- **Per-level rankings**: Each level has its own leaderboard. Level 1 kids compete with Level 1, not Level 5. Monthly ninja champions and yearly awards are global.
 - **Onboarding quiz**: 3 diagnostic questions auto-detect the right level (0/3→L1, 1/3→L2, 2/3→L3, 3/3→L4). Kid can override with manual picker.
 - **Level completion**: When all 7 topics mastered (≥3 attempts, ≥70% accuracy each), celebration + suggest next level
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display

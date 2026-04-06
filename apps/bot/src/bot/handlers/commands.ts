@@ -147,7 +147,7 @@ export async function handleRank(ctx: BotContext) {
   });
 
   if (recentBadges.length > 0) {
-    text += '\n\n🏛️ *قاعة الشهرة*\n';
+    text += '\n\n🏆 *أبطال النينجا*\n';
     for (const ub of recentBadges) {
       text += `${ub.badge.iconEmoji || '🏅'} *${ub.user.nickname}* — ${ub.badge.name}\n`;
     }
@@ -169,11 +169,11 @@ export async function handleHall(ctx: BotContext) {
   });
 
   if (recentBadges.length === 0) {
-    await ctx.reply('🏛️ قاعة الشهرة فارغة بعد. كن أول بطل! 🏆');
+    await ctx.reply('🏆 لا يوجد أبطال بعد. كن أول بطل! 🏆');
     return;
   }
 
-  let text = '🏛️ *قاعة الشهرة*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  let text = '🏆 *أبطال النينجا*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
   for (const ub of recentBadges) {
     text += `${ub.badge.iconEmoji || '🏅'} *${ub.user.nickname}* — ${ub.badge.name}`;
     if (ub.badge.awardTitle) text += ` (${ub.badge.awardTitle})`;

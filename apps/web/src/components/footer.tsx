@@ -29,7 +29,7 @@ export function Footer() {
           href="/hall-of-fame"
           className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
-          قاعة الشهرة
+          أبطال النينجا
         </Link>
         <a
           href="https://t.me/NumNinjasBot"

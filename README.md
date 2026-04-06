@@ -18,9 +18,9 @@ A Telegram bot + website that helps Arab kids (ages 10–12) fall in love with m
 
 One Telegram account can have **up to 5 child profiles** (for parents with multiple kids).
 
-The **website** shows public leaderboards, player profiles, hall of fame, and has an admin panel for managing questions.
+The **website** shows public leaderboards, player profiles, ninja champions, and has an admin panel for managing questions.
 
-The **@NumNinjas channel** auto-posts weekly leaderboards, monthly hall of fame, and yearly awards — parents share these and drive new signups.
+The **@NumNinjas channel** auto-posts weekly leaderboards, monthly ninja champions, and yearly awards — parents share these and drive new signups.
 
 ---
 
@@ -40,7 +40,7 @@ The **@NumNinjas channel** auto-posts weekly leaderboards, monthly hall of fame,
 - **Hints** — Optional hints per question (tracked for fair rankings)
 - **Streaks** — Daily streak tracking with milestone badges (7, 14, 30 days)
 - **Telegram Channel** — Rankings auto-posted to @NumNinjas for parents to share
-- **Website** — Public leaderboard, profiles, hall of fame + admin panel with questions CRUD
+- **Website** — Public leaderboard, profiles, ninja champions + admin panel with questions CRUD
 - **150 Unit Tests** — All shared logic tested with vitest
 
 ---
@@ -171,7 +171,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 |------|-----|--------------|
 | Landing | `/` | What the bot is, 5 levels, link to Telegram |
 | Leaderboard | `/leaderboard` | Per-level weekly top players (updates hourly) |
-| Hall of Fame | `/hall-of-fame` | Monthly winners and badges (updates daily) |
+| ninja champions | `/hall-of-fame` | Monthly winners and badges (updates daily) |
 | Profile | `/profile/123` | Any player's public stats, badges, OG tags for sharing |
 | Levels | `/levels` | All 5 levels and their topics explained |
 
@@ -200,7 +200,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | 7:30 PM | Reminder for users who haven't finished |
 | Sunday 10 PM | Parent weekly report (per-child summary) |
 | Sunday 11 PM | Per-level weekly leaderboard + award top-3 badges |
-| Last day of month 11 PM | Monthly hall of fame awards (global) |
+| Last day of month 11 PM | Monthly ninja champions awards (global) |
 | Dec 31 11 PM | Yearly champion awards (global) |
 
 ---
@@ -258,7 +258,7 @@ See **[docs/DEPLOY.md](docs/DEPLOY.md)** for the full step-by-step guide coverin
 | What | Handle | Purpose |
 |------|--------|---------|
 | Bot | @NumNinjasBot | Core experience — kids answer questions here |
-| Channel | @NumNinjas | Broadcast — leaderboards, hall of fame, tips |
+| Channel | @NumNinjas | Broadcast — leaderboards, ninja champions, tips |
 
 The bot auto-posts rankings to the channel. Parents subscribe, see their kid's name, screenshot it, share on WhatsApp → viral loop.
 

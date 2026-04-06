@@ -48,7 +48,7 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   }
 
   // Build and broadcast hall of fame message
-  let message = `🏛️ *قاعة شهرة ${monthLabel}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  let message = `🏆 *أبطال نينجا ${monthLabel}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   if (mostActive) {
     message += `🔥 *الأكثر حضوراً:* ${mostActive.nickname} (${mostActive.activeDays} يوم)\n`;

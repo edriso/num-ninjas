@@ -22,7 +22,7 @@ pnpm --filter web dev
 |------|-----|--------------|
 | Landing | / | Bot explanation, 5 levels, Telegram CTA |
 | Leaderboard | /leaderboard | Per-level weekly rankings (updates hourly) |
-| Hall of Fame | /hall-of-fame | Monthly winners and badges |
+| ninja champions | /hall-of-fame | Monthly winners and badges |
 | Profile | /profile/ahmed123 | Player stats, badges, share button |
 | Levels | /levels | All 5 levels and their topics |
 

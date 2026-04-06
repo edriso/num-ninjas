@@ -24,7 +24,7 @@ pnpm dev:bot
 - Skip and retry buttons for flexibility
 - Evening reminder at 7:30 PM for incomplete sessions
 - Weekly per-level leaderboards with badge awards
-- Monthly hall of fame and yearly champions
+- Monthly ninja champions and yearly champions
 - Parent weekly report every Sunday at 10 PM
 - Auto-posts rankings to @NumNinjas Telegram channel
 

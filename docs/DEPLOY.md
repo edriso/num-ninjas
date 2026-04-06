@@ -57,7 +57,7 @@ Send `/setcommands` to @BotFather, pick your bot, then paste this **exactly**:
 ```
 start - ابدأ أو ارجع للقائمة
 profile - ملفي الشخصي والإحصائيات
-rank - الترتيب وقاعة الشهرة
+rank - الترتيب وأبطال النينجا
 players - اللاعبين (تبديل/إضافة)
 help - المساعدة
 ```
@@ -244,7 +244,7 @@ pnpm db:seed
 
 ### Test the website
 - Visit your domain (e.g., https://numninjas.com)
-- Check the leaderboard, levels, hall of fame pages
+- Check the leaderboard, levels, ninja champions pages
 - Log in to admin panel at `/admin/login`
   - Email: `admin@numninjas.com` (or whatever you set in ADMIN_EMAIL)
   - Password: `changeme123` (or whatever you set in ADMIN_PASSWORD)

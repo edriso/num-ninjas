@@ -108,7 +108,7 @@ async function setBotCommands() {
   await bot.api.setMyCommands([
     { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
     { command: 'profile', description: 'بروفايلي والإحصائيات' },
-    { command: 'rank', description: 'الترتيب وقاعة الشهرة' },
+    { command: 'rank', description: 'الترتيب وأبطال النينجا' },
     { command: 'players', description: 'اللاعبين (تبديل/إضافة)' },
     { command: 'help', description: 'المساعدة' },
   ]);

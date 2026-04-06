@@ -82,7 +82,7 @@ The bot has 420 questions across 35 topics and 5 levels. That's enough for sever
 
 We want to add shareable certificates, the kind of image a parent screenshots and sends to the family WhatsApp group. "Ahmed completed the Yellow Belt!" That's free marketing that money can't buy.
 
-There's also a Telegram channel (@NumNinjas) where weekly leaderboards and monthly hall of fame results get posted automatically. Parents subscribe, see their kid's name, share it around. That's the growth loop.
+There's also a Telegram channel (@NumNinjas) where weekly leaderboards and monthly ninja champions results get posted automatically. Parents subscribe, see their kid's name, share it around. That's the growth loop.
 
 Long term? If this works in Egypt, the same model works anywhere Arabic is spoken. Same questions, same bot, same Spacetoon Arabic. 400 million Arabic speakers and most of their kids have access to Telegram.
 
