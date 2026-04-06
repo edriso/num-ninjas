@@ -26,8 +26,8 @@ export const levelsData = [
   {
     name: 'الحزام الأسود',
     rankOrder: 5,
-    iconEmoji: '⬛',
-    description: 'الأسطورة — الأسس والاحتمالات والألغاز',
+    iconEmoji: '⚫',
+    description: 'النينجا الأعلى — الأسس والاحتمالات والألغاز',
   },
 ];
 

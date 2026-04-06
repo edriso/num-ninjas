@@ -1,4 +1,4 @@
-# NumNinjas — نينجا الأرقام
+# 🥷 NumNinjas — نينجا الأرقام
 
 A Telegram bot + website that helps Arab kids (ages 10–12) fall in love with math! 3 daily questions with real-life scenarios. Gamified with ninja belt levels, streaks, points, and per-level leaderboards. All text in Spacetoon Arabic — warm, accessible, understood by every Arab kid.
 
@@ -203,7 +203,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | 🟡 2 | Yellow Belt | Decimals, time calculations, perimeter, area, patterns |
 | 🟠 3 | Orange Belt | Advanced fractions, order of operations, money math |
 | 🟢 4 | Green Belt | Percentages, intro to algebra, speed/distance/time |
-| ⬛ 5 | Black Belt | Exponents, probability, negative numbers, math puzzles |
+| ⚫ 5 | Black Belt | Exponents, probability, negative numbers, math puzzles |
 
 Each level has 7 topics with 12 questions each = **420 total questions**, all with real-life Arab scenarios.
 

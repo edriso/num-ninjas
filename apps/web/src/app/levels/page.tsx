@@ -13,7 +13,7 @@ const levelEmojis: Record<number, string> = {
   2: '🟡',
   3: '🟠',
   4: '🟢',
-  5: '⬛',
+  5: '⚫',
 };
 
 export default async function LevelsPage() {
