@@ -51,6 +51,21 @@ Send these commands to @BotFather:
   → Upload a ninja-themed profile picture
 ```
 
+### Set the bot's commands
+Send `/setcommands` to @BotFather, pick your bot, then paste this **exactly**:
+
+```
+start - ابدأ أو ارجع للقائمة
+profile - ملفي الشخصي والإحصائيات
+rank - الترتيب وقاعة الشهرة
+players - اللاعبين (تبديل/إضافة)
+help - المساعدة
+```
+
+This creates the command menu that appears when users tap the `/` button or the menu icon in Telegram.
+
+> **Note:** Admin commands (`admin_send`, `admin_prepare`, `admin_stats`) are NOT listed here on purpose. They work when typed but don't show in the public menu.
+
 ### Get your Telegram ID
 1. Search for **@userinfobot** on Telegram
 2. Send it any message
