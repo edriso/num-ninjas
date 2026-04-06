@@ -2,7 +2,7 @@
 
 ## What Is This?
 
-A pnpm monorepo for **نينجا الأرقام** (NumNinjas) — a Telegram math bot + website for Egyptian primary school students (ages 10–12). 3 daily math questions, gamified with ninja belt levels, streaks, points, and leaderboards. All user-facing text is in Spacetoon Arabic (warm, accessible MSA understood by all Arab kids).
+A pnpm monorepo for **نينجا الأرقام** (NumNinjas) — a bilingual (Arabic + English) Telegram math bot + website for kids (ages 10–12). 3 daily math questions, gamified with ninja belt levels, streaks, points, and leaderboards. Arabic text uses Spacetoon Arabic (warm, accessible MSA understood by all Arab kids). Users can switch languages via `/language` command or website footer button.
 
 ## Monorepo Structure
 

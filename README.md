@@ -1,6 +1,6 @@
 # 🥷 NumNinjas — نينجا الأرقام
 
-A Telegram bot + website that helps Arab kids (ages 10–12) fall in love with math! 3 daily questions with real-life scenarios. Gamified with ninja belt levels, streaks, points, and per-level leaderboards. All text in Spacetoon Arabic — warm, accessible, understood by every Arab kid.
+A bilingual (Arabic + English) Telegram bot + website that helps kids (ages 10–12) fall in love with math! 3 daily questions with real-life scenarios. Gamified with ninja belt levels, streaks, points, and per-level leaderboards. Arabic text uses Spacetoon Arabic — warm, accessible, understood by every Arab kid. Users switch languages with `/language` or the footer button.
 
 ---
 
@@ -30,12 +30,13 @@ The **@NumNinjas channel** auto-posts weekly leaderboards, monthly ninja champio
 - **Onboarding Quiz** — 3 questions auto-detect the right level (kids can override)
 - **3 Daily Questions** — Sent at 2:30 PM Cairo time, personalized per student
 - **5 Ninja Belt Levels** — From White Belt (basics) to Black Belt (legend)
-- **840 Questions** — Across 35 topics, all with real-life Arab scenarios
+- **840 Questions** — 420 Arabic + 420 English across 35 topics, all with real-life scenarios
 - **Per-Level Rankings** — Fair leaderboards within the same difficulty level
 - **Skip Button** — Too hard? Skip it and keep the session going
 - **Level Completion** — Master all 7 topics → celebration + level-up suggestion
 - **Parent Weekly Report** — Sunday Telegram summary per child (accuracy, streak, points)
 - **Multiple Profiles** — One parent account can manage up to 5 children
+- **Bilingual** — Full Arabic + English support in both bot and website (auto-detects from Telegram, switchable)
 - **MCQ + Open-Ended** — Buttons for MCQ, text input with Arabic numeral support (0-9)
 - **Hints** — Optional hints per question (tracked for fair rankings)
 - **Streaks** — Daily streak tracking with milestone badges (7, 14, 30 days)
@@ -151,6 +152,8 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | `/profile` | Your stats + buttons to change name or level |
 | `/rank` | Weekly leaderboard for your level |
 | `/players` | All players (switch, add child) |
+| `/language` | Switch between Arabic and English |
+| `/settings` | Privacy, level, and other settings |
 | `/help` | Show commands |
 
 ### For Admin (your Telegram account only)
@@ -169,7 +172,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 
 | Page | URL | What It Shows |
 |------|-----|--------------|
-| Landing | `/` | What the bot is, 5 levels, link to Telegram |
+| Landing | `/` | What the bot is, 5 levels, link to Telegram (AR/EN) |
 | Leaderboard | `/leaderboard` | Per-level weekly top players (updates hourly) |
 | ninja champions | `/champions` | Monthly winners and badges (updates daily) |
 | Profile | `/profile/123` | Any player's public stats, badges, OG tags for sharing |
