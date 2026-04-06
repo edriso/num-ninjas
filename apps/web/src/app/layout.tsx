@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "نينجا الأرقام — تعلّم الرياضيات بمتعة",
     description:
       "3 أسئلة رياضيات يومياً للأطفال — أحزمة نينجا، نقاط، أوسمة، وترتيب أسبوعي!",
-    images: ["/logo-512.png"],
+    images: ["/logo-640.png"],
   },
   twitter: {
     card: "summary_large_image",
