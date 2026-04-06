@@ -85,7 +85,7 @@ describe('formatCairoDate', () => {
   it('should contain the day number', () => {
     const date = new Date('2024-01-15T12:00:00Z');
     const result = formatCairoDate(date);
-    // Should contain 15 (possibly in Arabic-Indic numerals)
+    // ar-EG locale may use Arabic-Indic (١٥) or Western (15) digits
     expect(result).toMatch(/15|١٥/);
   });
 

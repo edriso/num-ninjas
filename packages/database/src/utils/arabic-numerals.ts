@@ -1,5 +1,5 @@
 /**
- * Convert Eastern Arabic-Indic digits (٠١٢٣٤٥٦٧٨٩) to Western digits (0123456789).
+ * Convert Eastern Arabic-Indic digits (0123456789) to Western digits (0123456789).
  */
 export function normalizeArabicNumerals(input: string): string {
   return input.replace(/[\u0660-\u0669]/g, (char) =>

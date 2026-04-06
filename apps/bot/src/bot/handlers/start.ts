@@ -12,9 +12,9 @@ const QUIZ_QUESTIONS = [
   {
     text: '🧮 *سؤال 1/3*\n\nأنت في السوبر ماركت، اشتريت أغراضاً بـ 47 جنيه ودفعت 100 جنيه.\nكم يتبقى؟',
     options: [
-      { text: '٥٣ جنيه', correct: true },
-      { text: '٤٧ جنيه', correct: false },
-      { text: '٦٣ جنيه', correct: false },
+      { text: '53 جنيه', correct: true },
+      { text: '47 جنيه', correct: false },
+      { text: '63 جنيه', correct: false },
     ],
   },
   {
@@ -28,9 +28,9 @@ const QUIZ_QUESTIONS = [
   {
     text: '🧮 *سؤال 3/3*\n\nمتجر ملابس يقدّم خصم 20% على جاكيت بـ 150 جنيه.\nكم ستدفع؟',
     options: [
-      { text: '١٢٠ جنيه', correct: true },
-      { text: '١٣٠ جنيه', correct: false },
-      { text: '١٠٠ جنيه', correct: false },
+      { text: '120 جنيه', correct: true },
+      { text: '130 جنيه', correct: false },
+      { text: '100 جنيه', correct: false },
     ],
   },
 ];

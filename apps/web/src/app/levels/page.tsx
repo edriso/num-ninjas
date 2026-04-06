@@ -5,7 +5,7 @@ export const revalidate = 86400;
 
 export const metadata = {
   title: 'مستويات النينجا — نينجا الأرقام',
-  description: '٥ مستويات × ٧ موضوعات = ٣٥ موضوع في رحلة نينجا الأرقام',
+  description: '5 مستويات × 7 موضوعات = 35 موضوع في رحلة نينجا الأرقام',
   openGraph: { title: 'مستويات النينجا — نينجا الأرقام' },
 };
 
@@ -31,7 +31,7 @@ export default async function LevelsPage() {
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
         <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🥷</span> مستويات النينجا</h1>
-        <p className="text-slate-400 mt-2">٥ مستويات × ٧ موضوعات = ٣٥ موضوع</p>
+        <p className="text-slate-400 mt-2">5 مستويات × 7 موضوعات = 35 موضوع</p>
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-6">

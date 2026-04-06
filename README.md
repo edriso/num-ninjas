@@ -36,7 +36,7 @@ The **@NumNinjas channel** auto-posts weekly leaderboards, monthly ninja champio
 - **Level Completion** — Master all 7 topics → celebration + level-up suggestion
 - **Parent Weekly Report** — Sunday Telegram summary per child (accuracy, streak, points)
 - **Multiple Profiles** — One parent account can manage up to 5 children
-- **MCQ + Open-Ended** — Buttons for MCQ, text input with Arabic numeral support (٠-٩)
+- **MCQ + Open-Ended** — Buttons for MCQ, text input with Arabic numeral support (0-9)
 - **Hints** — Optional hints per question (tracked for fair rankings)
 - **Streaks** — Daily streak tracking with milestone badges (7, 14, 30 days)
 - **Telegram Channel** — Rankings auto-posted to @NumNinjas for parents to share
@@ -233,10 +233,10 @@ Questions are in `packages/database/prisma/seeds/questions-levelX.ts`. Example:
   hintText: 'اجمع سعر العصير وسعر التفاح',
   explanation: '15 + 8 = 23 جنيه',
   options: [
-    { optionText: '٢٣ جنيه', isCorrect: true },
-    { optionText: '٢٠ جنيه', isCorrect: false },
-    { optionText: '٢٥ جنيه', isCorrect: false },
-    { optionText: '٢٢ جنيه', isCorrect: false },
+    { optionText: '23 جنيه', isCorrect: true },
+    { optionText: '20 جنيه', isCorrect: false },
+    { optionText: '25 جنيه', isCorrect: false },
+    { optionText: '22 جنيه', isCorrect: false },
   ],
 }
 ```

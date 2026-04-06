@@ -242,7 +242,7 @@ export function QuestionForm({
               name="correctAnswer"
               defaultValue={question?.correctAnswer ?? ""}
               className={inputClass}
-              placeholder="مثال: ٤٥"
+              placeholder="مثال: 45"
             />
           </div>
           <div>

@@ -89,6 +89,11 @@ When writing or generating new questions:
 - Short energetic sentences, warm but not childish
 - بابا/ماما/خالتي are fine (universal family terms, not dialect)
 
+**Numbers — always Western digits:**
+- Use 3, 5, 15, 420 — NOT ٣، ٥، ١٥، ٤٢٠
+- Arab schools use Western digits (1, 2, 3) in math class
+- This applies to ALL Arabic text: questions, options, explanations, UI
+
 **Healthy lifestyle — no junk food:**
 - Never use: شيبسي, بونبون, شوكولاتة, حلويات, بسكويت, كولا, بيبسي
 - Instead use: تفاح, موز, تمر, عصير, فواكه, خضروات, حليب, ماء
