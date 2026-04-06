@@ -175,7 +175,8 @@ export async function handleLevelSelection(ctx: BotContext) {
   }
 
   try {
-    const profile = await createProfile(telegramId, nickname, levelId);
+    const tgUsername = ctx.from?.username;
+    const profile = await createProfile(telegramId, nickname, levelId, tgUsername);
     ctx.session.activeProfileId = profile.id;
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
@@ -260,7 +261,8 @@ export async function handleQuizAnswer(ctx: BotContext) {
   const telegramId = BigInt(ctx.from!.id);
 
   try {
-    const profile = await createProfile(telegramId, nickname, level.id);
+    const tgUsername = ctx.from?.username;
+    const profile = await createProfile(telegramId, nickname, level.id, tgUsername);
     ctx.session.activeProfileId = profile.id;
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};

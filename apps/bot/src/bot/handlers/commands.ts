@@ -1,7 +1,7 @@
 import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session';
 import { msg } from '../messages/arabic';
-import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, logger } from '@numninjas/database';
+import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, updateUsername, logger } from '@numninjas/database';
 import { buildLevelKeyboard } from '../keyboards/level';
 
 /**
@@ -56,7 +56,7 @@ export async function handleProfile(ctx: BotContext) {
   const correctAttempts = await prisma.questionAttempt.count({ where: { userId: profileId, isCorrect: true } });
   const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
 
-  let text = `🥷 *بروفايل ${user.nickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  let text = `🥷 *${user.nickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   text += `${user.level.iconEmoji || '🥋'} المستوى: *${user.level.name}*\n`;
   text += `💎 النقاط: *${user.totalPoints}*\n`;
   text += `📊 الدقة: *${accuracy}%* (${correctAttempts}/${totalAttempts})\n`;
@@ -85,9 +85,16 @@ export async function handleProfile(ctx: BotContext) {
     }
   }
 
+  // Profile link
+  if (user.username) {
+    text += `\n🔗 numninjas.com/profile/${user.username}`;
+  }
+
   const keyboard = new InlineKeyboard()
     .text('✏️ تغيير الاسم', 'edit_nickname')
-    .text('🥋 تغيير المستوى', 'edit_level');
+    .text('🥋 تغيير المستوى', 'edit_level')
+    .row()
+    .text('🔗 تغيير اسم المستخدم', 'edit_username');
 
   await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
@@ -252,4 +259,47 @@ export async function handleEditLevel(ctx: BotContext) {
 
   await ctx.answerCallbackQuery();
   await handleLevel(ctx);
+}
+
+export async function handleEditUsername(ctx: BotContext) {
+  const profileId = ctx.session.activeProfileId;
+  if (!profileId) {
+    await ctx.answerCallbackQuery({ text: 'اختر لاعباً أولاً /start' });
+    return;
+  }
+
+  ctx.session.state = 'awaiting_nickname';
+  ctx.session.pendingData.changingUsername = true;
+  await ctx.answerCallbackQuery();
+  await ctx.reply(
+    '🔗 أرسل لي اسم المستخدم الجديد:\n\n' +
+    '(حروف إنجليزية، أرقام، أو شرطة سفلية — من 3 إلى 20 حرفاً)',
+  );
+}
+
+export async function handleUsernameInput(ctx: BotContext, text: string): Promise<boolean> {
+  const profileId = ctx.session.activeProfileId;
+  if (!profileId) return false;
+
+  try {
+    await updateUsername(profileId, text);
+    ctx.session.state = 'idle';
+    ctx.session.pendingData = {};
+    await ctx.reply(`✅ تم تغيير اسم المستخدم إلى *${text}*\n🔗 numninjas.com/profile/${text}`, {
+      parse_mode: 'Markdown',
+    });
+    return true;
+  } catch (err) {
+    const msg = (err as Error).message;
+    if (msg === 'USERNAME_TAKEN') {
+      await ctx.reply('❌ اسم المستخدم هذا مستخدم بالفعل. حاول اسماً آخر:');
+    } else if (msg === 'INVALID_USERNAME') {
+      await ctx.reply('❌ اسم المستخدم يجب أن يكون 3-20 حرفاً (حروف، أرقام، شرطة سفلية). حاول مرة أخرى:');
+    } else {
+      await ctx.reply('⚠️ حدثت مشكلة، حاول مرة أخرى');
+      ctx.session.state = 'idle';
+      ctx.session.pendingData = {};
+    }
+    return false;
+  }
 }

@@ -18,6 +18,8 @@ import {
   handleLevel,
   handleEditNickname,
   handleEditLevel,
+  handleEditUsername,
+  handleUsernameInput,
 } from './handlers/commands';
 import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin';
 import { msg } from './messages/arabic';
@@ -56,6 +58,7 @@ bot.callbackQuery(/^pick_profile:/, handlePickProfile);
 bot.callbackQuery('add_child', handleAddChildCallback);
 bot.callbackQuery('edit_nickname', handleEditNickname);
 bot.callbackQuery('edit_level', handleEditLevel);
+bot.callbackQuery('edit_username', handleEditUsername);
 bot.callbackQuery(/^answer:/, handleMcqAnswer);
 bot.callbackQuery(/^hint:/, handleHint);
 bot.callbackQuery(/^skip:/, handleSkip);
@@ -74,7 +77,12 @@ bot.on('message:text', async (ctx) => {
 
   switch (ctx.session.state) {
     case 'awaiting_nickname':
-      await handleNicknameInput(ctx);
+      // Check if this is a username change (not nickname)
+      if (ctx.session.pendingData.changingUsername) {
+        await handleUsernameInput(ctx, ctx.message.text.trim());
+      } else {
+        await handleNicknameInput(ctx);
+      }
       break;
 
     case 'awaiting_answer':

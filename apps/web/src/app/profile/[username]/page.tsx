@@ -1,27 +1,31 @@
-import { prisma, getUserBadges } from '@numninjas/database';
+import { prisma, getUserBadges, findUserByUsername } from '@numninjas/database';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-const levelEmojis: Record<number, string> = {
-  1: '🥋',
-  2: '🟡',
-  3: '🟠',
-  4: '🟢',
-  5: '⬛',
+type Props = {
+  params: Promise<{ username: string }>;
 };
 
-type Props = {
-  params: Promise<{ userId: string }>;
-};
+/**
+ * Resolve a user by username or numeric ID (for backwards compatibility).
+ */
+async function resolveUser(usernameOrId: string) {
+  // Try numeric ID first (backwards compat with old /profile/123 links)
+  if (/^\d+$/.test(usernameOrId)) {
+    return prisma.user.findUnique({
+      where: { id: parseInt(usernameOrId) },
+      include: { level: true },
+    });
+  }
+  // Look up by username
+  return findUserByUsername(usernameOrId);
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { userId } = await params;
-  const user = await prisma.user.findUnique({
-    where: { id: parseInt(userId) },
-    include: { level: true },
-  });
+  const { username } = await params;
+  const user = await resolveUser(username);
 
   if (!user) return { title: 'الملف الشخصي غير موجود' };
 
@@ -31,31 +35,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `الملف الشخصي — ${user.nickname}`,
       description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة`,
+      images: [`/api/certificate/${user.username || user.id}`],
     },
   };
 }
 
 export default async function ProfilePage({ params }: Props) {
-  const { userId } = await params;
-  const id = parseInt(userId);
-
-  if (isNaN(id)) notFound();
-
-  const user = await prisma.user.findUnique({
-    where: { id },
-    include: { level: true },
-  });
+  const { username } = await params;
+  const user = await resolveUser(username);
 
   if (!user) notFound();
 
-  const badges = await getUserBadges(id);
+  const badges = await getUserBadges(user.id);
 
-  // Compute accuracy
-  const attempts = await prisma.questionAttempt.count({ where: { userId: id } });
-  const correct = await prisma.questionAttempt.count({ where: { userId: id, isCorrect: true } });
+  const attempts = await prisma.questionAttempt.count({ where: { userId: user.id } });
+  const correct = await prisma.questionAttempt.count({ where: { userId: user.id, isCorrect: true } });
   const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
 
-  const levelEmoji = user.level.iconEmoji || levelEmojis[user.level.rankOrder] || '🥷';
+  const levelEmoji = user.level.iconEmoji || '🥷';
+  const profileSlug = user.username || String(user.id);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -63,13 +61,16 @@ export default async function ProfilePage({ params }: Props) {
         <span className="text-5xl block mb-3">{levelEmoji}</span>
         <h1 className="text-3xl font-bold">{user.nickname}</h1>
         <p className="text-slate-400 mt-1">{user.level.name}</p>
+        {user.username && (
+          <p className="text-slate-500 text-sm mt-1">@{user.username}</p>
+        )}
       </header>
 
       <main className="max-w-2xl mx-auto px-6 py-10">
         {/* Share Button */}
         <div className="flex justify-center mb-6">
           <a
-            href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${id}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — نينجا الأرقام\n${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`)}`}
+            href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${profileSlug}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — نينجا الأرقام\n${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors"

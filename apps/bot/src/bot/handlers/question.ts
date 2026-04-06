@@ -633,6 +633,18 @@ async function showDailySummary(ctx: BotContext, userId: number) {
           .text('🔼 انتقل للمستوى التالي', `level_up:${nextLevel.id}`)
           .text('🔄 استمر في نفس المستوى', 'stay_level');
 
+        // Send certificate image
+        const profileSlug = user.username || String(user.id);
+        const certUrl = `https://numninjas.com/api/certificate/${profileSlug}?type=level&levelName=${encodeURIComponent(user.level.name)}`;
+        try {
+          await ctx.replyWithPhoto(certUrl, {
+            caption: `🎉 *مبروك يا ${user.nickname}!*\nلقد أتقنت ${levelEmoji} ${user.level.name}!`,
+            parse_mode: 'Markdown',
+          });
+        } catch {
+          // Fallback if image fails (e.g., site not deployed yet)
+        }
+
         await ctx.reply(
           `🎉🥷 *مبروك يا ${user.nickname}!*\n\n` +
             `لقد أتقنت جميع مواضيع ${levelEmoji} ${user.level.name}!\n\n` +

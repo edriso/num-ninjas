@@ -24,6 +24,7 @@ model User {
   id           Int       @id @default(autoincrement())
   accountId    BigInt    @map("account_id")
   nickname     String
+  username     String?   @unique
   levelId      Int       @map("level_id")
   streakDays   Int       @default(0) @map("streak_days")
   totalPoints  Int       @default(0) @map("total_points")

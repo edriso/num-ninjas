@@ -10,12 +10,13 @@
   },
   "dependencies": {
     "@numninjas/database": "workspace:*",
+    "@vercel/og": "^0.11.1",
+    "bcryptjs": "^3.0.2",
+    "lucide-react": "^0.511.0",
     "next": "16.2.2",
     "next-auth": "^5.0.0-beta.25",
-    "bcryptjs": "^3.0.2",
     "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "lucide-react": "^0.511.0"
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
