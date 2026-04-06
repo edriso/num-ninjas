@@ -52,7 +52,7 @@ pnpm --filter web dev
 ```
 src/
 ├── auth.ts              → Auth.js v5 config (credentials provider)
-├── middleware.ts         → Protects /admin/* routes
+├── proxy.ts         → Protects /admin/* routes
 ├── app/
 │   ├── page.tsx         → Landing page
 │   ├── leaderboard/     → Per-level rankings (ISR 1hr)

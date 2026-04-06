@@ -129,7 +129,7 @@ src/
 ```
 src/
 ├── auth.ts             → Auth.js v5 config (credentials provider)
-├── middleware.ts        → Protects /admin/* routes (cookie check, no Prisma import)
+├── proxy.ts        → Protects /admin/* routes (cookie check, no Prisma import)
 ├── app/
 │   ├── page.tsx        → Landing page (static)
 │   ├── actions/locale.ts → setLocale server action (cookie)
@@ -198,7 +198,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **`pnpm db:generate`**: Must run after any schema change — the generated client is in node_modules
 - **`pnpm db:reset`**: Destroys all data — dev only
 - **BigInt**: Telegram IDs are BigInt in Prisma. Safe to convert to Number() since Telegram IDs are < 2^53
-- **Middleware can't import Prisma**: The Next.js middleware runs in Edge Runtime. It checks the auth cookie directly, NOT through the Auth.js auth() function (which imports Prisma)
+- **Proxy can't import Prisma**: The Next.js proxy runs in Edge Runtime. It checks the auth cookie directly, NOT through the Auth.js auth() function (which imports Prisma)
 - **Bot imports use @numninjas/database**: Never import from relative service/util paths in bot code. Always from the package.
 - **ScheduledQuestion is per-user**: Not per-level. Each kid gets personalized questions based on their weak topics.
 - **Rankings are per-level**: A Level 1 kid only competes with other Level 1 kids. Monthly/yearly are global.
