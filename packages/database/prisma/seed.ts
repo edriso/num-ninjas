@@ -71,9 +71,9 @@ async function main() {
 
   // ─── Badges ─────────────────────────────────────────────────────────
   const badgesData = [
-    { name: 'بطل الأسبوع', nameEn: 'Week Champion', badgeType: 'weekly_rank', rankPosition: 1, iconEmoji: '🥇', awardTitle: 'المركز الأول', awardTitleEn: '1st Place' },
-    { name: 'المركز الثاني', nameEn: '2nd Place', badgeType: 'weekly_rank', rankPosition: 2, iconEmoji: '🥈', awardTitle: 'المركز الثاني', awardTitleEn: '2nd Place' },
-    { name: 'المركز الثالث', nameEn: '3rd Place', badgeType: 'weekly_rank', rankPosition: 3, iconEmoji: '🥉', awardTitle: 'المركز الثالث', awardTitleEn: '3rd Place' },
+    { name: 'بطل الأسبوع', nameEn: 'Week Champion', badgeType: 'weekly_rank', rankPosition: 1, iconEmoji: '🥇', awardTitle: 'المركز الأول', awardTitleEn: '1st Place', description: 'المركز الأول هذا الأسبوع', descriptionEn: 'Ranked #1 this week' },
+    { name: 'المركز الثاني', nameEn: '2nd Place', badgeType: 'weekly_rank', rankPosition: 2, iconEmoji: '🥈', awardTitle: 'المركز الثاني', awardTitleEn: '2nd Place', description: 'المركز الثاني هذا الأسبوع', descriptionEn: 'Ranked #2 this week' },
+    { name: 'المركز الثالث', nameEn: '3rd Place', badgeType: 'weekly_rank', rankPosition: 3, iconEmoji: '🥉', awardTitle: 'المركز الثالث', awardTitleEn: '3rd Place', description: 'المركز الثالث هذا الأسبوع', descriptionEn: 'Ranked #3 this week' },
     { name: 'الثابت', nameEn: 'The Consistent', badgeType: 'monthly_rank', iconEmoji: '🔥', awardTitle: 'الأكثر حضوراً', awardTitleEn: 'Most Active', description: 'أكتر واحد لعب أيام في الشهر', descriptionEn: 'Most active days this month' },
     { name: 'العقل الحاد', nameEn: 'The Sharp Mind', badgeType: 'monthly_rank', iconEmoji: '🎯', awardTitle: 'الأدق إجابةً', awardTitleEn: 'Best Accuracy', description: 'أعلى نسبة إجابات صح', descriptionEn: 'Highest correct answer rate' },
     { name: 'المستقل', nameEn: 'The Independent', badgeType: 'monthly_rank', iconEmoji: '⚡', awardTitle: 'الأقل استعانةً', awardTitleEn: 'Fewest Hints', description: 'أقل واحد استخدم التلميحات', descriptionEn: 'Least hints used this month' },
