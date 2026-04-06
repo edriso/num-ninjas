@@ -59,7 +59,7 @@ export default function Home() {
 
         {/* Levels */}
         <section className="py-20 px-6 bg-slate-50">
-          <h2 className="text-3xl font-bold text-center mb-12 text-slate-800"><span className="inline-block" dir="ltr">🥷</span> مستويات النينجا</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-slate-800" dir="ltr">🥷 مستويات النينجا</h2>
           <div className="max-w-3xl mx-auto space-y-4">
             {levels.map((level, i) => (
               <div

@@ -101,7 +101,7 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4"><span className="inline-block" dir="ltr">🏅</span> الأوسمة</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-4" dir="ltr">🏅 الأوسمة</h2>
           {badges.length === 0 ? (
             <p className="text-slate-500 text-center py-8">لا توجد أوسمة بعد — استمر وستكسب!</p>
           ) : (
