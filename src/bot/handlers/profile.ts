@@ -77,7 +77,12 @@ export async function handlePlayers(ctx: BotContext) {
     return `${emoji} ${p.nickname} — ${p.level.name}${isActive ? msg.activeMarker : ''}`;
   });
 
-  await ctx.reply(msg.playersList(playerLines.join('\n')), { parse_mode: 'Markdown' });
+  // Show list with switch buttons + add child
+  const keyboard = buildProfileKeyboard(profiles);
+  await ctx.reply(
+    msg.playersList(playerLines.join('\n')) + '\n\nاضغط على اسم عشان تبدّل:',
+    { parse_mode: 'Markdown', reply_markup: keyboard },
+  );
 }
 
 export async function handlePickProfile(ctx: BotContext) {

@@ -9,13 +9,15 @@ import {
   handlePickProfile,
   handleAddChildCallback,
 } from './handlers/profile.js';
-import { handleMcqAnswer, handleHint, handleOpenEndedAnswer } from './handlers/question.js';
+import { handleMcqAnswer, handleHint, handleOpenEndedAnswer, tryHandlePendingAnswer } from './handlers/question.js';
 import {
   handleProfile,
   handleRank,
   handleHall,
   handleStreak,
   handleLevel,
+  handleEditNickname,
+  handleEditLevel,
 } from './handlers/commands.js';
 import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin.js';
 import { msg } from './messages/arabic.js';
@@ -50,6 +52,8 @@ bot.command('admin_stats', handleAdminStats);
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
 bot.callbackQuery(/^pick_profile:/, handlePickProfile);
 bot.callbackQuery('add_child', handleAddChildCallback);
+bot.callbackQuery('edit_nickname', handleEditNickname);
+bot.callbackQuery('edit_level', handleEditLevel);
 bot.callbackQuery(/^answer:/, handleMcqAnswer);
 bot.callbackQuery(/^hint:/, handleHint);
 
@@ -72,7 +76,8 @@ bot.on('message:text', async (ctx) => {
 
     case 'idle':
     default:
-      // Ignore unexpected text
+      // Check if user might be answering an open-ended question sent by cron
+      await tryHandlePendingAnswer(ctx);
       break;
   }
 });
@@ -87,14 +92,9 @@ bot.catch((err) => {
 async function setBotCommands() {
   await bot.api.setMyCommands([
     { command: 'start', description: 'ابدأ أو ارجع للقائمة' },
-    { command: 'profile', description: 'بروفايلي' },
-    { command: 'rank', description: 'الترتيب الأسبوعي' },
-    { command: 'hall', description: 'قاعة الشهرة' },
-    { command: 'streak', description: 'السلسلة' },
-    { command: 'level', description: 'تغيير المستوى' },
-    { command: 'addchild', description: 'أضف طفل جديد' },
-    { command: 'switch', description: 'غيّر اللاعب' },
-    { command: 'players', description: 'قائمة اللاعبي��' },
+    { command: 'profile', description: 'بروفايلي والإحصائيات' },
+    { command: 'rank', description: 'الترتيب وقاعة الشهرة' },
+    { command: 'players', description: 'اللاعبين (تبديل/إضافة)' },
     { command: 'help', description: 'المساعدة' },
   ]);
 }

@@ -50,3 +50,10 @@ export async function setActiveProfile(telegramId: bigint, profileId: number) {
 export async function getProfileCount(telegramId: bigint) {
   return prisma.user.count({ where: { accountId: telegramId } });
 }
+
+export async function updateNickname(userId: number, nickname: string) {
+  return prisma.user.update({
+    where: { id: userId },
+    data: { nickname },
+  });
+}

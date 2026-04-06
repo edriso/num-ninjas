@@ -5,6 +5,7 @@ import { buildProfileKeyboard } from '../keyboards/profile.js';
 import { buildLevelKeyboard } from '../keyboards/level.js';
 import prisma from '../../db/prisma.js';
 import { logger } from '../../utils/logger.js';
+import { sendQuestionToUser } from './question.js';
 
 export async function handleStart(ctx: BotContext) {
   if (ctx.chat?.type !== 'private') {
@@ -33,6 +34,9 @@ export async function handleStart(ctx: BotContext) {
       msg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥋'),
       { parse_mode: 'Markdown' },
     );
+
+    // Auto-send next question if available
+    await sendQuestionToUser(ctx, profile.id, profile.levelId);
     return;
   }
 
@@ -55,6 +59,17 @@ export async function handleNicknameInput(ctx: BotContext) {
     return false; // Signal that this was not handled
   }
 
+  // Case: Changing nickname for existing profile
+  if (ctx.session.pendingData.changingNickname && ctx.session.activeProfileId) {
+    await accountService.updateNickname(ctx.session.activeProfileId, text);
+    ctx.session.state = 'idle';
+    ctx.session.pendingData = {};
+    await ctx.reply(`✅ تم تغيير الاسم لـ *${text}*`, { parse_mode: 'Markdown' });
+    logger.info('Nickname changed', { profileId: ctx.session.activeProfileId, newName: text });
+    return true;
+  }
+
+  // Case: Onboarding — pick level next
   ctx.session.pendingData.nickname = text;
   ctx.session.state = 'awaiting_level';
 

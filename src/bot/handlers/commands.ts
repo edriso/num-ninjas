@@ -1,3 +1,4 @@
+import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session.js';
 import { msg } from '../messages/arabic.js';
 import prisma from '../../db/prisma.js';
@@ -54,10 +55,28 @@ export async function handleProfile(ctx: BotContext) {
   const badges = await getUserBadges(profileId);
   const badgeEmojis = badges.map((ub) => ub.badge.iconEmoji || '🏅').join(' ');
 
+  // Compute accuracy
+  const totalAttempts = await prisma.questionAttempt.count({ where: { userId: profileId } });
+  const correctAttempts = await prisma.questionAttempt.count({ where: { userId: profileId, isCorrect: true } });
+  const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
+
   let text = `🥷 *بروفايل ${user.nickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   text += `${user.level.iconEmoji || '🥋'} المستوى: *${user.level.name}*\n`;
   text += `💎 النقاط: *${user.totalPoints}*\n`;
-  text += `🔥 السلسلة: *${user.streakDays} يوم*\n`;
+  text += `📊 الدقة: *${accuracy}%* (${correctAttempts}/${totalAttempts})\n`;
+
+  // Streak with motivational message
+  if (user.streakDays === 0) {
+    text += `🔥 السلسلة: *0 يوم* — ابدأ النهارده! 💪\n`;
+  } else if (user.streakDays < 7) {
+    text += `🔥 السلسلة: *${user.streakDays} يوم* — كمّل لـ 7 عشان شارة! 🥷\n`;
+  } else if (user.streakDays < 14) {
+    text += `🔥🔥 السلسلة: *${user.streakDays} يوم* — رهيب! 💪\n`;
+  } else if (user.streakDays < 30) {
+    text += `🔥🔥🔥 السلسلة: *${user.streakDays} يوم* — أسطورة! 🌟\n`;
+  } else {
+    text += `🔥🔥🔥🔥 السلسلة: *${user.streakDays} يوم* — نينجا حقيقي! 🥷✨\n`;
+  }
 
   if (badgeEmojis) {
     text += `\n🏅 الشارات: ${badgeEmojis}`;
@@ -70,7 +89,11 @@ export async function handleProfile(ctx: BotContext) {
     }
   }
 
-  await ctx.reply(text, { parse_mode: 'Markdown' });
+  const keyboard = new InlineKeyboard()
+    .text('✏️ تغيير الاسم', 'edit_nickname')
+    .text('🥋 تغيير المستوى', 'edit_level');
+
+  await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
 
 // ─── /rank ──────────────────────────────────────────────────────────
@@ -104,6 +127,20 @@ export async function handleRank(ctx: BotContext) {
   const myRank = rankings.find((r) => r.userId === profileId);
   if (myRank && myRank.rank > 10) {
     text += `\n...\n${myRank.rank}. *${myRank.nickname}* — ${myRank.correctCount} صح ◀️`;
+  }
+
+  // Append recent hall of fame
+  const recentBadges = await prisma.userBadge.findMany({
+    include: { badge: true, user: true },
+    orderBy: { earnedAt: 'desc' },
+    take: 5,
+  });
+
+  if (recentBadges.length > 0) {
+    text += '\n\n🏛️ *قاعة الشهرة*\n';
+    for (const ub of recentBadges) {
+      text += `${ub.badge.iconEmoji || '🏅'} *${ub.user.nickname}* — ${ub.badge.name}\n`;
+    }
   }
 
   await ctx.reply(text, { parse_mode: 'Markdown' });
@@ -186,4 +223,30 @@ export async function handleLevel(ctx: BotContext) {
 
   // Store that we're changing level (reuse select_level callback)
   ctx.session.pendingData.changingLevel = true;
+}
+
+// ─── Profile Edit Callbacks ─────────────────────────────────────────
+
+export async function handleEditNickname(ctx: BotContext) {
+  const profileId = ctx.session.activeProfileId;
+  if (!profileId) {
+    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    return;
+  }
+
+  ctx.session.state = 'awaiting_nickname';
+  ctx.session.pendingData.changingNickname = true;
+  await ctx.answerCallbackQuery();
+  await ctx.reply('✏️ ابعتلي الاسم الجديد:');
+}
+
+export async function handleEditLevel(ctx: BotContext) {
+  const profileId = ctx.session.activeProfileId;
+  if (!profileId) {
+    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    return;
+  }
+
+  await ctx.answerCallbackQuery();
+  await handleLevel(ctx);
 }

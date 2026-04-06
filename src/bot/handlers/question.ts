@@ -5,6 +5,7 @@ import * as sessionService from '../../services/session.service.js';
 import * as attemptService from '../../services/attempt.service.js';
 import * as validationService from '../../services/validation.service.js';
 import { getSettingInt } from '../../services/setting.service.js';
+import { getActiveProfile } from '../../services/account.service.js';
 import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq.js';
 import { logger } from '../../utils/logger.js';
 import prisma from '../../db/prisma.js';
@@ -314,6 +315,49 @@ export async function handleHint(ctx: BotContext) {
 
   await ctx.answerCallbackQuery();
   await ctx.reply(`💡 *تلميح:* ${question.hintText}`, { parse_mode: 'Markdown' });
+}
+
+// ─── Auto-detect Open-Ended Answer (for cron-sent questions) ────────
+
+/**
+ * When a user sends text in idle state, check if they have a pending
+ * open-ended question (e.g., sent by the cron job). If so, auto-transition
+ * to answering mode and handle the answer.
+ */
+export async function tryHandlePendingAnswer(ctx: BotContext): Promise<boolean> {
+  const telegramId = BigInt(ctx.from!.id);
+
+  // Ensure active profile
+  let profileId = ctx.session.activeProfileId;
+  if (!profileId) {
+    const profile = await getActiveProfile(telegramId);
+    if (!profile) return false;
+    ctx.session.activeProfileId = profile.id;
+    profileId = profile.id;
+  }
+
+  // Check for incomplete session
+  const session = await sessionService.getTodaySession(profileId);
+  if (!session || session.isComplete) return false;
+  if (session.questionsAnswered >= session.questionsSent) return false;
+
+  // Get the next question the user should answer
+  const user = await prisma.user.findUnique({ where: { id: profileId } });
+  if (!user) return false;
+
+  const next = await questionService.getNextQuestion(profileId, user.levelId);
+  if (!next || next.question.questionType !== 'open_ended') return false;
+
+  // Check if already answered
+  const alreadyAnswered = await attemptService.hasAnswered(profileId, next.question.id);
+  if (alreadyAnswered) return false;
+
+  // Auto-set state and handle the answer
+  ctx.session.state = 'awaiting_answer';
+  ctx.session.pendingData.currentQuestionId = next.question.id;
+  ctx.session.pendingData.hintUsed = false;
+  await handleOpenEndedAnswer(ctx);
+  return true;
 }
 
 // ─── Daily Summary ──────────────────────────────────────────────────
