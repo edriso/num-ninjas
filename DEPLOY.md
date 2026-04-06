@@ -149,14 +149,66 @@ git push -u origin main
 6. Click **Deploy** and wait for it to build
 7. Your website should be live at your Hostinger domain!
 
-### First-time database setup
-After the first deploy, you need to create the tables and seed data.
-SSH into your Hostinger server (or use the terminal in hPanel):
+### Switch from SQLite to MySQL (required for production)
+
+The app uses SQLite for local development but needs MySQL in production. Before the first deploy, make these two changes:
+
+**1. Change the Prisma schema provider:**
+
+Edit `packages/database/prisma/schema.prisma`, line 6:
+```diff
+datasource db {
+-  provider = "sqlite"
++  provider = "mysql"
+}
+```
+
+**2. Change the database adapter in client.ts:**
+
+Edit `packages/database/src/client.ts`:
+```diff
+import { PrismaClient } from '@prisma/client';
+-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
++import { PrismaMysql2 } from '@prisma/adapter-mysql2';
+
+function createPrismaClient() {
+-  const url = process.env.DATABASE_URL || 'file:./packages/database/dev.db';
+-  const adapter = new PrismaBetterSqlite3({ url });
++  const url = process.env.DATABASE_URL!;
++  const adapter = new PrismaMysql2({ url });
+  return new PrismaClient({ adapter });
+}
+```
+
+**3. Install the MySQL adapter (and remove SQLite):**
 ```bash
-cd /path/to/your/app
+pnpm --filter @numninjas/database remove @prisma/adapter-better-sqlite3
+pnpm --filter @numninjas/database add @prisma/adapter-mysql2
+```
+
+**4. Do the same in seed.ts:**
+
+Edit `packages/database/prisma/seed.ts`, change the adapter import:
+```diff
+-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
++import { PrismaMysql2 } from '@prisma/adapter-mysql2';
+
+-const adapter = new PrismaBetterSqlite3({
+-  url: process.env.DATABASE_URL || 'file:./dev.db',
+-});
++const adapter = new PrismaMysql2({
++  url: process.env.DATABASE_URL!,
++});
+```
+
+**5. Push schema and seed:**
+```bash
+pnpm db:generate
 pnpm db:push
 pnpm db:seed
 ```
+
+> **Tip:** Commit these changes to a `production` branch or make them part of your deploy. Don't commit them to `main` if you still want SQLite for local dev — or use environment-based switching (see FUTURE.md).
 
 ---
 
