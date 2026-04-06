@@ -136,7 +136,7 @@ src/
 ### Database Package (packages/database/)
 ```
 src/
-├── client.ts           → Prisma singleton with adapter switching (SQLite/MySQL)
+├── client.ts           → Prisma singleton with @prisma/adapter-mariadb (MySQL)
 ├── index.ts            → Barrel export: prisma, all services, all utils, all types
 ├── types.ts            → Shared constants (QUESTION_TYPE, BADGE_TYPE, SESSION_STATE)
 ├── services/           → 11 service files (account, admin, attempt, badge, question, ranking, session, setting, spaced-repetition, topic-strength, validation)
@@ -163,7 +163,7 @@ All tests are pure unit tests — no database access needed.
 
 ## Common Gotchas
 
-- **`pnpm approve-builds`**: After fresh install, pnpm may block native module builds (better-sqlite3, prisma). They're listed in root package.json under `pnpm.onlyBuiltDependencies`
+- **`pnpm approve-builds`**: After fresh install, pnpm may block native module builds (prisma, mariadb). They're listed in root package.json under `pnpm.onlyBuiltDependencies`
 - **`pnpm db:generate`**: Must run after any schema change — the generated client is in node_modules
 - **`pnpm db:reset`**: Destroys all data — dev only
 - **BigInt**: Telegram IDs are BigInt in Prisma. Safe to convert to Number() since Telegram IDs are < 2^53
