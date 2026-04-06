@@ -6,7 +6,7 @@ export function Footer({ d, locale }: { d: Dictionary; locale: string }) {
   return (
     <footer className="bg-slate-950 text-slate-400 py-8 px-6 mt-auto">
       <nav
-        className="max-w-4xl mx-auto flex flex-wrap justify-center gap-6 mb-4 text-sm"
+        className="max-w-4xl mx-auto flex flex-wrap justify-center items-center gap-4 mb-4 text-sm"
         aria-label={locale === "ar" ? "تنقل الموقع" : "Site navigation"}
       >
         <Link
@@ -37,12 +37,12 @@ export function Footer({ d, locale }: { d: Dictionary; locale: string }) {
           href="https://t.me/NumNinjasBot"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
+          className="bg-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-medium hover:bg-emerald-500 transition-colors"
         >
           {d.nav.startOnTelegram}
         </a>
       </nav>
-      <div className="flex items-center justify-center gap-4 mt-4">
+      <div className="flex items-center justify-center gap-3 mt-4">
         <p className="text-xs text-slate-500">{d.footer.copyright}</p>
         <LanguageSwitcher locale={locale} />
       </div>

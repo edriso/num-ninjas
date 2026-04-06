@@ -66,18 +66,18 @@ async function main() {
 
   // ─── Badges ─────────────────────────────────────────────────────────
   const badgesData = [
-    { name: 'بطل الأسبوع', badgeType: 'weekly_rank', rankPosition: 1, iconEmoji: '🥇', awardTitle: 'المركز الأول' },
-    { name: 'الوصيف', badgeType: 'weekly_rank', rankPosition: 2, iconEmoji: '🥈', awardTitle: 'المركز الثاني' },
-    { name: 'المركز الثالث', badgeType: 'weekly_rank', rankPosition: 3, iconEmoji: '🥉', awardTitle: 'المركز الثالث' },
-    { name: 'الثابت', badgeType: 'monthly_rank', iconEmoji: '🔥', awardTitle: 'الأكثر حضوراً', description: 'أكتر واحد لعب أيام في الشهر' },
-    { name: 'العقل الحاد', badgeType: 'monthly_rank', iconEmoji: '🎯', awardTitle: 'الأدق إجابةً', description: 'أعلى نسبة إجابات صح' },
-    { name: 'المستقل', badgeType: 'monthly_rank', iconEmoji: '⚡', awardTitle: 'الأقل استعانةً', description: 'أقل واحد استخدم التلميحات' },
-    { name: 'أسطورة العام', badgeType: 'yearly_rank', iconEmoji: '🏆', awardTitle: 'بطل العام', description: 'أعلى نقاط في السنة' },
-    { name: 'عقل العام', badgeType: 'yearly_rank', iconEmoji: '💎', awardTitle: 'أذكى نينجا', description: 'أعلى نسبة إجابات صحيحة في السنة' },
-    { name: 'النينجا المداوم', badgeType: 'achievement', iconEmoji: '🔥', description: '7 أيام متواصلة' },
-    { name: 'أسبوعان بلا توقف', badgeType: 'achievement', iconEmoji: '💪', description: '14 يوم متواصل' },
-    { name: 'شهر كامل', badgeType: 'achievement', iconEmoji: '🌟', description: '30 يوم متواصل' },
-    { name: 'مئة سؤال', badgeType: 'achievement', iconEmoji: '📚', description: '100 إجابة صحيحة' },
+    { name: 'بطل الأسبوع', nameEn: 'Week Champion', badgeType: 'weekly_rank', rankPosition: 1, iconEmoji: '🥇', awardTitle: 'المركز الأول', awardTitleEn: '1st Place' },
+    { name: 'الوصيف', nameEn: 'Runner-up', badgeType: 'weekly_rank', rankPosition: 2, iconEmoji: '🥈', awardTitle: 'المركز الثاني', awardTitleEn: '2nd Place' },
+    { name: 'المركز الثالث', nameEn: '3rd Place', badgeType: 'weekly_rank', rankPosition: 3, iconEmoji: '🥉', awardTitle: 'المركز الثالث', awardTitleEn: '3rd Place' },
+    { name: 'الثابت', nameEn: 'The Consistent', badgeType: 'monthly_rank', iconEmoji: '🔥', awardTitle: 'الأكثر حضوراً', awardTitleEn: 'Most Active', description: 'أكتر واحد لعب أيام في الشهر', descriptionEn: 'Most active days this month' },
+    { name: 'العقل الحاد', nameEn: 'The Sharp Mind', badgeType: 'monthly_rank', iconEmoji: '🎯', awardTitle: 'الأدق إجابةً', awardTitleEn: 'Best Accuracy', description: 'أعلى نسبة إجابات صح', descriptionEn: 'Highest correct answer rate' },
+    { name: 'المستقل', nameEn: 'The Independent', badgeType: 'monthly_rank', iconEmoji: '⚡', awardTitle: 'الأقل استعانةً', awardTitleEn: 'Fewest Hints', description: 'أقل واحد استخدم التلميحات', descriptionEn: 'Least hints used this month' },
+    { name: 'أسطورة العام', nameEn: 'Year Legend', badgeType: 'yearly_rank', iconEmoji: '🏆', awardTitle: 'بطل العام', awardTitleEn: 'Champion', description: 'أعلى نقاط في السنة', descriptionEn: 'Top points this year' },
+    { name: 'عقل العام', nameEn: 'Sharpest Mind', badgeType: 'yearly_rank', iconEmoji: '💎', awardTitle: 'أذكى نينجا', awardTitleEn: 'Smartest Ninja', description: 'أعلى نسبة إجابات صحيحة في السنة', descriptionEn: 'Best accuracy this year' },
+    { name: 'النينجا المداوم', nameEn: 'Streak Ninja', badgeType: 'achievement', iconEmoji: '🔥', description: '7 أيام متواصلة', descriptionEn: '7 day streak' },
+    { name: 'أسبوعان بلا توقف', nameEn: 'Unstoppable', badgeType: 'achievement', iconEmoji: '💪', description: '14 يوم متواصل', descriptionEn: '14 day streak' },
+    { name: 'شهر كامل', nameEn: 'Full Month', badgeType: 'achievement', iconEmoji: '🌟', description: '30 يوم متواصل', descriptionEn: '30 day streak' },
+    { name: 'مئة سؤال', nameEn: '100 Questions', badgeType: 'achievement', iconEmoji: '📚', description: '100 إجابة صحيحة', descriptionEn: '100 correct answers' },
   ];
 
   for (let i = 0; i < badgesData.length; i++) {

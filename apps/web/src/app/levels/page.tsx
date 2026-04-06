@@ -57,8 +57,8 @@ export default async function LevelsPage() {
               </span>
               <div>
                 <h2 className="text-lg font-bold">{locale === 'en' && level.nameEn ? level.nameEn : level.name}</h2>
-                {level.description && (
-                  <p className="text-slate-400 text-sm">{level.description}</p>
+                {(level.description || level.descriptionEn) && (
+                  <p className="text-slate-400 text-sm">{locale === 'en' && level.descriptionEn ? level.descriptionEn : level.description}</p>
                 )}
               </div>
             </div>

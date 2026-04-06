@@ -15,7 +15,7 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
   return (
     <button
       onClick={switchLang}
-      className="text-sm px-3 py-1.5 rounded-full border border-slate-300 hover:bg-slate-100 transition-colors cursor-pointer"
+      className="text-xs px-2.5 py-1 rounded-full border border-slate-600 text-slate-400 hover:text-white hover:border-slate-400 transition-colors cursor-pointer"
     >
       {locale === 'ar' ? 'EN' : 'عربي'}
     </button>
