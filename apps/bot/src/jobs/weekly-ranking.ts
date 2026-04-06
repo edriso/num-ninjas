@@ -3,7 +3,8 @@ import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeRankings, getWeekStart, awardBadge, logger } from '@numninja/database';
 
 /**
- * Run weekly ranking, award top-3 badges, and broadcast leaderboard.
+ * Run weekly ranking per level, award top-3 badges, and broadcast.
+ * Each level has its own leaderboard — Level 1 kids compete with Level 1 kids.
  * Runs Sunday at 23:00 Cairo time.
  */
 export async function runWeeklyRanking(bot: Bot<BotContext>) {
@@ -12,46 +13,57 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
   const weekEnd = new Date(weekStart);
   weekEnd.setUTCDate(weekEnd.getUTCDate() + 7);
 
-  const rankings = await computeRankings(weekStart, weekEnd);
-
-  if (rankings.length === 0) {
-    logger.info('No weekly rankings to process (no activity)');
-    return;
-  }
-
-  // Award badges to top 3 (ties allowed)
+  const levels = await prisma.level.findMany({ orderBy: { rankOrder: 'asc' } });
   const weekLabel = `أسبوع ${weekStart.toISOString().split('T')[0]}`;
   const rankBadges = await prisma.badge.findMany({
     where: { badgeType: 'weekly_rank' },
     orderBy: { rankPosition: 'asc' },
   });
 
-  for (const entry of rankings) {
-    if (entry.rank > 3) break;
-    const badge = rankBadges.find((b) => b.rankPosition === entry.rank);
-    if (badge) {
-      await awardBadge(
-        entry.userId,
-        badge.id,
-        weekLabel,
-        weekStart,
-        `${entry.correctCount} صحيحة · ${entry.wrongCount} خطأ · ${entry.hintCount} تلميح`,
-      );
+  let totalBadges = 0;
+  const allMessages: string[] = [];
+
+  for (const level of levels) {
+    const rankings = await computeRankings(weekStart, weekEnd, level.id);
+    if (rankings.length === 0) continue;
+
+    // Award badges to top 3 in this level
+    for (const entry of rankings) {
+      if (entry.rank > 3) break;
+      const badge = rankBadges.find((b) => b.rankPosition === entry.rank);
+      if (badge) {
+        await awardBadge(
+          entry.userId,
+          badge.id,
+          `${weekLabel} — ${level.name}`,
+          weekStart,
+          `${entry.correctCount} صحيحة · ${entry.wrongCount} خطأ · ${entry.hintCount} تلميح`,
+        );
+        totalBadges++;
+      }
     }
+
+    // Build per-level leaderboard section
+    const medals = ['🥇', '🥈', '🥉'];
+    let section = `${level.iconEmoji || '🥋'} *${level.name}*\n`;
+    for (const entry of rankings.slice(0, 5)) {
+      const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
+      section += `${medal} *${entry.nickname}* — ${entry.correctCount} صحيحة`;
+      if (entry.rank <= 3) section += ` · ${entry.activeDays} يوم`;
+      section += '\n';
+    }
+    allMessages.push(section);
   }
 
-  // Build leaderboard message
-  const medals = ['🥇', '🥈', '🥉'];
-  let message = `🏆 *ترتيب الأسبوع*\n${weekLabel}\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-  for (const entry of rankings.slice(0, 10)) {
-    const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-    message += `${medal} *${entry.nickname}* — ${entry.correctCount} صحيحة`;
-    if (entry.rank <= 3) {
-      message += ` · ${entry.activeDays} يوم`;
-    }
-    message += '\n';
+  if (allMessages.length === 0) {
+    logger.info('No weekly rankings to process (no activity)');
+    return;
   }
+
+  // Build full broadcast message
+  const message =
+    `🏆 *ترتيب الأسبوع*\n${weekLabel}\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+    allMessages.join('\n');
 
   // Broadcast to all accounts
   const accounts = await prisma.account.findMany({
@@ -70,5 +82,5 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
     }
   }
 
-  logger.info('Weekly ranking broadcast', { sent, rankings: rankings.length });
+  logger.info('Weekly ranking broadcast', { sent, badges: totalBadges });
 }

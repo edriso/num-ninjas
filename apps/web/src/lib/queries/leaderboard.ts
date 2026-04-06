@@ -1,8 +1,34 @@
-import { computeRankings, computeMonthlyCategories, getWeekStart, getMonthStart, prisma } from '@numninja/database';
+import { computeRankings, computeMonthlyCategories, getWeekStart, getMonthStart, prisma, type RankEntry } from '@numninja/database';
 
-export async function getWeeklyRankings() {
+export interface LevelRanking {
+  levelId: number;
+  levelName: string;
+  levelEmoji: string;
+  rankings: RankEntry[];
+}
+
+/**
+ * Get weekly rankings grouped by level.
+ * Each level has its own leaderboard.
+ */
+export async function getWeeklyRankings(): Promise<LevelRanking[]> {
   const now = new Date();
-  return computeRankings(getWeekStart(now), now);
+  const weekStart = getWeekStart(now);
+  const levels = await prisma.level.findMany({ orderBy: { rankOrder: 'asc' } });
+
+  const result: LevelRanking[] = [];
+  for (const level of levels) {
+    const rankings = await computeRankings(weekStart, now, level.id);
+    if (rankings.length > 0) {
+      result.push({
+        levelId: level.id,
+        levelName: level.name,
+        levelEmoji: level.iconEmoji || '🥋',
+        rankings,
+      });
+    }
+  }
+  return result;
 }
 
 export async function getHallOfFame() {

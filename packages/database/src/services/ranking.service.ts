@@ -1,8 +1,10 @@
 import prisma from '../client';
 
-interface RankEntry {
+export interface RankEntry {
   userId: number;
   nickname: string;
+  levelName: string;
+  levelEmoji: string;
   correctCount: number;
   wrongCount: number;
   hintCount: number;
@@ -11,13 +13,21 @@ interface RankEntry {
 }
 
 /**
- * Compute rankings for a date range.
- * Uses Prisma queries + JS sorting (SQLite-compatible, no RANK()).
+ * Compute rankings for a date range, filtered by level.
+ *
+ * Rankings are per-level: a Level 1 kid only competes against other Level 1 kids.
+ * This is fair because Level 1 questions are easier than Level 5.
+ *
+ * If levelId is omitted, computes a global ranking across all levels
+ * (used for yearly awards where everyone competes).
  */
-export async function computeRankings(start: Date, end: Date): Promise<RankEntry[]> {
-  // Get all attempts in the period
+export async function computeRankings(start: Date, end: Date, levelId?: number): Promise<RankEntry[]> {
+  // Get attempts, optionally filtered by question level
   const attempts = await prisma.questionAttempt.findMany({
-    where: { answeredAt: { gte: start, lt: end } },
+    where: {
+      answeredAt: { gte: start, lt: end },
+      ...(levelId ? { question: { topic: { levelId } } } : {}),
+    },
     select: {
       userId: true,
       isCorrect: true,
@@ -48,7 +58,7 @@ export async function computeRankings(start: Date, end: Date): Promise<RankEntry
     entry.activeDays.add(a.answeredAt.toISOString().split('T')[0]);
   }
 
-  // Only include users who completed at least 1 session
+  // Only include users who completed at least 1 session in the period
   const sessions = await prisma.studySession.findMany({
     where: {
       sessionDate: { gte: start, lt: end },
@@ -58,21 +68,24 @@ export async function computeRankings(start: Date, end: Date): Promise<RankEntry
   });
   const completedUsers = new Set(sessions.map((s) => s.userId));
 
-  // Get user nicknames
+  // Get user details (nickname + level)
   const userIds = [...userMap.keys()].filter((id) => completedUsers.has(id));
   const users = await prisma.user.findMany({
     where: { id: { in: userIds } },
-    select: { id: true, nickname: true },
+    select: { id: true, nickname: true, level: { select: { name: true, iconEmoji: true } } },
   });
-  const nicknameMap = new Map(users.map((u) => [u.id, u.nickname]));
+  const userInfoMap = new Map(users.map((u) => [u.id, u]));
 
   // Build and sort ranking
   const entries: RankEntry[] = userIds
     .map((userId) => {
       const data = userMap.get(userId)!;
+      const info = userInfoMap.get(userId);
       return {
         userId,
-        nickname: nicknameMap.get(userId) || 'غير معروف',
+        nickname: info?.nickname || 'غير معروف',
+        levelName: info?.level.name || '',
+        levelEmoji: info?.level.iconEmoji || '🥋',
         correctCount: data.correctCount,
         wrongCount: data.wrongCount,
         hintCount: data.hintCount,
@@ -81,7 +94,6 @@ export async function computeRankings(start: Date, end: Date): Promise<RankEntry
       };
     })
     .sort((a, b) => {
-      // Sort: most correct DESC, fewest wrong ASC, fewest hints ASC, most active days DESC
       if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
       if (a.wrongCount !== b.wrongCount) return a.wrongCount - b.wrongCount;
       if (a.hintCount !== b.hintCount) return a.hintCount - b.hintCount;
@@ -101,7 +113,7 @@ export async function computeRankings(start: Date, end: Date): Promise<RankEntry
         curr.hintCount === prev.hintCount &&
         curr.activeDays === prev.activeDays
       ) {
-        curr.rank = prev.rank; // Tie
+        curr.rank = prev.rank;
       } else {
         curr.rank = i + 1;
       }
@@ -117,7 +129,7 @@ export async function computeRankings(start: Date, end: Date): Promise<RankEntry
 export function getWeekStart(date: Date): Date {
   const d = new Date(date);
   d.setUTCHours(0, 0, 0, 0);
-  const day = d.getUTCDay(); // 0=Sunday
+  const day = d.getUTCDay();
   d.setUTCDate(d.getUTCDate() - day);
   return d;
 }
@@ -143,14 +155,17 @@ export function getYearStart(date: Date): Date {
 }
 
 /**
- * Monthly hall of fame categories:
+ * Monthly hall of fame categories (per-level).
  * - Most active (most completed days)
  * - Sharpest (highest accuracy %)
  * - Most independent (fewest hints used)
  */
-export async function computeMonthlyCategories(start: Date, end: Date) {
+export async function computeMonthlyCategories(start: Date, end: Date, levelId?: number) {
   const attempts = await prisma.questionAttempt.findMany({
-    where: { answeredAt: { gte: start, lt: end } },
+    where: {
+      answeredAt: { gte: start, lt: end },
+      ...(levelId ? { question: { topic: { levelId } } } : {}),
+    },
     select: {
       userId: true,
       isCorrect: true,
@@ -194,15 +209,12 @@ export async function computeMonthlyCategories(start: Date, end: Date) {
     activeDays: data.days.size,
   }));
 
-  // Most active: most days played
-  const mostActive = entries.sort((a, b) => b.activeDays - a.activeDays)[0] || null;
+  const mostActive = [...entries].sort((a, b) => b.activeDays - a.activeDays)[0] || null;
 
-  // Sharpest: highest accuracy (min 5 attempts)
   const sharpest = entries
     .filter((e) => e.total >= 5)
     .sort((a, b) => b.accuracy - a.accuracy)[0] || null;
 
-  // Most independent: fewest hints (min 5 attempts)
   const independent = entries
     .filter((e) => e.total >= 5)
     .sort((a, b) => a.hints - b.hints)[0] || null;

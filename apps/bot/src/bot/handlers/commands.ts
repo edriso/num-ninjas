@@ -98,12 +98,19 @@ export async function handleRank(ctx: BotContext) {
   const profileId = await requireProfile(ctx);
   if (!profileId) return;
 
+  // Get user's current level for per-level ranking
+  const user = await prisma.user.findUnique({
+    where: { id: profileId },
+    include: { level: true },
+  });
+  if (!user) return;
+
   const now = new Date();
   const weekStart = getWeekStart(now);
   const weekEnd = new Date(weekStart);
   weekEnd.setUTCDate(weekEnd.getUTCDate() + 7);
 
-  const rankings = await computeRankings(weekStart, weekEnd);
+  const rankings = await computeRankings(weekStart, weekEnd, user.levelId);
 
   if (rankings.length === 0) {
     await ctx.reply('📊 لا يوجد ترتيب بعد هذا الأسبوع. ابدأ بالإجابة على الأسئلة! 💪');
@@ -111,7 +118,7 @@ export async function handleRank(ctx: BotContext) {
   }
 
   const medals = ['🥇', '🥈', '🥉'];
-  let text = `📊 *الترتيب الأسبوعي*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  let text = `📊 *الترتيب الأسبوعي — ${user.level.iconEmoji || '🥋'} ${user.level.name}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
