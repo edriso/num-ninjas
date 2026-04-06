@@ -57,7 +57,7 @@ export default async function ProfilePage({ params }: Props) {
   const profileSlug = user.username || String(user.id);
 
   return (
-    <div className="flex-1 bg-slate-50">
+    <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
         <span className="text-5xl block mb-3">{levelEmoji}</span>
         <h1 className="text-3xl font-bold">{user.nickname}</h1>
@@ -101,7 +101,7 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">🏅 الأوسمة</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-4"><span className="inline-block" dir="ltr">🏅</span> الأوسمة</h2>
           {badges.length === 0 ? (
             <p className="text-slate-500 text-center py-8">لا توجد أوسمة بعد — استمر وستكسب!</p>
           ) : (
