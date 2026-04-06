@@ -8,6 +8,7 @@
     "db:generate": "pnpm --filter @numninjas/database db:generate",
     "db:push": "pnpm --filter @numninjas/database db:push",
     "db:seed": "pnpm --filter @numninjas/database db:seed",
+    "db:seed:demo": "pnpm --filter @numninjas/database db:seed:demo",
     "db:reset": "pnpm --filter @numninjas/database db:reset",
     "test": "pnpm --filter @numninjas/database test"
   },
