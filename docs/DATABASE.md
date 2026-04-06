@@ -125,10 +125,10 @@
 | Table | Rows (seeded) | Purpose |
 |-------|--------------|---------|
 | accounts | 0 | Telegram user accounts (one per phone) |
-| users | 0 | Player profiles (up to 5 per account) |
+| users | 0 | Player profiles (up to 5 per account, with locale) |
 | levels | 5 | Ninja belt levels (⚪🟡🟠🟢🥋) |
 | topics | 35 | 7 topics per level |
-| questions | 420 | 12 per topic, MCQ + open-ended |
+| questions | 420 | 12 per topic, MCQ + open-ended (locale: ar) |
 | options | ~1260 | 3-4 options per MCQ question |
 | scheduled_questions | dynamic | Per-user daily question assignments |
 | study_sessions | dynamic | Daily progress tracking per user |

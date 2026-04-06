@@ -48,8 +48,9 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **moduleResolution: bundler**: Used across all packages (no .js extensions in imports)
 - **prisma-client-js generator**: Standard Prisma client in node_modules/@prisma/client (NOT the newer prisma-client TS generator — that has Turbopack compatibility issues)
 - **Server Components**: Website uses RSC for data fetching, Server Actions for mutations
-- **RTL Arabic**: Website uses `lang="ar" dir="rtl"` with Tailwind CSS
-- **Spacetoon Arabic**: All user-facing text uses warm, accessible MSA (not Egyptian dialect, not formal فصحى). Understood by all Arab kids regardless of country.
+- **Bilingual (Arabic + English)**: Bot uses `messages/arabic.ts` + `messages/english.ts` with `getMsg(ctx)` helper. Website uses dictionary pattern (`lib/dictionaries/`) with cookie-based locale. Auto-detects from Telegram language. Users switch with /language command or footer button.
+- **RTL/LTR**: Website sets `lang` and `dir` dynamically based on locale cookie (ar→rtl, en→ltr)
+- **Spacetoon Arabic**: All Arabic text uses warm, accessible MSA (not Egyptian dialect, not formal فصحى). Understood by all Arab kids regardless of country.
 - **Session state machine**: Bot uses Grammy sessions with state field (idle, awaiting_nickname, awaiting_level, awaiting_answer, onboarding_quiz)
 - **Adaptive difficulty**: Each kid gets different questions based on weak topics (topic-strength.service.ts). Questions selected per-user at 00:30, not per-level.
 - **Per-level rankings**: Each level has its own leaderboard. Level 1 kids compete with Level 1, not Level 5. Monthly ninja champions and yearly awards are global.
@@ -117,9 +118,10 @@ src/
 ├── bot/
 │   ├── index.ts        → Grammy bot setup, registers all handlers + callbacks
 │   ├── handlers/       → Command, callback, and text message handlers
+│   ├── helpers/get-msg.ts → getMsg(ctx) returns localized messages
 │   ├── keyboards/      → Inline keyboard builders (MCQ, level, profile)
-│   ├── messages/arabic.ts → ALL Arabic text lives here (Spacetoon Arabic)
-│   └── middleware/session.ts → Grammy session with state machine
+│   ├── messages/        → arabic.ts + english.ts + index.ts (i18n)
+│   └── middleware/session.ts → Grammy session with state machine + locale
 └── jobs/               → 8 cron jobs (questions, reminders, rankings, parent report)
 ```
 
@@ -130,13 +132,20 @@ src/
 ├── middleware.ts        → Protects /admin/* routes (cookie check, no Prisma import)
 ├── app/
 │   ├── page.tsx        → Landing page (static)
+│   ├── actions/locale.ts → setLocale server action (cookie)
 │   ├── leaderboard/    → Per-level weekly rankings (ISR 1hr)
-│   ├── champions/   → Monthly winners (ISR daily)
-│   ├── profile/[userId]/ → Player profile with OG tags (SSR)
+│   ├── champions/      → Monthly winners (ISR daily)
+│   ├── profile/[username]/ → Player profile with OG tags (SSR)
 │   ├── levels/         → Level explanations (ISR daily)
 │   └── admin/          → Auth-protected admin panel (9 pages + questions CRUD)
-├── components/admin/   → Sidebar, question filters, question form
-└── lib/queries/        → Server-side query wrappers
+├── components/
+│   ├── admin/          → Sidebar, question filters, question form
+│   ├── footer.tsx      → Shared footer with language switcher
+│   └── language-switcher.tsx → AR/EN toggle button
+└── lib/
+    ├── dictionaries/   → ar.ts + en.ts + index.ts (website i18n)
+    ├── locale.ts       → getLocale() reads cookie
+    └── queries/        → Server-side query wrappers
 ```
 
 ### Database Package (packages/database/)

@@ -78,23 +78,14 @@ Once the community reaches ~500+ users, create a Telegram group for parents:
 
 ---
 
-### Multi-Language Support
-Launch Arabic first. Add English after 500+ active users validate the product.
+### English Question Bank
+The i18n infrastructure is built (bot + website). What's missing is 420 English questions with localized scenarios. When created, they just need `locale: 'en'` and the system handles everything else.
 
-**Why wait:** In English you compete with Khan Academy, Photomath, IXL, and hundreds more. In Arabic you're one of very few. Serve the underserved market first.
-
-**When ready, the plan:**
-1. The `locale` column already exists on `users` and `questions` tables (added at launch, defaults to `'ar'`)
-2. Create `english.ts` alongside `arabic.ts` in the bot — same message keys, English values
-3. Add 420 English questions with the same topic structure but localized scenarios
-4. Bot: check `user.locale` and pick the right message file
-5. Website: use `next-intl` for RTL Arabic + LTR English
-6. Onboarding: ask language preference before the nickname step
-7. Questions table: filter by `locale` so Arabic kids get Arabic questions
-
-**Potential expansions after English:**
+### More Languages
 - French for North Africa (Morocco, Tunisia, Algeria)
 - Urdu for Pakistan (large Muslim market, similar curriculum)
+
+**How:** Add a new dictionary file + message file. The pattern is established.
 
 ---
 
@@ -140,3 +131,6 @@ These were planned features that have been built:
 - [x] Share button — Telegram share on profile page
 - [x] Accuracy-first weekly ranking — wrongCount ASC instead of correctCount DESC
 - [x] Transaction safety — recordAttemptAndProgress wraps attempt + session in $transaction
+- [x] Full i18n (Arabic + English) — bot messages, website dictionaries, auto-detection, /language command, footer switcher
+- [x] i18n-ready DB columns — nameEn/descriptionEn on levels, topics, badges, settings
+- [x] Performance indexes — 6 indexes on high-query tables
