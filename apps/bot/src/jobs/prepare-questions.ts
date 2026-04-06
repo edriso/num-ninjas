@@ -6,30 +6,29 @@ import {
   logger,
   getTopicStrengths,
   pickWeightedTopics,
+  getExcludedQuestionIds,
 } from '@numninjas/database';
 
 /**
  * Prepare today's questions for each active user.
  *
- * Adaptive difficulty:
- * 1. For each user, calculate per-topic accuracy (last 30 days)
- * 2. Weight topics by weakness (low accuracy → higher chance of being picked)
- * 3. Pick N topics via weighted random, then 1 question per topic
- * 4. Store as per-user ScheduledQuestion rows
+ * Combines two learning science concepts:
  *
- * This means each kid gets different questions based on what they struggle with.
- * A kid failing fractions will see more fraction questions. A kid who mastered
- * addition will rarely see addition but still gets it occasionally (weight 0.1).
+ * 1. Adaptive difficulty — topics are picked based on weakness
+ *    (low accuracy → higher chance of appearing)
+ *
+ * 2. Spaced repetition — questions reappear based on last attempt:
+ *    - Wrong answer: reappear after 2 days (needs reinforcement)
+ *    - Correct with hint: after 5 days (partially understood)
+ *    - Correct without hint: after 14 days (consolidation)
+ *    - Never attempted: available immediately
+ *
+ * This replaces the old flat 30-day question_repeat_days setting.
  */
 export async function prepareScheduledQuestions() {
   const today = todayCairoAsUtcMidnight();
-  const repeatDays = await getSettingInt('question_repeat_days');
   const questionsPerDay = await getSettingInt('questions_per_day');
 
-  const cutoffDate = new Date(today);
-  cutoffDate.setUTCDate(cutoffDate.getUTCDate() - repeatDays);
-
-  // Get all users with active profiles
   const users = await prisma.user.findMany({
     include: { level: true },
   });
@@ -43,7 +42,7 @@ export async function prepareScheduledQuestions() {
     });
     if (existing) continue;
 
-    // Get topic strengths for this user
+    // Get topic strengths for this user (adaptive difficulty)
     const strengths = await getTopicStrengths(user.id, user.levelId);
 
     if (strengths.length === 0) {
@@ -54,15 +53,8 @@ export async function prepareScheduledQuestions() {
     // Pick topics weighted by weakness
     const pickedTopics = pickWeightedTopics(strengths, questionsPerDay);
 
-    // Find recently used question IDs for this user
-    const recentScheduled = await prisma.scheduledQuestion.findMany({
-      where: {
-        userId: user.id,
-        scheduledDate: { gte: cutoffDate },
-      },
-      select: { questionId: true },
-    });
-    const recentIds = new Set(recentScheduled.map((r) => r.questionId));
+    // Get questions excluded by spaced repetition (still in cooldown)
+    const excludedIds = await getExcludedQuestionIds(user.id, user.levelId);
 
     // Pick 1 question per selected topic
     const selectedQuestions: { id: number }[] = [];
@@ -71,7 +63,7 @@ export async function prepareScheduledQuestions() {
       const available = await prisma.question.findMany({
         where: {
           topicId: topic.topicId,
-          ...(recentIds.size > 0 ? { id: { notIn: [...recentIds] } } : {}),
+          ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
         },
         select: { id: true },
       });
@@ -79,9 +71,9 @@ export async function prepareScheduledQuestions() {
       if (available.length > 0) {
         const picked = shuffle(available)[0];
         selectedQuestions.push(picked);
-        recentIds.add(picked.id); // Prevent duplicate in same day
+        excludedIds.add(picked.id); // Prevent duplicate in same day
       } else {
-        // Fallback: allow any question from this topic
+        // Fallback: allow any question from this topic (all in cooldown)
         const fallback = await prisma.question.findMany({
           where: { topicId: topic.topicId },
           select: { id: true },

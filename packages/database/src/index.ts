@@ -29,6 +29,7 @@ export * from './services/setting.service';
 export * from './services/validation.service';
 export * from './services/admin.service';
 export * from './services/topic-strength.service';
+export * from './services/spaced-repetition.service';
 
 // Utils
 export * from './utils/cairo-time';
