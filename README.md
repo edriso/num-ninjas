@@ -237,28 +237,9 @@ After adding questions, run `pnpm db:reset` to reload everything.
 
 ## Deployment
 
-```
-Cloudflare (domain + DNS + CDN + DDoS protection + SSL)
-        ↓
-Hostinger Business (Next.js website)
-        ↓
-Railway (Grammy bot — always running)
-        ↓
-Hostinger MySQL (shared database)
-```
+Both apps deploy from the same GitHub repo — push to `main` and both platforms auto-build.
 
-| Part | Where | Cost |
-|------|-------|------|
-| Domain + CDN + SSL | Cloudflare | Free |
-| Telegram bot | Railway | Free tier → ~$5/month |
-| Website | Hostinger Business | Already paid |
-| MySQL database | Hostinger Business | Included |
-
-Both apps deploy from the same GitHub repo:
-- **Railway** points at the repo root, builds `apps/bot`
-- **Hostinger** points at the repo root, builds `apps/web`
-- Both connect to the same MySQL database on Hostinger
-- **Cloudflare** sits in front of the website for CDN, SSL, and DDoS protection
+See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide covering Telegram bot creation, Hostinger setup, Railway setup, Cloudflare DNS, and all environment variables.
 
 ---
 
