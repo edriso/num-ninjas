@@ -9,25 +9,25 @@ export function Footer() {
       >
         <Link
           href="/"
-          className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded px-1"
+          className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
           الرئيسية
         </Link>
         <Link
           href="/levels"
-          className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded px-1"
+          className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
           المستويات
         </Link>
         <Link
           href="/leaderboard"
-          className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded px-1"
+          className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
           الترتيب
         </Link>
         <Link
           href="/hall-of-fame"
-          className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded px-1"
+          className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
           قاعة الشهرة
         </Link>
@@ -35,7 +35,7 @@ export function Footer() {
           href="https://t.me/NumNinjasBot"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded px-1"
+          className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
         >
           ابدأ على تليجرام
         </a>

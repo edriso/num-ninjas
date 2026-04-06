@@ -56,7 +56,7 @@ export function AdminSidebar({ email }: { email: string }) {
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                 active
                   ? "bg-blue-600 text-white"
                   : "text-gray-300 hover:bg-gray-700 hover:text-white"
@@ -72,7 +72,7 @@ export function AdminSidebar({ email }: { email: string }) {
       <div className="p-3 border-t border-gray-700">
         <button
           onClick={() => logout()}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <LogOut size={18} />
           <span>تسجيل الخروج</span>
@@ -88,7 +88,7 @@ export function AdminSidebar({ email }: { email: string }) {
         onClick={() => setOpen(!open)}
         aria-label={open ? 'إغلاق القائمة' : 'فتح القائمة'}
         aria-expanded={open}
-        className="fixed top-4 right-4 z-50 md:hidden bg-gray-800 text-white p-2 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="fixed top-4 right-4 z-50 md:hidden bg-gray-800 text-white p-2 rounded-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       >
         {open ? <X size={20} /> : <Menu size={20} />}
       </button>

@@ -74,7 +74,7 @@ export default async function ProfilePage({ params }: Props) {
             href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${profileSlug}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — نينجا الأرقام\n${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
           >
             📤 شارك الملف الشخصي
           </a>

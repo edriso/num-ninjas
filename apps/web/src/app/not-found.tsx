@@ -14,7 +14,7 @@ export default function NotFound() {
         <p className="text-slate-500 mb-8">الصفحة التي تبحث عنها ليست هنا</p>
         <Link
           href="/"
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-3 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
         >
           العودة للصفحة الرئيسية
         </Link>

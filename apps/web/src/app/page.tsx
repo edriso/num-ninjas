@@ -31,7 +31,7 @@ export default function Home() {
           href="https://t.me/NumNinjasBot"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-slate-900 text-white font-bold text-lg px-10 py-4 rounded-full transition-colors"
+          className="inline-block bg-emerald-500 hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 text-white font-bold text-lg px-10 py-4 rounded-full transition-colors"
         >
           هيا نبدأ على تليجرام ←
         </a>
@@ -84,7 +84,7 @@ export default function Home() {
             href="https://t.me/NumNinjasBot"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-slate-900 text-white font-bold text-lg px-10 py-4 rounded-full transition-colors"
+            className="inline-block bg-emerald-500 hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 text-white font-bold text-lg px-10 py-4 rounded-full transition-colors"
           >
             ابدأ على تليجرام ←
           </a>
