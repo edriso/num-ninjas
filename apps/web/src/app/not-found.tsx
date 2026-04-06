@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col flex-1 bg-slate-50">
       <main className="flex flex-col items-center justify-center flex-1 px-6 text-center">
         <h1 className="text-6xl font-bold text-slate-400 mb-4">٤٠٤</h1>
         <p className="text-2xl font-bold text-slate-700 mb-2">الصفحة غير موجودة</p>

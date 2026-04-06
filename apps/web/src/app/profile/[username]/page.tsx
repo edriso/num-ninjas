@@ -57,7 +57,7 @@ export default async function ProfilePage({ params }: Props) {
   const profileSlug = user.username || String(user.id);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="flex-1 bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
         <span className="text-5xl block mb-3">{levelEmoji}</span>
         <h1 className="text-3xl font-bold">{user.nickname}</h1>

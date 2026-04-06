@@ -8,7 +8,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-6">
+    <div className="flex-1 bg-slate-50 flex flex-col items-center justify-center px-6">
       <span className="text-5xl mb-4">😵</span>
       <h2 className="text-xl font-bold text-red-600 mb-4">حدثت مشكلة</h2>
       <p className="text-gray-500 mb-6 text-center">

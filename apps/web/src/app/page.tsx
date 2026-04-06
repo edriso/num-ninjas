@@ -16,10 +16,11 @@ const steps = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col flex-1">
       {/* Hero */}
       <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-24 px-6 text-center">
-        <h1 className="text-5xl font-bold mb-4">🥷 نينجا الأرقام</h1>
+        <h1 className="text-5xl font-bold mb-4" dir="ltr">🥷 NumNinjas</h1>
+        <p className="text-2xl font-bold text-slate-200 mb-2">نينجا الأرقام</p>
         <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-4">
           بوت تليجرام يُعلّم الأطفال الرياضيات بطريقة ممتعة
         </p>

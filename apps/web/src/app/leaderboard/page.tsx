@@ -20,7 +20,7 @@ export default async function LeaderboardPage() {
   const levelRankings = await getWeeklyRankings();
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="flex-1 bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
         <h1 className="text-3xl font-bold">📊 الترتيب الأسبوعي</h1>
         <p className="text-slate-400 mt-2">لكل مستوى ترتيبه الخاص — المنافسة عادلة!</p>
