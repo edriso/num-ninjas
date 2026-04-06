@@ -20,6 +20,8 @@ One Telegram account can have **up to 5 child profiles** (for parents with multi
 
 The **website** shows public leaderboards, player profiles, hall of fame, and has an admin panel for managing questions.
 
+The **@NumNinjas channel** auto-posts weekly leaderboards, monthly hall of fame, and yearly awards — parents share these and drive new signups.
+
 ---
 
 ## Features
@@ -37,6 +39,7 @@ The **website** shows public leaderboards, player profiles, hall of fame, and ha
 - **MCQ + Open-Ended** — Buttons for MCQ, text input with Arabic numeral support (٠-٩)
 - **Hints** — Optional hints per question (tracked for fair rankings)
 - **Streaks** — Daily streak tracking with milestone badges (7, 14, 30 days)
+- **Telegram Channel** — Rankings auto-posted to @NumNinjas for parents to share
 - **Website** — Public leaderboard, profiles, hall of fame + admin panel with questions CRUD
 - **150 Unit Tests** — All shared logic tested with vitest
 
@@ -256,6 +259,19 @@ Both apps deploy from the same GitHub repo:
 - **Hostinger** points at the repo root, builds `apps/web`
 - Both connect to the same MySQL database on Hostinger
 - **Cloudflare** sits in front of the website for CDN, SSL, and DDoS protection
+
+---
+
+## Telegram Setup
+
+| What | Handle | Purpose |
+|------|--------|---------|
+| Bot | @NumNinjasBot | Core experience — kids answer questions here |
+| Channel | @NumNinjas | Broadcast — leaderboards, hall of fame, tips |
+
+The bot auto-posts rankings to the channel. Parents subscribe, see their kid's name, screenshot it, share on WhatsApp → viral loop.
+
+**No group at launch.** Groups with 10–12 year olds need constant moderation. If the community grows, add a parents-only group later.
 
 ---
 

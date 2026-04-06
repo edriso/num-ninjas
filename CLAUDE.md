@@ -56,12 +56,13 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Level completion**: When all 7 topics mastered (≥3 attempts, ≥70% accuracy each), celebration + suggest next level
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display
 - **Adapter pattern for DB**: SQLite (dev) and MySQL (prod) via Prisma driver adapters, isolated in `packages/database/src/client.ts`
+- **Telegram channel**: Weekly/monthly/yearly rankings auto-posted to @NumNinjas channel (optional, set CHANNEL_USERNAME in bot .env)
 
 ## Environment Variables
 
 Each app has its own .env file:
 - `packages/database/.env` — DATABASE_URL, ADMIN_EMAIL, ADMIN_PASSWORD (for Prisma CLI + seed)
-- `apps/bot/.env` — BOT_TOKEN, ADMIN_TELEGRAM_ID, DATABASE_URL
+- `apps/bot/.env` — BOT_TOKEN, ADMIN_TELEGRAM_ID, CHANNEL_USERNAME, DATABASE_URL
 - `apps/web/.env.local` — DATABASE_URL, AUTH_SECRET
 
 ## Naming Conventions
