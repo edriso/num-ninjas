@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { PrismaClient, type Level } from '@prisma/client';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import bcrypt from 'bcryptjs';
 import { levelsData, topicsPerLevel } from './seeds/levels-and-topics';
 import { level1Questions } from './seeds/questions-level1';
 import { level2Questions } from './seeds/questions-level2';
@@ -121,6 +122,18 @@ async function main() {
     totalQuestions += levelCount;
   }
   console.log(`✅ ${totalQuestions} questions total`);
+
+  // ─── Default Admin ──────────────────────────────────────────────────
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@numninja.com';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'changeme123';
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
+
+  await prisma.admin.upsert({
+    where: { email: adminEmail },
+    update: {},
+    create: { email: adminEmail, password: hashedPassword },
+  });
+  console.log(`✅ Admin: ${adminEmail} (change password after first login!)`);
 
   console.log('\n🎉 Seed complete!');
 }
