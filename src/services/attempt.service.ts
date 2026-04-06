@@ -1,6 +1,7 @@
 import prisma from '../db/prisma.js';
 import { getSettingInt } from './setting.service.js';
 import { checkAchievements } from './badge.service.js';
+import { todayCairoAsUtcMidnight } from '../utils/cairo-time.js';
 import { logger } from '../utils/logger.js';
 
 interface RecordAttemptParams {
@@ -56,8 +57,7 @@ export async function recordAttempt(params: RecordAttemptParams) {
  * Check if user has already answered a specific question today.
  */
 export async function hasAnswered(userId: number, questionId: number) {
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
+  const today = todayCairoAsUtcMidnight();
 
   const attempt = await prisma.questionAttempt.findFirst({
     where: {
@@ -74,8 +74,7 @@ export async function hasAnswered(userId: number, questionId: number) {
  * Get user's attempts for today (for daily summary).
  */
 export async function getTodayAttempts(userId: number) {
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
+  const today = todayCairoAsUtcMidnight();
 
   return prisma.questionAttempt.findMany({
     where: {

@@ -1,5 +1,6 @@
 import prisma from '../db/prisma.js';
 import { todayCairoAsUtcMidnight } from '../utils/cairo-time.js';
+import { getSettingInt } from './setting.service.js';
 
 /**
  * Get today's scheduled questions for a level, ordered by position.
@@ -52,9 +53,11 @@ export async function getNextQuestion(userId: number, levelId: number) {
 
   if (!scheduled) return null;
 
+  const totalQuestions = await getSettingInt('questions_per_day');
+
   return {
     question: scheduled.question,
     position: nextPosition,
-    totalQuestions: 3,
+    totalQuestions,
   };
 }

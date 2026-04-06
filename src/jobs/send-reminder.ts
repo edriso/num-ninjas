@@ -2,7 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session.js';
 import prisma from '../db/prisma.js';
 import { todayCairoAsUtcMidnight } from '../utils/cairo-time.js';
-import { getSettingBool } from '../services/setting.service.js';
+import { getSettingBool, getSettingInt } from '../services/setting.service.js';
 import { logger } from '../utils/logger.js';
 
 /**
@@ -45,6 +45,8 @@ export async function sendReminder(bot: Bot<BotContext>) {
     const name = account.activeProfile.nickname;
 
     try {
+      const questionsPerDay = await getSettingInt('questions_per_day');
+
       if (!session || session.questionsAnswered === 0) {
         // Hasn't started
         await bot.api.sendMessage(
@@ -56,7 +58,7 @@ export async function sendReminder(bot: Bot<BotContext>) {
         );
       } else {
         // Started but didn't finish
-        const remaining = 3 - session.questionsAnswered;
+        const remaining = questionsPerDay - session.questionsAnswered;
         await bot.api.sendMessage(
           chatId,
           `💪 يا *${name}*! فاضلك ${remaining} سؤال بس!\n\n` +
