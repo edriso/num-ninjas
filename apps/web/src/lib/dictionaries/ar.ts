@@ -41,10 +41,10 @@ export const ar = {
     emptyHint: 'ابدأ بحل الأسئلة حتى تظهر هنا!',
     rank: 'الترتيب',
     name: 'الاسم',
-    correct: '✅ صحيحة',
-    wrong: '❌ خطأ',
-    hints: '💡 تلميحات',
-    days: '📅 أيام',
+    correct: 'صحيحة ✅',
+    wrong: 'خطأ ❌',
+    hints: 'تلميحات 💡',
+    days: 'أيام 📅',
   },
 
   // Champions

@@ -178,10 +178,10 @@ All tests are pure unit tests — no database access needed.
 
 ## RTL Emoji Fix Pattern
 
-Emojis in RTL text appear on the wrong side. Two patterns used:
+Emojis in RTL text appear on the wrong side. Patterns used:
 
-1. **Headings** (flex): `<h1 className="flex items-center justify-center gap-2"><span>📊</span> Text</h1>` — flex forces consistent emoji-left, text-right order
-2. **Table headers** (dir): `<th dir="ltr">✅ Text</th>` — `dir="ltr"` on centered `<th>` keeps emoji on left of text while staying centered
+1. **Headings** (flex): `<h1 className="flex items-center justify-center gap-2"><span>📊</span> Text</h1>` — flex forces consistent order
+2. **Table headers / labels** (string order): Put emoji AFTER text in both dictionaries. Arabic `'صحيحة ✅'` renders as `✅ صحيحة` (RTL reversal puts emoji on right visually). English `'Correct ✅'` renders as `Correct ✅` (emoji on right). Both languages consistent — no `dir` override needed.
 3. **Never** put `dir="ltr"` on `<h1>/<h2>` with Arabic text — it left-aligns the whole heading
 
 ## Common Gotchas

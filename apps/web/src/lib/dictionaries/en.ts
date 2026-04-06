@@ -39,10 +39,10 @@ export const en: Dictionary = {
     emptyHint: 'Start solving questions to appear here!',
     rank: 'Rank',
     name: 'Name',
-    correct: '\u2705 Correct',
-    wrong: '\u274C Wrong',
-    hints: '\uD83D\uDCA1 Hints',
-    days: '\uD83D\uDCC5 Days',
+    correct: 'Correct ✅',
+    wrong: 'Wrong ❌',
+    hints: 'Hints 💡',
+    days: 'Days 📅',
   },
 
   champions: {
