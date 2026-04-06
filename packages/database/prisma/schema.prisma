@@ -47,13 +47,15 @@ model User {
 // ─── Levels & Topics ────────────────────────────────────────────────
 
 model Level {
-  id          Int      @id @default(autoincrement())
-  name        String
-  rankOrder   Int      @map("rank_order")
-  description String?
-  iconEmoji   String?  @map("icon_emoji")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id            Int      @id @default(autoincrement())
+  name          String
+  nameEn        String?  @map("name_en") // English name (for i18n)
+  rankOrder     Int      @map("rank_order")
+  description   String?
+  descriptionEn String?  @map("description_en") // English description (for i18n)
+  iconEmoji     String?  @map("icon_emoji")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   topics             Topic[]
   users              User[]
@@ -62,13 +64,15 @@ model Level {
 }
 
 model Topic {
-  id           Int      @id @default(autoincrement())
-  levelId      Int      @map("level_id")
-  name         String
-  description  String?
-  orderInLevel Int      @default(1) @map("order_in_level")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id            Int      @id @default(autoincrement())
+  levelId       Int      @map("level_id")
+  name          String
+  nameEn        String?  @map("name_en") // English name (for i18n)
+  description   String?
+  descriptionEn String?  @map("description_en") // English description (for i18n)
+  orderInLevel  Int      @default(1) @map("order_in_level")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   level     Level      @relation(fields: [levelId], references: [id])
   questions Question[]
@@ -98,6 +102,8 @@ model Question {
   questionAttempts   QuestionAttempt[]
   scheduledQuestions ScheduledQuestion[]
 
+  @@index([topicId])
+  @@index([locale])
   @@map("questions")
 }
 
@@ -128,6 +134,7 @@ model ScheduledQuestion {
   question Question @relation(fields: [questionId], references: [id])
 
   @@unique([userId, position, scheduledDate], name: "user_position_date")
+  @@index([scheduledDate])
   @@map("scheduled_questions")
 }
 
@@ -146,6 +153,7 @@ model StudySession {
   user User @relation(fields: [userId], references: [id])
 
   @@unique([userId, sessionDate], name: "user_session_date")
+  @@index([sessionDate])
   @@map("study_sessions")
 }
 
@@ -161,21 +169,26 @@ model QuestionAttempt {
   user     User     @relation(fields: [userId], references: [id])
   question Question @relation(fields: [questionId], references: [id])
 
+  @@index([userId, answeredAt])
+  @@index([questionId])
   @@map("question_attempts")
 }
 
 // ─── Badges ─────────────────────────────────────────────────────────
 
 model Badge {
-  id           Int      @id @default(autoincrement())
-  name         String
-  awardTitle   String?  @map("award_title")
-  description  String?
-  iconEmoji    String?  @map("icon_emoji")
-  badgeType    String   @map("badge_type") // "achievement" | "weekly_rank" | "monthly_rank" | "yearly_rank"
-  rankPosition Int?     @map("rank_position")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id             Int      @id @default(autoincrement())
+  name           String
+  nameEn         String?  @map("name_en") // English name (for i18n)
+  awardTitle     String?  @map("award_title")
+  awardTitleEn   String?  @map("award_title_en") // English award title (for i18n)
+  description    String?
+  descriptionEn  String?  @map("description_en") // English description (for i18n)
+  iconEmoji      String?  @map("icon_emoji")
+  badgeType      String   @map("badge_type") // "achievement" | "weekly_rank" | "monthly_rank" | "yearly_rank"
+  rankPosition   Int?     @map("rank_position")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   userBadges UserBadge[]
 
@@ -201,13 +214,14 @@ model UserBadge {
 // ─── App Settings ───────────────────────────────────────────────────
 
 model Setting {
-  id          Int      @id @default(autoincrement())
-  settingKey  String   @unique @map("setting_key")
-  value       String
-  type        String   @default("string") // "integer" | "string" | "time" | "boolean"
-  description String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id            Int      @id @default(autoincrement())
+  settingKey    String   @unique @map("setting_key")
+  value         String
+  type          String   @default("string") // "integer" | "string" | "time" | "boolean"
+  description   String?
+  descriptionEn String?  @map("description_en") // English description (for i18n)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   @@map("settings")
 }

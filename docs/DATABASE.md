@@ -158,11 +158,29 @@
 - `admins.email`: UNIQUE — one admin per email
 - `settings.setting_key`: UNIQUE — one value per setting
 
-## Locale Support
+## Locale Support (i18n-ready)
 
-Two tables have a `locale` column (default `'ar'`) for future multi-language support:
+Columns added for future multi-language support (all nullable, default Arabic):
 
-- **`users.locale`** — user's language preference (`'ar'` or `'en'`)
-- **`questions.locale`** — which language the question content is in
+**Locale preference:**
+- `users.locale` — `'ar'` (default) or `'en'`
+- `questions.locale` — which language the question content is in
 
-Currently all content is Arabic. When English is added, filter questions by `WHERE locale = user.locale` and use the matching message file in the bot.
+**Translatable content (nullable `_en` columns):**
+- `levels.name_en`, `levels.description_en`
+- `topics.name_en`, `topics.description_en`
+- `badges.name_en`, `badges.description_en`, `badges.award_title_en`
+- `settings.description_en`
+
+When English is added: `user.locale === 'en' ? level.nameEn : level.name`
+
+## Performance Indexes
+
+| Index | Table | Why |
+|-------|-------|-----|
+| `(user_id, answered_at)` | question_attempts | Rankings query: filter by user + date range |
+| `(question_id)` | question_attempts | Spaced repetition: per-question lookups |
+| `(topic_id)` | questions | Adaptive difficulty: filter by topic |
+| `(locale)` | questions | i18n: filter questions by language |
+| `(scheduled_date)` | scheduled_questions | Daily question prep |
+| `(session_date)` | study_sessions | Daily session lookups |
