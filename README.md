@@ -249,7 +249,7 @@ After adding questions, run `pnpm db:reset` to reload everything.
 
 Both apps deploy from the same GitHub repo — push to `main` and both platforms auto-build.
 
-See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide covering Telegram bot creation, Hostinger setup, Railway setup, Cloudflare DNS, and all environment variables.
+See **[docs/DEPLOY.md](docs/DEPLOY.md)** for the full step-by-step guide covering Telegram bot creation, Hostinger setup, Railway setup, Cloudflare DNS, and all environment variables.
 
 ---
 
