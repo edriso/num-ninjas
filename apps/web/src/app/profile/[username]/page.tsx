@@ -114,10 +114,9 @@ export default async function ProfilePage({ params }: Props) {
                   <span className="text-2xl">{ub.badge.iconEmoji || '🏅'}</span>
                   <div className="flex-1">
                     <p className="font-bold text-slate-800">{locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}</p>
-                    <p className="text-sm text-slate-500">{ub.periodLabel}</p>
-                    {ub.metricSummary && (
-                      <p className="text-xs text-slate-500">{ub.metricSummary}</p>
-                    )}
+                    <p className="text-sm text-slate-500">
+                      {ub.metricSummary || ub.periodLabel}
+                    </p>
                   </div>
                   <span className="text-xs text-slate-500">
                     {new Date(ub.earnedAt).toLocaleDateString(dateLocale)}
