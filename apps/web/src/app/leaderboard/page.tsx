@@ -1,4 +1,5 @@
 import { getWeeklyRankings } from '@/lib/queries/leaderboard';
+import { Footer } from '@/components/footer';
 
 export const revalidate = 3600;
 
@@ -29,7 +30,7 @@ export default async function LeaderboardPage() {
         {levelRankings.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-slate-500">لا يوجد ترتيب بعد لهذا الأسبوع</p>
-            <p className="text-slate-400 mt-2">ابدأ بحل الأسئلة حتى تظهر هنا!</p>
+            <p className="text-slate-500 mt-2">ابدأ بحل الأسئلة حتى تظهر هنا!</p>
           </div>
         ) : (
           levelRankings.map((level) => (
@@ -82,6 +83,7 @@ export default async function LeaderboardPage() {
           ))
         )}
       </main>
+      <Footer />
     </div>
   );
 }

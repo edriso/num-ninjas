@@ -1,4 +1,5 @@
 import { prisma, getUserBadges, findUserByUsername } from '@numninjas/database';
+import { Footer } from '@/components/footer';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
@@ -73,7 +74,7 @@ export default async function ProfilePage({ params }: Props) {
             href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${profileSlug}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — نينجا الأرقام\n${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors"
+            className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
           >
             📤 شارك الملف الشخصي
           </a>
@@ -115,10 +116,10 @@ export default async function ProfilePage({ params }: Props) {
                     <p className="font-bold text-slate-800">{ub.badge.name}</p>
                     <p className="text-sm text-slate-500">{ub.periodLabel}</p>
                     {ub.metricSummary && (
-                      <p className="text-xs text-slate-400">{ub.metricSummary}</p>
+                      <p className="text-xs text-slate-500">{ub.metricSummary}</p>
                     )}
                   </div>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-slate-500">
                     {new Date(ub.earnedAt).toLocaleDateString('ar-EG')}
                   </span>
                 </div>
@@ -127,6 +128,7 @@ export default async function ProfilePage({ params }: Props) {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

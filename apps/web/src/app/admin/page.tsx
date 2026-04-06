@@ -1,5 +1,9 @@
 import { prisma, todayCairoAsUtcMidnight } from "@numninjas/database";
 
+export const metadata = {
+  title: 'لوحة التحكم',
+};
+
 export default async function AdminDashboard() {
   const today = todayCairoAsUtcMidnight();
 

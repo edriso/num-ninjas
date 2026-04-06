@@ -1,4 +1,5 @@
 import { getHallOfFame } from '@/lib/queries/leaderboard';
+import { Footer } from '@/components/footer';
 
 export const revalidate = 86400;
 
@@ -22,7 +23,7 @@ export default async function HallOfFamePage() {
         : null,
     },
     {
-      emoji: '🧠',
+      emoji: '🎯',
       title: 'العقل الحاد',
       desc: 'أعلى نسبة إجابات صحيحة',
       winner: categories.sharpest,
@@ -67,7 +68,7 @@ export default async function HallOfFamePage() {
                     <p className="text-sm text-slate-500 mt-1">{cat.stat}</p>
                   </>
                 ) : (
-                  <p className="text-slate-400">لا يوجد فائز بعد</p>
+                  <p className="text-slate-500">لا يوجد فائز بعد</p>
                 )}
               </div>
             ))}
@@ -93,7 +94,7 @@ export default async function HallOfFamePage() {
                       {ub.badge.name} — {ub.periodLabel}
                     </p>
                   </div>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-slate-500">
                     {new Date(ub.earnedAt).toLocaleDateString('ar-EG')}
                   </span>
                 </div>
@@ -102,6 +103,7 @@ export default async function HallOfFamePage() {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

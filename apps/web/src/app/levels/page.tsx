@@ -1,4 +1,5 @@
 import { prisma } from '@numninjas/database';
+import { Footer } from '@/components/footer';
 
 export const revalidate = 86400;
 
@@ -63,6 +64,7 @@ export default async function LevelsPage() {
           </div>
         ))}
       </main>
+      <Footer />
     </div>
   );
 }

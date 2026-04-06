@@ -72,7 +72,7 @@ async function main() {
     { name: 'الوصيف', badgeType: 'weekly_rank', rankPosition: 2, iconEmoji: '🥈', awardTitle: 'المركز الثاني' },
     { name: 'المركز الثالث', badgeType: 'weekly_rank', rankPosition: 3, iconEmoji: '🥉', awardTitle: 'المركز الثالث' },
     { name: 'الثابت', badgeType: 'monthly_rank', iconEmoji: '🔥', awardTitle: 'الأكثر حضوراً', description: 'أكتر واحد لعب أيام في الشهر' },
-    { name: 'العقل الحاد', badgeType: 'monthly_rank', iconEmoji: '🧠', awardTitle: 'الأدق إجابةً', description: 'أعلى نسبة إجابات صح' },
+    { name: 'العقل الحاد', badgeType: 'monthly_rank', iconEmoji: '🎯', awardTitle: 'الأدق إجابةً', description: 'أعلى نسبة إجابات صح' },
     { name: 'المستقل', badgeType: 'monthly_rank', iconEmoji: '⚡', awardTitle: 'الأقل استعانةً', description: 'أقل واحد استخدم التلميحات' },
     { name: 'أسطورة العام', badgeType: 'yearly_rank', iconEmoji: '🏆', awardTitle: 'بطل العام', description: 'أعلى نقاط في السنة' },
     { name: 'عقل العام', badgeType: 'yearly_rank', iconEmoji: '💎', awardTitle: 'أذكى نينجا', description: 'أعلى نسبة إجابات صحيحة في السنة' },
