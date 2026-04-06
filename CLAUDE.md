@@ -119,9 +119,24 @@ src/
 
 ## Deployment
 
-- **Bot** → Railway: \`pnpm install && pnpm db:generate && pnpm --filter bot build\`
-- **Website** → Hostinger: \`pnpm install && pnpm db:generate && pnpm --filter web build\`
-- Both connect to same MySQL database on Hostinger
+```
+Cloudflare (domain + DNS + CDN + DDoS protection + SSL)
+        ↓
+Hostinger Business (Next.js website)
+        ↓
+Railway (Grammy bot — always running, long polling)
+        ↓
+Hostinger MySQL (shared database)
+```
+
+- **Website** → Hostinger Business: auto-deploys from GitHub on push
+  - Build: `pnpm install && pnpm db:generate && pnpm --filter web build`
+  - Start: `pnpm --filter web start`
+- **Bot** → Railway: auto-deploys from GitHub on push
+  - Build: `pnpm install && pnpm db:generate && pnpm --filter bot build`
+  - Start: `pnpm --filter bot start`
+- **Database** → Hostinger MySQL: shared by both apps
+- **Domain/CDN** → Cloudflare: handles DNS, SSL, caching, DDoS protection
 
 ## Git
 
