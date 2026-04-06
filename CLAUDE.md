@@ -78,6 +78,29 @@ Each app has its own .env file:
 - **Seed files**: questions-levelX.ts in prisma/seeds/
 - **Test files**: *.test.ts in src/__tests__/
 
+## Question Content Guidelines
+
+When writing or generating new questions:
+
+**Language — Spacetoon Arabic:**
+- Use أنت not إنت, كم not كام, يريد not عايز, أصدقاء not صحاب
+- Use يكون not يبقى, يأخذ not ياخد, يتبقى not يفضل
+- Short energetic sentences, warm but not childish
+- بابا/ماما/خالتي are fine (universal family terms, not dialect)
+
+**Healthy lifestyle — no junk food:**
+- Never use: شيبسي, بونبون, شوكولاتة, حلويات, بسكويت, كولا, بيبسي
+- Instead use: تفاح, موز, تمر, عصير, فواكه, خضروات, حليب, ماء
+- Food scenarios should model healthy eating habits
+
+**Real-life contexts:**
+- Shopping (supermarket, school supplies, clothes)
+- School (students, classroom, exams)
+- Sports and outdoor activities
+- Family (cooking healthy meals, sharing fruit)
+- Egyptian/Arab culture (Eid money, Cairo metro, mosques)
+- Nature (garden, animals, weather)
+
 ## Architecture Notes
 
 ### Bot (apps/bot/)

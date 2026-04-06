@@ -218,9 +218,9 @@ Questions are in `packages/database/prisma/seeds/questions-levelX.ts`. Example:
 {
   topicIndex: 1,
   questionType: 'mcq',
-  realLifeContext: 'أنت في السوبر ماركت، اشتريت عصيراً بـ 15 جنيه وشيبسي بـ 8 جنيه.',
+  realLifeContext: 'أنت في السوبر ماركت، اشتريت عصيراً بـ 15 جنيه وتفاحاً بـ 8 جنيه.',
   questionText: 'كم المجموع الذي ستدفعه؟',
-  hintText: 'اجمع سعر العصير وسعر الشيبسي',
+  hintText: 'اجمع سعر العصير وسعر التفاح',
   explanation: '15 + 8 = 23 جنيه',
   options: [
     { optionText: '٢٣ جنيه', isCorrect: true },

@@ -21,7 +21,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'في مسابقة رياضيات، المُقدِّم سأل عن قوة الأعداد.',
-    questionText: 'كام يساوي ٢ أُس ٥ (٢⁵)؟',
+    questionText: 'كم يساوي ٢ أُس ٥ (٢⁵)؟',
     hintText: '٢ × ٢ × ٢ × ٢ × ٢ ... اضرب ٢ في نفسها ٥ مرات',
     explanation: '٢⁵ = ٢ × ٢ × ٢ × ٢ × ٢ = ٣٢',
     options: [
@@ -37,7 +37,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'بابا بيشرح لك إن البكتيريا بتتضاعف. كل ساعة عددها بيتضرب في ٣.',
-    questionText: 'لو بدأنا بـ ١ بكتيريا، بعد ٤ ساعات هيبقى كام؟ (٣⁴)',
+    questionText: 'لو بدأنا بـ ١ بكتيريا، بعد ٤ ساعات هيكون كام؟ (٣⁴)',
     hintText: '٣ × ٣ × ٣ × ٣',
     explanation: '٣⁴ = ٣ × ٣ × ٣ × ٣ = ٨١ بكتيريا',
     options: [
@@ -52,8 +52,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'عايز تحسب مساحة مربع طول ضلعه ٩ سم.',
-    questionText: 'كام تساوي ٩² (٩ تربيع)؟',
+    realLifeContext: 'يريد تحسب مساحة مربع طول ضلعه ٩ سم.',
+    questionText: 'كم تساوي ٩² (٩ تربيع)؟',
     hintText: 'المساحة = الضلع × الضلع',
     explanation: '٩² = ٩ × ٩ = ٨١ سم²',
     options: [
@@ -69,7 +69,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'في حصة العلوم، المُدرِّس بيشرح إن الخلايا بتنقسم وكل خلية تكون ٢.',
-    questionText: 'لو بدأنا بخلية واحدة وانقسمت ١٠ مرات، كام خلية هيبقى عندنا؟ (٢¹⁰)',
+    questionText: 'لو بدأنا بخلية واحدة وانقسمت ١٠ مرات، كم خلية هيكون عندنا؟ (٢¹⁰)',
     hintText: '٢¹⁰ يعني ٢ مضروبة في نفسها ١٠ مرات',
     explanation: '٢¹⁰ = ١٠٢٤ خلية',
     options: [
@@ -84,8 +84,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'عايز تعرف حجم مكعب طول ضلعه ٥ سم.',
-    questionText: 'كام يساوي ٥³ (٥ تكعيب)؟',
+    realLifeContext: 'يريد تعرف حجم مكعب طول ضلعه ٥ سم.',
+    questionText: 'كم يساوي ٥³ (٥ تكعيب)؟',
     hintText: 'الحجم = الضلع × الضلع × الضلع',
     explanation: '٥³ = ٥ × ٥ × ٥ = ١٢٥ سم³',
     options: [
@@ -101,7 +101,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'في لعبة كمبيوتر، قوة الشخصية بتتضاعف كل مرحلة. القوة الأساسية ٤ والمرحلة ٣.',
-    questionText: 'كام تساوي ٤³؟',
+    questionText: 'كم تساوي ٤³؟',
     hintText: '٤ × ٤ × ٤',
     explanation: '٤³ = ٤ × ٤ × ٤ = ٦٤',
     options: [
@@ -119,7 +119,7 @@ export const level5Questions: QuestionSeed[] = [
     realLifeContext: 'المدرس سأل سؤال تحدي في الحصة.',
     questionText: 'أي عدد لو رفعناه للأُس صفر بيساوي كام؟ مثلاً ٧⁰ = ؟',
     hintText: 'أي عدد (غير الصفر) أُس صفر بيساوي رقم ثابت',
-    explanation: 'أي عدد غير الصفر مرفوع للأُس صفر بيساوي ١. يبقى ٧⁰ = ١',
+    explanation: 'أي عدد غير الصفر مرفوع للأُس صفر بيساوي ١. يكون ٧⁰ = ١',
     options: [
       { optionText: '١', isCorrect: true },
       { optionText: '٧', isCorrect: false },
@@ -132,10 +132,10 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'عايز تقارن بين ٣⁴ و ٤³ حتى تعرف أي أكبر.',
+    realLifeContext: 'يريد تقارن بين ٣⁴ و ٤³ حتى تعرف أي أكبر.',
     questionText: 'أي أكبر: ٣⁴ ولا ٤³؟',
     hintText: 'احسب كل واحدة لوحدها وقارن',
-    explanation: '٣⁴ = ٨١ و ٤³ = ٦٤، يبقى ٣⁴ أكبر',
+    explanation: '٣⁴ = ٨١ و ٤³ = ٦٤، يكون ٣⁴ أكبر',
     options: [
       { optionText: '٣⁴ أكبر (٨١ > ٦٤)', isCorrect: true },
       { optionText: '٤³ أكبر', isCorrect: false },
@@ -149,7 +149,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'في مسابقة الرياضيات، المعلم طلب تحسب ٦ أُس ٣.',
-    questionText: 'كام يساوي ٦³؟',
+    questionText: 'كم يساوي ٦³؟',
     correctAnswer: '٢١٦',
     correctAnswerNumeric: 216,
     hintText: '٦ × ٦ = ٣٦، بعدين × ٦',
@@ -160,8 +160,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'عايز تعرف مساحة أرضية أوضتك اللي هي مربع طول ضلعه ١٢ متر.',
-    questionText: 'كام تساوي ١٢²؟',
+    realLifeContext: 'يريد تعرف مساحة أرضية أوضتك اللي هي مربع طول ضلعه ١٢ متر.',
+    questionText: 'كم تساوي ١٢²؟',
     correctAnswer: '١٤٤',
     correctAnswerNumeric: 144,
     hintText: '١٢ × ١٢',
@@ -173,10 +173,10 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'الكمبيوتر يعمل بالنظام الثنائي. كل بت بيضاعف الاحتمالات.',
-    questionText: 'كام يساوي ٢⁸؟',
+    questionText: 'كم يساوي ٢⁸؟',
     correctAnswer: '٢٥٦',
     correctAnswerNumeric: 256,
-    hintText: '٢⁴ = ١٦، يبقى ٢⁸ = ١٦ × ١٦',
+    hintText: '٢⁴ = ١٦، يكون ٢⁸ = ١٦ × ١٦',
     explanation: '٢⁸ = ٢٥٦',
   },
 
@@ -185,7 +185,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'تحتاج أن تحسب حجم صندوق مكعب طول ضلعه ٧ سم.',
-    questionText: 'كام يساوي ٧³؟',
+    questionText: 'كم يساوي ٧³؟',
     correctAnswer: '٣٤٣',
     correctAnswerNumeric: 343,
     hintText: '٧ × ٧ = ٤٩، بعدين × ٧',
@@ -201,8 +201,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'عندك ٣٦ تفاحة و ٢٤ برتقالة وعايز توزعهم في أكياس متساوية بأكبر عدد ممكن.',
-    questionText: 'كام كيس تقدر تعمل (أكبر عدد)؟ يعني العامل المشترك الأكبر لـ ٣٦ و ٢٤؟',
+    realLifeContext: 'عندك ٣٦ تفاحة و ٢٤ برتقالة ويريد توزعهم في أكياس متساوية بأكبر عدد ممكن.',
+    questionText: 'كم كيس تقدر تعمل (أكبر عدد)؟ يعني العامل المشترك الأكبر لـ ٣٦ و ٢٤؟',
     hintText: 'دور على أكبر عدد يقسم ٣٦ و ٢٤ من غير باقي',
     explanation: 'عوامل ٣٦: ١، ٢، ٣، ٤، ٦، ٩، ١٢، ١٨، ٣٦ | عوامل ٢٤: ١، ٢، ٣، ٤، ٦، ٨، ١٢، ٢٤ | العامل المشترك الأكبر = ١٢',
     options: [
@@ -218,7 +218,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'أحمد يذهب الجيم كل ٦ أيام ومحمد كل ٨ أيام. اليوم راحوا مع بعض.',
-    questionText: 'بعد كام يوم هيروحوا مع بعض تاني؟ (المضاعف المشترك الأصغر لـ ٦ و ٨)',
+    questionText: 'بعد كم يوم هيروحوا مع بعض تاني؟ (المضاعف المشترك الأصغر لـ ٦ و ٨)',
     hintText: 'دور على أصغر عدد يقبل القسمة على ٦ و ٨',
     explanation: 'مضاعفات ٦: ٦، ١٢، ١٨، ٢٤... | مضاعفات ٨: ٨، ١٦، ٢٤... | المضاعف المشترك الأصغر = ٢٤ يوم',
     options: [
@@ -233,7 +233,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'عندك ٤٨ قلم أحمر و ٦٠ قلم أزرق وعايز توزعهم على مجموعات متساوية.',
+    realLifeContext: 'عندك ٤٨ قلم أحمر و ٦٠ قلم أزرق ويريد توزعهم على مجموعات متساوية.',
     questionText: 'أكبر عدد مجموعات تقدر تعمله؟ (العامل المشترك الأكبر لـ ٤٨ و ٦٠)',
     hintText: 'العامل المشترك الأكبر هو أكبر عدد يقسم الاثنين',
     explanation: '٤٨ = ٢⁴ × ٣ و ٦٠ = ٢² × ٣ × ٥ | العامل المشترك الأكبر = ٢² × ٣ = ١٢',
@@ -250,7 +250,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'إشارة مرور تكون خضرا كل ٤ دقايق والتانية كل ٦ دقايق. الاثنين بقوا أخضر الآن.',
-    questionText: 'بعد كام دقيقة هيبقوا أخضر مع بعض تاني؟',
+    questionText: 'بعد كم دقيقة هيبقوا أخضر مع بعض تاني؟',
     hintText: 'المضاعف المشترك الأصغر لـ ٤ و ٦',
     explanation: 'مضاعفات ٤: ٤، ٨، ١٢ | مضاعفات ٦: ٦، ١٢ | م.م.أ = ١٢ دقيقة',
     options: [
@@ -265,7 +265,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'في المصنع، عايزين يعلبوا ٧٢ شوكولاتة و ٩٠ بونبون في علب متساوية.',
+    realLifeContext: 'في المصنع، يريدين يعلبوا ٧٢ فواكه و ٩٠ تمر في علب متساوية.',
     questionText: 'أكبر عدد علب يقدروا يعملوه؟ (ع.م.أ لـ ٧٢ و ٩٠)',
     hintText: 'دور على أكبر عدد يقسم ٧٢ و ٩٠',
     explanation: '٧٢ = ٢³ × ٣² و ٩٠ = ٢ × ٣² × ٥ | ع.م.أ = ٢ × ٣² = ١٨',
@@ -282,7 +282,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'حافلة رقم ١ تأتي كل ١٥ دقيقة وحافلة رقم ٢ كل ٢٠ دقيقة. الاثنين وصلوا المحطة الآن.',
-    questionText: 'بعد كام دقيقة هيوصلوا المحطة مع بعض تاني؟',
+    questionText: 'بعد كم دقيقة هيوصلوا المحطة مع بعض تاني؟',
     hintText: 'المضاعف المشترك الأصغر لـ ١٥ و ٢٠',
     explanation: '١٥ = ٣ × ٥ و ٢٠ = ٢² × ٥ | م.م.أ = ٢² × ٣ × ٥ = ٦٠ دقيقة',
     options: [
@@ -297,7 +297,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'عندك ٤٢ وردة حمرا و ٥٦ وردة بيضا وعايز تعمل بوكيهات متساوية.',
+    realLifeContext: 'عندك ٤٢ وردة حمرا و ٥٦ وردة بيضا ويريد تعمل بوكيهات متساوية.',
     questionText: 'أكبر عدد بوكيهات تقدر تعمله؟ (ع.م.أ لـ ٤٢ و ٥٦)',
     hintText: 'العامل المشترك الأكبر',
     explanation: '٤٢ = ٢ × ٣ × ٧ و ٥٦ = ٢³ × ٧ | ع.م.أ = ٢ × ٧ = ١٤',
@@ -314,7 +314,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'فاطمة تسقي الزرع كل ١٢ يوم وتسمّده كل ١٨ يوم. اليوم فعلت الاثنين.',
-    questionText: 'بعد كام يوم هتعمل الاثنين مع بعض تاني؟',
+    questionText: 'بعد كم يوم هتعمل الاثنين مع بعض تاني؟',
     hintText: 'م.م.أ لـ ١٢ و ١٨',
     explanation: '١٢ = ٢² × ٣ و ١٨ = ٢ × ٣² | م.م.أ = ٢² × ٣² = ٣٦ يوم',
     options: [
@@ -329,7 +329,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'open_ended',
-    realLifeContext: 'في حفلة المدرسة، عندك ٨٠ ساندوتش و ١٢٠ عصير وعايز توزعهم بالتساوي على الطلبة.',
+    realLifeContext: 'في حفلة المدرسة، عندك ٨٠ ساندوتش و ١٢٠ عصير ويريد توزعهم بالتساوي على الطلبة.',
     questionText: 'أكبر عدد طلبة تقدر توزع عليهم بالتساوي (ع.م.أ لـ ٨٠ و ١٢٠)؟',
     correctAnswer: '٤٠',
     correctAnswerNumeric: 40,
@@ -342,7 +342,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'جرس المدرسة بيرن كل ٤٥ دقيقة وجرس المصنع كل ٦٠ دقيقة. رنوا مع بعض الصبح.',
-    questionText: 'بعد كام دقيقة هيرنوا مع بعض تاني؟ (م.م.أ لـ ٤٥ و ٦٠)',
+    questionText: 'بعد كم دقيقة هيرنوا مع بعض تاني؟ (م.م.أ لـ ٤٥ و ٦٠)',
     correctAnswer: '١٨٠',
     correctAnswerNumeric: 180,
     hintText: '٤٥ = ٣² × ٥ و ٦٠ = ٢² × ٣ × ٥',
@@ -353,7 +353,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'open_ended',
-    realLifeContext: 'مصنع بسكويت عنده م٦ قطعة شوكولاتة و ١٤٤ قطعة فانيليا وعايز يعلبهم في علب متساوية.',
+    realLifeContext: 'مصنع موز عنده م٦ قطعة فواكه و ١٤٤ قطعة فانيليا ويريد يعلبهم في علب متساوية.',
     questionText: 'أكبر عدد علب (ع.م.أ لـ ٩٦ و ١٤٤)؟',
     correctAnswer: '٤٨',
     correctAnswerNumeric: 48,
@@ -366,7 +366,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'قطر يمر كل ١٦ دقيقة وأتوبيس كل ٢٤ دقيقة. عدوا مع بعض الآن.',
-    questionText: 'بعد كام دقيقة هيعدوا مع بعض تاني؟ (م.م.أ لـ ١٦ و ٢٤)',
+    questionText: 'بعد كم دقيقة هيعدوا مع بعض تاني؟ (م.م.أ لـ ١٦ و ٢٤)',
     correctAnswer: '٤٨',
     correctAnswerNumeric: 48,
     hintText: '١٦ = ٢⁴ و ٢٤ = ٢³ × ٣',
@@ -463,7 +463,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'تحتاج أن تحسب (-٣) × (-٥) في امتحان الرياضيات.',
-    questionText: 'كام يساوي (-٣) × (-٥)؟',
+    questionText: 'كم يساوي (-٣) × (-٥)؟',
     hintText: 'سالب × سالب = ؟',
     explanation: 'سالب × سالب = موجب | (-٣) × (-٥) = +١٥',
     options: [
@@ -613,7 +613,7 @@ export const level5Questions: QuestionSeed[] = [
     questionType: 'mcq',
     realLifeContext: 'رميت زهر (نرد) مرة واحدة.',
     questionText: 'احتمال يطلع رقم فردي (١ أو ٣ أو ٥) كام؟',
-    hintText: 'كام رقم فردي من ١ لـ ٦؟',
+    hintText: 'كم رقم فردي من ١ لـ ٦؟',
     explanation: 'الأرقام الفردية: ١، ٣، ٥ = ٣ أرقام من ٦ | الاحتمال = ٣/٦ = ١/٢',
     options: [
       { optionText: '١/٢', isCorrect: true },
@@ -643,9 +643,9 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'mcq',
-    realLifeContext: 'رميت زهرين مع بعض. عايز تعرف احتمال مجموعهم ٧.',
+    realLifeContext: 'رميت زهرين مع بعض. يريد تعرف احتمال مجموعهم ٧.',
     questionText: 'احتمال مجموع زهرين يساوي ٧ هو كام؟',
-    hintText: 'إجمالي النتائج = ٣٦. كام طريقة تجيب ٧؟ (١+٦، ٢+٥، ٣+٤، ٤+٣، ٥+٢، ٦+١)',
+    hintText: 'إجمالي النتائج = ٣٦. كم طريقة تجيب ٧؟ (١+٦، ٢+٥، ٣+٤، ٤+٣، ٥+٢، ٦+١)',
     explanation: '٦ طرق من ٣٦ | الاحتمال = ٦/٣٦ = ١/٦',
     options: [
       { optionText: '١/٦', isCorrect: true },
@@ -691,8 +691,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'open_ended',
-    realLifeContext: 'في كيس فيه ٤ كور حمرا و ٦ كور زرقا. عايز تعرف احتمال سحب كورة حمرا.',
-    questionText: 'لو رميت ٥٠ مرة، المتوقع كام مرة تطلع حمرا؟',
+    realLifeContext: 'في كيس فيه ٤ كور حمرا و ٦ كور زرقا. يريد تعرف احتمال سحب كورة حمرا.',
+    questionText: 'لو رميت ٥٠ مرة، المتوقع كم مرة تطلع حمرا؟',
     correctAnswer: '٢٠',
     correctAnswerNumeric: 20,
     hintText: 'احتمال حمرا = ٤/١٠ = ٢/٥، اضرب في ٥٠',
@@ -704,7 +704,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'رميت زهر (نرد) ١٨٠ مرة.',
-    questionText: 'المتوقع كام مرة يطلع رقم ٣؟',
+    questionText: 'المتوقع كم مرة يطلع رقم ٣؟',
     correctAnswer: '٣٠',
     correctAnswerNumeric: 30,
     hintText: 'احتمال ٣ = ١/٦',
@@ -716,7 +716,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'في صندوق فيه ١٥ كرة: ٥ حمرا و ٤ زرقا و ٦ خضرا.',
-    questionText: 'لو سحبت ٩٠ مرة (مع الإرجاع)، المتوقع كام مرة تطلع خضرا؟',
+    questionText: 'لو سحبت ٩٠ مرة (مع الإرجاع)، المتوقع كم مرة تطلع خضرا؟',
     correctAnswer: '٣٦',
     correctAnswerNumeric: 36,
     hintText: 'احتمال خضرا = ٦/١٥ = ٢/٥',
@@ -728,7 +728,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'رميت عملة ٢٠٠ مرة.',
-    questionText: 'المتوقع كام مرة تطلع صورة؟',
+    questionText: 'المتوقع كم مرة تطلع صورة؟',
     correctAnswer: '١٠٠',
     correctAnswerNumeric: 100,
     hintText: 'احتمال صورة = ١/٢',
@@ -745,7 +745,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'عندك حوض سمك طوله ٦٠ سم وعرضه ٣٠ سم وارتفاعه ٤٠ سم.',
-    questionText: 'حجم الحوض كام سم³؟',
+    questionText: 'حجم الحوض كم سم³؟',
     hintText: 'الحجم = الطول × العرض × الارتفاع',
     explanation: '٦٠ × ٣٠ × ٤٠ = ٧٢٠٠٠ سم³',
     options: [
@@ -760,8 +760,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'عايز تغلف علبة هدية على شكل مكعب طول ضلعه ١٥ سم.',
-    questionText: 'حجم العلبة كام سم³؟',
+    realLifeContext: 'يريد تغلف علبة هدية على شكل مكعب طول ضلعه ١٥ سم.',
+    questionText: 'حجم العلبة كم سم³؟',
     hintText: 'حجم المكعب = الضلع × الضلع × الضلع',
     explanation: '١٥³ = ١٥ × ١٥ × ١٥ = ٣٣٧٥ سم³',
     options: [
@@ -777,7 +777,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'عندك علبة عصير طولها ٢٠ سم وعرضها ١٠ سم وارتفاعها ٣٠ سم.',
-    questionText: 'كام لتر عصير تقدر تملا فيها العلبة؟ (١ لتر = ١٠٠٠ سم³)',
+    questionText: 'كم لتر عصير تقدر تملا فيها العلبة؟ (١ لتر = ١٠٠٠ سم³)',
     hintText: 'احسب الحجم بالسم³ واقسم على ١٠٠٠',
     explanation: '٢٠ × ١٠ × ٣٠ = ٦٠٠٠ سم³ = ٦ لتر',
     options: [
@@ -793,7 +793,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'حمام سباحة طوله ٢٥ متر وعرضه ١٠ متر وعمقه ٢ متر.',
-    questionText: 'كام متر مكعب مية محتاجين نملاه؟',
+    questionText: 'كم متر مكعب مية محتاجين نملاه؟',
     hintText: 'الحجم = الطول × العرض × العمق',
     explanation: '٢٥ × ١٠ × ٢ = ٥٠٠ متر مكعب',
     options: [
@@ -809,7 +809,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'صندوق شحن أبعاده ٨٠ سم × ٥٠ سم × ٤٠ سم.',
-    questionText: 'حجم الصندوق كام سم³؟',
+    questionText: 'حجم الصندوق كم سم³؟',
     hintText: 'اضرب الطول × العرض × الارتفاع',
     explanation: '٨٠ × ٥٠ × ٤٠ = ١٦٠٠٠٠ سم³',
     options: [
@@ -824,8 +824,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'تحتاج أن تعرف كام مكعب صغير (ضلعه ٥ سم) يملا صندوق ٢٠ × ١٥ × ١٠ سم.',
-    questionText: 'كام مكعب صغير هيملا الصندوق؟',
+    realLifeContext: 'تحتاج أن تعرف كم مكعب صغير (ضلعه ٥ سم) يملا صندوق ٢٠ × ١٥ × ١٠ سم.',
+    questionText: 'كم مكعب صغير هيملا الصندوق؟',
     hintText: 'حجم الصندوق ÷ حجم المكعب الصغير',
     explanation: 'حجم الصندوق = ٢٠ × ١٥ × ١٠ = ٣٠٠٠ سم³ | حجم المكعب = ٥³ = ١٢٥ سم³ | العدد = ٣٠٠٠ ÷ ١٢٥ = ٢٤',
     options: [
@@ -841,7 +841,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'ثلاجة من جوه أبعادها ٥٠ سم × ٥٠ سم × ١٠٠ سم.',
-    questionText: 'حجم الثلاجة من جوه كام لتر؟ (١ لتر = ١٠٠٠ سم³)',
+    questionText: 'حجم الثلاجة من جوه كم لتر؟ (١ لتر = ١٠٠٠ سم³)',
     hintText: 'احسب الحجم بالسم³ الأول',
     explanation: '٥٠ × ٥٠ × ١٠٠ = ٢٥٠٠٠٠ سم³ = ٢٥٠ لتر',
     options: [
@@ -857,7 +857,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'عندك صندوقين: الأول ١٠ × ١٠ × ١٠ سم والتاني ٥ × ٢٠ × ١٠ سم.',
-    questionText: 'حجم الصندوق الأول بيساوي كام مرة حجم التاني؟',
+    questionText: 'حجم الصندوق الأول بيساوي كم مرة حجم التاني؟',
     hintText: 'احسب حجم كل واحد وقارن',
     explanation: 'الأول = ١٠٠٠ سم³ | التاني = ١٠٠٠ سم³ | متساويين! مرة واحدة',
     options: [
@@ -872,8 +872,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'open_ended',
-    realLifeContext: 'عايز تملا حوض سمك أبعاده ٨٠ سم × ٤٠ سم × ٥٠ سم.',
-    questionText: 'حجم الحوض كام لتر؟ (١ لتر = ١٠٠٠ سم³)',
+    realLifeContext: 'يريد تملا حوض سمك أبعاده ٨٠ سم × ٤٠ سم × ٥٠ سم.',
+    questionText: 'حجم الحوض كم لتر؟ (١ لتر = ١٠٠٠ سم³)',
     correctAnswer: '١٦٠',
     correctAnswerNumeric: 160,
     hintText: '٨٠ × ٤٠ × ٥٠ = ؟ بعدين اقسم على ١٠٠٠',
@@ -885,7 +885,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'open_ended',
     realLifeContext: 'غرفة تخزين طولها ٤ متر وعرضها ٣ متر وارتفاعها ٣ متر.',
-    questionText: 'حجم الغرفة كام متر مكعب؟',
+    questionText: 'حجم الغرفة كم متر مكعب؟',
     correctAnswer: '٣٦',
     correctAnswerNumeric: 36,
     hintText: '٤ × ٣ × ٣',
@@ -896,8 +896,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'open_ended',
-    realLifeContext: 'علبة حلويات مكعبة الشكل طول ضلعها ١٢ سم.',
-    questionText: 'حجمها كام سم³؟',
+    realLifeContext: 'علبة فواكه مكعبة الشكل طول ضلعها ١٢ سم.',
+    questionText: 'حجمها كم سم³؟',
     correctAnswer: '١٧٢٨',
     correctAnswerNumeric: 1728,
     hintText: '١٢ × ١٢ × ١٢',
@@ -909,7 +909,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'open_ended',
     realLifeContext: 'خزان مية أبعاده ٢ متر × ١ متر × ١٫٥ متر.',
-    questionText: 'كام لتر مية يشيل الخزان؟ (١ م³ = ١٠٠٠ لتر)',
+    questionText: 'كم لتر مية يشيل الخزان؟ (١ م³ = ١٠٠٠ لتر)',
     correctAnswer: '٣٠٠٠',
     correctAnswerNumeric: 3000,
     hintText: '٢ × ١ × ١٫٥ = ٣ م³',
@@ -926,7 +926,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'اشتريت ٢ كيلو فاكهة ودفعت ٣ جنيه توصيل. الإجمالي ١٥ جنيه.',
-    questionText: 'لو ٢س + ٣ = ١٥، كام سعر الكيلو (س)؟',
+    questionText: 'لو ٢س + ٣ = ١٥، كم سعر الكيلو (س)؟',
     hintText: 'اطرح ٣ من الطرفين الأول، بعدين اقسم على ٢',
     explanation: '٢س + ٣ = ١٥ | ٢س = ١٢ | س = ٦ جنيه',
     options: [
@@ -957,8 +957,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'mcq',
-    realLifeContext: 'ماما قسمت الحلويات على ٣ أطفال بالتساوي وفضل ٤ قطع. كان عندها ٢٥ قطعة.',
-    questionText: 'لو ٣س + ٤ = ٢٥، كام قطعة أخد كل طفل (س)؟',
+    realLifeContext: 'ماما قسمت الفواكه على ٣ أطفال بالتساوي وتبقى ٤ قطع. كان عندها ٢٥ قطعة.',
+    questionText: 'لو ٣س + ٤ = ٢٥، كم قطعة أخد كل طفل (س)؟',
     hintText: '٢٥ - ٤ = ٢١، بعدين اقسم على ٣',
     explanation: '٣س + ٤ = ٢٥ | ٣س = ٢١ | س = ٧ قطع',
     options: [
@@ -1006,7 +1006,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'مجموع عمر سارة وأختها ٢٨ سنة. سارة أكبر من أختها بـ ٤ سنين.',
-    questionText: 'لو عمر الأخت = س وعمر سارة = س + ٤، يبقى ٢س + ٤ = ٢٨. عمر الأخت كام؟',
+    questionText: 'لو عمر الأخت = س وعمر سارة = س + ٤، يكون ٢س + ٤ = ٢٨. عمر الأخت كام؟',
     hintText: '٢٨ - ٤ = ٢٤، بعدين اقسم على ٢',
     explanation: '٢س + ٤ = ٢٨ | ٢س = ٢٤ | س = ١٢ سنة',
     options: [
@@ -1022,7 +1022,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'تاكسي أجرة الركوب ١٠ جنيه وكل كيلومتر بـ ٣ جنيه. دفعت ٣٧ جنيه.',
-    questionText: 'لو ٣س + ١٠ = ٣٧، مشيت كام كيلومتر (س)؟',
+    questionText: 'لو ٣س + ١٠ = ٣٧، مشيت كم كيلومتر (س)؟',
     hintText: '٣٧ - ١٠ = ٢٧، اقسم على ٣',
     explanation: '٣س + ١٠ = ٣٧ | ٣س = ٢٧ | س = ٩ كم',
     options: [
@@ -1089,7 +1089,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'open_ended',
-    realLifeContext: 'عايز تحل المعادلة: ٨س - ١٤ = ٥٠.',
+    realLifeContext: 'يريد تحل المعادلة: ٨س - ١٤ = ٥٠.',
     questionText: 'قيمة س كام؟',
     correctAnswer: '٨',
     correctAnswerNumeric: 8,
@@ -1154,7 +1154,7 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'لغز: عدد لو ضربته في نفسه يبقى ١٩٦.',
+    realLifeContext: 'لغز: عدد لو ضربته في نفسه يكون ١٩٦.',
     questionText: 'العدد هذا كام؟',
     hintText: 'دور على عدد تربيعه = ١٩٦',
     explanation: '١٤ × ١٤ = ١٩٦',
@@ -1270,11 +1270,11 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'لغز: عدد لو ضربته في نفسه ٣ مرات (تكعيب) يبقى ٥١٢.',
+    realLifeContext: 'لغز: عدد لو ضربته في نفسه ٣ مرات (تكعيب) يكون ٥١٢.',
     questionText: 'العدد هذا كام؟',
     correctAnswer: '٨',
     correctAnswerNumeric: 8,
     hintText: 'جرب ٧³ و ٨³ و ٩³',
-    explanation: '٨ × ٨ × ٨ = ٥١٢ | يبقى العدد = ٨',
+    explanation: '٨ × ٨ × ٨ = ٥١٢ | يكون العدد = ٨',
   },
 ];
