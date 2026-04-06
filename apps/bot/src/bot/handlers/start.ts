@@ -83,7 +83,7 @@ export async function handleStart(ctx: BotContext) {
     ctx.session.activeProfileId = profile.id;
     ctx.session.state = 'idle';
     await ctx.reply(
-      msg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥋'),
+      msg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥷'),
       { parse_mode: 'Markdown' },
     );
 
@@ -155,7 +155,7 @@ export async function handleLevelSelection(ctx: BotContext) {
       ctx.session.pendingData = {};
       await ctx.answerCallbackQuery();
       await ctx.editMessageText(
-        `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥋'} *${level?.name}*`,
+        `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${level?.name}*`,
         { parse_mode: 'Markdown' },
       );
       logger.info('Level changed', { profileId: ctx.session.activeProfileId, levelId });
@@ -183,7 +183,7 @@ export async function handleLevelSelection(ctx: BotContext) {
 
     await ctx.answerCallbackQuery();
     await ctx.editMessageText(
-      msg.profileCreated(profile.nickname, profile.level.iconEmoji || '🥋', profile.level.name),
+      msg.profileCreated(profile.nickname, profile.level.iconEmoji || '🥷', profile.level.name),
       { parse_mode: 'Markdown' },
     );
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
@@ -269,11 +269,11 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
     const resultText =
       `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
-      `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥋'} *${level.name}*!\n\n` +
+      `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥷'} *${level.name}*!\n\n` +
       `✅ تم تسجيل *${nickname}*! جاهز للتحدي! 🔥`;
 
     const keyboard = new InlineKeyboard()
-      .text('🥋 اختر مستوى آخر', 'change_quiz_level');
+      .text('🥷 اختر مستوى آخر', 'change_quiz_level');
 
     await ctx.reply(resultText, { parse_mode: 'Markdown', reply_markup: keyboard });
     logger.info('Profile created via quiz', {
@@ -304,7 +304,7 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
 
   let levelInfo = 'اختر المستوى الذي يناسبك:\n\n';
   for (const level of levels) {
-    levelInfo += `${level.iconEmoji || '🥋'} *${level.name}* — ${level.description || ''}\n`;
+    levelInfo += `${level.iconEmoji || '🥷'} *${level.name}* — ${level.description || ''}\n`;
   }
 
   await ctx.reply(levelInfo, { parse_mode: 'Markdown', reply_markup: keyboard });

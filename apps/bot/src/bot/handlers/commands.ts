@@ -57,7 +57,7 @@ export async function handleProfile(ctx: BotContext) {
   const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
 
   let text = `🥷 *${user.nickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-  text += `${user.level.iconEmoji || '🥋'} المستوى: *${user.level.name}*\n`;
+  text += `${user.level.iconEmoji || '🥷'} المستوى: *${user.level.name}*\n`;
   text += `💎 النقاط: *${user.totalPoints}*\n`;
   text += `📊 الدقة: *${accuracy}%* (${correctAttempts}/${totalAttempts})\n`;
 
@@ -92,7 +92,7 @@ export async function handleProfile(ctx: BotContext) {
 
   const keyboard = new InlineKeyboard()
     .text('✏️ تغيير الاسم', 'edit_nickname')
-    .text('🥋 تغيير المستوى', 'edit_level')
+    .text('🥷 تغيير المستوى', 'edit_level')
     .row()
     .text('🔗 تغيير اسم المستخدم', 'edit_username');
 
@@ -125,7 +125,7 @@ export async function handleRank(ctx: BotContext) {
   }
 
   const medals = ['🥇', '🥈', '🥉'];
-  let text = `📊 *الترتيب الأسبوعي — ${user.level.iconEmoji || '🥋'} ${user.level.name}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  let text = `📊 *الترتيب الأسبوعي — ${user.level.iconEmoji || '🥷'} ${user.level.name}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
@@ -222,11 +222,11 @@ export async function handleLevel(ctx: BotContext) {
 
   const { keyboard, levels } = await buildLevelKeyboard();
 
-  let levelInfo = `المستوى الحالي: ${user.level.iconEmoji || '🥋'} *${user.level.name}*\n\n`;
+  let levelInfo = `المستوى الحالي: ${user.level.iconEmoji || '🥷'} *${user.level.name}*\n\n`;
   levelInfo += 'اختر مستوى جديداً:\n\n';
   for (const level of levels) {
     const current = level.id === user.levelId ? ' ◀️' : '';
-    levelInfo += `${level.iconEmoji || '🥋'} *${level.name}* — ${level.description || ''}${current}\n`;
+    levelInfo += `${level.iconEmoji || '🥷'} *${level.name}* — ${level.description || ''}${current}\n`;
   }
 
   await ctx.reply(levelInfo, { parse_mode: 'Markdown', reply_markup: keyboard });

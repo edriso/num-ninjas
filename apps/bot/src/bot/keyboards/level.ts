@@ -7,7 +7,7 @@ export async function buildLevelKeyboard() {
   const keyboard = new InlineKeyboard();
   for (const level of levels) {
     keyboard.text(
-      `${level.iconEmoji || '🥋'} ${level.name}`,
+      `${level.iconEmoji || '🥷'} ${level.name}`,
       `select_level:${level.id}`,
     ).row();
   }

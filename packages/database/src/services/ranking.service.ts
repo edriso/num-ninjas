@@ -85,7 +85,7 @@ export async function computeRankings(start: Date, end: Date, levelId?: number):
         userId,
         nickname: info?.nickname || 'غير معروف',
         levelName: info?.level.name || '',
-        levelEmoji: info?.level.iconEmoji || '🥋',
+        levelEmoji: info?.level.iconEmoji || '🥷',
         correctCount: data.correctCount,
         wrongCount: data.wrongCount,
         hintCount: data.hintCount,

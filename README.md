@@ -199,11 +199,11 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 
 | Level | Name | What Kids Learn |
 |-------|------|----------------|
-| 🥋 1 | White Belt | Addition, subtraction, multiplication, division, fractions basics |
+| ⚪ 1 | White Belt | Addition, subtraction, multiplication, division, fractions basics |
 | 🟡 2 | Yellow Belt | Decimals, time calculations, perimeter, area, patterns |
 | 🟠 3 | Orange Belt | Advanced fractions, order of operations, money math |
 | 🟢 4 | Green Belt | Percentages, intro to algebra, speed/distance/time |
-| ⚫ 5 | Black Belt | Exponents, probability, negative numbers, math puzzles |
+| 🥋 5 | Black Belt | Exponents, probability, negative numbers, math puzzles |
 
 Each level has 7 topics with 12 questions each = **420 total questions**, all with real-life Arab scenarios.
 

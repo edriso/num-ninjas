@@ -94,7 +94,7 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
     position,
     totalQuestions,
     question.topic.name,
-    user?.level.iconEmoji || '🥋',
+    user?.level.iconEmoji || '🥷',
     question.realLifeContext,
     question.questionText,
   );
@@ -626,8 +626,8 @@ async function showDailySummary(ctx: BotContext, userId: number) {
         where: { id: completion.nextLevelId },
       });
       if (nextLevel) {
-        const levelEmoji = user.level.iconEmoji || '🥋';
-        const nextEmoji = nextLevel.iconEmoji || '🥋';
+        const levelEmoji = user.level.iconEmoji || '🥷';
+        const nextEmoji = nextLevel.iconEmoji || '🥷';
 
         const keyboard = new InlineKeyboard()
           .text('🔼 انتقل للمستوى التالي', `level_up:${nextLevel.id}`)
@@ -683,7 +683,7 @@ export async function handleLevelUp(ctx: BotContext) {
     data: { levelId: nextLevelId },
   });
 
-  const emoji = nextLevel.iconEmoji || '🥋';
+  const emoji = nextLevel.iconEmoji || '🥷';
   await ctx.answerCallbackQuery();
   await ctx.editMessageText(
     `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevel.name}!\nهيا نستمر في التحدي! 💪`,

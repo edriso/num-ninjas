@@ -2,7 +2,7 @@ export const levelsData = [
   {
     name: 'الحزام الأبيض',
     rankOrder: 1,
-    iconEmoji: '🥋',
+    iconEmoji: '⚪',
     description: 'بناء الثقة — الأساسيات والعمليات البسيطة',
   },
   {
@@ -26,7 +26,7 @@ export const levelsData = [
   {
     name: 'الحزام الأسود',
     rankOrder: 5,
-    iconEmoji: '⚫',
+    iconEmoji: '🥋',
     description: 'النينجا الأعلى — الأسس والاحتمالات والألغاز',
   },
 ];

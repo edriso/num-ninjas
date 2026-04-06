@@ -8,7 +8,7 @@ export function buildProfileKeyboard(profiles: UserWithLevel[], showAddButton = 
 
   for (const profile of profiles) {
     keyboard.text(
-      `${profile.level.iconEmoji || '🥋'} ${profile.nickname}`,
+      `${profile.level.iconEmoji || '🥷'} ${profile.nickname}`,
       `pick_profile:${profile.id}`,
     ).row();
   }

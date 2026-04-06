@@ -45,7 +45,7 @@ export async function handleSwitch(ctx: BotContext) {
     ctx.session.activeProfileId = profile.id;
     await setActiveProfile(telegramId, profile.id);
     await ctx.reply(
-      msg.profileSwitched(profile.nickname, profile.level.iconEmoji || '🥋'),
+      msg.profileSwitched(profile.nickname, profile.level.iconEmoji || '🥷'),
       { parse_mode: 'Markdown' },
     );
     return;
@@ -72,7 +72,7 @@ export async function handlePlayers(ctx: BotContext) {
 
   const playerLines = profiles.map((p) => {
     const isActive = activeProfile?.id === p.id;
-    const emoji = p.level.iconEmoji || '🥋';
+    const emoji = p.level.iconEmoji || '🥷';
     return `${emoji} ${p.nickname} — ${p.level.name}${isActive ? msg.activeMarker : ''}`;
   });
 
@@ -105,7 +105,7 @@ export async function handlePickProfile(ctx: BotContext) {
 
     await ctx.answerCallbackQuery();
     await ctx.editMessageText(
-      msg.profileSwitched(profile.nickname, profile.level.iconEmoji || '🥋'),
+      msg.profileSwitched(profile.nickname, profile.level.iconEmoji || '🥷'),
       { parse_mode: 'Markdown' },
     );
 

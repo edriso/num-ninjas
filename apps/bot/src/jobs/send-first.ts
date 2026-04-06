@@ -42,7 +42,7 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
       });
 
       // Build message
-      let text = `${user?.level.iconEmoji || '🥋'} *سؤال ${position}/${totalQuestions}* — ${question.topic.name}\n\n`;
+      let text = `${user?.level.iconEmoji || '🥷'} *سؤال ${position}/${totalQuestions}* — ${question.topic.name}\n\n`;
       if (question.realLifeContext) text += `${question.realLifeContext}\n\n`;
       text += `❓ ${question.questionText}`;
 

@@ -46,7 +46,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
 
     // Build per-level leaderboard section
     const medals = ['🥇', '🥈', '🥉'];
-    let section = `${level.iconEmoji || '🥋'} *${level.name}*\n`;
+    let section = `${level.iconEmoji || '🥷'} *${level.name}*\n`;
     for (const entry of rankings.slice(0, 5)) {
       const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
       section += `${medal} *${entry.nickname}* — ${entry.correctCount} صحيحة`;

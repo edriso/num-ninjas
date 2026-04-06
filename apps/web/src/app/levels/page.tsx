@@ -10,11 +10,11 @@ export const metadata = {
 };
 
 const levelEmojis: Record<number, string> = {
-  1: '🥋',
+  1: '⚪',
   2: '🟡',
   3: '🟠',
   4: '🟢',
-  5: '⚫',
+  5: '🥋',
 };
 
 export default async function LevelsPage() {

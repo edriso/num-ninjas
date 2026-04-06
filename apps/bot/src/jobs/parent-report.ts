@@ -45,7 +45,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
 
         if (total === 0) continue;
 
-        const levelEmoji = user.level.iconEmoji || '🥋';
+        const levelEmoji = user.level.iconEmoji || '🥷';
         const streakStar = user.streakDays >= 7 ? ' ⭐' : '';
 
         // Find weak topics for "next week focus" line
