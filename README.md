@@ -95,7 +95,6 @@ num-ninjas/
 CREATE DATABASE numninjas;
 CREATE USER 'numninjas'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON numninjas.* TO 'numninjas'@'localhost';
-FLUSH PRIVILEGES;
 ```
 
 ### Setup
