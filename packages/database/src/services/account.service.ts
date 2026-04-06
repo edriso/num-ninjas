@@ -68,8 +68,10 @@ export async function updateNickname(userId: number, nickname: string) {
 }
 
 export async function updateUsername(userId: number, username: string) {
-  // Validate: 3-20 chars, only letters, numbers, underscore
-  if (!/^[a-zA-Z0-9_\u0600-\u06FF]{3,20}$/.test(username)) {
+  const clean = username.toLowerCase().trim();
+  // URL-safe only: 3-20 chars, lowercase letters, numbers, underscore
+  // No Arabic — URLs with Arabic get percent-encoded and look ugly
+  if (!/^[a-z0-9_]{3,20}$/.test(clean)) {
     throw new Error('INVALID_USERNAME');
   }
 
@@ -114,13 +116,15 @@ async function generateUniqueUsername(
     }
   }
 
-  // Generate from nickname: keep Arabic + ASCII, replace spaces with underscore
+  // Generate from nickname: keep only URL-safe ASCII chars
   let base = nickname
     .trim()
+    .toLowerCase()
     .replace(/\s+/g, '_')
-    .replace(/[^a-zA-Z0-9_\u0600-\u06FF]/g, '')
+    .replace(/[^a-z0-9_]/g, '')
     .slice(0, 14);
 
+  // Arabic names produce empty string after filtering — use 'ninja' as base
   if (base.length < 2) base = 'ninja';
 
   // Add random 3-digit suffix

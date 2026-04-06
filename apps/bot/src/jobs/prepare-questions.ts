@@ -60,23 +60,37 @@ export async function prepareScheduledQuestions() {
     const selectedQuestions: { id: number }[] = [];
 
     for (const topic of pickedTopics) {
-      const available = await prisma.question.findMany({
+      // Try user's locale first, fall back to 'ar' if no questions exist
+      const userLocale = user.locale || 'ar';
+      let available = await prisma.question.findMany({
         where: {
           topicId: topic.topicId,
-          locale: user.locale || 'ar',
+          locale: userLocale,
           ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
         },
         select: { id: true },
       });
 
+      // Fallback to Arabic if no questions in user's locale
+      if (available.length === 0 && userLocale !== 'ar') {
+        available = await prisma.question.findMany({
+          where: {
+            topicId: topic.topicId,
+            locale: 'ar',
+            ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
+          },
+          select: { id: true },
+        });
+      }
+
       if (available.length > 0) {
         const picked = shuffle(available)[0];
         selectedQuestions.push(picked);
-        excludedIds.add(picked.id); // Prevent duplicate in same day
+        excludedIds.add(picked.id);
       } else {
         // Fallback: allow any question from this topic (all in cooldown)
         const fallback = await prisma.question.findMany({
-          where: { topicId: topic.topicId, locale: user.locale || 'ar' },
+          where: { topicId: topic.topicId },
           select: { id: true },
         });
         if (fallback.length > 0) {

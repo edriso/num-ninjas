@@ -355,9 +355,13 @@ export async function handleEditUsername(ctx: BotContext) {
 
   const promptText = locale === 'en'
     ? '🔗 Send me the new username:\n\n' +
-      '(Letters, numbers, or underscores — 3 to 20 characters)'
+      'Rules: lowercase letters (a-z), numbers (0-9), underscore (_)\n' +
+      'Length: 3 to 20 characters\n' +
+      'Example: ahmed_123, ninja_star, math_pro'
     : '🔗 أرسل لي اسم المستخدم الجديد:\n\n' +
-      '(حروف إنجليزية، أرقام، أو شرطة سفلية — من 3 إلى 20 حرفاً)';
+      'القواعد: حروف إنجليزية صغيرة (a-z)، أرقام (0-9)، شرطة سفلية (_)\n' +
+      'الطول: 3 إلى 20 حرفاً\n' +
+      'مثال: ahmed_123, ninja_star, math_pro';
   await ctx.reply(promptText);
 }
 
