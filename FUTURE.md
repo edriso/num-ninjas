@@ -6,16 +6,6 @@ Ideas for future development, ordered by impact. Check off items as they're impl
 
 ## High Impact — Should Do
 
-### Shareable Certificates
-When a kid completes a level, generate a shareable image:
-"أحمد أكمل الحزام الأصفر — نينجا الأرقام 🥷"
-
-Parents post these on Facebook and WhatsApp → free marketing.
-
-**How:** Use `@vercel/og` or `satori` to generate OG images from HTML templates. Add a `/api/certificate/[userId]` route that returns a PNG. Bot sends the image after level completion.
-
----
-
 ### Admin Analytics Dashboard
 Replace the simple stats cards with proper charts:
 - Daily active users over 30 days (line chart)
@@ -133,3 +123,7 @@ These were planned features that have been built:
 - [x] Telegram channel auto-posting (weekly/monthly/yearly rankings)
 - [x] Spacetoon Arabic — warm MSA text for all Arab kids
 - [x] 150 unit tests — vitest for all shared logic
+- [x] Shareable certificates — auto-generated images for level completion + profile OG
+- [x] Username system — unique usernames for shareable profile URLs
+- [x] Parent-first UX — safety message, topic names in summary, "next week focus" in reports
+- [x] Share button — Telegram share on profile page
