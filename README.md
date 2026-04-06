@@ -29,9 +29,14 @@ The **website** shows public leaderboards, player profiles, hall of fame, and ha
 - **MCQ + Open-Ended** — Buttons for MCQ, text input with Arabic numeral support
 - **Hints** — Optional hints per question (tracked for fair rankings)
 - **Streaks** — Daily streak tracking with milestone badges (7, 14, 30 days)
+- **Skip Button** — Too hard? Skip it (counts as wrong, but keeps the session going)
+- **Adaptive Difficulty** — Each kid gets different questions based on their weak topics
+- **Onboarding Quiz** — 3 quick questions auto-detect the right level (no more "I'm Black Belt!")
+- **Level Completion** — Master all 7 topics and get a celebration + level-up suggestion
+- **Parent Weekly Report** — Sunday summary of each child's progress via Telegram
 - **Weekly Leaderboard** — Top 3 awarded badges every Sunday
 - **Monthly Hall of Fame** — Most active, sharpest mind, most independent
-- **Website** — Public leaderboard, profiles, hall of fame + admin panel
+- **Website** — Public leaderboard, profiles, hall of fame + admin panel with questions CRUD
 
 ---
 
@@ -176,6 +181,7 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 | 12:30 AM | Pick 3 random questions per level for today |
 | 2:30 PM | Send the first question to all users |
 | 7:30 PM | Reminder for users who haven't finished |
+| Sunday 10 PM | Parent weekly report (per-child summary) |
 | Sunday 11 PM | Weekly leaderboard + award top-3 badges |
 | Last day of month 11 PM | Monthly hall of fame awards |
 | Dec 31 11 PM | Yearly champion awards |

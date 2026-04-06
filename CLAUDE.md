@@ -46,7 +46,10 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **prisma-client-js generator**: Standard Prisma client in node_modules/@prisma/client (NOT the newer prisma-client TS generator — that has Turbopack compatibility issues)
 - **Server Components**: Website uses RSC for data fetching, Server Actions for mutations
 - **RTL Arabic**: Website uses \`lang="ar" dir="rtl"\` with Tailwind CSS
-- **Session state machine**: Bot uses Grammy sessions with state field (idle, awaiting_nickname, awaiting_level, awaiting_answer)
+- **Session state machine**: Bot uses Grammy sessions with state field (idle, awaiting_nickname, awaiting_level, awaiting_answer, onboarding_quiz)
+- **Adaptive difficulty**: Each kid gets different questions based on weak topics (topic-strength.service.ts)
+- **Onboarding quiz**: 3 diagnostic questions auto-detect the right level instead of manual pick
+- **Level completion**: When all 7 topics mastered (>=3 attempts, >=70% accuracy), suggest next level
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display
 - **Adapter pattern for DB**: SQLite (dev) and MySQL (prod) via Prisma driver adapters, isolated in \`packages/database/src/client.ts\`
 
@@ -79,7 +82,7 @@ src/
 │   ├── keyboards/      → Inline keyboard builders
 │   ├── messages/arabic.ts → ALL Arabic text lives here, nowhere else
 │   └── middleware/session.ts → Grammy session with state machine
-└── jobs/               → 7 cron jobs (send questions, reminders, rankings)
+└── jobs/               → 8 cron jobs (send questions, reminders, rankings, parent report)
 \`\`\`
 
 ### Website (apps/web/)
@@ -93,8 +96,8 @@ src/
 │   ├── hall-of-fame/   → Monthly winners (ISR daily)
 │   ├── profile/[userId]/ → Player profile (SSR)
 │   ├── levels/         → Level explanations (ISR daily)
-│   └── admin/          → Auth-protected admin panel (9 pages)
-├── components/admin/   → Admin sidebar
+│   └── admin/          → Auth-protected admin panel (9 pages + questions CRUD)
+├── components/admin/   → Admin sidebar, question filters, question form
 └── lib/queries/        → Server-side query wrappers
 \`\`\`
 
@@ -104,7 +107,7 @@ src/
 ├── client.ts           → Prisma singleton with adapter switching (SQLite/MySQL)
 ├── index.ts            → Barrel export: prisma, all services, all utils, all types
 ├── types.ts            → Shared constants (QUESTION_TYPE, BADGE_TYPE, SESSION_STATE)
-├── services/           → 9 service files (account, attempt, badge, question, ranking, session, setting, validation, admin)
+├── services/           → 10 service files (account, admin, attempt, badge, question, ranking, session, setting, topic-strength, validation)
 └── utils/              → 4 utility files (cairo-time, arabic-numerals, logger, shuffle)
 \`\`\`
 
