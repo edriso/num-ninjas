@@ -30,7 +30,7 @@ export default async function LevelsPage() {
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
-        <h1 className="text-3xl font-bold" dir="ltr">🥷 مستويات النينجا</h1>
+        <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🥷</span> مستويات النينجا</h1>
         <p className="text-slate-400 mt-2">٥ مستويات × ٧ موضوعات = ٣٥ موضوع</p>
       </header>
 

@@ -45,14 +45,14 @@ export default async function HallOfFamePage() {
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
-        <h1 className="text-3xl font-bold" dir="ltr">🏛️ قاعة الشهرة</h1>
+        <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🏛️</span> قاعة الشهرة</h1>
         <p className="text-slate-400 mt-2">أبطال الشهر</p>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Monthly Categories */}
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6" dir="ltr">⭐ أبطال هذا الشهر</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>⭐</span> أبطال هذا الشهر</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {categoryCards.map((cat) => (
               <div
@@ -77,7 +77,7 @@ export default async function HallOfFamePage() {
 
         {/* Recent Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-6" dir="ltr">🏅 آخر الأوسمة</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>🏅</span> آخر الأوسمة</h2>
           {recentBadges.length === 0 ? (
             <p className="text-slate-500 text-center py-10">لا توجد أوسمة بعد</p>
           ) : (
