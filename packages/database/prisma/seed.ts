@@ -55,8 +55,8 @@ async function main() {
       const topicId = (level.rankOrder - 1) * 7 + i + 1;
       const topic = await prisma.topic.upsert({
         where: { id: topicId },
-        update: { name: topics[i].name, description: topics[i].description, levelId: level.id, orderInLevel: i + 1 },
-        create: { name: topics[i].name, description: topics[i].description, levelId: level.id, orderInLevel: i + 1 },
+        update: { name: topics[i].name, nameEn: topics[i].nameEn, description: topics[i].description, descriptionEn: topics[i].descriptionEn, levelId: level.id, orderInLevel: i + 1 },
+        create: { name: topics[i].name, nameEn: topics[i].nameEn, description: topics[i].description, descriptionEn: topics[i].descriptionEn, levelId: level.id, orderInLevel: i + 1 },
       });
       topicIdMap[`${level.rankOrder}-${i + 1}`] = topic.id;
       topicCount++;

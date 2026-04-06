@@ -176,6 +176,14 @@ Tests cover:
 
 All tests are pure unit tests — no database access needed.
 
+## RTL Emoji Fix Pattern
+
+Emojis in RTL text appear on the wrong side. Two patterns used:
+
+1. **Headings** (flex): `<h1 className="flex items-center justify-center gap-2"><span>📊</span> Text</h1>` — flex forces consistent emoji-left, text-right order
+2. **Table headers** (dir): `<th dir="ltr">✅ Text</th>` — `dir="ltr"` on centered `<th>` keeps emoji on left of text while staying centered
+3. **Never** put `dir="ltr"` on `<h1>/<h2>` with Arabic text — it left-aligns the whole heading
+
 ## Common Gotchas
 
 - **`pnpm approve-builds`**: After fresh install, pnpm may block native module builds (prisma, mariadb). They're listed in root package.json under `pnpm.onlyBuiltDependencies`

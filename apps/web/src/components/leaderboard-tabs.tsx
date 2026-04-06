@@ -85,16 +85,16 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                   <th className={`py-2.5 px-4 ${textAlign} font-medium`}>
                     {labels.name}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
+                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
                     {labels.correct}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
+                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
                     {labels.wrong}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
+                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
                     {labels.hints}
                   </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
+                  <th className="py-2.5 px-4 text-center font-medium" dir="ltr">
                     {labels.days}
                   </th>
                 </tr>
