@@ -256,6 +256,41 @@ git push
 
 ---
 
+## Database Commands — What's Safe and What's Not
+
+After your app is live with real users, be very careful with database commands.
+
+### Safe to run anytime
+| Command | What It Does | When to Use |
+|---------|-------------|-------------|
+| `pnpm db:generate` | Regenerates Prisma client code | After changing `schema.prisma` |
+
+### Safe but be careful
+| Command | What It Does | Risk |
+|---------|-------------|------|
+| `pnpm db:push` | Applies schema changes to the database | Adding new columns is safe. Renaming or removing columns **will lose data**. Always back up the database first. |
+
+### NEVER run on production
+| Command | What It Does | Why It's Dangerous |
+|---------|-------------|--------------------|
+| `pnpm db:reset` | **Deletes ALL data** and re-seeds | Destroys every user account, every answer, every badge. Only for local development. |
+| `pnpm db:seed` | Inserts seed data (levels, questions, badges) | Uses upsert so it won't duplicate, but it will overwrite any changes you made to levels/badges/settings via the admin panel. |
+
+### When you change the schema after launch
+
+1. **Back up your database first** (Hostinger hPanel → Databases → Backups)
+2. Run `pnpm db:push` to apply the schema change
+3. Run `pnpm db:generate` to regenerate the Prisma client
+4. Redeploy both apps (push to GitHub)
+
+### If you need to add new questions after launch
+
+Don't run `pnpm db:seed` — it would overwrite admin panel changes. Instead:
+- Use the **admin panel** at `/admin/questions` to add questions one by one
+- Or write a custom script that only inserts new questions without touching existing ones
+
+---
+
 ## If Something Goes Wrong
 
 ### Bot not responding
