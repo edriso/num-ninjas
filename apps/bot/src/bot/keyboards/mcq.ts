@@ -22,6 +22,8 @@ export function buildMcqKeyboard(
     keyboard.text('💡 تلميح', `hint:${questionId}`).row();
   }
 
+  keyboard.text('تخطي ⏭️', `skip:${questionId}`).row();
+
   return keyboard;
 }
 
@@ -29,5 +31,8 @@ export function buildMcqKeyboard(
  * Build hint-only keyboard for open-ended questions.
  */
 export function buildHintKeyboard(questionId: number) {
-  return new InlineKeyboard().text('💡 تلميح', `hint:${questionId}`);
+  return new InlineKeyboard()
+    .text('💡 تلميح', `hint:${questionId}`)
+    .row()
+    .text('تخطي ⏭️', `skip:${questionId}`);
 }

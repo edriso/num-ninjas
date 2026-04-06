@@ -230,6 +230,45 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     return;
   }
 
+  // Handle text-based skip ("تخطي" or "skip")
+  if (text === 'تخطي' || text.toLowerCase() === 'skip') {
+    const hintUsed = (ctx.session.pendingData.hintUsed as boolean) ?? false;
+    await recordAttempt({
+      userId: profileId,
+      questionId,
+      userAnswer: '[skipped]',
+      isCorrect: false,
+      hintUsed,
+    });
+
+    ctx.session.state = 'idle';
+    ctx.session.pendingData.currentQuestionId = undefined;
+
+    const session = await getOrCreateTodaySession(profileId);
+    const totalQuestions = await getSettingInt('questions_per_day');
+    await markQuestionAnswered(session.id, totalQuestions);
+
+    await ctx.reply('⏭️ تم التخطي — مفيش مشكلة، حاول في السؤال الجاي! 💪');
+
+    const updatedSession = await getTodaySession(profileId);
+    if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
+      await updateStreak(profileId);
+      await showDailySummary(ctx, profileId);
+    } else {
+      const user = await prisma.user.findUnique({ where: { id: profileId } });
+      if (user) {
+        setTimeout(async () => {
+          try {
+            await sendQuestionToUser(ctx, profileId, user.levelId);
+          } catch (err) {
+            logger.error('Failed to send next question', { error: String(err) });
+          }
+        }, 1500);
+      }
+    }
+    return;
+  }
+
   const question = await prisma.question.findUnique({
     where: { id: questionId },
   });
@@ -282,6 +321,76 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
       parse_mode: 'Markdown',
     });
   }
+
+  // Send next question or summary
+  const updatedSession = await getTodaySession(profileId);
+  if (updatedSession && updatedSession.questionsAnswered >= totalQuestions) {
+    await updateStreak(profileId);
+    await showDailySummary(ctx, profileId);
+  } else {
+    const user = await prisma.user.findUnique({ where: { id: profileId } });
+    if (user) {
+      setTimeout(async () => {
+        try {
+          await sendQuestionToUser(ctx, profileId, user.levelId);
+        } catch (err) {
+          logger.error('Failed to send next question', { error: String(err) });
+        }
+      }, 1500);
+    }
+  }
+}
+
+// ─── Skip Handler ──────────────────────────────────────────────────
+
+export async function handleSkip(ctx: BotContext) {
+  const data = ctx.callbackQuery?.data;
+  if (!data?.startsWith('skip:')) return;
+
+  const questionId = parseInt(data.split(':')[1], 10);
+
+  const profileId = ctx.session.activeProfileId;
+  if (!profileId) {
+    await ctx.answerCallbackQuery({ text: 'اختار لاعب الأول /start' });
+    return;
+  }
+
+  // Check if already answered
+  const alreadyAnswered = await hasAnswered(profileId, questionId);
+  if (alreadyAnswered) {
+    await ctx.answerCallbackQuery({ text: 'أنت جاوبت على السؤال ده خلاص!' });
+    return;
+  }
+
+  const question = await prisma.question.findUnique({ where: { id: questionId } });
+  if (!question) {
+    await ctx.answerCallbackQuery({ text: 'حصل خطأ' });
+    return;
+  }
+
+  // Record attempt as wrong with [skipped] marker
+  const hintUsed = (ctx.session.pendingData[`hint_${questionId}`] as boolean) ?? false;
+  await recordAttempt({
+    userId: profileId,
+    questionId,
+    userAnswer: '[skipped]',
+    isCorrect: false,
+    hintUsed,
+  });
+
+  // Update session progress
+  const session = await getOrCreateTodaySession(profileId);
+  const totalQuestions = await getSettingInt('questions_per_day');
+  await markQuestionAnswered(session.id, totalQuestions);
+
+  // Clear open-ended state if active
+  if (ctx.session.state === 'awaiting_answer') {
+    ctx.session.state = 'idle';
+    ctx.session.pendingData.currentQuestionId = undefined;
+  }
+
+  await ctx.answerCallbackQuery();
+  await ctx.editMessageText('⏭️ تم التخطي — مفيش مشكلة، حاول في السؤال الجاي! 💪');
 
   // Send next question or summary
   const updatedSession = await getTodaySession(profileId);

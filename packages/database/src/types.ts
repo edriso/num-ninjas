@@ -32,6 +32,7 @@ export const SESSION_STATE = {
   AWAITING_NICKNAME: 'awaiting_nickname',
   AWAITING_LEVEL: 'awaiting_level',
   AWAITING_ANSWER: 'awaiting_answer',
+  ONBOARDING_QUIZ: 'onboarding_quiz',
 } as const;
 
 export type SessionState = (typeof SESSION_STATE)[keyof typeof SESSION_STATE];

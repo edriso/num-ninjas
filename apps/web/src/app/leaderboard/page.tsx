@@ -2,6 +2,12 @@ import { getWeeklyRankings } from '@/lib/queries/leaderboard';
 
 export const revalidate = 3600;
 
+export const metadata = {
+  title: 'الترتيب الأسبوعي — نينجا الأرقام',
+  description: 'ترتيب أبطال الأسبوع في نينجا الأرقام',
+  openGraph: { title: 'الترتيب الأسبوعي — نينجا الأرقام' },
+};
+
 function rankBadge(rank: number): string {
   if (rank === 1) return '🥇';
   if (rank === 2) return '🥈';

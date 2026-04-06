@@ -1,7 +1,7 @@
 import { Bot } from 'grammy';
 import { config } from '../config';
 import { sessionMiddleware, type BotContext } from './middleware/session';
-import { handleStart, handleNicknameInput, handleLevelSelection } from './handlers/start';
+import { handleStart, handleNicknameInput, handleLevelSelection, handleQuizAnswer, handleChangeQuizLevel } from './handlers/start';
 import {
   handleAddChild,
   handleSwitch,
@@ -9,7 +9,7 @@ import {
   handlePickProfile,
   handleAddChildCallback,
 } from './handlers/profile';
-import { handleMcqAnswer, handleHint, handleOpenEndedAnswer, tryHandlePendingAnswer } from './handlers/question';
+import { handleMcqAnswer, handleHint, handleSkip, handleOpenEndedAnswer, tryHandlePendingAnswer } from './handlers/question';
 import {
   handleProfile,
   handleRank,
@@ -49,6 +49,8 @@ bot.command('admin_prepare', handleAdminPrepare);
 bot.command('admin_stats', handleAdminStats);
 
 // ─── Callback Queries ────────────��──────────────────────────────────
+bot.callbackQuery(/^quiz_answer:/, handleQuizAnswer);
+bot.callbackQuery('change_quiz_level', handleChangeQuizLevel);
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
 bot.callbackQuery(/^pick_profile:/, handlePickProfile);
 bot.callbackQuery('add_child', handleAddChildCallback);
@@ -56,6 +58,7 @@ bot.callbackQuery('edit_nickname', handleEditNickname);
 bot.callbackQuery('edit_level', handleEditLevel);
 bot.callbackQuery(/^answer:/, handleMcqAnswer);
 bot.callbackQuery(/^hint:/, handleHint);
+bot.callbackQuery(/^skip:/, handleSkip);
 
 // ─── Text Messages (state machine) ─────────────────────────────────
 bot.on('message:text', async (ctx) => {

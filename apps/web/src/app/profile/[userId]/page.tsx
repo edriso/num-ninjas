@@ -20,11 +20,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { userId } = await params;
   const user = await prisma.user.findUnique({
     where: { id: parseInt(userId) },
-    select: { nickname: true },
+    include: { level: true },
   });
 
+  if (!user) return { title: 'بروفايل غير موجود' };
+
   return {
-    title: user ? `${user.nickname} — نينجا الأرقام` : 'مستخدم مش موجود',
+    title: `${user.nickname} — نينجا الأرقام`,
+    description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة · ${user.streakDays} يوم سلسلة`,
+    openGraph: {
+      title: `بروفايل ${user.nickname}`,
+      description: `${user.level.iconEmoji} ${user.level.name} · ${user.totalPoints} نقطة`,
+    },
   };
 }
 

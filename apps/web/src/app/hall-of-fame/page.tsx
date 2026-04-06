@@ -2,6 +2,12 @@ import { getHallOfFame } from '@/lib/queries/leaderboard';
 
 export const revalidate = 86400;
 
+export const metadata = {
+  title: 'قاعة الشهرة — نينجا الأرقام',
+  description: 'أبطال الشهر وأحدث الأوسمة في نينجا الأرقام',
+  openGraph: { title: 'قاعة الشهرة — نينجا الأرقام' },
+};
+
 export default async function HallOfFamePage() {
   const { categories, recentBadges } = await getHallOfFame();
 

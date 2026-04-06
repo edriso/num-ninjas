@@ -2,6 +2,12 @@ import { prisma } from '@numninja/database';
 
 export const revalidate = 86400;
 
+export const metadata = {
+  title: 'مستويات النينجا — نينجا الأرقام',
+  description: '٥ مستويات × ٧ موضوعات = ٣٥ موضوع في رحلة نينجا الأرقام',
+  openGraph: { title: 'مستويات النينجا — نينجا الأرقام' },
+};
+
 const levelEmojis: Record<number, string> = {
   1: '🥋',
   2: '🟡',
