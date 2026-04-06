@@ -82,3 +82,45 @@ export async function handleAdminStats(ctx: BotContext) {
 
   await ctx.reply(text, { parse_mode: 'Markdown' });
 }
+
+const startTime = Date.now();
+
+export async function handleAdminHealth(ctx: BotContext) {
+  if (!isAdmin(ctx)) return;
+
+  const uptime = Math.floor((Date.now() - startTime) / 1000);
+  const days = Math.floor(uptime / 86400);
+  const hours = Math.floor((uptime % 86400) / 3600);
+  const mins = Math.floor((uptime % 3600) / 60);
+
+  let dbStatus = '❌ Disconnected';
+  let dbLatency = 0;
+  try {
+    const start = Date.now();
+    await prisma.$queryRawUnsafe('SELECT 1');
+    dbLatency = Date.now() - start;
+    dbStatus = `✅ Connected (${dbLatency}ms)`;
+  } catch (err) {
+    dbStatus = `❌ Error: ${(err as Error).message.slice(0, 50)}`;
+  }
+
+  const [arQuestions, enQuestions, totalUsers, scheduledToday] = await Promise.all([
+    prisma.question.count({ where: { locale: 'ar' } }).catch(() => 0),
+    prisma.question.count({ where: { locale: 'en' } }).catch(() => 0),
+    prisma.user.count().catch(() => 0),
+    prisma.scheduledQuestion.count({
+      where: { scheduledDate: { gte: new Date(new Date().toISOString().split('T')[0] + 'T00:00:00.000Z') } },
+    }).catch(() => 0),
+  ]);
+
+  const text =
+    `🏥 *Health Check*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+    `🤖 Bot: ✅ Running\n` +
+    `⏱ Uptime: ${days}d ${hours}h ${mins}m\n` +
+    `🗄 Database: ${dbStatus}\n\n` +
+    `📝 Questions: ${arQuestions} AR + ${enQuestions} EN\n` +
+    `👥 Users: ${totalUsers}\n` +
+    `📅 Scheduled today: ${scheduledToday}`;
+
+  await ctx.reply(text, { parse_mode: 'Markdown' });
+}

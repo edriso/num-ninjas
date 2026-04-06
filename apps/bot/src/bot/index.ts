@@ -28,7 +28,7 @@ import {
   handlePrivacy,
   handleSetPrivacy,
 } from './handlers/commands';
-import { handleAdminSend, handleAdminPrepare, handleAdminStats } from './handlers/admin';
+import { handleAdminSend, handleAdminPrepare, handleAdminStats, handleAdminHealth } from './handlers/admin';
 import { getMsg } from './helpers/get-msg';
 import { logger } from '@numninjas/database';
 
@@ -57,6 +57,7 @@ bot.command('language', handleLanguage); // hidden alias
 bot.command('privacy', handlePrivacy); // hidden alias
 
 // Admin commands
+bot.command('admin_health', handleAdminHealth);
 bot.command('admin_send', handleAdminSend);
 bot.command('admin_prepare', handleAdminPrepare);
 bot.command('admin_stats', handleAdminStats);
