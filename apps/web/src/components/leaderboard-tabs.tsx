@@ -53,7 +53,7 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
   return (
     <div>
       {/* Tab bar */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+      <div className="flex flex-wrap justify-center gap-2 mb-6">
         {levelRankings.map((level) => (
           <button
             key={level.levelId}
