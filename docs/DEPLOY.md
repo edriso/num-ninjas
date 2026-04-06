@@ -97,22 +97,25 @@ This creates the command menu that appears when users tap the `/` button or the 
    - Database name: `num_ninjas`
    - Username: pick one (e.g., `numninja_admin`)
    - Password: generate a strong password
-4. **Save these credentials:**
+4. **Find the MySQL hostname:** Go to **Databases → Remote MySQL** — the hostname is shown at the top (e.g., `srv1304.hstgr.io`). This is NOT `localhost` — you must use this hostname in your DATABASE_URL.
+5. **Save these credentials:**
    ```
-   Host:     your-server.hostinger.com (shown on the database page)
+   Host:     srvXXXX.hstgr.io  (from Remote MySQL page, NOT localhost)
    Port:     3306
    Database: num_ninjas
    Username: numninja_admin
    Password: the-password-you-set
    ```
-5. Go to **Remote MySQL** and add:
+6. Go to **Remote MySQL** and add:
    - `0.0.0.0/0` (allows all IPs — needed for Railway to connect)
    - OR add Railway's specific IP range if you prefer
 
 Your DATABASE_URL will look like:
 ```
-mysql://numninja_admin:your-password@your-server.hostinger.com:3306/num_ninjas
+mysql://numninja_admin:your-password@srvXXXX.hstgr.io:3306/num_ninjas
 ```
+
+> **Important:** Use only letters, numbers, `-`, `_`, `.` in your password. Special characters like `@` `&` `#` must be URL-encoded (`@` → `%40`, etc.).
 
 ---
 
@@ -166,12 +169,14 @@ git push -u origin main
 ### First-time database setup
 After the first deploy, SSH into your Hostinger server (hPanel → Advanced → SSH Access) and run:
 ```bash
-cd ~/domains/your-domain.com/public_html/.builds/source/repository
-packages/database/node_modules/.bin/prisma db push --schema=packages/database/prisma/schema.prisma
+cd ~/domains/your-domain.com/nodejs
+chmod +x packages/database/node_modules/.bin/prisma
+chmod +x node_modules/.pnpm/@prisma+engines@*/node_modules/@prisma/engines/*
+packages/database/node_modules/.bin/prisma db push --schema=packages/database/prisma/schema.prisma --url="mysql://USER:PASS@srvXXXX.hstgr.io:3306/DATABASE"
 packages/database/node_modules/.bin/prisma db seed --schema=packages/database/prisma/schema.prisma
 ```
 
-> **Note:** Use the full `node_modules/.bin/prisma` path because `pnpm` and `npx` aren't in PATH on Hostinger.
+> **Note:** Use the full `node_modules/.bin/prisma` path because `pnpm` and `npx` aren't in PATH on Hostinger. You must pass `--url` because the schema doesn't include a hardcoded URL. The `chmod` commands are needed because Hostinger doesn't set execute permissions on installed binaries.
 
 ---
 
