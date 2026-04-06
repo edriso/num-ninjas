@@ -1,5 +1,6 @@
 import { prisma, getUserBadges, findUserByUsername } from '@numninjas/database';
 import { Footer } from '@/components/footer';
+import { CopyLinkButton } from '@/components/copy-link-button';
 import { notFound } from 'next/navigation';
 import { getLocale } from '@/lib/locale';
 import { getDictionary } from '@/lib/dictionaries';
@@ -76,16 +77,9 @@ export default async function ProfilePage({ params }: Props) {
       </header>
 
       <main className="max-w-2xl mx-auto px-6 py-10">
-        {/* Share Button */}
+        {/* Copy Link Button */}
         <div className="flex justify-center mb-6">
-          <a
-            href={`https://t.me/share/url?url=${encodeURIComponent(`https://numninjas.com/profile/${profileSlug}`)}&text=${encodeURIComponent(`${levelEmoji} ${user.nickname} — ${d.siteName}\n${user.totalPoints} ${d.profile.points} · ${user.streakDays} ${d.profile.day}`)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
-          >
-            📤 {d.profile.share}
-          </a>
+          <CopyLinkButton label={d.profile.copyLink} copiedLabel={d.profile.copied} />
         </div>
 
         {/* Stats Grid */}

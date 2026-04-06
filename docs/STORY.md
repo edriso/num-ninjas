@@ -48,7 +48,7 @@ So the bot had to earn the parent's trust from the first message. That's why the
 
 Every Sunday evening, parents get a summary for each child: how many questions they answered, their accuracy percentage, their streak, and what topics the bot will focus on next week. Parents love knowing what's coming. It makes them feel like the bot has a plan, not just random questions.
 
-The profile page on the website has a share button. One tap and the parent can share their kid's progress on WhatsApp. "Look what Ahmed achieved this week." That's not just a feature, that's how the word spreads.
+The profile page on the website has a copy link button. The parent copies the URL and shares it wherever they want — WhatsApp family group, Facebook, wherever. "Look what Ahmed achieved this week." We don't link to any messaging platform from a child's profile — that's a safety choice. The parent decides where and how to share.
 
 ## The language choice
 

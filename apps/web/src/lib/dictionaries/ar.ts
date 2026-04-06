@@ -75,7 +75,8 @@ export const ar = {
     correctAnswers: 'إجابات صحيحة',
     badges: 'الأوسمة',
     noBadges: 'لا توجد أوسمة بعد — استمر وستكسب!',
-    share: 'شارك الملف الشخصي',
+    copyLink: 'نسخ الرابط',
+    copied: 'تم النسخ',
     day: 'يوم',
   },
 
@@ -171,7 +172,8 @@ export interface Dictionary {
     correctAnswers: string;
     badges: string;
     noBadges: string;
-    share: string;
+    copyLink: string;
+    copied: string;
     day: string;
   };
   levels: {

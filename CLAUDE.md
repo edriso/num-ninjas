@@ -184,6 +184,14 @@ Emojis in RTL text appear on the wrong side. Patterns used:
 2. **Table headers / labels** (string order): Put emoji AFTER text in both dictionaries. Arabic `'صحيحة ✅'` renders as `✅ صحيحة` (RTL reversal puts emoji on right visually). English `'Correct ✅'` renders as `Correct ✅` (emoji on right). Both languages consistent — no `dir` override needed.
 3. **Never** put `dir="ltr"` on `<h1>/<h2>` with Arabic text — it left-aligns the whole heading
 
+## Child Safety
+
+This app is for kids ages 10-12. Follow these rules:
+- **No direct messaging links** from child profiles — use "Copy Link" not Telegram/WhatsApp share
+- **No personal data collection** — bot only asks for nickname, not real name or school
+- **Privacy toggle** — users can set profile to private (isPublic: false) to hide from leaderboard links
+- **Healthy content only** — no junk food, no inappropriate scenarios in questions
+
 ## Common Gotchas
 
 - **`pnpm approve-builds`**: After fresh install, pnpm may block native module builds (prisma, mariadb). They're listed in root package.json under `pnpm.onlyBuiltDependencies`

@@ -71,7 +71,8 @@ export const en: Dictionary = {
     correctAnswers: 'Correct Answers',
     badges: 'Badges',
     noBadges: "No badges yet — keep going and you'll earn some!",
-    share: 'Share Profile',
+    copyLink: 'Copy Link',
+    copied: 'Copied',
     day: 'days',
   },
 
