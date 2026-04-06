@@ -3,7 +3,6 @@ import { msg } from '../messages/arabic';
 import {
   prisma,
   getNextQuestion,
-  getScheduledQuestions,
   getOrCreateTodaySession,
   getTodaySession,
   markQuestionSent,
