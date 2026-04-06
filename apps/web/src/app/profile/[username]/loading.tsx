@@ -1,13 +1,15 @@
+import { StaticFooter } from "@/components/static-footer";
+
 export default function Loading() {
   return (
-    <div className="flex-1 bg-slate-50 animate-pulse">
-      <header className="bg-gradient-to-b from-slate-900 to-slate-800 py-12 px-6 text-center">
+    <div className="flex-1 flex flex-col bg-slate-50">
+      <header className="bg-gradient-to-b from-slate-900 to-slate-800 py-12 px-6 text-center animate-pulse">
         <div className="h-12 w-12 bg-slate-700 rounded-full mx-auto mb-3" />
         <div className="h-9 w-40 bg-slate-700 rounded mx-auto" />
         <div className="h-5 w-28 bg-slate-700 rounded mx-auto mt-2" />
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-10">
+      <main className="max-w-2xl mx-auto px-6 py-10 animate-pulse">
         {/* Stats grid */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -40,6 +42,7 @@ export default function Loading() {
           ))}
         </div>
       </main>
+      <StaticFooter />
     </div>
   );
 }
