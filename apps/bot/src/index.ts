@@ -4,7 +4,7 @@ import { startScheduler, stopScheduler } from './jobs/scheduler';
 import { prepareScheduledQuestions } from './jobs/prepare-questions';
 import { resetStreaks } from './jobs/reset-streaks';
 import { sendFirstQuestion } from './jobs/send-first';
-import { loadSettings, logger } from '@numninjas/database';
+import { loadSettings, logger, prisma } from '@numninjas/database';
 
 function getCairoTimeMinutes(): number {
   const cairoTime = new Date().toLocaleString('en-US', { timeZone: 'Africa/Cairo', hour12: false });
@@ -55,6 +55,16 @@ async function main() {
 
   // Set bot menu commands
   await setBotCommands();
+
+  // Keep database connection alive — Hostinger kills idle connections after ~60s
+  // A lightweight query every 30 seconds prevents the pool from going stale
+  setInterval(async () => {
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+    } catch {
+      // Silently ignore — the next real query will reconnect
+    }
+  }, 30_000);
 
   // Start scheduled jobs
   startScheduler(bot);
