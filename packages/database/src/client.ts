@@ -16,7 +16,7 @@ function createPrismaClient() {
   const dbConfig = parseDbUrl(process.env.DATABASE_URL!);
   const adapter = new PrismaMariaDb({
     ...dbConfig,
-    connectionLimit: 5,
+    connectionLimit: 2,       // Keep pool small (Hostinger shared hosting has 500 conn/hour limit)
     idleTimeout: 60,          // Close idle connections after 60s (Hostinger kills them sooner)
     minimumIdle: 0,           // Don't keep idle connections open
     acquireTimeout: 15000,    // Wait up to 15s for a connection
