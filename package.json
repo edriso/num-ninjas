@@ -2,6 +2,7 @@
   "name": "num-ninjas",
   "private": true,
   "scripts": {
+    "dev": "pnpm --filter bot dev & pnpm --filter web dev",
     "dev:bot": "pnpm --filter bot dev",
     "dev:web": "pnpm --filter web dev",
     "build:bot": "pnpm --filter bot build",
