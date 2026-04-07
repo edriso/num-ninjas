@@ -33,6 +33,10 @@ export async function sendParentReports(bot: Bot<BotContext>) {
     try {
       const profileSummaries: string[] = [];
 
+      // Use the first user's locale as the account language
+      const locale = account.users[0]?.locale || 'ar';
+      const isEn = locale === 'en';
+
       for (const user of account.users) {
         const attempts = await prisma.questionAttempt.findMany({
           where: { userId: user.id, answeredAt: { gte: weekStart } },
@@ -54,16 +58,22 @@ export async function sendParentReports(bot: Bot<BotContext>) {
           .filter((s) => s.totalAttempts > 0 && s.accuracy < 0.7)
           .sort((a, b) => a.accuracy - b.accuracy)
           .slice(0, 2)
-          .map((s) => s.topicName);
+          .map((s) => isEn ? (s.topicNameEn || s.topicName) : s.topicName);
 
-        let summary =
-          `${levelEmoji} *${user.nickname}:*\n` +
-          `✅ أجاب على ${total} سؤال (${correct} صحيحة — ${accuracy}%)\n` +
-          `🔥 السلسلة: ${user.streakDays} أيام${streakStar}\n` +
-          `💎 النقاط: +${pointsEarned} نقطة`;
+        let summary = isEn
+          ? `${levelEmoji} *${user.nickname}:*\n` +
+            `✅ Answered ${total} questions (${correct} correct — ${accuracy}%)\n` +
+            `🔥 Streak: ${user.streakDays} days${streakStar}\n` +
+            `💎 Points: +${pointsEarned}`
+          : `${levelEmoji} *${user.nickname}:*\n` +
+            `✅ أجاب على ${total} سؤال (${correct} صحيحة — ${accuracy}%)\n` +
+            `🔥 السلسلة: ${user.streakDays} أيام${streakStar}\n` +
+            `💎 النقاط: +${pointsEarned} نقطة`;
 
         if (weakTopics.length > 0) {
-          summary += `\n📚 تركيز الأسبوع القادم: ${weakTopics.join('، ')}`;
+          const separator = isEn ? ', ' : '، ';
+          const focusLabel = isEn ? '📚 Next week focus' : '📚 تركيز الأسبوع القادم';
+          summary += `\n${focusLabel}: ${weakTopics.join(separator)}`;
         }
 
         profileSummaries.push(summary);
@@ -71,10 +81,13 @@ export async function sendParentReports(bot: Bot<BotContext>) {
 
       if (profileSummaries.length === 0) continue;
 
-      const message =
-        `📊 *تقرير الأسبوع*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-        profileSummaries.join('\n\n') +
-        `\n\nشجّع أبناءك على مواصلة التحدي! 💪`;
+      const message = isEn
+        ? `📊 *Weekly Report*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+          profileSummaries.join('\n\n') +
+          `\n\nEncourage your kids to keep going! 💪`
+        : `📊 *تقرير الأسبوع*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+          profileSummaries.join('\n\n') +
+          `\n\nشجّع أبناءك على مواصلة التحدي! 💪`;
 
       await bot.api.sendMessage(Number(account.telegramId), message, {
         parse_mode: 'Markdown',

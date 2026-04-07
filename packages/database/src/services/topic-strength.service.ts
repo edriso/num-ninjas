@@ -3,6 +3,7 @@ import prisma from '../client';
 export interface TopicStrength {
   topicId: number;
   topicName: string;
+  topicNameEn: string | null;
   totalAttempts: number;
   correctAttempts: number;
   accuracy: number;
@@ -68,6 +69,7 @@ export async function getTopicStrengths(
       return {
         topicId: topic.id,
         topicName: topic.name,
+        topicNameEn: topic.nameEn,
         totalAttempts: 0,
         correctAttempts: 0,
         accuracy: 0,
@@ -82,6 +84,7 @@ export async function getTopicStrengths(
     return {
       topicId: topic.id,
       topicName: topic.name,
+      topicNameEn: topic.nameEn,
       totalAttempts: stats.total,
       correctAttempts: stats.correct,
       accuracy: Math.round(accuracy * 100) / 100,
