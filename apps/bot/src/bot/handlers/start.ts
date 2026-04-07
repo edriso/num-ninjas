@@ -2,10 +2,69 @@ import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session';
 import { getMsg } from '../helpers/get-msg';
 import { getMessages } from '../messages';
-import { prisma, findOrCreateAccount, createProfile, updateNickname, logger } from '@numninjas/database';
+import { prisma, findOrCreateAccount, createProfile, updateNickname, logger, todayCairoAsUtcMidnight, getSettingInt, getTopicStrengths, pickWeightedTopics, getExcludedQuestionIds, shuffle } from '@numninjas/database';
 import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
 import { sendQuestionToUser } from './question';
+
+// ─── Prepare Questions for New User ───────────────────────────────
+
+async function prepareQuestionsForUser(userId: number, levelId: number, locale: string) {
+  try {
+    const today = todayCairoAsUtcMidnight();
+    const questionsPerDay = await getSettingInt('questions_per_day');
+
+    const existing = await prisma.scheduledQuestion.findFirst({
+      where: { userId, scheduledDate: today },
+    });
+    if (existing) return; // Already prepared
+
+    const strengths = await getTopicStrengths(userId, levelId);
+    if (strengths.length === 0) return;
+
+    const pickedTopics = pickWeightedTopics(strengths, questionsPerDay);
+    const excludedIds = await getExcludedQuestionIds(userId, levelId);
+    const selectedQuestions: { id: number }[] = [];
+
+    for (const topic of pickedTopics) {
+      let available = await prisma.question.findMany({
+        where: {
+          topicId: topic.topicId,
+          locale,
+          ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
+        },
+        select: { id: true },
+      });
+
+      if (available.length === 0 && locale !== 'ar') {
+        available = await prisma.question.findMany({
+          where: {
+            topicId: topic.topicId,
+            locale: 'ar',
+            ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
+          },
+          select: { id: true },
+        });
+      }
+
+      if (available.length > 0) {
+        const picked = shuffle(available)[0];
+        selectedQuestions.push(picked);
+        excludedIds.add(picked.id);
+      }
+    }
+
+    for (let i = 0; i < selectedQuestions.length; i++) {
+      await prisma.scheduledQuestion.create({
+        data: { userId, questionId: selectedQuestions[i].id, position: i + 1, scheduledDate: today },
+      });
+    }
+
+    logger.info('Prepared questions for new user', { userId, count: selectedQuestions.length });
+  } catch (err) {
+    logger.error('Failed to prepare questions for new user', { userId, error: String(err) });
+  }
+}
 
 // ─── Onboarding Quiz Questions ─────────────────────────────────────
 
@@ -249,6 +308,9 @@ export async function handleLevelSelection(ctx: BotContext) {
       { parse_mode: 'Markdown' },
     );
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
+
+    // Prepare today's questions immediately
+    await prepareQuestionsForUser(profile.id, levelId, locale);
   } catch (error) {
     logger.error('Failed to create profile', { error: String(error) });
     const errText = locale === 'en' ? 'An error occurred, try again' : 'حدث خطأ، حاول مرة أخرى';
@@ -359,6 +421,9 @@ export async function handleQuizAnswer(ctx: BotContext) {
       levelId: level.id,
       quizScore: quizCorrect,
     });
+
+    // Prepare today's questions immediately so the user can start right away
+    await prepareQuestionsForUser(profile.id, level.id, locale);
   } catch (error) {
     logger.error('Failed to create profile via quiz', { error: String(error) });
     await ctx.reply(msg.error);
