@@ -98,6 +98,12 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
     const session = await getTodaySession(userId);
     if (session?.isComplete) {
       await showDailySummary(ctx, userId);
+    } else {
+      // No questions scheduled yet — tell the user
+      const noQuestionsText = locale === 'en'
+        ? '📅 No questions ready yet! Your daily questions arrive at 2:30 PM Cairo time.'
+        : '📅 لا توجد أسئلة جاهزة بعد! أسئلتك اليومية تصل الساعة 2:30 مساءً بتوقيت القاهرة.';
+      await ctx.reply(noQuestionsText);
     }
     return false;
   }
