@@ -64,7 +64,6 @@ export default async function ProfilePage({ params }: Props) {
 
   const levelEmoji = user.level.iconEmoji || '🥷';
   const levelName = locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
-  const profileSlug = user.username || String(user.id);
   const formatDate = (date: Date) => {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
