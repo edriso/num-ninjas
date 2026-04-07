@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev:bot": "pnpm --filter bot dev",
+    "dev:web": "pnpm --filter web dev",
     "build:bot": "pnpm --filter bot build",
     "build:web": "packages/database/node_modules/.bin/prisma generate --schema=packages/database/prisma/schema.prisma && cd apps/web && node_modules/.bin/next build && cp -r .next/static .next/standalone/apps/web/.next/static && cp -r public .next/standalone/apps/web/public",
     "db:generate": "pnpm --filter @numninjas/database db:generate",
