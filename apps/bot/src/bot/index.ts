@@ -117,8 +117,11 @@ bot.on('message:text', async (ctx) => {
 // ─── Error Handler ──────────────────────────────────────────────────
 bot.catch((err) => {
   logger.error('Bot error', { error: String(err.error), update: err.ctx.update.update_id });
-  const msg = getMsg(err.ctx);
-  err.ctx.reply(msg.error).catch(() => {});
+  const locale = err.ctx.session?.locale;
+  const errorText = locale
+    ? getMsg(err.ctx).error
+    : '⚠️ حدثت مشكلة، حاول مرة أخرى بعد قليل\nSomething went wrong, please try again in a moment';
+  err.ctx.reply(errorText).catch(() => {});
 });
 
 // ─── Bot Menu Commands ──────────────────────────────────────────────
