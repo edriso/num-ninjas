@@ -6,7 +6,7 @@ import { getLocale } from '@/lib/locale';
 import { getDictionary } from '@/lib/dictionaries';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Cache profiles for 1 minute
 
 type Props = {
   params: Promise<{ username: string }>;
@@ -56,8 +56,10 @@ export default async function ProfilePage({ params }: Props) {
 
   const badges = await getUserBadges(user.id);
 
-  const attempts = await prisma.questionAttempt.count({ where: { userId: user.id } });
-  const correct = await prisma.questionAttempt.count({ where: { userId: user.id, isCorrect: true } });
+  const [attempts, correct] = await Promise.all([
+    prisma.questionAttempt.count({ where: { userId: user.id } }),
+    prisma.questionAttempt.count({ where: { userId: user.id, isCorrect: true } }),
+  ]);
   const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
 
   const levelEmoji = user.level.iconEmoji || '🥷';

@@ -17,20 +17,19 @@ export async function getWeeklyRankings(): Promise<LevelRanking[]> {
   const weekStart = getWeekStart(now);
   const levels = await prisma.level.findMany({ orderBy: { rankOrder: 'asc' } });
 
-  const result: LevelRanking[] = [];
-  for (const level of levels) {
-    const rankings = await computeRankings(weekStart, now, level.id, 'accuracy');
-    if (rankings.length > 0) {
-      result.push({
-        levelId: level.id,
-        levelName: level.name,
-        levelNameEn: level.nameEn,
-        levelEmoji: level.iconEmoji || '🥋',
-        rankings,
-      });
-    }
-  }
-  return result;
+  const allRankings = await Promise.all(
+    levels.map((level) => computeRankings(weekStart, now, level.id, 'accuracy')),
+  );
+
+  return levels
+    .map((level, i) => ({
+      levelId: level.id,
+      levelName: level.name,
+      levelNameEn: level.nameEn,
+      levelEmoji: level.iconEmoji || '🥋',
+      rankings: allRankings[i],
+    }))
+    .filter((lr) => lr.rankings.length > 0);
 }
 
 export async function getHallOfFame() {
