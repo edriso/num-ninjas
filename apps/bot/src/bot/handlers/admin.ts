@@ -97,7 +97,7 @@ export async function handleAdminHealth(ctx: BotContext) {
   let dbLatency = 0;
   try {
     const start = Date.now();
-    await prisma.$queryRawUnsafe('SELECT 1');
+    await prisma.$queryRaw`SELECT 1`;
     dbLatency = Date.now() - start;
     dbStatus = `✅ Connected (${dbLatency}ms)`;
   } catch (err) {
