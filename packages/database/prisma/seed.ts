@@ -22,15 +22,15 @@ async function main() {
 
   // ─── Settings ───────────────────────────────────────────────────────
   const settings = [
-    { settingKey: 'questions_per_day', value: '3', type: 'integer', description: 'عدد الأسئلة اليومية' },
-    { settingKey: 'first_question_time', value: '14:30', type: 'time', description: 'وقت إرسال أول سؤال يومي' },
-    { settingKey: 'reminder_time', value: '19:30', type: 'time', description: 'وقت التذكير المسائي' },
-    { settingKey: 'streak_reset_time', value: '00:00', type: 'time', description: 'وقت إعادة ضبط السلسلة' },
-    { settingKey: 'daily_questions_prep_time', value: '00:30', type: 'time', description: 'وقت تحضير أسئلة اليوم' },
-    { settingKey: 'weekly_ranking_day', value: '0', type: 'integer', description: 'يوم الترتيب الأسبوعي (0=الأحد)' },
-    { settingKey: 'points_per_correct', value: '10', type: 'integer', description: 'نقاط الإجابة الصحيحة' },
-    { settingKey: 'question_repeat_days', value: '30', type: 'integer', description: 'أيام قبل تكرار السؤال' },
-    { settingKey: 'reminder_enabled', value: '1', type: 'boolean', description: 'تفعيل التذكير المسائي' },
+    { settingKey: 'questions_per_day', value: '3', type: 'integer', description: 'عدد الأسئلة اليومية', descriptionEn: 'Daily questions count' },
+    { settingKey: 'first_question_time', value: '14:30', type: 'time', description: 'وقت إرسال أول سؤال يومي', descriptionEn: 'First daily question send time' },
+    { settingKey: 'reminder_time', value: '19:30', type: 'time', description: 'وقت التذكير المسائي', descriptionEn: 'Evening reminder time' },
+    { settingKey: 'streak_reset_time', value: '00:00', type: 'time', description: 'وقت إعادة ضبط السلسلة', descriptionEn: 'Streak reset time' },
+    { settingKey: 'daily_questions_prep_time', value: '00:30', type: 'time', description: 'وقت تحضير أسئلة اليوم', descriptionEn: 'Daily questions preparation time' },
+    { settingKey: 'weekly_ranking_day', value: '0', type: 'integer', description: 'يوم الترتيب الأسبوعي (0=الأحد)', descriptionEn: 'Weekly ranking day (0=Sunday)' },
+    { settingKey: 'points_per_correct', value: '10', type: 'integer', description: 'نقاط الإجابة الصحيحة', descriptionEn: 'Points per correct answer' },
+    { settingKey: 'question_repeat_days', value: '30', type: 'integer', description: 'أيام قبل تكرار السؤال', descriptionEn: 'Days before question repeat' },
+    { settingKey: 'reminder_enabled', value: '1', type: 'boolean', description: 'تفعيل التذكير المسائي', descriptionEn: 'Enable evening reminder' },
   ];
 
   for (const s of settings) {
@@ -74,7 +74,7 @@ async function main() {
     { name: 'بطل الأسبوع', nameEn: 'Week Champion', badgeType: 'weekly_rank', rankPosition: 1, iconEmoji: '🥇', awardTitle: 'المركز الأول', awardTitleEn: '1st Place', description: 'المركز الأول هذا الأسبوع', descriptionEn: 'Ranked #1 this week' },
     { name: 'المركز الثاني', nameEn: '2nd Place', badgeType: 'weekly_rank', rankPosition: 2, iconEmoji: '🥈', awardTitle: 'المركز الثاني', awardTitleEn: '2nd Place', description: 'المركز الثاني هذا الأسبوع', descriptionEn: 'Ranked #2 this week' },
     { name: 'المركز الثالث', nameEn: '3rd Place', badgeType: 'weekly_rank', rankPosition: 3, iconEmoji: '🥉', awardTitle: 'المركز الثالث', awardTitleEn: '3rd Place', description: 'المركز الثالث هذا الأسبوع', descriptionEn: 'Ranked #3 this week' },
-    { name: 'الثابت', nameEn: 'The Consistent', badgeType: 'monthly_rank', iconEmoji: '🔥', awardTitle: 'الأكثر حضوراً', awardTitleEn: 'Most Active', description: 'أكتر واحد لعب أيام في الشهر', descriptionEn: 'Most active days this month' },
+    { name: 'الثابت', nameEn: 'The Consistent', badgeType: 'monthly_rank', iconEmoji: '🔥', awardTitle: 'الأكثر حضوراً', awardTitleEn: 'Most Active', description: 'أكثر واحد لعب أيام في الشهر', descriptionEn: 'Most active days this month' },
     { name: 'العقل الحاد', nameEn: 'The Sharp Mind', badgeType: 'monthly_rank', iconEmoji: '🎯', awardTitle: 'الأدق إجابةً', awardTitleEn: 'Best Accuracy', description: 'أعلى نسبة إجابات صح', descriptionEn: 'Highest correct answer rate' },
     { name: 'المستقل', nameEn: 'The Independent', badgeType: 'monthly_rank', iconEmoji: '⚡', awardTitle: 'الأقل استعانةً', awardTitleEn: 'Fewest Hints', description: 'أقل واحد استخدم التلميحات', descriptionEn: 'Least hints used this month' },
     { name: 'أسطورة العام', nameEn: 'Year Legend', badgeType: 'yearly_rank', iconEmoji: '🏆', awardTitle: 'بطل العام', awardTitleEn: 'Champion', description: 'أعلى نقاط في السنة', descriptionEn: 'Top points this year' },

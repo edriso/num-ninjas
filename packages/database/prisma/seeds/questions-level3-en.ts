@@ -553,7 +553,7 @@ export const level3QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'mcq',
-    realLifeContext: 'You baked some trays of cookies.',
+    realLifeContext: 'You baked some trays of date bars.',
     questionText: 'Convert 2 and 1/3 to an improper fraction.',
     hintText: 'Multiply the whole number by the denominator and add the numerator: (2 x 3) + 1',
     explanation: '2 and 1/3 = (2 x 3 + 1)/3 = 7/3',

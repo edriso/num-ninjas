@@ -149,7 +149,7 @@ export const level3Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'في حفلة عيد ميلاد، أكلت 2/5 من التورتة وأخوك أكل 1/4.',
-    questionText: 'كم من التورتة اتاكل كله؟ (اكتب الإجابة ككسر)',
+    questionText: 'كم من التورتة أُكِل كله؟ (اكتب الإجابة ككسر)',
     correctAnswer: '13/20',
     correctAnswerNumeric: 0.65,
     hintText: 'المقام المشترك لـ 5 و 4 هو 20',
@@ -382,7 +382,7 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'عندك 3/4 كيلو حلاوة طحينية ويريد تقسمها على 3 أأصدقاء بالتساوي.',
+    realLifeContext: 'عندك 3/4 كيلو حلاوة طحينية ويريد تقسمها على 3 أصدقاء بالتساوي.',
     questionText: 'كل واحد هيأخذ كم كيلو؟',
     hintText: 'القسمة على عدد صحيح = الضرب في مقلوبه: 3/4 ÷ 3 = 3/4 × 1/3',
     explanation: '3/4 ÷ 3 = 3/4 × 1/3 = 3/12 = 1/4 كيلو',
