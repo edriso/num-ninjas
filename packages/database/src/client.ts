@@ -1,27 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 
-function parseDbUrl(url: string) {
-  const parsed = new URL(url);
-  return {
-    host: parsed.hostname,
-    port: parseInt(parsed.port || '3306'),
-    user: decodeURIComponent(parsed.username),
-    password: decodeURIComponent(parsed.password),
-    database: parsed.pathname.replace(/^\//, ''),
-  };
-}
-
 function createPrismaClient() {
-  const dbConfig = parseDbUrl(process.env.DATABASE_URL!);
-  const adapter = new PrismaMariaDb({
-    ...dbConfig,
-    connectionLimit: 2,       // Keep pool small (Hostinger shared hosting has 500 conn/hour limit)
-    idleTimeout: 60,          // Close idle connections after 60s (Hostinger kills them sooner)
-    minimumIdle: 0,           // Don't keep idle connections open
-    acquireTimeout: 15000,    // Wait up to 15s for a connection
-    minDelayValidation: 500,  // Validate connections before use
-  });
+  const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
   return new PrismaClient({ adapter });
 }
 
