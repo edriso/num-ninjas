@@ -269,6 +269,8 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
 
 ### Changing the admin password
 
+The default admin password is `password` (set during initial database setup). **Change it immediately after first login.**
+
 There's no password change screen in the app. Use **phpMyAdmin** to update it:
 
 1. Generate a bcrypt hash of your new password. From the project root, run:
@@ -285,6 +287,12 @@ There's no password change screen in the app. Use **phpMyAdmin** to update it:
    UPDATE admins SET password = '$2b$10$YOUR_HASH_HERE' WHERE email = 'admin@numninjas.com';
    ```
    Replace `$2b$10$YOUR_HASH_HERE` with the hash from step 1.
+
+> **How admin passwords work:** The password is stored as a bcrypt hash in the `admins` table. There are two ways the initial admin gets created:
+> - **Production (phpMyAdmin):** Import `docs/seed.sql` — contains a pre-hashed bcrypt password for `password`
+> - **Local dev (`pnpm db:seed`):** Reads `ADMIN_PASSWORD` from `packages/database/.env` and hashes it at seed time (default: `password`)
+> 
+> Both are independent. The only password that matters is what's in the database. Change it via phpMyAdmin as described above.
 
 ---
 
