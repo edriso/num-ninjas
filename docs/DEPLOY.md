@@ -346,6 +346,29 @@ Don't run `pnpm db:seed` — it would overwrite admin panel changes. Instead:
 - Use the **admin panel** at `/admin/questions` to add questions one by one
 - Or write a custom script that only inserts new questions without touching existing ones
 
+### Regenerating docs/seed.sql
+
+If you change the TypeScript seed files (`packages/database/prisma/seeds/`), regenerate `docs/seed.sql` to keep it in sync:
+
+```bash
+pnpm db:reset     # Drops all local data and re-seeds (dev only!)
+mysqldump -u numninjas -ppassword --no-create-info --complete-insert numninjas settings levels topics badges admins questions options > docs/seed.sql
+```
+
+Then prepend these lines to the file:
+```sql
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+```
+
+And append at the end:
+```sql
+SET FOREIGN_KEY_CHECKS = 1;
+```
+
+> **Why two seed methods?** `pnpm db:seed` (TypeScript) is for local dev — it's fast and uses upsert. `docs/seed.sql` is for production (Hostinger phpMyAdmin) where Prisma CLI doesn't work reliably. Both produce identical data.
+
 ---
 
 ## If Something Goes Wrong

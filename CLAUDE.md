@@ -207,7 +207,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **Default admin**: Seed creates admin@numninjas.com with default password. Change after first login via phpMyAdmin (see DEPLOY.md).
 - **Startup recovery**: Bot catches up on missed cron jobs at startup — streak reset, question prep, and send-first-question all run on boot if their scheduled time has passed. All are idempotent.
 - **Hostinger: pnpm not in PATH**: Subprocesses on Hostinger can't find `pnpm` or `npx`. Build scripts use `node_modules/.bin/` paths directly. SSH commands need `chmod +x` on prisma binaries.
-- **Hostinger: DB setup via phpMyAdmin**: Prisma CLI is unreliable on Hostinger shared hosting. Use phpMyAdmin Import with `docs/schema.sql` and `docs/seed.sql` instead.
+- **Hostinger: DB setup via phpMyAdmin**: Prisma CLI is unreliable on Hostinger shared hosting. Use phpMyAdmin Import with `docs/schema.sql` and `docs/seed.sql` instead. To regenerate seed.sql after changing TS seeds: `pnpm db:reset` then `mysqldump` (see DEPLOY.md).
 - **Cloudflare SSL must be Flexible**: Hostinger origin doesn't have SSL. Using "Full" or "Full (Strict)" causes 525 errors.
 - **Hostinger kills idle DB connections**: Shared hosting drops MySQL connections after idle period and has a 500 connections/hour limit. Avoid crash loops that burn through connections. PrismaMariaDb must use URL string only (object config causes timeout bugs). The client auto-converts `mysql://` to `mariadb://` prefix.
 - **Level change re-prepares questions**: When a user changes level, their scheduled questions and session are deleted and new questions are prepared for the new level immediately. This prevents getting wrong-level questions.
