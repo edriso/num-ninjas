@@ -104,20 +104,20 @@ export async function handleStart(ctx: BotContext) {
   const telegramId = BigInt(ctx.from!.id);
   const account = await findOrCreateAccount(telegramId);
 
-  // No profiles yet → start onboarding
+  // No profiles yet → start onboarding with language choice
   if (account.users.length === 0) {
-    // Detect locale from Telegram client language
-    const telegramLang = ctx.from?.language_code || 'ar';
-    const locale = telegramLang.startsWith('ar') ? 'ar' : 'en';
-    ctx.session.locale = locale;
-
-    // Re-get messages with detected locale
-    const localMsg = getMessages(locale);
-
-    ctx.session.state = 'awaiting_nickname';
+    ctx.session.state = 'idle';
     ctx.session.pendingData = {};
-    await ctx.reply(localMsg.welcome, { parse_mode: 'Markdown' });
-    await ctx.reply(localMsg.askNickname);
+
+    const keyboard = new InlineKeyboard()
+      .text('🇸🇦 عربي', 'onboard_lang:ar')
+      .text('🇬🇧 English', 'onboard_lang:en');
+
+    await ctx.reply(
+      '🥷 *نينجا الأرقام | NumNinjas*\n\n' +
+      'اختر لغتك / Choose your language:',
+      { parse_mode: 'Markdown', reply_markup: keyboard },
+    );
     return;
   }
 
@@ -364,6 +364,28 @@ export async function handleQuizAnswer(ctx: BotContext) {
     await ctx.reply(msg.error);
     ctx.session.state = 'idle';
   }
+}
+
+// ─── Onboarding Language Selection ────────────────────────────────
+
+export async function handleOnboardLanguage(ctx: BotContext) {
+  const data = ctx.callbackQuery?.data;
+  if (!data?.startsWith('onboard_lang:')) return;
+
+  const locale = data.split(':')[1] === 'en' ? 'en' : 'ar';
+  ctx.session.locale = locale;
+
+  const localMsg = getMessages(locale);
+
+  ctx.session.state = 'awaiting_nickname';
+  ctx.session.pendingData = {};
+
+  await ctx.answerCallbackQuery();
+  await ctx.editMessageText(
+    `✅ ${locale === 'en' ? 'Language set to English' : 'تم اختيار العربية'}`,
+  );
+  await ctx.reply(localMsg.welcome, { parse_mode: 'Markdown' });
+  await ctx.reply(localMsg.askNickname);
 }
 
 // ─── Change Quiz Level (override auto-detected level) ──────────────

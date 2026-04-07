@@ -1,7 +1,7 @@
 import { Bot } from 'grammy';
 import { config } from '../config';
 import { sessionMiddleware, type BotContext } from './middleware/session';
-import { handleStart, handleNicknameInput, handleLevelSelection, handleQuizAnswer, handleChangeQuizLevel } from './handlers/start';
+import { handleStart, handleNicknameInput, handleLevelSelection, handleQuizAnswer, handleChangeQuizLevel, handleOnboardLanguage } from './handlers/start';
 import {
   handleAddChild,
   handleSwitch,
@@ -63,6 +63,7 @@ bot.command('admin_prepare', handleAdminPrepare);
 bot.command('admin_stats', handleAdminStats);
 
 // ─── Callback Queries ───────────────────────────────────────────────
+bot.callbackQuery(/^onboard_lang:/, handleOnboardLanguage);
 bot.callbackQuery(/^quiz_answer:/, handleQuizAnswer);
 bot.callbackQuery('change_quiz_level', handleChangeQuizLevel);
 bot.callbackQuery(/^select_level:/, handleLevelSelection);
