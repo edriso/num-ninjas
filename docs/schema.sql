@@ -37,7 +37,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `users_username_key` (`username`)
+  UNIQUE INDEX `users_username_key` (`username`),
+  INDEX `users_account_id_idx` (`account_id`),
+  INDEX `users_level_id_idx` (`level_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `topics` (
@@ -68,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX `questions_topic_id_locale_idx` (`topic_id`, `locale`),
   INDEX `questions_topic_id_idx` (`topic_id`),
   INDEX `questions_locale_idx` (`locale`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
