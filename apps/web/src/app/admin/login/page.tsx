@@ -7,11 +7,11 @@ export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div dir="ltr" className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">نينجا الأرقام</h1>
-          <p className="text-gray-500 mt-2">لوحة تحكم الأدمن</p>
+          <h1 className="text-3xl font-bold text-gray-900">NumNinjas</h1>
+          <p className="text-gray-500 mt-2">Admin Panel</p>
         </div>
 
         <form action={formAction} className="space-y-5">
@@ -20,7 +20,7 @@ export default function LoginPage() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              البريد الإلكتروني
+              Email
             </label>
             <input
               id="email"
@@ -30,7 +30,6 @@ export default function LoginPage() {
               autoComplete="email"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               placeholder="admin@example.com"
-              dir="ltr"
             />
           </div>
 
@@ -39,7 +38,7 @@ export default function LoginPage() {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              كلمة المرور
+              Password
             </label>
             <input
               id="password"
@@ -48,7 +47,6 @@ export default function LoginPage() {
               required
               autoComplete="current-password"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              dir="ltr"
             />
           </div>
 
@@ -63,7 +61,7 @@ export default function LoginPage() {
             disabled={isPending}
             className="w-full py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
-            {isPending ? "جاري الدخول..." : "تسجيل الدخول"}
+            {isPending ? "Signing in..." : "Sign In"}
           </button>
         </form>
       </div>

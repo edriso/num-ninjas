@@ -19,14 +19,14 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/admin", label: "لوحة التحكم", icon: LayoutDashboard },
-  { href: "/admin/questions", label: "الأسئلة", icon: HelpCircle },
-  { href: "/admin/topics", label: "المواضيع", icon: BookOpen },
-  { href: "/admin/levels", label: "المستويات", icon: Layers },
-  { href: "/admin/badges", label: "الشارات", icon: Award },
-  { href: "/admin/users", label: "المستخدمين", icon: Users },
-  { href: "/admin/settings", label: "الإعدادات", icon: Settings },
-  { href: "/admin/scheduled", label: "الجدول الزمني", icon: CalendarClock },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/questions", label: "Questions", icon: HelpCircle },
+  { href: "/admin/topics", label: "Topics", icon: BookOpen },
+  { href: "/admin/levels", label: "Levels", icon: Layers },
+  { href: "/admin/badges", label: "Badges", icon: Award },
+  { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/scheduled", label: "Scheduled", icon: CalendarClock },
 ];
 
 export function AdminSidebar({ email }: { email: string }) {
@@ -41,7 +41,7 @@ export function AdminSidebar({ email }: { email: string }) {
   const sidebarContent = (
     <>
       <div className="p-5 border-b border-gray-700">
-        <h2 className="text-lg font-bold text-white">نينجا الأرقام</h2>
+        <h2 className="text-lg font-bold text-white">NumNinjas Admin</h2>
         <p className="text-xs text-gray-400 mt-1 truncate" dir="ltr">
           {email}
         </p>
@@ -75,7 +75,7 @@ export function AdminSidebar({ email }: { email: string }) {
           className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <LogOut size={18} />
-          <span>تسجيل الخروج</span>
+          <span>Sign Out</span>
         </button>
       </div>
     </>
@@ -86,9 +86,9 @@ export function AdminSidebar({ email }: { email: string }) {
       {/* Mobile toggle */}
       <button
         onClick={() => setOpen(!open)}
-        aria-label={open ? 'إغلاق القائمة' : 'فتح القائمة'}
+        aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="fixed top-4 right-4 z-50 md:hidden bg-gray-800 text-white p-2 rounded-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        className="fixed top-4 left-4 z-50 md:hidden bg-gray-800 text-white p-2 rounded-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       >
         {open ? <X size={20} /> : <Menu size={20} />}
       </button>
@@ -103,8 +103,8 @@ export function AdminSidebar({ email }: { email: string }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 right-0 z-40 w-64 bg-gray-800 flex flex-col transition-transform md:translate-x-0 ${
-          open ? "translate-x-0" : "translate-x-full md:translate-x-0"
+        className={`fixed md:static inset-y-0 left-0 z-40 w-64 bg-gray-800 flex flex-col transition-transform md:translate-x-0 ${
+          open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
         {sidebarContent}

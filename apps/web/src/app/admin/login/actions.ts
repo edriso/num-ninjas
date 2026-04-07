@@ -17,9 +17,9 @@ export async function loginAction(
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
-        return { error: "البريد الإلكتروني أو كلمة المرور غير صحيحة" };
+        return { error: "Invalid email or password" };
       }
-      return { error: "حدثت مشكلة، حاول مرة أخرى" };
+      return { error: "Something went wrong, please try again" };
     }
     // Next.js redirect throws an error — rethrow it
     throw error;
