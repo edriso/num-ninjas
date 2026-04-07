@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: 'لوحة التحكم',
+  title: 'Dashboard',
 };
 
 export default async function AdminDashboard() {
@@ -30,12 +30,12 @@ export default async function AdminDashboard() {
       : 0;
 
   const stats = [
-    { label: "الحسابات", value: accountCount, color: "bg-blue-500" },
-    { label: "المستخدمين", value: userCount, color: "bg-green-500" },
-    { label: "الأسئلة", value: questionCount, color: "bg-purple-500" },
-    { label: "جلسات اليوم", value: todaySessions, color: "bg-orange-500" },
+    { label: "Accounts", value: accountCount, color: "bg-blue-500" },
+    { label: "Users", value: userCount, color: "bg-green-500" },
+    { label: "Questions", value: questionCount, color: "bg-purple-500" },
+    { label: "Today's Sessions", value: todaySessions, color: "bg-orange-500" },
     {
-      label: "نسبة الإكمال اليوم",
+      label: "Today's Completion Rate",
       value: `${completionRate}%`,
       color: "bg-teal-500",
     },
@@ -43,7 +43,7 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">لوحة التحكم</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {stats.map((stat) => (

@@ -9,7 +9,7 @@ export async function createTopicAction(formData: FormData) {
   const description = (formData.get("description") as string)?.trim() || null;
 
   if (!levelId || !name) {
-    throw new Error("اسم الموضوع والمستوى مطلوبان");
+    throw new Error("Topic name and level are required");
   }
 
   // Auto-assign next orderInLevel
@@ -33,7 +33,7 @@ export async function updateTopicAction(formData: FormData) {
   const orderInLevel = Number(formData.get("orderInLevel"));
 
   if (!id || !name || !orderInLevel) {
-    throw new Error("البيانات المطلوبة غير مكتملة");
+    throw new Error("Required data is incomplete");
   }
 
   await prisma.topic.update({
@@ -48,7 +48,7 @@ export async function deleteTopicAction(formData: FormData) {
   const id = Number(formData.get("id"));
 
   if (!id) {
-    throw new Error("معرف الموضوع مطلوب");
+    throw new Error("Topic ID is required");
   }
 
   // Check if topic has questions
@@ -57,7 +57,7 @@ export async function deleteTopicAction(formData: FormData) {
   });
 
   if (questionCount > 0) {
-    throw new Error(`لا يمكن حذف الموضوع لأنه يحتوي على ${questionCount} سؤال`);
+    throw new Error(`Cannot delete topic: it has ${questionCount} questions`);
   }
 
   await prisma.topic.delete({ where: { id } });

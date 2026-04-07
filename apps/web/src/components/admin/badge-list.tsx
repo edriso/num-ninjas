@@ -18,17 +18,17 @@ type Badge = {
 };
 
 const badgeTypeLabels: Record<string, string> = {
-  achievement: "إنجاز",
-  weekly_rank: "ترتيب أسبوعي",
-  monthly_rank: "ترتيب شهري",
-  yearly_rank: "ترتيب سنوي",
+  achievement: "Achievement",
+  weekly_rank: "Weekly Rank",
+  monthly_rank: "Monthly Rank",
+  yearly_rank: "Yearly Rank",
 };
 
 const badgeTypeOptions = [
-  { value: "achievement", label: "إنجاز" },
-  { value: "weekly_rank", label: "ترتيب أسبوعي" },
-  { value: "monthly_rank", label: "ترتيب شهري" },
-  { value: "yearly_rank", label: "ترتيب سنوي" },
+  { value: "achievement", label: "Achievement" },
+  { value: "weekly_rank", label: "Weekly Rank" },
+  { value: "monthly_rank", label: "Monthly Rank" },
+  { value: "yearly_rank", label: "Yearly Rank" },
 ];
 
 const inputClass =
@@ -47,7 +47,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       await createBadgeAction(formData);
       setShowCreate(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "حدث خطأ");
+      alert(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setSubmitting(false);
     }
@@ -59,7 +59,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       await updateBadgeAction(formData);
       setEditingId(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "حدث خطأ");
+      alert(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setSubmitting(false);
     }
@@ -71,7 +71,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       await deleteBadgeAction(formData);
       setDeletingId(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "حدث خطأ");
+      alert(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setSubmitting(false);
     }
@@ -81,12 +81,12 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
     <div>
       {/* Header with create button */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">الشارات</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Badges</h1>
         <button
           onClick={() => setShowCreate(!showCreate)}
           className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800"
         >
-          {showCreate ? "إلغاء" : "إضافة وسام +"}
+          {showCreate ? "Cancel" : "Add Badge +"}
         </button>
       </div>
 
@@ -96,22 +96,22 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
           action={handleCreate}
           className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mb-6 space-y-4"
         >
-          <h3 className="font-bold text-gray-800 mb-3">وسام جديد</h3>
+          <h3 className="font-bold text-gray-800 mb-3">New Badge</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>الاسم *</label>
+              <label className={labelClass}>Name *</label>
               <input type="text" name="name" required className={inputClass + " w-full"} autoFocus />
             </div>
             <div>
-              <label className={labelClass}>الأيقونة</label>
-              <input type="text" name="iconEmoji" className={inputClass + " w-full"} placeholder="مثال: 🏆" />
+              <label className={labelClass}>Icon</label>
+              <input type="text" name="iconEmoji" className={inputClass + " w-full"} placeholder="e.g. 🏆" />
             </div>
             <div>
-              <label className={labelClass}>لقب الجائزة</label>
+              <label className={labelClass}>Award Title</label>
               <input type="text" name="awardTitle" className={inputClass + " w-full"} />
             </div>
             <div>
-              <label className={labelClass}>النوع *</label>
+              <label className={labelClass}>Type *</label>
               <select name="badgeType" required className={inputClass + " w-full"}>
                 {badgeTypeOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -119,11 +119,11 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
               </select>
             </div>
             <div>
-              <label className={labelClass}>ترتيب المركز</label>
-              <input type="number" name="rankPosition" min={1} className={inputClass + " w-full"} placeholder="اختياري" />
+              <label className={labelClass}>Rank Position</label>
+              <input type="number" name="rankPosition" min={1} className={inputClass + " w-full"} placeholder="Optional" />
             </div>
             <div className="md:col-span-2">
-              <label className={labelClass}>الوصف</label>
+              <label className={labelClass}>Description</label>
               <input type="text" name="description" className={inputClass + " w-full"} />
             </div>
           </div>
@@ -132,7 +132,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
             disabled={submitting}
             className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
           >
-            {submitting ? "جاري الإضافة..." : "إضافة الوسام"}
+            {submitting ? "Adding..." : "Add Badge"}
           </button>
         </form>
       )}
@@ -162,7 +162,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
                             setDeletingId(null);
                           }}
                           className="text-gray-300 hover:text-gray-600 p-1"
-                          title="تعديل"
+                          title="Edit"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -172,12 +172,12 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
                           deletingId === badge.id ? (
                             <form action={handleDelete} className="flex items-center gap-1">
                               <input type="hidden" name="id" value={badge.id} />
-                              <span className="text-xs text-red-600">متأكد؟</span>
+                              <span className="text-xs text-red-600">Sure?</span>
                               <button type="submit" disabled={submitting} className="text-red-600 hover:text-red-700 text-xs font-medium disabled:opacity-50">
-                                نعم
+                                Yes
                               </button>
                               <button type="button" onClick={() => setDeletingId(null)} className="text-gray-400 hover:text-gray-600 text-xs">
-                                لا
+                                No
                               </button>
                             </form>
                           ) : (
@@ -187,7 +187,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
                                 setEditingId(null);
                               }}
                               className="text-gray-300 hover:text-red-500 p-1"
-                              title="حذف"
+                              title="Delete"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -215,7 +215,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       </div>
 
       {badges.length === 0 && (
-        <div className="text-center text-gray-400 py-12">لا يوجد شارات</div>
+        <div className="text-center text-gray-400 py-12">No badges</div>
       )}
     </div>
   );
@@ -240,19 +240,19 @@ function BadgeEditForm({
       <input type="hidden" name="id" value={badge.id} />
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className={labelClass}>الاسم *</label>
+          <label className={labelClass}>Name *</label>
           <input type="text" name="name" defaultValue={badge.name} required className={inputClass + " w-full"} autoFocus />
         </div>
         <div>
-          <label className={labelClass}>الأيقونة</label>
+          <label className={labelClass}>Icon</label>
           <input type="text" name="iconEmoji" defaultValue={badge.iconEmoji ?? ""} className={inputClass + " w-full"} />
         </div>
         <div>
-          <label className={labelClass}>لقب الجائزة</label>
+          <label className={labelClass}>Award Title</label>
           <input type="text" name="awardTitle" defaultValue={badge.awardTitle ?? ""} className={inputClass + " w-full"} />
         </div>
         <div>
-          <label className={labelClass}>النوع *</label>
+          <label className={labelClass}>Type *</label>
           <select name="badgeType" defaultValue={badge.badgeType} required className={inputClass + " w-full"}>
             {badgeTypeOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -260,11 +260,11 @@ function BadgeEditForm({
           </select>
         </div>
         <div>
-          <label className={labelClass}>ترتيب المركز</label>
+          <label className={labelClass}>Rank Position</label>
           <input type="number" name="rankPosition" defaultValue={badge.rankPosition ?? ""} min={1} className={inputClass + " w-full"} />
         </div>
         <div>
-          <label className={labelClass}>الوصف</label>
+          <label className={labelClass}>Description</label>
           <input type="text" name="description" defaultValue={badge.description ?? ""} className={inputClass + " w-full"} />
         </div>
       </div>
@@ -274,14 +274,14 @@ function BadgeEditForm({
           disabled={submitting}
           className="bg-gray-900 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-gray-800 disabled:opacity-50"
         >
-          {submitting ? "..." : "حفظ"}
+          {submitting ? "..." : "Save"}
         </button>
         <button
           type="button"
           onClick={onCancel}
           className="text-sm text-gray-500 hover:text-gray-700"
         >
-          إلغاء
+          Cancel
         </button>
       </div>
     </form>

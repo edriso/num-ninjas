@@ -10,7 +10,7 @@ export async function updateLevelAction(formData: FormData) {
   const iconEmoji = (formData.get("iconEmoji") as string)?.trim() || null;
 
   if (!id || !name) {
-    throw new Error("اسم المستوى مطلوب");
+    throw new Error("Level name is required");
   }
 
   await prisma.level.update({

@@ -24,7 +24,7 @@ export function LevelCard({ level }: { level: LevelData }) {
       await updateLevelAction(formData);
       setEditing(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "حدث خطأ");
+      alert(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setSubmitting(false);
     }
@@ -38,7 +38,7 @@ export function LevelCard({ level }: { level: LevelData }) {
 
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              الأيقونة
+              Icon
             </label>
             <input
               type="text"
@@ -51,7 +51,7 @@ export function LevelCard({ level }: { level: LevelData }) {
 
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              الاسم
+              Name
             </label>
             <input
               type="text"
@@ -64,13 +64,13 @@ export function LevelCard({ level }: { level: LevelData }) {
 
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              الوصف
+              Description
             </label>
             <input
               type="text"
               name="description"
               defaultValue={level.description ?? ""}
-              placeholder="وصف المستوى (اختياري)"
+              placeholder="Level description (optional)"
               className={inputClass}
             />
           </div>
@@ -81,14 +81,14 @@ export function LevelCard({ level }: { level: LevelData }) {
               disabled={submitting}
               className="bg-gray-900 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-gray-800 disabled:opacity-50"
             >
-              {submitting ? "جاري الحفظ..." : "حفظ"}
+              {submitting ? "Saving..." : "Save"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
               className="text-sm text-gray-500 hover:text-gray-700"
             >
-              إلغاء
+              Cancel
             </button>
           </div>
         </form>
@@ -103,7 +103,7 @@ export function LevelCard({ level }: { level: LevelData }) {
         <button
           onClick={() => setEditing(true)}
           className="text-gray-300 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-          title="تعديل"
+          title="Edit"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -116,10 +116,10 @@ export function LevelCard({ level }: { level: LevelData }) {
       )}
       <div className="flex gap-4 mt-4 text-sm text-gray-600">
         <div>
-          <span className="font-medium">{level._count.topics}</span> موضوع
+          <span className="font-medium">{level._count.topics}</span> topics
         </div>
         <div>
-          <span className="font-medium">{level._count.users}</span> مستخدم
+          <span className="font-medium">{level._count.users}</span> users
         </div>
       </div>
     </div>

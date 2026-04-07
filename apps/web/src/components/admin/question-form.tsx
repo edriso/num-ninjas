@@ -42,6 +42,9 @@ export function QuestionForm({
   const [selectedLevelId, setSelectedLevelId] = useState<number>(
     question?.topic.levelId ?? (levels[0]?.id ?? 0),
   );
+  const [locale, setLocale] = useState<string>(
+    (question as any)?.locale ?? "ar",
+  );
   const [questionType, setQuestionType] = useState<string>(
     question?.questionType ?? "mcq",
   );
@@ -85,7 +88,7 @@ export function QuestionForm({
     <form action={handleSubmit} className="space-y-6 max-w-2xl">
       {/* Level (not submitted, just for filtering topics) */}
       <div>
-        <label className={labelClass}>المستوى</label>
+        <label className={labelClass}>Level</label>
         <select
           value={selectedLevelId}
           onChange={(e) => setSelectedLevelId(Number(e.target.value))}
@@ -99,9 +102,38 @@ export function QuestionForm({
         </select>
       </div>
 
+      {/* Language */}
+      <div>
+        <label className={labelClass}>Language *</label>
+        <div className="flex gap-3">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="locale"
+              value="ar"
+              checked={locale === "ar"}
+              onChange={() => setLocale("ar")}
+              className="accent-gray-900"
+            />
+            <span className="text-sm">AR Arabic</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="locale"
+              value="en"
+              checked={locale === "en"}
+              onChange={() => setLocale("en")}
+              className="accent-gray-900"
+            />
+            <span className="text-sm">EN English</span>
+          </label>
+        </div>
+      </div>
+
       {/* Topic */}
       <div>
-        <label className={labelClass}>الموضوع *</label>
+        <label className={labelClass}>Topic *</label>
         <select
           name="topicId"
           defaultValue={question?.topicId ?? (topics[0]?.id ?? "")}
@@ -116,7 +148,7 @@ export function QuestionForm({
           ))}
           {topics.length === 0 && (
             <option value="" disabled>
-              لا توجد مواضيع في هذا المستوى
+              No topics in this level
             </option>
           )}
         </select>
@@ -124,7 +156,7 @@ export function QuestionForm({
 
       {/* Question type */}
       <div>
-        <label className={labelClass}>نوع السؤال *</label>
+        <label className={labelClass}>Question Type *</label>
         <div className="flex gap-4">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -135,7 +167,7 @@ export function QuestionForm({
               onChange={() => setQuestionType("mcq")}
               className="accent-gray-900"
             />
-            <span className="text-sm">اختيار متعدد (MCQ)</span>
+            <span className="text-sm">Multiple Choice (MCQ)</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -146,67 +178,67 @@ export function QuestionForm({
               onChange={() => setQuestionType("open_ended")}
               className="accent-gray-900"
             />
-            <span className="text-sm">إجابة مفتوحة</span>
+            <span className="text-sm">Open Ended</span>
           </label>
         </div>
       </div>
 
       {/* Real life context */}
       <div>
-        <label className={labelClass}>سياق حياتي (اختياري)</label>
+        <label className={labelClass}>Real-life Context (optional)</label>
         <textarea
           name="realLifeContext"
           defaultValue={question?.realLifeContext ?? ""}
           rows={2}
           className={inputClass}
-          placeholder="مثال: ذهب محمد إلى المتجر..."
+          placeholder="e.g. Ahmed went to the store..."
         />
       </div>
 
       {/* Question text */}
       <div>
-        <label className={labelClass}>نص السؤال *</label>
+        <label className={labelClass}>Question Text *</label>
         <textarea
           name="questionText"
           defaultValue={question?.questionText ?? ""}
           rows={3}
           required
           className={inputClass}
-          placeholder="اكتب السؤال هنا..."
+          placeholder="Write the question here..."
         />
       </div>
 
       {/* Explanation */}
       <div>
-        <label className={labelClass}>الشرح *</label>
+        <label className={labelClass}>Explanation *</label>
         <textarea
           name="explanation"
           defaultValue={question?.explanation ?? ""}
           rows={3}
           required
           className={inputClass}
-          placeholder="شرح الحل خطوة بخطوة..."
+          placeholder="Step-by-step solution..."
         />
       </div>
 
       {/* Hint */}
       <div>
-        <label className={labelClass}>تلميح (اختياري)</label>
+        <label className={labelClass}>Hint (optional)</label>
         <input
           type="text"
           name="hintText"
           defaultValue={question?.hintText ?? ""}
           className={inputClass}
-          placeholder="تلميح يساعد الطالب..."
+          placeholder="A hint to help the student..."
         />
       </div>
 
       {/* MCQ options */}
       {questionType === "mcq" && (
         <div>
-          <label className={labelClass}>الخيارات *</label>
+          <label className={labelClass}>Options *</label>
           <p className="text-xs text-gray-400 mb-3">
-            اختر الإجابة الصحيحة بالضغط على الزر
+            Click the button to mark the correct answer
           </p>
           <div className="space-y-3">
             {[0, 1, 2, 3].map((i) => (
@@ -224,7 +256,7 @@ export function QuestionForm({
                   defaultValue={question?.options[i]?.optionText ?? ""}
                   required={i < 2}
                   className={inputClass}
-                  placeholder={`خيار ${i + 1}${i < 2 ? " *" : " (اختياري)"}`}
+                  placeholder={`Option ${i + 1}${i < 2 ? " *" : " (optional)"}`}
                 />
               </div>
             ))}
@@ -236,24 +268,24 @@ export function QuestionForm({
       {questionType === "open_ended" && (
         <div className="space-y-4">
           <div>
-            <label className={labelClass}>الإجابة الصحيحة (نص)</label>
+            <label className={labelClass}>Correct Answer (text)</label>
             <input
               type="text"
               name="correctAnswer"
               defaultValue={question?.correctAnswer ?? ""}
               className={inputClass}
-              placeholder="مثال: 45"
+              placeholder="e.g. 45"
             />
           </div>
           <div>
-            <label className={labelClass}>الإجابة الصحيحة (رقم)</label>
+            <label className={labelClass}>Correct Answer (numeric)</label>
             <input
               type="number"
               name="correctAnswerNumeric"
               defaultValue={question?.correctAnswerNumeric ?? ""}
               step="any"
               className={inputClass}
-              placeholder="مثال: 45"
+              placeholder="e.g. 45"
               dir="ltr"
             />
           </div>
@@ -267,35 +299,35 @@ export function QuestionForm({
           disabled={submitting}
           className="bg-gray-900 text-white px-6 py-2 rounded-lg text-sm hover:bg-gray-800 transition-colors disabled:opacity-50"
         >
-          {submitting ? "جاري الحفظ..." : isEdit ? "حفظ التعديلات" : "إضافة السؤال"}
+          {submitting ? "Saving..." : isEdit ? "Save Changes" : "Add Question"}
         </button>
         <button
           type="button"
           onClick={() => router.push("/admin/questions")}
           className="text-sm text-gray-500 hover:text-gray-700"
         >
-          إلغاء
+          Cancel
         </button>
 
         {isEdit && (
           <div className="mr-auto">
             {showDeleteConfirm ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-red-600">هل أنت متأكد؟</span>
+                <span className="text-sm text-red-600">Are you sure?</span>
                 <button
                   type="button"
                   onClick={handleDelete}
                   disabled={submitting}
                   className="bg-red-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-red-700 disabled:opacity-50"
                 >
-                  نعم، احذف
+                  Yes, delete
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowDeleteConfirm(false)}
                   className="text-sm text-gray-500 hover:text-gray-700"
                 >
-                  لا
+                  No
                 </button>
               </div>
             ) : (
@@ -304,7 +336,7 @@ export function QuestionForm({
                 onClick={() => setShowDeleteConfirm(true)}
                 className="text-sm text-red-500 hover:text-red-600"
               >
-                حذف السؤال
+                Delete Question
               </button>
             )}
           </div>

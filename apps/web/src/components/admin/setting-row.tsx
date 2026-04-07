@@ -12,10 +12,10 @@ type Setting = {
 };
 
 const typeLabels: Record<string, string> = {
-  string: "نص",
-  integer: "رقم",
-  boolean: "منطقي",
-  time: "وقت",
+  string: "Text",
+  integer: "Number",
+  boolean: "Boolean",
+  time: "Time",
 };
 
 export function SettingRow({ setting }: { setting: Setting }) {
@@ -29,7 +29,7 @@ export function SettingRow({ setting }: { setting: Setting }) {
       await updateSettingAction(formData);
       setEditing(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "حدث خطأ");
+      alert(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setSaving(false);
     }
@@ -60,21 +60,21 @@ export function SettingRow({ setting }: { setting: Setting }) {
               disabled={saving}
               className="text-green-600 hover:text-green-700 text-sm font-medium disabled:opacity-50"
             >
-              {saving ? "..." : "حفظ"}
+              {saving ? "..." : "Save"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
               className="text-gray-400 hover:text-gray-600 text-sm"
             >
-              إلغاء
+              Cancel
             </button>
           </form>
         ) : (
           <button
             onClick={() => setEditing(true)}
             className="hover:bg-gray-100 rounded px-2 py-0.5 -mx-2 transition-colors cursor-pointer"
-            title="انقر للتعديل"
+            title="Click to edit"
           >
             {setting.value}
           </button>

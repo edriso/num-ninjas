@@ -49,14 +49,14 @@ export default async function QuestionsPage({
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">الأسئلة</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Questions</h1>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-500">{total} سؤال</span>
+          <span className="text-sm text-gray-500">{total} questions</span>
           <Link
             href="/admin/questions/new"
             className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition-colors"
           >
-            إضافة سؤال
+            Add Question
           </Link>
         </div>
       </div>
@@ -77,12 +77,12 @@ export default async function QuestionsPage({
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
-                <th className="px-4 py-3 text-right font-medium">#</th>
-                <th className="px-4 py-3 text-right font-medium">السؤال</th>
-                <th className="px-4 py-3 text-right font-medium">النوع</th>
-                <th className="px-4 py-3 text-right font-medium">المستوى</th>
-                <th className="px-4 py-3 text-right font-medium">الموضوع</th>
-                <th className="px-4 py-3 text-right font-medium">الإجراءات</th>
+                <th className="px-4 py-3 text-left font-medium">#</th>
+                <th className="px-4 py-3 text-left font-medium">Question</th>
+                <th className="px-4 py-3 text-left font-medium">Type</th>
+                <th className="px-4 py-3 text-left font-medium">Level</th>
+                <th className="px-4 py-3 text-left font-medium">Topic</th>
+                <th className="px-4 py-3 text-left font-medium">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -102,7 +102,7 @@ export default async function QuestionsPage({
                           : "bg-green-100 text-green-700"
                       }`}
                     >
-                      {q.questionType === "mcq" ? "اختيار متعدد" : "إجابة مفتوحة"}
+                      {q.questionType === "mcq" ? "Multiple Choice" : "Open Ended"}
                     </span>
                   </td>
                   <td className="px-4 py-3">
@@ -114,7 +114,7 @@ export default async function QuestionsPage({
                       href={`/admin/questions/${q.id}`}
                       className="text-blue-600 hover:text-blue-800 text-sm"
                     >
-                      تعديل
+                      Edit
                     </Link>
                   </td>
                 </tr>
@@ -125,7 +125,7 @@ export default async function QuestionsPage({
                     colSpan={6}
                     className="px-4 py-8 text-center text-gray-400"
                   >
-                    لا يوجد أسئلة
+                    No questions
                   </td>
                 </tr>
               )}
@@ -142,18 +142,18 @@ export default async function QuestionsPage({
               href={buildHref({ page: String(page - 1) })}
               className="px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
             >
-              السابق
+              Previous
             </Link>
           )}
           <span className="text-sm text-gray-500">
-            صفحة {page} من {totalPages}
+            Page {page} of {totalPages}
           </span>
           {page < totalPages && (
             <Link
               href={buildHref({ page: String(page + 1) })}
               className="px-3 py-1.5 text-sm bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
             >
-              التالي
+              Next
             </Link>
           )}
         </div>

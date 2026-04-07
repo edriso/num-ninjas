@@ -17,8 +17,9 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
   const levelId = searchParams.get("levelId") ?? "";
   const topicId = searchParams.get("topicId") ?? "";
   const type = searchParams.get("type") ?? "";
+  const locale = searchParams.get("locale") ?? "";
 
-  const hasFilters = levelId || topicId || type;
+  const hasFilters = levelId || topicId || type || locale;
 
   const filteredTopics = levelId
     ? levels.find((l) => l.id === Number(levelId))?.topics ?? []
@@ -31,6 +32,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
         levelId,
         topicId,
         type,
+        locale,
         ...overrides,
       };
       for (const [k, v] of Object.entries(merged)) {
@@ -40,7 +42,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
       params.delete("page");
       router.push(`/admin/questions?${params.toString()}`);
     },
-    [levelId, topicId, type, router],
+    [levelId, topicId, type, locale, router],
   );
 
   return (
@@ -53,7 +55,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
           }
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
-          <option value="">كل المستويات</option>
+          <option value="">All Levels</option>
           {levels.map((l) => (
             <option key={l.id} value={l.id}>
               {l.iconEmoji} {l.name}
@@ -66,7 +68,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
           onChange={(e) => navigate({ topicId: e.target.value })}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
-          <option value="">كل المواضيع</option>
+          <option value="">All Topics</option>
           {filteredTopics.map((t) => (
             <option key={t.id} value={t.id}>
               {t.name}
@@ -79,9 +81,19 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
           onChange={(e) => navigate({ type: e.target.value })}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
-          <option value="">كل الأنواع</option>
-          <option value="mcq">اختيار متعدد</option>
-          <option value="open_ended">إجابة مفتوحة</option>
+          <option value="">All Types</option>
+          <option value="mcq">Multiple Choice</option>
+          <option value="open_ended">Open Ended</option>
+        </select>
+
+        <select
+          value={locale}
+          onChange={(e) => navigate({ locale: e.target.value })}
+          className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
+        >
+          <option value="">All Languages</option>
+          <option value="ar">AR Arabic</option>
+          <option value="en">EN English</option>
         </select>
 
         {hasFilters && (
@@ -89,7 +101,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
             onClick={() => router.push("/admin/questions")}
             className="text-sm text-red-500 hover:text-red-600"
           >
-            مسح التصفية
+            Clear Filters
           </button>
         )}
       </div>

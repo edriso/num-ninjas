@@ -17,7 +17,7 @@ export async function createQuestionAction(formData: FormData) {
   const hintText = (formData.get("hintText") as string)?.trim() || undefined;
 
   if (!topicId || !questionText || !explanation || !questionType) {
-    throw new Error("الحقول المطلوبة غير مكتملة");
+    throw new Error("Required fields are incomplete");
   }
 
   if (questionType === "mcq") {
@@ -32,7 +32,7 @@ export async function createQuestionAction(formData: FormData) {
     }
 
     if (options.length < 2) {
-      throw new Error("أسئلة الاختيار المتعدد تحتاج خيارين على الأقل");
+      throw new Error("Multiple choice questions need at least 2 options");
     }
 
     await createQuestion({
@@ -75,7 +75,7 @@ export async function updateQuestionAction(id: number, formData: FormData) {
   const questionType = formData.get("questionType") as string;
 
   if (!topicId || !questionText || !explanation || !questionType) {
-    throw new Error("الحقول المطلوبة غير مكتملة");
+    throw new Error("Required fields are incomplete");
   }
 
   const correctAnswer =

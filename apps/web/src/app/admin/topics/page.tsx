@@ -25,7 +25,7 @@ export default async function TopicsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">المواضيع</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Topics</h1>
       <TopicList levels={levelsData} />
     </div>
   );

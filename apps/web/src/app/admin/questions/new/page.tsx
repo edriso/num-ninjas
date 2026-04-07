@@ -15,10 +15,10 @@ export default async function NewQuestionPage() {
           href="/admin/questions"
           className="text-gray-400 hover:text-gray-600"
         >
-          الأسئلة
+          Questions
         </Link>
         <span className="text-gray-300">/</span>
-        <h1 className="text-2xl font-bold text-gray-900">إضافة سؤال</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Add Question</h1>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">

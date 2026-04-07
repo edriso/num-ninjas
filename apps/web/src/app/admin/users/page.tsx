@@ -12,8 +12,8 @@ export default async function UsersPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">المستخدمين</h1>
-        <span className="text-sm text-gray-500">{users.length} مستخدم</span>
+        <h1 className="text-2xl font-bold text-gray-900">Users</h1>
+        <span className="text-sm text-gray-500">{users.length} users</span>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -21,11 +21,11 @@ export default async function UsersPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
-                <th className="px-4 py-3 text-right font-medium">الاسم</th>
-                <th className="px-4 py-3 text-right font-medium">المستوى</th>
-                <th className="px-4 py-3 text-right font-medium">النقاط</th>
-                <th className="px-4 py-3 text-right font-medium">سلسلة الأيام</th>
-                <th className="px-4 py-3 text-right font-medium">آخر نشاط</th>
+                <th className="px-4 py-3 text-left font-medium">Name</th>
+                <th className="px-4 py-3 text-left font-medium">Level</th>
+                <th className="px-4 py-3 text-left font-medium">Points</th>
+                <th className="px-4 py-3 text-left font-medium">Streak</th>
+                <th className="px-4 py-3 text-left font-medium">Last Active</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -41,7 +41,7 @@ export default async function UsersPage() {
                   <td className="px-4 py-3">
                     {user.streakDays > 0 ? (
                       <span className="text-orange-600">
-                        {user.streakDays} يوم
+                        {user.streakDays} days
                       </span>
                     ) : (
                       <span className="text-gray-400">-</span>
@@ -49,8 +49,8 @@ export default async function UsersPage() {
                   </td>
                   <td className="px-4 py-3 text-gray-500">
                     {user.lastActiveAt
-                      ? user.lastActiveAt.toLocaleDateString("ar-EG")
-                      : "لم يسجل دخول"}
+                      ? user.lastActiveAt.toLocaleDateString("en-US")
+                      : "Never active"}
                   </td>
                 </tr>
               ))}
@@ -60,7 +60,7 @@ export default async function UsersPage() {
       </div>
 
       {users.length === 0 && (
-        <div className="text-center text-gray-400 py-12">لا يوجد مستخدمين</div>
+        <div className="text-center text-gray-400 py-12">No users</div>
       )}
     </div>
   );

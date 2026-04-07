@@ -13,7 +13,7 @@ export async function createBadgeAction(formData: FormData) {
   const rankPosition = rankPositionStr ? Number(rankPositionStr) : null;
 
   if (!name || !badgeType) {
-    throw new Error("اسم الشارة ونوعها مطلوبان");
+    throw new Error("Badge name and type are required");
   }
 
   await prisma.badge.create({
@@ -34,7 +34,7 @@ export async function updateBadgeAction(formData: FormData) {
   const rankPosition = rankPositionStr ? Number(rankPositionStr) : null;
 
   if (!id || !name || !badgeType) {
-    throw new Error("البيانات المطلوبة غير مكتملة");
+    throw new Error("Required data is incomplete");
   }
 
   await prisma.badge.update({
@@ -49,16 +49,16 @@ export async function deleteBadgeAction(formData: FormData) {
   const id = Number(formData.get("id"));
 
   if (!id) {
-    throw new Error("معرف الشارة مطلوب");
+    throw new Error("Badge ID is required");
   }
 
   // Only allow deleting achievement badges
   const badge = await prisma.badge.findUnique({ where: { id } });
   if (!badge) {
-    throw new Error("الشارة غير موجودة");
+    throw new Error("Badge not found");
   }
   if (badge.badgeType !== "achievement") {
-    throw new Error("لا يمكن حذف شارات الترتيب المدمجة");
+    throw new Error("Cannot delete built-in rank badges");
   }
 
   // Check if badge has been awarded
@@ -67,7 +67,7 @@ export async function deleteBadgeAction(formData: FormData) {
   });
 
   if (awardCount > 0) {
-    throw new Error(`لا يمكن حذف الشارة لأنها ممنوحة لـ ${awardCount} مستخدم`);
+    throw new Error(`Cannot delete badge: it's awarded to ${awardCount} users`);
   }
 
   await prisma.badge.delete({ where: { id } });

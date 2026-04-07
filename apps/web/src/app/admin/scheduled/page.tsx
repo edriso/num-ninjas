@@ -28,7 +28,7 @@ export default async function ScheduledPage() {
     grouped.get(sq.userId)!.items.push(sq);
   }
 
-  const todayStr = today.toLocaleDateString("ar-EG", {
+  const todayStr = today.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -38,17 +38,17 @@ export default async function ScheduledPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">الجدول الزمني</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Scheduled Questions</h1>
         <span className="text-sm text-gray-500">{todayStr}</span>
       </div>
 
       <p className="text-sm text-gray-500 mb-4">
-        كل طالب يحصل على أسئلة مختلفة بناءً على نقاط ضعفه (صعوبة تكيّفية)
+        Each student gets personalized questions based on their weak topics (adaptive difficulty)
       </p>
 
       {scheduled.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center text-gray-400">
-          لا توجد أسئلة مجدولة لليوم — يتم تحضيرها الساعة 12:30 ليلاً
+          No questions scheduled for today — they are prepared at 12:30 AM Cairo time
         </div>
       ) : (
         <div className="space-y-4">
@@ -62,7 +62,7 @@ export default async function ScheduledPage() {
                   {user.level.iconEmoji} {user.nickname}
                 </h2>
                 <span className="text-xs text-gray-500">
-                  {user.level.name} — {items.length} أسئلة
+                  {user.level.name} — {items.length} questions
                 </span>
               </div>
 
@@ -89,8 +89,8 @@ export default async function ScheduledPage() {
                             }`}
                           >
                             {sq.question.questionType === "mcq"
-                              ? "اختيار متعدد"
-                              : "إجابة مفتوحة"}
+                              ? "Multiple Choice"
+                              : "Open Ended"}
                           </span>
                         </div>
                       </div>

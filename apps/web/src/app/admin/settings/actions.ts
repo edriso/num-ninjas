@@ -8,7 +8,7 @@ export async function updateSettingAction(formData: FormData) {
   const value = (formData.get("value") as string).trim();
 
   if (!settingKey || !value) {
-    throw new Error("المفتاح والقيمة مطلوبان");
+    throw new Error("Key and value are required");
   }
 
   await prisma.setting.update({
