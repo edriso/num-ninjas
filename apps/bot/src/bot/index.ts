@@ -120,7 +120,7 @@ bot.catch((err) => {
   const locale = err.ctx.session?.locale;
   const errorText = locale
     ? getMsg(err.ctx).error
-    : '⚠️ حدثت مشكلة، حاول مرة أخرى بعد قليل\nSomething went wrong, please try again in a moment';
+    : '⚠️ حدثت مشكلة، من فضلك حاول مرة أخرى بعد قليل\nSomething went wrong, please try again in a moment';
   err.ctx.reply(errorText).catch(() => {});
 });
 
