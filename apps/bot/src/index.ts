@@ -13,14 +13,28 @@ function getCairoTimeMinutes(): number {
   return parseInt(match[1]) * 60 + parseInt(match[2]);
 }
 
+async function waitForDatabase(maxRetries = 10): Promise<void> {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await loadSettings();
+      return;
+    } catch (err) {
+      const delay = Math.min(attempt * 10, 60); // 10s, 20s, 30s... max 60s
+      logger.warn(`[STARTUP] Database not ready (attempt ${attempt}/${maxRetries}), retrying in ${delay}s...`, { error: String(err) });
+      await new Promise((r) => setTimeout(r, delay * 1000));
+    }
+  }
+  throw new Error('Database unreachable after all retries');
+}
+
 async function main() {
   logger.info('NumNinjas starting...', {
     timezone: config.timezone,
     isDev: config.isDev,
   });
 
-  // Load settings into cache
-  await loadSettings();
+  // Wait for database with exponential backoff (prevents burning Hostinger's 500 conn/hour limit)
+  await waitForDatabase();
 
   // --- Startup recovery: catch up on missed cron jobs ---
   const cairoTimeMinutes = getCairoTimeMinutes();
@@ -75,7 +89,11 @@ function shutdown(signal: string) {
 process.once('SIGINT', () => shutdown('SIGINT'));
 process.once('SIGTERM', () => shutdown('SIGTERM'));
 
-main().catch((error) => {
+main().catch(async (error) => {
   logger.error('Fatal error', { error: String(error) });
+  // Don't exit immediately — wait 5 minutes before exiting.
+  // This prevents Railway's restart from burning Hostinger's 500 conn/hour limit.
+  logger.info('Waiting 5 minutes before exit to avoid connection limit burn...');
+  await new Promise((r) => setTimeout(r, 5 * 60 * 1000));
   process.exit(1);
 });
