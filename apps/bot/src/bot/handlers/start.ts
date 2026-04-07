@@ -265,10 +265,26 @@ export async function handleLevelSelection(ctx: BotContext) {
   if (ctx.session.pendingData.changingLevel && ctx.session.activeProfileId) {
     try {
       const level = await prisma.level.findUnique({ where: { id: levelId } });
+      const profileId = ctx.session.activeProfileId;
       await prisma.user.update({
-        where: { id: ctx.session.activeProfileId },
+        where: { id: profileId },
         data: { levelId },
       });
+
+      // Delete today's scheduled questions and re-prepare for new level
+      const today = todayCairoAsUtcMidnight();
+      await prisma.scheduledQuestion.deleteMany({
+        where: { userId: profileId, scheduledDate: today },
+      });
+      // Also reset today's session if not yet answered
+      const session = await prisma.studySession.findUnique({
+        where: { user_session_date: { userId: profileId, sessionDate: today } },
+      });
+      if (session && session.questionsAnswered === 0) {
+        await prisma.studySession.delete({ where: { id: session.id } });
+      }
+      await prepareQuestionsForUser(profileId, levelId, locale);
+
       ctx.session.pendingData = {};
       await ctx.answerCallbackQuery();
       const levelName = (locale === 'en' && level?.nameEn) ? level.nameEn : level?.name;
@@ -276,7 +292,7 @@ export async function handleLevelSelection(ctx: BotContext) {
         ? `✅ Level changed to ${level?.iconEmoji || '🥷'} *${levelName}*`
         : `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${levelName}*`;
       await ctx.editMessageText(confirmText, { parse_mode: 'Markdown' });
-      logger.info('Level changed', { profileId: ctx.session.activeProfileId, levelId });
+      logger.info('Level changed', { profileId, levelId });
     } catch (error) {
       logger.error('Failed to change level', { error: String(error) });
       const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
