@@ -8,16 +8,16 @@ SET CHARACTER SET utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ─── Settings ─────────────────────────────────────────────────
-INSERT INTO `settings` (`setting_key`, `value`, `type`, `description`, `created_at`, `updated_at`) VALUES
-('questions_per_day', '3', 'integer', 'عدد الأسئلة اليومية', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('first_question_time', '14:30', 'time', 'وقت إرسال أول سؤال يومي', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('reminder_time', '19:30', 'time', 'وقت التذكير المسائي', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('streak_reset_time', '00:00', 'time', 'وقت إعادة ضبط السلسلة', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('daily_questions_prep_time', '00:30', 'time', 'وقت تحضير أسئلة اليوم', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('weekly_ranking_day', '0', 'integer', 'يوم الترتيب الأسبوعي (0=الأحد)', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('points_per_correct', '10', 'integer', 'نقاط الإجابة الصحيحة', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('question_repeat_days', '30', 'integer', 'أيام قبل تكرار السؤال', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
-('reminder_enabled', '1', 'boolean', 'تفعيل التذكير المسائي', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000');
+INSERT INTO `settings` (`setting_key`, `value`, `type`, `description`, `description_en`, `created_at`, `updated_at`) VALUES
+('questions_per_day', '3', 'integer', 'عدد الأسئلة اليومية', 'Daily questions count', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('first_question_time', '14:30', 'time', 'وقت إرسال أول سؤال يومي', 'First daily question send time', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('reminder_time', '19:30', 'time', 'وقت التذكير المسائي', 'Evening reminder time', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('streak_reset_time', '00:00', 'time', 'وقت إعادة ضبط السلسلة', 'Streak reset time', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('daily_questions_prep_time', '00:30', 'time', 'وقت تحضير أسئلة اليوم', 'Daily questions preparation time', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('weekly_ranking_day', '0', 'integer', 'يوم الترتيب الأسبوعي (0=الأحد)', 'Weekly ranking day (0=Sunday)', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('points_per_correct', '10', 'integer', 'نقاط الإجابة الصحيحة', 'Points per correct answer', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('question_repeat_days', '30', 'integer', 'أيام قبل تكرار السؤال', 'Days before question repeat', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000'),
+('reminder_enabled', '1', 'boolean', 'تفعيل التذكير المسائي', 'Enable evening reminder', '2026-04-06 00:00:00.000', '2026-04-06 00:00:00.000');
 
 -- ─── Levels ───────────────────────────────────────────────────
 INSERT INTO `levels` (`id`, `name`, `name_en`, `rank_order`, `description`, `description_en`, `icon_emoji`, `created_at`, `updated_at`) VALUES
