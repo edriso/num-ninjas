@@ -2,7 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 
 function createPrismaClient() {
-  const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
+  // Ensure mariadb:// prefix — the adapter requires it, but mysql:// is commonly used in env vars
+  const url = process.env.DATABASE_URL!.replace(/^mysql:\/\//, 'mariadb://');
+  const adapter = new PrismaMariaDb(url);
   return new PrismaClient({ adapter });
 }
 
