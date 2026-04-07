@@ -5,6 +5,7 @@ import { getMessages } from '../messages';
 import { prisma, findOrCreateAccount, createProfile, updateNickname, logger, todayCairoAsUtcMidnight, getSettingInt, getTopicStrengths, pickWeightedTopics, getExcludedQuestionIds, shuffle } from '@numninjas/database';
 import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
+import { fixRtlOptionText } from '../keyboards/mcq';
 import { sendQuestionToUser } from './question';
 
 // ─── Prepare Questions for New User ───────────────────────────────
@@ -142,12 +143,13 @@ function quizScoreToLevelRank(correct: number): number {
 }
 
 /** Build inline keyboard for a quiz question. Options are shuffled. */
-function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS_AR[number]['options']) {
+function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS_AR[number]['options'], locale = 'ar') {
   const keyboard = new InlineKeyboard();
   // Shuffle options
   const shuffled = [...options].sort(() => Math.random() - 0.5);
   for (const opt of shuffled) {
-    keyboard.text(opt.text, `quiz_answer:${step}:${opt.correct ? 1 : 0}`).row();
+    const text = fixRtlOptionText(opt.text, locale);
+    keyboard.text(text, `quiz_answer:${step}:${opt.correct ? 1 : 0}`).row();
   }
   return keyboard;
 }
@@ -157,7 +159,7 @@ async function sendQuizQuestion(ctx: BotContext, step: number) {
   const locale = ctx.session.locale || 'ar';
   const questions = getQuizQuestions(locale);
   const q = questions[step];
-  const keyboard = buildQuizKeyboard(step, q.options);
+  const keyboard = buildQuizKeyboard(step, q.options, locale);
   await ctx.reply(q.text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
 
