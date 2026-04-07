@@ -16,7 +16,9 @@ export function buildMcqKeyboard(
   const shuffled = shuffle(options);
 
   for (const opt of shuffled) {
-    keyboard.text(opt.optionText, `answer:${questionId}:${opt.id}`).row();
+    // Add LTR mark before numbers to prevent RTL reordering in Arabic context
+    const text = /^\d/.test(opt.optionText) ? `\u200E${opt.optionText}` : opt.optionText;
+    keyboard.text(text, `answer:${questionId}:${opt.id}`).row();
   }
 
   if (showHint) {
