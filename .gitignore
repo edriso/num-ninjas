@@ -31,3 +31,6 @@ Thumbs.db
 # Next.js
 .next/
 out/
+
+# Claude Code
+.claude/
