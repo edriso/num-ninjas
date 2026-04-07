@@ -134,7 +134,7 @@ async function main() {
 
   // ─── Default Admin ──────────────────────────────────────────────────
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@numninjas.com';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'changeme123';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'password';
   const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
   await prisma.admin.upsert({

@@ -389,5 +389,5 @@ PORT=3000
 ```
 DATABASE_URL=mysql://numninjas:password@localhost:3306/numninjas
 ADMIN_EMAIL=admin@numninjas.com
-ADMIN_PASSWORD=changeme123
+ADMIN_PASSWORD=password
 ```
