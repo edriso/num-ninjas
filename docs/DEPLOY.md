@@ -151,7 +151,6 @@ git push -u origin main
    DATABASE_URL=mysql://your-user:your-password@srvXXXX.hstgr.io:3306/your_database
    AUTH_SECRET=generate-a-random-string-here
    NODE_ENV=production
-   PORT=3000
    ```
    
    To generate AUTH_SECRET, run this on your computer:
@@ -390,7 +389,6 @@ NODE_ENV=production
 DATABASE_URL=mysql://user:pass@srvXXXX.hstgr.io:3306/num_ninjas
 AUTH_SECRET=a-random-32-char-string      # openssl rand -base64 32
 NODE_ENV=production
-PORT=3000
 ```
 
 ### packages/database/.env (local dev only)
