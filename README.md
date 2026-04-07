@@ -263,6 +263,7 @@ Both apps deploy from the same GitHub repo — push to `main` and both platforms
 - **Hostinger entry file**: `apps/web/.next/standalone/apps/web/server.js` (standalone output for monorepo)
 - **Cloudflare SSL**: Must be **Flexible** (Hostinger origin has no SSL)
 - **Remote MySQL**: Enable **Any Host** in Hostinger (Railway has no fixed IPs)
+- **Website DB host**: `127.0.0.1` (same server, bypasses connection limit). **Bot DB host**: `srvXXXX.hstgr.io` (external)
 - **DB setup**: Import `docs/schema.sql` then `docs/seed.sql` via phpMyAdmin
 - **Default admin**: `admin@numninjas.com` / `password` — change immediately via phpMyAdmin
 - **Hostinger gotcha**: `pnpm`/`npx` not in PATH — build scripts use `node_modules/.bin/` paths directly
