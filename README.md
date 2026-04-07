@@ -252,6 +252,21 @@ After adding questions, run `pnpm db:reset` to reload everything.
 
 Both apps deploy from the same GitHub repo — push to `main` and both platforms auto-build.
 
+| Service | Platform | Cost | Auto-Deploy |
+|---------|----------|------|-------------|
+| Website | Hostinger Business | Hosting plan | Yes (on push) |
+| Bot | Railway Hobby | ~$5/month | Yes (on push) |
+| Database | Hostinger MySQL | Included | — |
+| Domain/SSL | Cloudflare | Free | — |
+
+**Key deployment details:**
+- **Hostinger entry file**: `apps/web/.next/standalone/apps/web/server.js` (standalone output for monorepo)
+- **Cloudflare SSL**: Must be **Flexible** (Hostinger origin has no SSL)
+- **Remote MySQL**: Enable **Any Host** in Hostinger (Railway has no fixed IPs)
+- **DB setup**: Import `docs/schema.sql` then `docs/seed.sql` via phpMyAdmin
+- **Default admin**: `admin@numninjas.com` / `password` — change immediately via phpMyAdmin
+- **Hostinger gotcha**: `pnpm`/`npx` not in PATH — build scripts use `node_modules/.bin/` paths directly
+
 See **[docs/DEPLOY.md](docs/DEPLOY.md)** for the full step-by-step guide covering Telegram bot creation, Hostinger setup, Railway setup, Cloudflare DNS, and all environment variables.
 
 ---

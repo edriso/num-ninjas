@@ -67,8 +67,10 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 
 Each app has its own .env file:
 - `packages/database/.env` — DATABASE_URL, ADMIN_EMAIL, ADMIN_PASSWORD (for Prisma CLI + seed)
-- `apps/bot/.env` — BOT_TOKEN, ADMIN_TELEGRAM_ID, CHANNEL_USERNAME, DATABASE_URL
-- `apps/web/.env.local` — DATABASE_URL, AUTH_SECRET
+- `apps/bot/.env` — BOT_TOKEN, ADMIN_TELEGRAM_ID, CHANNEL_USERNAME, DATABASE_URL, NODE_ENV
+- `apps/web/.env.local` — DATABASE_URL, AUTH_SECRET, NODE_ENV, PORT
+
+Production DATABASE_URL uses the Hostinger MySQL hostname (`srvXXXX.hstgr.io` from Remote MySQL page), not `localhost`. Default admin password is `password` — change via phpMyAdmin after first login (see docs/DEPLOY.md).
 
 ## Naming Conventions
 
