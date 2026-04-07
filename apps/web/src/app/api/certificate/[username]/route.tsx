@@ -45,14 +45,17 @@ export async function GET(
   }
 
   const type = request.nextUrl.searchParams.get('type');
+  const locale = user.locale || 'ar';
+  const isEn = locale === 'en';
   const levelEmoji = user.level.iconEmoji || '🥷';
+  const levelName = (isEn && user.level.nameEn) ? user.level.nameEn : user.level.name;
   const rankOrder = user.level.rankOrder;
   const bgColor = LEVEL_COLORS[rankOrder] || '#1e293b';
   const textColor = LEVEL_TEXT_COLORS[rankOrder] || '#f8fafc';
 
   // Level completion certificate
   if (type === 'level') {
-    const levelName = request.nextUrl.searchParams.get('levelName') || user.level.name;
+    const paramLevelName = request.nextUrl.searchParams.get('levelName') || levelName;
 
     return new ImageResponse(
       (
@@ -71,12 +74,14 @@ export async function GET(
           }}
         >
           <div style={{ fontSize: 80, marginBottom: 20 }}>{levelEmoji}</div>
-          <div style={{ fontSize: 28, opacity: 0.7, marginBottom: 10 }}>شهادة إتمام</div>
+          <div style={{ fontSize: 28, opacity: 0.7, marginBottom: 10 }}>
+            {isEn ? 'Certificate of Completion' : 'شهادة إتمام'}
+          </div>
           <div style={{ fontSize: 52, fontWeight: 700, marginBottom: 20 }}>
             {user.nickname}
           </div>
           <div style={{ fontSize: 32, marginBottom: 40 }}>
-            أكمل {levelName} بنجاح!
+            {isEn ? `Completed ${paramLevelName} successfully!` : `أكمل ${paramLevelName} بنجاح!`}
           </div>
           <div
             style={{
@@ -86,11 +91,11 @@ export async function GET(
               opacity: 0.8,
             }}
           >
-            <span>💎 {user.totalPoints} نقطة</span>
-            <span>🔥 {user.streakDays} يوم سلسلة</span>
+            <span>💎 {user.totalPoints} {isEn ? 'points' : 'نقطة'}</span>
+            <span>🔥 {user.streakDays} {isEn ? 'day streak' : 'يوم سلسلة'}</span>
           </div>
           <div style={{ fontSize: 18, opacity: 0.5, marginTop: 40 }}>
-            🥷 نينجا الأرقام — numninjas.com
+            🥷 {isEn ? 'NumNinjas' : 'نينجا الأرقام'} — numninjas.com
           </div>
         </div>
       ),
@@ -99,8 +104,10 @@ export async function GET(
   }
 
   // Default: profile certificate (general stats)
-  const attempts = await prisma.questionAttempt.count({ where: { userId: user.id } });
-  const correct = await prisma.questionAttempt.count({ where: { userId: user.id, isCorrect: true } });
+  const [attempts, correct] = await Promise.all([
+    prisma.questionAttempt.count({ where: { userId: user.id } }),
+    prisma.questionAttempt.count({ where: { userId: user.id, isCorrect: true } }),
+  ]);
   const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
 
   return new ImageResponse(
@@ -124,7 +131,7 @@ export async function GET(
           {user.nickname}
         </div>
         <div style={{ fontSize: 28, opacity: 0.7, marginBottom: 40 }}>
-          {user.level.name}
+          {levelName}
         </div>
         <div
           style={{
@@ -135,23 +142,23 @@ export async function GET(
         >
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <span style={{ fontSize: 36, fontWeight: 700 }}>{user.totalPoints}</span>
-            <span style={{ opacity: 0.6, fontSize: 18 }}>نقطة</span>
+            <span style={{ opacity: 0.6, fontSize: 18 }}>{isEn ? 'Points' : 'نقطة'}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <span style={{ fontSize: 36, fontWeight: 700 }}>{user.streakDays}</span>
-            <span style={{ opacity: 0.6, fontSize: 18 }}>يوم سلسلة</span>
+            <span style={{ opacity: 0.6, fontSize: 18 }}>{isEn ? 'Streak' : 'يوم سلسلة'}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <span style={{ fontSize: 36, fontWeight: 700 }}>{accuracy}%</span>
-            <span style={{ opacity: 0.6, fontSize: 18 }}>دقة</span>
+            <span style={{ opacity: 0.6, fontSize: 18 }}>{isEn ? 'Accuracy' : 'دقة'}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <span style={{ fontSize: 36, fontWeight: 700 }}>{correct}</span>
-            <span style={{ opacity: 0.6, fontSize: 18 }}>صحيحة</span>
+            <span style={{ opacity: 0.6, fontSize: 18 }}>{isEn ? 'Correct' : 'صحيحة'}</span>
           </div>
         </div>
         <div style={{ fontSize: 18, opacity: 0.4, marginTop: 50 }}>
-          🥷 نينجا الأرقام — numninjas.com
+          🥷 {isEn ? 'NumNinjas' : 'نينجا الأرقام'} — numninjas.com
         </div>
       </div>
     ),

@@ -51,6 +51,15 @@ async function prepareQuestionsForUser(userId: number, levelId: number, locale: 
         const picked = shuffle(available)[0];
         selectedQuestions.push(picked);
         excludedIds.add(picked.id);
+      } else {
+        // Fallback: all questions in cooldown — pick any from this topic
+        const fallback = await prisma.question.findMany({
+          where: { topicId: topic.topicId },
+          select: { id: true },
+        });
+        if (fallback.length > 0) {
+          selectedQuestions.push(shuffle(fallback)[0]);
+        }
       }
     }
 
@@ -271,18 +280,14 @@ export async function handleLevelSelection(ctx: BotContext) {
         data: { levelId },
       });
 
-      // Delete today's scheduled questions and re-prepare for new level
+      // Delete today's scheduled questions and session, re-prepare for new level
       const today = todayCairoAsUtcMidnight();
       await prisma.scheduledQuestion.deleteMany({
         where: { userId: profileId, scheduledDate: today },
       });
-      // Also reset today's session if not yet answered
-      const session = await prisma.studySession.findUnique({
-        where: { user_session_date: { userId: profileId, sessionDate: today } },
+      await prisma.studySession.deleteMany({
+        where: { userId: profileId, sessionDate: today },
       });
-      if (session && session.questionsAnswered === 0) {
-        await prisma.studySession.delete({ where: { id: session.id } });
-      }
       await prepareQuestionsForUser(profileId, levelId, locale);
 
       ctx.session.pendingData = {};
