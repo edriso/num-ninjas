@@ -106,9 +106,7 @@ This creates the command menu that appears when users tap the `/` button or the 
    Username: numninja_admin
    Password: the-password-you-set
    ```
-6. Go to **Remote MySQL** and add:
-   - `0.0.0.0/0` (allows all IPs — needed for Railway to connect)
-   - OR add Railway's specific IP range if you prefer
+6. Go to **Remote MySQL** and enable **Any Host** (allows all IPs — needed for Railway to connect, since Railway doesn't have fixed IPs on Hobby plan). Hostinger doesn't accept CIDR notation like `0.0.0.0/0` — use the "Any Host" toggle instead.
 
 Your DATABASE_URL will look like:
 ```
@@ -190,41 +188,40 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
 ## Step 6: Deploy the Bot on Railway
 
 1. Go to [railway.app](https://railway.app) and sign up with GitHub
-2. Click **New Project** → **Deploy from GitHub Repo**
-3. Select your `num-ninjas` repository
-4. Railway will detect the monorepo. Configure:
-   - Click on the service → **Settings**
-   - **Root Directory**: `/` (repo root)
-   - **Build Command**:
-     ```
-     pnpm install && pnpm db:generate && pnpm --filter bot build
-     ```
-   - **Start Command**:
-     ```
-     pnpm --filter bot start
-     ```
+2. Upgrade to **Hobby plan** ($5/month) — Trial plan can't create new services
+3. Click **New Project** → **Deploy from GitHub Repo** → select `num-ninjas`
+4. Click on the service → **Settings** and configure:
+   - **Build Command**: `pnpm install && pnpm db:generate && pnpm --filter bot build`
+   - **Start Command**: `pnpm --filter bot start`
+   - **Watch Paths**: `/apps/bot/**` and `/packages/database/**`
+   - **Public Networking**: OFF (bot uses long polling, not webhooks)
+   - **Serverless**: OFF (bot must stay always-on)
+   - **Restart Policy**: On Failure (default)
 
 5. Go to **Variables** tab and add:
    ```
    BOT_TOKEN=your-bot-token-from-botfather
    ADMIN_TELEGRAM_ID=your-telegram-id
    CHANNEL_USERNAME=@NumNinjas
-   DATABASE_URL=mysql://numninja_admin:your-password@your-server.hostinger.com:3306/num_ninjas
+   DATABASE_URL=mysql://your-user:your-password@srvXXXX.hstgr.io:3306/your_database
    NODE_ENV=production
    ```
    
-   Use the **same DATABASE_URL** as the website — both connect to the same MySQL.
+   Use the **same DATABASE_URL** as the website — both connect to the same Hostinger MySQL.
 
-6. Click **Deploy**
-7. Wait for the build to finish
-8. Check the logs — you should see:
+   > **Important:** Make sure **Remote MySQL → Any Host** is enabled in Hostinger hPanel. Railway doesn't have fixed IPs, so the database must accept connections from any IP.
+
+6. Click **Deploy** (first deploy takes ~5-10 minutes; subsequent deploys are faster)
+7. Check the **Deploy Logs** — you should see:
    ```
    [INFO] NumNinjas starting...
+   [INFO] [STARTUP] Running streak reset catch-up...
+   [INFO] [STARTUP] Preparing scheduled questions...
    [INFO] Scheduler started with 8 jobs (Cairo time)
    [INFO] Bot is running!
    ```
 
-9. Open Telegram, find your bot, send `/start` — it should respond!
+8. Open Telegram, find your bot, send `/start` — it should respond!
 
 ---
 
@@ -376,15 +373,16 @@ Don't run `pnpm db:seed` — it would overwrite admin panel changes. Instead:
 BOT_TOKEN=8686082436:AAFLILHq...        # From @BotFather
 ADMIN_TELEGRAM_ID=5422369364             # From @userinfobot
 CHANNEL_USERNAME=@NumNinjas              # Your Telegram channel
-DATABASE_URL=mysql://user:pass@host:3306/num_ninjas
+DATABASE_URL=mysql://user:pass@srvXXXX.hstgr.io:3306/num_ninjas
 NODE_ENV=production
 ```
 
 ### apps/web/.env.local (Hostinger)
 ```
-DATABASE_URL=mysql://user:pass@host:3306/num_ninjas
+DATABASE_URL=mysql://user:pass@srvXXXX.hstgr.io:3306/num_ninjas
 AUTH_SECRET=a-random-32-char-string      # openssl rand -base64 32
 NODE_ENV=production
+PORT=3000
 ```
 
 ### packages/database/.env (local dev only)
