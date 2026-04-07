@@ -148,10 +148,12 @@ git push -u origin main
 
 3. Set **Environment Variables** in Hostinger:
    ```
-   DATABASE_URL=mysql://your-user:your-password@srvXXXX.hstgr.io:3306/your_database
+   DATABASE_URL=mysql://your-user:your-password@127.0.0.1:3306/your_database
    AUTH_SECRET=generate-a-random-string-here
    NODE_ENV=production
    ```
+   
+   > **Important:** The website's DATABASE_URL must use `127.0.0.1` (not `srvXXXX.hstgr.io`). Since the website and MySQL are on the same Hostinger server, `127.0.0.1` connects locally — this bypasses the Remote MySQL 500 connections/hour limit entirely. The bot on Railway must use `srvXXXX.hstgr.io` since it connects from outside.
    
    To generate AUTH_SECRET, run this on your computer:
    ```bash
@@ -386,7 +388,7 @@ NODE_ENV=production
 
 ### apps/web/.env.local (Hostinger)
 ```
-DATABASE_URL=mysql://user:pass@srvXXXX.hstgr.io:3306/num_ninjas
+DATABASE_URL=mysql://user:pass@127.0.0.1:3306/num_ninjas  # Use 127.0.0.1, NOT srvXXXX.hstgr.io
 AUTH_SECRET=a-random-32-char-string      # openssl rand -base64 32
 NODE_ENV=production
 ```

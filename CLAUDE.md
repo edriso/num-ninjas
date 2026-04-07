@@ -210,6 +210,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **Hostinger: DB setup via phpMyAdmin**: Prisma CLI is unreliable on Hostinger shared hosting. Use phpMyAdmin Import with `docs/schema.sql` and `docs/seed.sql` instead.
 - **Cloudflare SSL must be Flexible**: Hostinger origin doesn't have SSL. Using "Full" or "Full (Strict)" causes 525 errors.
 - **Hostinger kills idle DB connections**: Shared hosting drops MySQL connections after idle period and has a 500 connections/hour limit. Avoid crash loops that burn through connections. PrismaMariaDb must use URL string only (object config with pool settings causes timeout bugs).
+- **Website uses `127.0.0.1`, bot uses `srvXXXX.hstgr.io`**: The website runs on the same Hostinger server as MySQL — `127.0.0.1` connects locally and bypasses the 500 conn/hour Remote MySQL limit. The Railway bot connects from outside so it must use the external hostname.
 - **Remote MySQL "Any Host"**: Railway doesn't have fixed IPs. Hostinger's Remote MySQL must have "Any Host" enabled (not CIDR `0.0.0.0/0` — Hostinger doesn't accept that format).
 
 ## Deployment
