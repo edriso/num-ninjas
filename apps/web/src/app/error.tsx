@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionaries";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 function getClientLocale(): "ar" | "en" {
   if (typeof document === "undefined") return "ar";
@@ -49,6 +50,7 @@ export default function GlobalError({
         </nav>
         <div className="flex items-center justify-center gap-3 mt-4">
           <p className="text-xs text-slate-500">{d.footer.copyright}</p>
+          <LanguageSwitcher locale={locale} />
         </div>
       </footer>
     </div>
