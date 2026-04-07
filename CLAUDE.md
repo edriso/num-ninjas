@@ -57,7 +57,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Onboarding quiz**: 3 diagnostic questions auto-detect the right level (0/3→L1, 1/3→L2, 2/3→L3, 3/3→L4). Kid can override with manual picker.
 - **Level completion**: When all 7 topics mastered (≥3 attempts, ≥70% accuracy each), celebration + suggest next level
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display
-- **Adapter pattern for DB**: MySQL via @prisma/adapter-mariadb, isolated in `packages/database/src/client.ts`. Must use URL string (not object config — object config causes pool timeout bugs). Hostinger shared hosting has a 500 connections/hour limit and kills idle connections.
+- **Adapter pattern for DB**: MySQL via @prisma/adapter-mariadb, isolated in `packages/database/src/client.ts`. Uses PoolConfig object with `idleTimeout: 30` and `minimumIdle: 1` to handle Hostinger shared hosting killing idle connections (~60s). Bot has a heartbeat (`SELECT 1` every 30s) to keep connections alive. Hostinger has a 500 connections/hour limit.
 - **Telegram channel**: Weekly/monthly/yearly rankings auto-posted to @NumNinjas channel (optional, set CHANNEL_USERNAME in bot .env)
 - **Spaced repetition**: Questions reappear based on last result: wrong→2d, hint→5d, correct→14d (spaced-repetition.service.ts)
 - **Parent-first UX**: Welcome explains safety to parents, daily summary shows topic names, weekly report includes "next week focus" (weak topics), profile page has share button
@@ -209,7 +209,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **Hostinger: pnpm not in PATH**: Subprocesses on Hostinger can't find `pnpm` or `npx`. Build scripts use `node_modules/.bin/` paths directly. SSH commands need `chmod +x` on prisma binaries.
 - **Hostinger: DB setup via phpMyAdmin**: Prisma CLI is unreliable on Hostinger shared hosting. Use phpMyAdmin Import with `docs/schema.sql` and `docs/seed.sql` instead. To regenerate seed.sql after changing TS seeds: `pnpm db:reset` then `mysqldump` (see DEPLOY.md).
 - **Cloudflare SSL must be Flexible**: Hostinger origin doesn't have SSL. Using "Full" or "Full (Strict)" causes 525 errors.
-- **Hostinger kills idle DB connections**: Shared hosting drops MySQL connections after idle period and has a 500 connections/hour limit. Avoid crash loops that burn through connections. PrismaMariaDb must use URL string only (object config causes timeout bugs). The client auto-converts `mysql://` to `mariadb://` prefix.
+- **Hostinger kills idle DB connections**: Shared hosting kills idle MySQL connections after ~60s and has a 500 connections/hour limit. Fixed with `idleTimeout: 30` in PoolConfig + heartbeat in bot. Avoid crash loops — bot has exponential backoff (10 retries) and 5-min exit cooldown.
 - **Level change re-prepares questions**: When a user changes level, their scheduled questions and session are deleted and new questions are prepared for the new level immediately. This prevents getting wrong-level questions.
 - **Website uses `127.0.0.1`, bot uses `srvXXXX.hstgr.io`**: The website runs on the same Hostinger server as MySQL — `127.0.0.1` connects locally and bypasses the 500 conn/hour Remote MySQL limit. The Railway bot connects from outside so it must use the external hostname.
 - **Remote MySQL "Any Host"**: Railway doesn't have fixed IPs. Hostinger's Remote MySQL must have "Any Host" enabled (not CIDR `0.0.0.0/0` — Hostinger doesn't accept that format).
