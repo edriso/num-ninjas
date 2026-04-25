@@ -38,7 +38,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
           badge.id,
           `${weekLabel} — ${level.name}`,
           weekStart,
-          `${entry.correctCount} صحيحة · ${entry.wrongCount} خطأ · ${entry.hintCount} تلميح`,
+          `${entry.correctCount} صح · ${entry.wrongCount} خطأ · ${entry.hintCount} تلميح`,
           {
             periodLabelEn: `Week of ${weekStart.toISOString().split('T')[0]} — ${level.nameEn || level.name}`,
             metricSummaryEn: `${entry.correctCount} correct · ${entry.wrongCount} wrong · ${entry.hintCount} hints`,
@@ -53,7 +53,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
     let section = `${level.iconEmoji || '🥷'} *${level.name}*\n`;
     for (const entry of rankings.slice(0, 5)) {
       const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-      section += `${medal} *${entry.nickname}* — ${entry.correctCount} صحيحة`;
+      section += `${medal} *${entry.nickname}* — ${entry.correctCount} صح`;
       if (entry.rank <= 3) section += ` · ${entry.activeDays} يوم`;
       section += '\n';
     }

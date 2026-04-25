@@ -82,7 +82,7 @@ function formatDailySummary(
     text += `${icon} س${i + 1} — ${a.question.topic.name}\n`;
   });
   const correct = attempts.filter((a) => a.isCorrect).length;
-  text += `\n${correct}/${attempts.length} صحيحة · +${totalPointsToday} نقطة اليوم`;
+  text += `\n${correct}/${attempts.length} صح · +${totalPointsToday} نقطة اليوم`;
   text += `\n🔥 السلسلة: ${streakDays} يوم   💎 المجموع: ${totalPoints} نقطة`;
   return text;
 }

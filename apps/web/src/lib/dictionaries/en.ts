@@ -17,7 +17,7 @@ export const en: Dictionary = {
     subtitle: 'نينجا الأرقام',
     desc: 'A Telegram bot that teaches kids math in a fun way',
     subDesc:
-      '3 questions daily, ninja belt system, points and weekly leaderboard — all free!',
+      '3 questions daily, ninja belt system, points and weekly leaderboard, all free!',
     cta: 'Start on Telegram \u2192',
     howItWorks: 'How It Works',
     step1Title: 'Start the Bot',
@@ -25,7 +25,7 @@ export const en: Dictionary = {
     step2Title: 'Take the Quiz',
     step2Desc: '3 quick questions to find your level automatically',
     step3Title: 'Solve Every Day',
-    step3Desc: '3 new questions daily — start whenever you want',
+    step3Desc: '3 new questions daily, start whenever you want',
     ninjaLevels: 'Ninja Levels',
     readyTitle: 'Ready for the ninja journey?',
     readyDesc: 'Start now and challenge yourself every day',
@@ -34,7 +34,7 @@ export const en: Dictionary = {
 
   leaderboard: {
     title: 'Weekly Leaderboard',
-    subtitle: 'Each level has its own ranking — fair competition!',
+    subtitle: 'Each level has its own ranking, fair competition!',
     empty: 'No rankings yet this week',
     emptyHint: 'Start solving questions to appear here!',
     rank: 'Rank',
@@ -70,7 +70,7 @@ export const en: Dictionary = {
     accuracy: 'Accuracy',
     correctAnswers: 'Correct Answers',
     badges: 'Badges',
-    noBadges: "No badges yet — keep going and you'll earn some!",
+    noBadges: "No badges yet, keep going and you'll earn some!",
     copyLink: 'Copy Link',
     copied: 'Copied',
     day: 'days',

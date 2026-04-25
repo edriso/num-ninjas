@@ -95,7 +95,7 @@ export async function GET(
             <span>🔥 {user.streakDays} {isEn ? 'day streak' : 'يوم سلسلة'}</span>
           </div>
           <div style={{ fontSize: 18, opacity: 0.5, marginTop: 40 }}>
-            🥷 {isEn ? 'NumNinjas' : 'نينجا الأرقام'} — numninjas.com
+            🥷 {isEn ? 'NumNinjas' : 'نينجا الأرقام'} · numninjas.com
           </div>
         </div>
       ),
@@ -154,11 +154,11 @@ export async function GET(
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <span style={{ fontSize: 36, fontWeight: 700 }}>{correct}</span>
-            <span style={{ opacity: 0.6, fontSize: 18 }}>{isEn ? 'Correct' : 'صحيحة'}</span>
+            <span style={{ opacity: 0.6, fontSize: 18 }}>{isEn ? 'Correct' : 'صح'}</span>
           </div>
         </div>
         <div style={{ fontSize: 18, opacity: 0.4, marginTop: 50 }}>
-          🥷 {isEn ? 'NumNinjas' : 'نينجا الأرقام'} — numninjas.com
+          🥷 {isEn ? 'NumNinjas' : 'نينجا الأرقام'} · numninjas.com
         </div>
       </div>
     ),

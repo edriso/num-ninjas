@@ -36,10 +36,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!user) return { title: d.profile.notFound };
 
   return {
-    title: `${user.nickname} — ${d.siteName}`,
+    title: `${user.nickname} | ${d.siteName}`,
     description: `${user.level.iconEmoji} ${locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name} · ${user.totalPoints} ${d.profile.points} · ${user.streakDays} ${d.profile.day}`,
     openGraph: {
-      title: `${user.nickname} — ${d.siteName}`,
+      title: `${user.nickname} | ${d.siteName}`,
       description: `${user.level.iconEmoji} ${locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name} · ${user.totalPoints} ${d.profile.points}`,
       images: [`/api/certificate/${user.username || user.id}`],
     },

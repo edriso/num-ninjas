@@ -48,7 +48,7 @@ export default async function ScheduledPage() {
 
       {scheduled.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center text-gray-400">
-          No questions scheduled for today — they are prepared at 12:30 AM Cairo time
+          No questions scheduled for today. They are prepared at 12:30 AM Cairo time
         </div>
       ) : (
         <div className="space-y-4">
@@ -62,7 +62,7 @@ export default async function ScheduledPage() {
                   {user.level.iconEmoji} {user.nickname}
                 </h2>
                 <span className="text-xs text-gray-500">
-                  {user.level.name} — {items.length} questions
+                  {user.level.name}: {items.length} questions
                 </span>
               </div>
 

@@ -62,11 +62,11 @@ export async function sendParentReports(bot: Bot<BotContext>) {
 
         let summary = isEn
           ? `${levelEmoji} *${user.nickname}:*\n` +
-            `✅ Answered ${total} questions (${correct} correct — ${accuracy}%)\n` +
+            `✅ Answered ${total} questions (${correct} correct, ${accuracy}%)\n` +
             `🔥 Streak: ${user.streakDays} days${streakStar}\n` +
             `💎 Points: +${pointsEarned}`
           : `${levelEmoji} *${user.nickname}:*\n` +
-            `✅ أجاب على ${total} سؤال (${correct} صحيحة — ${accuracy}%)\n` +
+            `✅ أجاب على ${total} سؤال (${correct} صح، ${accuracy}%)\n` +
             `🔥 السلسلة: ${user.streakDays} أيام${streakStar}\n` +
             `💎 النقاط: +${pointsEarned} نقطة`;
 

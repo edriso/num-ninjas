@@ -3,19 +3,19 @@ import { getLocale } from '@/lib/locale';
 import { getDictionary } from '@/lib/dictionaries';
 
 const levelsAr = [
-  { emoji: '⚪', name: 'الحزام الأبيض', desc: 'بناء الثقة — جمع وطرح وضرب وقسمة وأساسيات الأعداد' },
-  { emoji: '🟡', name: 'الحزام الأصفر', desc: 'بناء المهارات — كسور وأعداد عشرية ومحيط ومساحة' },
-  { emoji: '🟠', name: 'الحزام البرتقالي', desc: 'الإتقان — كسور مختلفة المقامات وترتيب العمليات والمال' },
-  { emoji: '🟢', name: 'الحزام الأخضر', desc: 'الخبير — نسبة مئوية وجبر وسرعة ومسافة وزمن' },
-  { emoji: '🥋', name: 'الحزام الأسود', desc: 'النينجا الأعلى — أسس وأعداد سالبة واحتمالات وألغاز رياضية' },
+  { emoji: '⚪', name: 'الحزام الأبيض', desc: 'بناء الثقة: جمع وطرح وضرب وقسمة وأساسيات الأعداد' },
+  { emoji: '🟡', name: 'الحزام الأصفر', desc: 'بناء المهارات: كسور وأعداد عشرية ومحيط ومساحة' },
+  { emoji: '🟠', name: 'الحزام البرتقالي', desc: 'الإتقان: كسور مختلفة المقامات وترتيب العمليات والمال' },
+  { emoji: '🟢', name: 'الحزام الأخضر', desc: 'الخبير: نسبة مئوية وجبر وسرعة ومسافة وزمن' },
+  { emoji: '🥋', name: 'الحزام الأسود', desc: 'النينجا الأعلى: أسس وأعداد سالبة واحتمالات وألغاز رياضية' },
 ];
 
 const levelsEn = [
-  { emoji: '⚪', name: 'White Belt', desc: 'Confidence Builder — addition, subtraction, multiplication, division & number basics' },
-  { emoji: '🟡', name: 'Yellow Belt', desc: 'Building Skills — fractions, decimals, perimeter & area' },
-  { emoji: '🟠', name: 'Orange Belt', desc: 'Mastery — unlike fractions, order of operations & money math' },
-  { emoji: '🟢', name: 'Green Belt', desc: 'Expert — percentages, algebra, speed, distance & time' },
-  { emoji: '🥋', name: 'Black Belt', desc: 'Top Ninja — exponents, negative numbers, probability & math puzzles' },
+  { emoji: '⚪', name: 'White Belt', desc: 'Confidence Builder: addition, subtraction, multiplication, division & number basics' },
+  { emoji: '🟡', name: 'Yellow Belt', desc: 'Building Skills: fractions, decimals, perimeter & area' },
+  { emoji: '🟠', name: 'Orange Belt', desc: 'Mastery: unlike fractions, order of operations & money math' },
+  { emoji: '🟢', name: 'Green Belt', desc: 'Expert: percentages, algebra, speed, distance & time' },
+  { emoji: '🥋', name: 'Black Belt', desc: 'Top Ninja: exponents, negative numbers, probability & math puzzles' },
 ];
 
 export default async function Home() {

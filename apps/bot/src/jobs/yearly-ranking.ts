@@ -31,7 +31,7 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   const championBadge = yearlyBadges.find((b) => b.name === 'أسطورة العام');
   if (champion && championBadge) {
     await awardBadge(champion.userId, championBadge.id, yearLabel, yearStart,
-      `${champion.correctCount} صحيحة · ${champion.activeDays} يوم`,
+      `${champion.correctCount} صح · ${champion.activeDays} يوم`,
       { periodLabelEn: yearLabel, metricSummaryEn: `${champion.correctCount} correct · ${champion.activeDays} days` },
     );
   }
@@ -69,7 +69,7 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   message += '\n*الترتيب العام:*\n';
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-    message += `${medal} ${entry.nickname} — ${entry.correctCount} صحيحة · ${entry.activeDays} يوم\n`;
+    message += `${medal} ${entry.nickname} — ${entry.correctCount} صح · ${entry.activeDays} يوم\n`;
   }
 
   // Broadcast

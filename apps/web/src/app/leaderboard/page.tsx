@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const d = getDictionary(locale);
-  const title = `${d.leaderboard.title} — ${d.siteName}`;
+  const title = `${d.leaderboard.title} | ${d.siteName}`;
   return {
     title,
     description: d.leaderboard.subtitle,

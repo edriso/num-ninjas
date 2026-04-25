@@ -9,7 +9,7 @@ export const revalidate = 86400;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const d = getDictionary(locale);
-  const title = `${d.champions.title} — ${d.siteName}`;
+  const title = `${d.champions.title} | ${d.siteName}`;
   return {
     title,
     description: d.champions.subtitle,
@@ -107,7 +107,7 @@ export default async function HallOfFamePage() {
                     <p className="font-bold text-slate-800">{ub.user.nickname}</p>
                     <p className="text-sm text-slate-500">
                       {locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}
-                      {' — '}
+                      {', '}
                       {locale === 'en'
                         ? (ub.metricSummaryEn || ub.badge.descriptionEn || ub.metricSummary || '')
                         : (ub.metricSummary || ub.periodLabel)}

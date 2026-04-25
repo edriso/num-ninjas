@@ -180,7 +180,7 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
                   <span className="text-gray-800">{topic.name}</span>
                   {topic.description && (
                     <span className="text-sm text-gray-500 mr-3">
-                      — {topic.description}
+                      : {topic.description}
                     </span>
                   )}
                 </div>

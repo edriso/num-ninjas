@@ -167,7 +167,7 @@ export async function handleRank(ctx: BotContext) {
   const medals = ['🥇', '🥈', '🥉'];
   let text = `📊 *${locale === 'en' ? 'Weekly ranking' : 'الترتيب الأسبوعي'} — ${user.level.iconEmoji || '🥷'} ${levelName}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  const correctLabel = locale === 'en' ? 'correct' : 'صحيحة';
+  const correctLabel = locale === 'en' ? 'correct' : 'صح';
   const dayLabel = locale === 'en' ? 'days' : 'يوم';
 
   for (const entry of rankings.slice(0, 10)) {
