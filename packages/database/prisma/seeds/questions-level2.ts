@@ -172,7 +172,7 @@ export const level2Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'حازم ملا خزان مية البيت على مرتين',
+    realLifeContext: 'حازم ملأ خزان مياه البيت على مرتين',
     questionText: 'المرة الأولى ملا 3/8 والتانية ملا 4/8. اجمع الكسرين. البسط كم؟',
     hintText: '3 + 4 = ؟ والمقام يتبقى 8',
     explanation: '3/8 + 4/8 = 7/8، فالبسط = 7',

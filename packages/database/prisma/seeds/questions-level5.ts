@@ -793,7 +793,7 @@ export const level5Questions: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'mcq',
     realLifeContext: 'حمام سباحة طوله 25 متر وعرضه 10 متر وعمقه 2 متر.',
-    questionText: 'كم متر مكعب مية محتاجين نملاه؟',
+    questionText: 'كم متر مكعب مياه محتاجين نملأه؟',
     hintText: 'الحجم = الطول × العرض × العمق',
     explanation: '25 × 10 × 2 = 500 متر مكعب',
     options: [
@@ -908,8 +908,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'open_ended',
-    realLifeContext: 'خزان مية أبعاده 2 متر × 1 متر × 1٫5 متر.',
-    questionText: 'كم لتر مية يشيل الخزان؟ (1 م³ = 1000 لتر)',
+    realLifeContext: 'خزان مياه أبعاده 2 متر × 1 متر × 1٫5 متر.',
+    questionText: 'كم لتر مياه يسع الخزان؟ (1 م³ = 1000 لتر)',
     correctAnswer: '3000',
     correctAnswerNumeric: 3000,
     hintText: '2 × 1 × 1٫5 = 3 م³',

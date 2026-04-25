@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { getLocale } from "@/lib/locale";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import "./globals.css";
 
 const geist = Geist({
@@ -70,7 +71,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={dir} className={`${geist.variable} antialiased`}>
-      <body className="min-h-dvh flex flex-col font-sans">{children}</body>
+      <body className="min-h-dvh flex flex-col font-sans">
+        <ScrollToTop />
+        {children}
+      </body>
     </html>
   );
 }

@@ -6,8 +6,10 @@ import { prisma, todayCairoAsUtcMidnight, logger } from '@numninjas/database';
  */
 export async function resetStreaks() {
   const today = todayCairoAsUtcMidnight();
+  // Streak resets only if the user missed yesterday entirely — not just because
+  // they haven't played yet today. "yesterday" = 24h before today's Cairo midnight.
+  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
 
-  // Find users with active streaks who didn't play yesterday
   const usersWithStreak = await prisma.user.findMany({
     where: { streakDays: { gt: 0 } },
     select: { id: true, lastActiveAt: true, nickname: true, streakDays: true },
@@ -17,7 +19,6 @@ export async function resetStreaks() {
 
   for (const user of usersWithStreak) {
     if (!user.lastActiveAt) {
-      // Never active but somehow has a streak — reset
       await prisma.user.update({
         where: { id: user.id },
         data: { streakDays: 0 },
@@ -26,9 +27,7 @@ export async function resetStreaks() {
       continue;
     }
 
-    // Check if last active was before today (Cairo time)
-    // lastActiveAt is stored as UTC, today is midnight UTC of Cairo date
-    if (user.lastActiveAt < today) {
+    if (user.lastActiveAt < yesterday) {
       await prisma.user.update({
         where: { id: user.id },
         data: { streakDays: 0 },
