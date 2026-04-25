@@ -9,6 +9,7 @@ import { runWeeklyRanking } from './weekly-ranking';
 import { runMonthlyRanking } from './monthly-ranking';
 import { runYearlyRanking } from './yearly-ranking';
 import { sendParentReports } from './parent-report';
+import { runCleanup } from './cleanup';
 import { logger } from '@numninjas/database';
 
 const CAIRO_TZ = 'Africa/Cairo';
@@ -22,6 +23,7 @@ const tasks: ScheduledTask[] = [];
  *  01:30 — Prepare today's scheduled questions
  *  14:30 — Send first question to all users
  *  19:30 — Reminder for users who haven't answered
+ *  Mon 03:00 — Weekly cleanup (delete scheduled_questions + study_sessions > 30 days)
  */
 export function startScheduler(bot: Bot<BotContext>) {
   // 00:00 — Reset streaks
@@ -120,7 +122,19 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  logger.info('Scheduler started with 8 jobs (Cairo time)');
+  // Monday 03:00 — Weekly cleanup
+  tasks.push(
+    cron.schedule('0 3 * * 1', async () => {
+      logger.info('[CRON] Running weekly cleanup...');
+      try {
+        await runCleanup();
+      } catch (err) {
+        logger.error('[CRON] Cleanup failed', { error: String(err) });
+      }
+    }, { timezone: CAIRO_TZ }),
+  );
+
+  logger.info('Scheduler started with 9 jobs (Cairo time)');
 }
 
 export function stopScheduler() {

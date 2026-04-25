@@ -30,6 +30,7 @@ export * from './services/validation.service';
 export * from './services/admin.service';
 export * from './services/topic-strength.service';
 export * from './services/spaced-repetition.service';
+export * from './services/cleanup.service';
 
 // Utils
 export * from './utils/cairo-time';
