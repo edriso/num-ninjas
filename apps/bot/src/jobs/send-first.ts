@@ -1,13 +1,18 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger } from '@numninjas/database';
-import { sendQuestionToUser } from '../bot/handlers/question';
+import { prepareScheduledQuestions } from './prepare-questions';
 
 /**
  * Send the first daily question (position=1) to all active users.
  * Runs at 14:30 Cairo time.
  */
 export async function sendFirstQuestion(bot: Bot<BotContext>) {
+  // Guard: if prepare-questions was skipped (e.g. DST spring-forward drops the 01:30 cron),
+  // prepare now before sending. prepareScheduledQuestions() is idempotent — it skips users
+  // who already have questions for today.
+  await prepareScheduledQuestions();
+
   // Get all accounts with an active profile
   const accounts = await prisma.account.findMany({
     where: { activeProfileId: { not: null } },

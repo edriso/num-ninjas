@@ -52,7 +52,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **RTL/LTR**: Website sets `lang` and `dir` dynamically based on locale cookie (ar→rtl, en→ltr)
 - **Spacetoon Arabic**: All Arabic text uses warm, accessible MSA (not Egyptian dialect, not formal فصحى). Understood by all Arab kids regardless of country.
 - **Session state machine**: Bot uses Grammy sessions with state field (idle, awaiting_nickname, awaiting_level, awaiting_answer, onboarding_quiz)
-- **Adaptive difficulty**: Each kid gets different questions based on weak topics (topic-strength.service.ts). Questions selected per-user at 00:30, not per-level.
+- **Adaptive difficulty**: Each kid gets different questions based on weak topics (topic-strength.service.ts). Questions selected per-user at 01:30 Cairo, not per-level.
 - **Per-level rankings**: Each level has its own leaderboard. Level 1 kids compete with Level 1, not Level 5. Monthly ninja champions and yearly awards are global.
 - **Onboarding quiz**: 3 diagnostic questions auto-detect the right level (0/3→L1, 1/3→L2, 2/3→L3, 3/3→L4). Kid can override with manual picker.
 - **Level completion**: When all 7 topics mastered (≥3 attempts, ≥70% accuracy each), celebration + suggest next level
@@ -206,6 +206,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **Rankings are per-level**: A Level 1 kid only competes with other Level 1 kids. Monthly/yearly are global.
 - **Default admin**: Seed creates admin@numninjas.com with default password. Change after first login via phpMyAdmin (see DEPLOY.md).
 - **Startup recovery**: Bot catches up on missed cron jobs at startup — streak reset, question prep, and send-first-question all run on boot if their scheduled time has passed. All are idempotent.
+- **DST-safe cron times**: Egypt observes DST (last Friday of April, clocks spring 00:00→01:00). The prepare-questions cron is at 01:30 (not 00:30) because 00:30 doesn't exist on spring-forward day and node-cron silently skips it. `sendFirstQuestion` also calls `prepareScheduledQuestions()` as a fallback so questions are always prepared before sending regardless of whether the cron ran.
 - **Hostinger: pnpm not in PATH**: Subprocesses on Hostinger can't find `pnpm` or `npx`. Build scripts use `node_modules/.bin/` paths directly. SSH commands need `chmod +x` on prisma binaries.
 - **Hostinger: DB setup via phpMyAdmin**: Prisma CLI is unreliable on Hostinger shared hosting. Use phpMyAdmin Import with `docs/schema.sql` and `docs/seed.sql` instead. To regenerate seed.sql after changing TS seeds: `pnpm db:reset` then `mysqldump` (see DEPLOY.md).
 - **Cloudflare SSL must be Flexible**: Hostinger origin doesn't have SSL. Using "Full" or "Full (Strict)" causes 525 errors.

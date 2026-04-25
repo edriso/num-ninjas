@@ -19,7 +19,7 @@ const tasks: ScheduledTask[] = [];
  *
  * Schedule:
  *  00:00 — Reset streaks for inactive users
- *  00:30 — Prepare today's scheduled questions
+ *  01:30 — Prepare today's scheduled questions
  *  14:30 — Send first question to all users
  *  19:30 — Reminder for users who haven't answered
  */
@@ -36,9 +36,9 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  // 00:30 — Prepare questions
+  // 01:30 — Prepare questions (01:30 not 00:30: Egypt DST springs from 00:00→01:00, skipping 00:30)
   tasks.push(
-    cron.schedule('30 0 * * *', async () => {
+    cron.schedule('30 1 * * *', async () => {
       logger.info('[CRON] Preparing daily questions...');
       try {
         await prepareScheduledQuestions();
