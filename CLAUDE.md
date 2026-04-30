@@ -68,7 +68,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 Each app has its own .env file:
 - `packages/database/.env` — DATABASE_URL, ADMIN_EMAIL, ADMIN_PASSWORD (for Prisma CLI + seed)
 - `apps/bot/.env` — BOT_TOKEN, ADMIN_TELEGRAM_ID, CHANNEL_USERNAME, DATABASE_URL, NODE_ENV
-- `apps/web/.env.local` — DATABASE_URL, AUTH_SECRET, NODE_ENV, PORT
+- `apps/web/.env.local` — DATABASE_URL, AUTH_SECRET, AUTH_URL, NODE_ENV, PORT
 
 Production DATABASE_URL uses the Hostinger MySQL hostname (`srvXXXX.hstgr.io` from Remote MySQL page), not `localhost`. Default admin password is `password` — change via phpMyAdmin after first login (see docs/DEPLOY.md).
 
@@ -232,7 +232,7 @@ Hostinger MySQL (shared database)
 - **Website** → Hostinger Business: auto-deploys from GitHub on push
   - Build command: `pnpm run build:web` (uses `node_modules/.bin/` paths, copies static assets to standalone)
   - Entry file: `apps/web/.next/standalone/apps/web/server.js` (monorepo nests under app path)
-  - Env vars: `DATABASE_URL`, `AUTH_SECRET`, `NODE_ENV=production`, `PORT=3000`
+  - Env vars: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL=https://numninjas.com`, `NODE_ENV=production`, `PORT=3000`
 - **Bot** → Railway: auto-deploys from GitHub on push
   - Build: `pnpm install && pnpm db:generate && pnpm --filter bot build`
   - Start: `pnpm --filter bot start`
