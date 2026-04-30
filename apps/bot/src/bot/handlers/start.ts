@@ -489,7 +489,7 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
 
   await ctx.answerCallbackQuery();
 
-  const { keyboard, levels } = await buildLevelKeyboard();
+  const { keyboard, levels } = await buildLevelKeyboard(locale);
 
   const chooseText = locale === 'en' ? 'Choose the level that suits you:\n\n' : 'اختر المستوى الذي يناسبك:\n\n';
   let levelInfo = chooseText;

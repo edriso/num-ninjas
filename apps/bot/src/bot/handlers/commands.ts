@@ -289,7 +289,7 @@ export async function handleLevel(ctx: BotContext) {
   });
   if (!user) return;
 
-  const { keyboard, levels } = await buildLevelKeyboard();
+  const { keyboard, levels } = await buildLevelKeyboard(locale);
 
   const userLevelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
   let levelInfo = locale === 'en'
