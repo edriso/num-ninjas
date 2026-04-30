@@ -54,7 +54,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Session state machine**: Bot uses Grammy sessions with state field (idle, awaiting_nickname, awaiting_level, awaiting_answer, onboarding_quiz)
 - **Adaptive difficulty**: Each kid gets different questions based on weak topics (topic-strength.service.ts). Questions selected per-user at 01:30 Cairo, not per-level.
 - **Per-level rankings**: Each level has its own leaderboard. Level 1 kids compete with Level 1, not Level 5. Monthly ninja champions and yearly awards are global.
-- **Onboarding quiz**: 3 diagnostic questions auto-detect the right level (0/3→L1, 1/3→L2, 2/3→L3, 3/3→L4). Kid can override with manual picker.
+- **Onboarding quiz**: 3 diagnostic questions auto-detect the right level (0/3→L1, 1/3→L2, 2/3→L3, 3/3→L4). Kid can override with manual picker. After profile creation, a "🚀 Start now!" button is shown — tapping it sends the first question immediately without waiting for the 14:30 cron. If the button is ignored, the cron sends questions at 14:30 Cairo as normal.
 - **Level completion**: When all 7 topics mastered (≥3 attempts, ≥70% accuracy each), celebration + suggest next level
 - **Store UTC, display Cairo**: All DateTimes stored as UTC, converted to Africa/Cairo for display
 - **Adapter pattern for DB**: MySQL via @prisma/adapter-mariadb, isolated in `packages/database/src/client.ts`. Uses PoolConfig object with `idleTimeout: 30` and `minimumIdle: 1` to handle Hostinger shared hosting killing idle connections (~60s). Bot has a heartbeat (`SELECT 1` every 30s) to keep connections alive. Hostinger has a 500 connections/hour limit.

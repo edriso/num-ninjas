@@ -272,11 +272,13 @@ export async function handleLevelSelection(ctx: BotContext) {
   const telegramId = BigInt(ctx.from!.id);
   const locale = ctx.session.locale || 'ar';
 
-  // Case 1: Changing level for existing profile (from /level command)
+  // Case 1: Changing level for existing profile (from /level command or quiz level override)
   if (ctx.session.pendingData.changingLevel && ctx.session.activeProfileId) {
     try {
       const level = await prisma.level.findUnique({ where: { id: levelId } });
       const profileId = ctx.session.activeProfileId;
+      const fromOnboarding = !!ctx.session.pendingData.changingLevelFromOnboarding;
+
       await prisma.user.update({
         where: { id: profileId },
         data: { levelId },
@@ -298,8 +300,16 @@ export async function handleLevelSelection(ctx: BotContext) {
       const confirmText = locale === 'en'
         ? `✅ Level changed to ${level?.iconEmoji || '🥷'} *${levelName}*`
         : `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${levelName}*`;
-      await ctx.editMessageText(confirmText, { parse_mode: 'Markdown' });
-      logger.info('Level changed', { profileId, levelId });
+
+      if (fromOnboarding) {
+        const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
+        const keyboard = new InlineKeyboard().text(startNowText, 'start_first_question');
+        await ctx.editMessageText(confirmText, { parse_mode: 'Markdown', reply_markup: keyboard });
+      } else {
+        await ctx.editMessageText(confirmText, { parse_mode: 'Markdown' });
+      }
+
+      logger.info('Level changed', { profileId, levelId, fromOnboarding });
     } catch (error) {
       logger.error('Failed to change level', { error: String(error) });
       const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
@@ -326,9 +336,11 @@ export async function handleLevelSelection(ctx: BotContext) {
 
     await ctx.answerCallbackQuery();
     const levelName = (locale === 'en' && profile.level.nameEn) ? profile.level.nameEn : profile.level.name;
+    const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
+    const keyboard = new InlineKeyboard().text(startNowText, 'start_first_question');
     await ctx.editMessageText(
       msg.profileCreated(profile.nickname, profile.level.iconEmoji || '🥷', levelName),
-      { parse_mode: 'Markdown' },
+      { parse_mode: 'Markdown', reply_markup: keyboard },
     );
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
 
@@ -434,8 +446,10 @@ export async function handleQuizAnswer(ctx: BotContext) {
         `✅ تم تسجيل *${nickname}*! جاهز للتحدي! 🔥`;
 
     const chooseLevelText = locale === 'en' ? '🥷 Choose a different level' : '🥷 اختر مستوى آخر';
+    const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
     const keyboard = new InlineKeyboard()
-      .text(chooseLevelText, 'change_quiz_level');
+      .text(chooseLevelText, 'change_quiz_level').row()
+      .text(startNowText, 'start_first_question');
 
     await ctx.reply(resultText, { parse_mode: 'Markdown', reply_markup: keyboard });
     logger.info('Profile created via quiz', {
@@ -501,4 +515,27 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
 
   await ctx.reply(levelInfo, { parse_mode: 'Markdown', reply_markup: keyboard });
   ctx.session.pendingData.changingLevel = true;
+  ctx.session.pendingData.changingLevelFromOnboarding = true;
+}
+
+// ─── Start First Question ──────────────────────────────────────────
+
+export async function handleStartFirstQuestion(ctx: BotContext) {
+  const locale = ctx.session.locale || 'ar';
+  const profileId = ctx.session.activeProfileId;
+
+  if (!profileId) {
+    const text = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
+    await ctx.answerCallbackQuery({ text });
+    return;
+  }
+
+  await ctx.answerCallbackQuery();
+  // Remove buttons from the onboarding result message
+  await ctx.editMessageReplyMarkup({ reply_markup: undefined });
+
+  const user = await prisma.user.findUnique({ where: { id: profileId } });
+  if (!user) return;
+
+  await sendQuestionToUser(ctx, profileId, user.levelId);
 }
