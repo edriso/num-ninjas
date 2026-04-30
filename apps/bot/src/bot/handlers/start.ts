@@ -334,6 +334,9 @@ export async function handleLevelSelection(ctx: BotContext) {
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
 
+    // Prepare questions before showing the button so they're ready the moment user taps
+    await prepareQuestionsForUser(profile.id, levelId, locale);
+
     await ctx.answerCallbackQuery();
     const levelName = (locale === 'en' && profile.level.nameEn) ? profile.level.nameEn : profile.level.name;
     const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
@@ -343,9 +346,6 @@ export async function handleLevelSelection(ctx: BotContext) {
       { parse_mode: 'Markdown', reply_markup: keyboard },
     );
     logger.info('Profile created', { telegramId: Number(telegramId), nickname, levelId });
-
-    // Prepare today's questions immediately
-    await prepareQuestionsForUser(profile.id, levelId, locale);
   } catch (error) {
     logger.error('Failed to create profile', { error: String(error) });
     const errText = locale === 'en' ? 'An error occurred, try again' : 'حدث خطأ، حاول مرة أخرى';
@@ -451,6 +451,9 @@ export async function handleQuizAnswer(ctx: BotContext) {
       .text(chooseLevelText, 'change_quiz_level').row()
       .text(startNowText, 'start_first_question');
 
+    // Prepare questions before showing the button so they're ready the moment user taps
+    await prepareQuestionsForUser(profile.id, level.id, locale);
+
     await ctx.reply(resultText, { parse_mode: 'Markdown', reply_markup: keyboard });
     logger.info('Profile created via quiz', {
       telegramId: Number(telegramId),
@@ -458,9 +461,6 @@ export async function handleQuizAnswer(ctx: BotContext) {
       levelId: level.id,
       quizScore: quizCorrect,
     });
-
-    // Prepare today's questions immediately so the user can start right away
-    await prepareQuestionsForUser(profile.id, level.id, locale);
   } catch (error) {
     logger.error('Failed to create profile via quiz', { error: String(error) });
     await ctx.reply(msg.error);
