@@ -156,7 +156,7 @@ git push -u origin main
    
    > **Important:** The website's DATABASE_URL must use `127.0.0.1` (not `srvXXXX.hstgr.io`). Since the website and MySQL are on the same Hostinger server, `127.0.0.1` connects locally — this bypasses the Remote MySQL 500 connections/hour limit entirely. The bot on Railway must use `srvXXXX.hstgr.io` since it connects from outside.
    
-   > **AUTH_URL is required.** Auth.js v5 uses this to know the public domain when running behind Cloudflare. Without it, login fails with `UntrustedHost` errors. Set it to your exact production URL (with `https://`).
+   > **AUTH_URL** — set this to your website's public URL (e.g. `https://numninjas.com`). Auth.js reads it as an environment variable (no code change needed) and uses it to build correct redirect URLs after login. Without it, callbacks may fall back to the internal `0.0.0.0:3000` address and redirect incorrectly.
    
    To generate AUTH_SECRET, run this on your computer:
    ```bash
