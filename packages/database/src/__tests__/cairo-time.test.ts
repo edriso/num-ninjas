@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   todayCairoString,
   todayCairoAsUtcMidnight,
+  todayCairoStartUtc,
   formatCairoDate,
   formatCairoDateTime,
 } from '../utils/cairo-time';
@@ -71,6 +72,53 @@ describe('todayCairoAsUtcMidnight', () => {
     const midnight = todayCairoAsUtcMidnight();
     const expected = new Date(dateStr + 'T00:00:00.000Z');
     expect(midnight.getTime()).toBe(expected.getTime());
+  });
+});
+
+describe('todayCairoStartUtc', () => {
+  it('should return a Date object', () => {
+    const result = todayCairoStartUtc();
+    expect(result).toBeInstanceOf(Date);
+  });
+
+  it('should represent 00:00:00 in Cairo timezone', () => {
+    const result = todayCairoStartUtc();
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Africa/Cairo',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    const parts = formatter.formatToParts(result);
+    const hour = parts.find((p) => p.type === 'hour')?.value;
+    const minute = parts.find((p) => p.type === 'minute')?.value;
+    const second = parts.find((p) => p.type === 'second')?.value;
+    expect(hour).toBe('00');
+    expect(minute).toBe('00');
+    expect(second).toBe('00');
+  });
+
+  it('should be at or before the current time', () => {
+    const result = todayCairoStartUtc();
+    expect(result.getTime()).toBeLessThanOrEqual(Date.now());
+  });
+
+  it('should be 2 or 3 hours before todayCairoAsUtcMidnight (Cairo offset)', () => {
+    const start = todayCairoStartUtc();
+    const utcMidnight = todayCairoAsUtcMidnight();
+    const diffHours = (utcMidnight.getTime() - start.getTime()) / 3_600_000;
+    // Cairo is UTC+2 (winter) or UTC+3 (DST — last Friday of April)
+    expect(diffHours).toBeGreaterThanOrEqual(2);
+    expect(diffHours).toBeLessThanOrEqual(3);
+  });
+
+  it('should fall on the same Cairo calendar date as todayCairoString', () => {
+    const result = todayCairoStartUtc();
+    const cairoDate = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Africa/Cairo',
+    }).format(result);
+    expect(cairoDate).toBe(todayCairoString());
   });
 });
 
