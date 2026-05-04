@@ -67,14 +67,22 @@ src/
 
 ## Environment Variables
 
+See `.env.example` for the full list. Required:
+
 ```
-DATABASE_URL=file:../../packages/database/dev.db
-AUTH_SECRET=generate-with-openssl-rand-base64-32
+DATABASE_URL=mysql://user:pass@host:3306/db   # MySQL — same DB as the bot
+AUTH_SECRET=...                               # `openssl rand -base64 32`
+AUTH_URL=https://numninjas.com                # production base URL
+NODE_ENV=production                           # production deploys only
+PORT=3000                                     # Hostinger needs this set
 ```
+
+The DB is MySQL (Hostinger), shared with the bot — there is no SQLite mode
+even in dev. See `docs/DEPLOY.md` for the full Hostinger setup.
 
 ## Tech Stack
 
-- Next.js 15 (App Router) + React Server Components
+- Next.js 16 (App Router) + React Server Components — note `proxy.ts`, not `middleware.ts`
 - Tailwind CSS v4 (RTL Arabic)
 - Auth.js v5 (credentials provider)
 - @vercel/og (certificate image generation)

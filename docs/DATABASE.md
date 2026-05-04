@@ -20,13 +20,15 @@
 │    users     │   │   │    levels    │
 │──────────────│   │   │──────────────│
 │ id           │◄──┘   │ id           │
-│ account_id   │       │ name         │
+│ account_id   │       │ name / name_en│
 │ nickname     │       │ rank_order   │
 │ username     │  N:1  │ description  │
-│ level_id     │──────►│ icon_emoji   │
-│ streak_days  │       │ created_at   │
-│ total_points │       │ updated_at   │
-│ last_active_at│      └──────┬───────┘
+│ locale       │──────►│ icon_emoji   │
+│ is_public    │       │ created_at   │
+│ level_id     │       │ updated_at   │
+│ streak_days  │       └──────┬───────┘
+│ total_points │              │
+│ last_active_at│              │
 │ last_nudge_at│              │
 │ created_at   │              │
 │ updated_at   │              │ 1:N
