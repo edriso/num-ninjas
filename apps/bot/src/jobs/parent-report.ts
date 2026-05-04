@@ -21,6 +21,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
     where: { users: { some: {} }, blockedAt: null },
     include: {
       users: { include: { level: true }, orderBy: { createdAt: 'asc' } },
+      activeProfile: { select: { locale: true } },
     },
   });
 
@@ -35,11 +36,15 @@ export async function sendParentReports(bot: Bot<BotContext>) {
     try {
       const profileSummaries: string[] = [];
 
-      // Use the first user's locale as the account language
-      const locale = account.users[0]?.locale || 'ar';
-      const isEn = locale === 'en';
+      // The framing (header, footer) uses the active profile's locale — that
+      // matches the most recent context the parent saw. Each kid's section
+      // below uses THEIR own locale, so a parent with an AR kid and an EN kid
+      // gets each summary in the right language.
+      const outerLocale = account.activeProfile?.locale || account.users[0]?.locale || 'ar';
+      const outerIsEn = outerLocale === 'en';
 
       for (const user of account.users) {
+        const isEn = user.locale === 'en';
         const attempts = await prisma.questionAttempt.findMany({
           where: { userId: user.id, answeredAt: { gte: weekStart } },
         });
@@ -84,7 +89,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
 
       if (profileSummaries.length === 0) continue;
 
-      const message = isEn
+      const message = outerIsEn
         ? `📊 *Weekly Report*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
           profileSummaries.join('\n\n') +
           `\n\nEncourage your kids to keep going! 💪`
