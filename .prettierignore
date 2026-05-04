@@ -1,0 +1,19 @@
+# Build output
+**/dist/
+**/.next/
+**/node_modules/
+
+# Generated artifacts
+**/.prisma/
+**/*.tsbuildinfo
+
+# Lock files
+pnpm-lock.yaml
+
+# Migrations / seed dumps — preserve as-authored
+docs/schema.sql
+docs/seed.sql
+
+# Caches
+.cache/
+.claude/

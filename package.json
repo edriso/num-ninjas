@@ -12,7 +12,10 @@
     "db:seed": "pnpm --filter @numninjas/database db:seed",
     "db:seed:demo": "pnpm --filter @numninjas/database db:seed:demo",
     "db:reset": "pnpm --filter @numninjas/database db:reset",
-    "test": "pnpm --filter @numninjas/database test"
+    "test": "pnpm --filter @numninjas/database test",
+    "typecheck": "pnpm --filter @numninjas/database exec tsc --noEmit && pnpm --filter bot exec tsc --noEmit && pnpm --filter web exec tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\""
   },
   "engines": {
     "node": ">=20.0.0"
@@ -23,5 +26,8 @@
       "esbuild",
       "prisma"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
   }
 }
