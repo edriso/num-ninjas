@@ -172,14 +172,19 @@ export async function handleStart(ctx: BotContext) {
     return;
   }
 
+  // /start is the universal "give me a clean slate" command. Always reset
+  // state and pendingData here so a kid stuck mid-question, mid-onboarding,
+  // mid-nickname-edit, etc. can always escape by typing /start. Without this,
+  // a stale state (e.g. awaiting_answer) silently swallows their next text
+  // message into the wrong handler.
+  ctx.session.state = 'idle';
+  ctx.session.pendingData = {};
+
   const telegramId = BigInt(ctx.from!.id);
   const account = await findOrCreateAccount(telegramId);
 
   // No profiles yet → start onboarding with language choice
   if (account.users.length === 0) {
-    ctx.session.state = 'idle';
-    ctx.session.pendingData = {};
-
     const keyboard = new InlineKeyboard()
       .text('🇸🇦 عربي', 'onboard_lang:ar')
       .text('🇬🇧 English', 'onboard_lang:en');
@@ -197,7 +202,7 @@ export async function handleStart(ctx: BotContext) {
     const profile = account.activeProfile;
     ctx.session.activeProfileId = profile.id;
     ctx.session.locale = profile.locale || 'ar';
-    ctx.session.state = 'idle';
+    // state already reset at the top of handleStart
 
     const localMsg = getMessages(ctx.session.locale);
     await ctx.reply(
