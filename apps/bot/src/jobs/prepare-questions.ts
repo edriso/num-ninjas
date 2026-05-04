@@ -156,4 +156,5 @@ export async function prepareScheduledQuestions() {
   }
 
   logger.info(`Prepared adaptive questions for ${prepared} users (skipped ${skippedSleeping} sleeping, failed ${failed})`);
+  return { prepared, skippedSleeping, failed };
 }

@@ -18,7 +18,7 @@ export async function sendReminder(bot: Bot<BotContext>) {
   const enabled = await getSettingBool('reminder_enabled');
   if (!enabled) {
     logger.info('Reminders disabled, skipping');
-    return;
+    return { disabled: true };
   }
 
   const today = todayCairoAsUtcMidnight();
@@ -113,4 +113,5 @@ export async function sendReminder(bot: Bot<BotContext>) {
   }
 
   logger.info('Reminders sent', { sent, skippedNudged, skippedSleeping, total: accounts.length });
+  return { sent, skippedNudged, skippedSleeping, total: accounts.length };
 }

@@ -171,6 +171,20 @@ CREATE TABLE IF NOT EXISTS `settings` (
   UNIQUE INDEX `settings_setting_key_key` (`setting_key`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `cron_runs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(191) NOT NULL,
+  `started_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `finished_at` DATETIME(3) NULL,
+  `success` BOOLEAN NOT NULL DEFAULT false,
+  `duration_ms` INT NULL,
+  `stats_json` TEXT NULL,
+  `error_message` TEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `cron_runs_name_started_at_idx` (`name`, `started_at` DESC),
+  INDEX `cron_runs_started_at_idx` (`started_at`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `admins` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(191) NOT NULL,

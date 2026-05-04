@@ -25,6 +25,10 @@ export function getCleanupCutoff(retentionDays: number, from = new Date()): Date
  *  - study_sessions       — per-user per-day tracking rows (questionsSent,
  *                           questionsAnswered). Only used on the day itself.
  *                           Grows at O(users × days).
+ *  - cron_runs            — observability rows for scheduled-job executions.
+ *                           Useful for "did the 14:30 send run today?" but
+ *                           not for any business logic past the retention
+ *                           window. Grows at O(jobs × days).
  *
  * NOT cleaned:
  *  - question_attempts    — this is the learning history. Two features depend on it:
@@ -40,17 +44,21 @@ export function getCleanupCutoff(retentionDays: number, from = new Date()): Date
 export async function cleanupOldRecords(retentionDays = DEFAULT_RETENTION_DAYS) {
   const cutoff = getCleanupCutoff(retentionDays);
 
-  const [scheduledQuestions, studySessions] = await Promise.all([
+  const [scheduledQuestions, studySessions, cronRuns] = await Promise.all([
     prisma.scheduledQuestion.deleteMany({
       where: { scheduledDate: { lt: cutoff } },
     }),
     prisma.studySession.deleteMany({
       where: { sessionDate: { lt: cutoff } },
     }),
+    prisma.cronRun.deleteMany({
+      where: { startedAt: { lt: cutoff } },
+    }),
   ]);
 
   return {
     scheduledQuestions: scheduledQuestions.count,
     studySessions: studySessions.count,
+    cronRuns: cronRuns.count,
   };
 }

@@ -6,6 +6,7 @@ import { cleanupOldRecords, logger } from '@numninjas/database';
  * question_attempts are intentionally kept forever (spaced repetition + level stats).
  */
 export async function runCleanup() {
-  const { scheduledQuestions, studySessions } = await cleanupOldRecords();
-  logger.info('Cleanup complete', { scheduledQuestions, studySessions });
+  const { scheduledQuestions, studySessions, cronRuns } = await cleanupOldRecords();
+  logger.info('Cleanup complete', { scheduledQuestions, studySessions, cronRuns });
+  return { scheduledQuestions, studySessions, cronRuns };
 }

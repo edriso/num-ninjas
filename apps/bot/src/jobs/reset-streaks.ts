@@ -27,4 +27,5 @@ export async function resetStreaks() {
   });
 
   logger.info('Streak reset complete', { resetCount: result.count });
+  return { resetCount: result.count };
 }

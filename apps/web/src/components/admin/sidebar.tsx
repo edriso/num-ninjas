@@ -13,6 +13,9 @@ import {
   Users,
   Settings,
   CalendarClock,
+  Activity,
+  AlertTriangle,
+  Megaphone,
   LogOut,
   Menu,
   X,
@@ -27,6 +30,9 @@ const navItems = [
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/settings", label: "Settings", icon: Settings },
   { href: "/admin/scheduled", label: "Scheduled", icon: CalendarClock },
+  { href: "/admin/cron", label: "Cron Runs", icon: Activity },
+  { href: "/admin/quality", label: "Quality", icon: AlertTriangle },
+  { href: "/admin/announce", label: "Announce", icon: Megaphone },
 ];
 
 export function AdminSidebar({ email }: { email: string }) {

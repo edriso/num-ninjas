@@ -106,4 +106,5 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
   }
 
   logger.info('First question sent', { sent, failed, skippedSleeping, total: accounts.length });
+  return { sent, failed, skippedSleeping, total: accounts.length };
 }

@@ -20,7 +20,7 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   const rankings = await computeRankings(yearStart, yearEnd);
   if (rankings.length === 0) {
     logger.info('No yearly rankings');
-    return;
+    return { sent: 0, yearLabel };
   }
 
   // Award yearly badges
@@ -110,4 +110,5 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   }
 
   logger.info('Yearly ranking broadcast', { sent, yearLabel });
+  return { sent, yearLabel };
 }

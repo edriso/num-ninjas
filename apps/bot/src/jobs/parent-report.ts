@@ -27,7 +27,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
 
   if (accounts.length === 0) {
     logger.info('[CRON] No accounts with profiles for parent report');
-    return;
+    return { sent: 0, total: 0 };
   }
 
   let sent = 0;
@@ -113,4 +113,5 @@ export async function sendParentReports(bot: Bot<BotContext>) {
   }
 
   logger.info('[CRON] Parent reports sent', { sent, total: accounts.length });
+  return { sent, total: accounts.length };
 }

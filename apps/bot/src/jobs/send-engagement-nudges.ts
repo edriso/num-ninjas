@@ -82,6 +82,12 @@ export async function sendEngagementNudges(bot: Bot<BotContext>) {
     onboardingAbandoned: accountCandidates.length,
     profileLevel: userCandidates.length,
   });
+  return {
+    sent,
+    failed,
+    onboardingAbandoned: accountCandidates.length,
+    profileLevel: userCandidates.length,
+  };
 }
 
 /**

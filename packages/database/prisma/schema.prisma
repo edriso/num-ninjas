@@ -236,6 +236,28 @@ model Setting {
   @@map("settings")
 }
 
+// ─── Cron Observability ─────────────────────────────────────────────
+
+/// Records every execution of a scheduled or manually-triggered job so we
+/// can answer "did the 14:30 send actually run today?" without grepping
+/// logs. Written by withCronRun() in cron-run.service.ts. Old rows are
+/// pruned by the weekly cleanup job (default retention 30 days) so this
+/// table stays bounded even on busy deployments.
+model CronRun {
+  id           Int       @id @default(autoincrement())
+  name         String    // 'sendFirstQuestion', 'prepareScheduledQuestions', etc.
+  startedAt    DateTime  @default(now()) @map("started_at")
+  finishedAt   DateTime? @map("finished_at")  // null while still running
+  success      Boolean   @default(false)       // true after a clean finish
+  durationMs   Int?      @map("duration_ms")  // finishedAt - startedAt, in ms
+  statsJson    String?   @db.Text @map("stats_json")     // structured counts/metrics from the job
+  errorMessage String?   @db.Text @map("error_message")  // truncated error string on failure
+
+  @@index([name, startedAt(sort: Desc)])  // "latest run of job X"
+  @@index([startedAt])                     // retention cleanup
+  @@map("cron_runs")
+}
+
 // ─── Admin Users ────────────────────────────────────────────────────
 
 model Admin {

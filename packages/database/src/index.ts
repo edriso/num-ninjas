@@ -16,6 +16,7 @@ export type {
   UserBadge,
   Setting,
   Admin,
+  CronRun,
 } from '@prisma/client';
 
 // Services
@@ -34,6 +35,8 @@ export * from './services/cleanup.service';
 export * from './services/engagement-nudge.service';
 export * from './services/block-status.service';
 export * from './services/streak.service';
+export * from './services/cron-run.service';
+export * from './services/question-quality.service';
 
 // Utils
 export * from './utils/cairo-time';

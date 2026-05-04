@@ -5,7 +5,7 @@ import { prepareScheduledQuestions } from './jobs/prepare-questions';
 import { resetStreaks } from './jobs/reset-streaks';
 import { sendFirstQuestion } from './jobs/send-first';
 import { startHealthServer } from './health';
-import { loadSettings, logger, prisma } from '@numninjas/database';
+import { loadSettings, logger, prisma, withCronRun } from '@numninjas/database';
 
 function getCairoTimeMinutes(): number {
   const cairoTime = new Date().toLocaleString('en-US', { timeZone: 'Africa/Cairo', hour12: false });
@@ -40,11 +40,16 @@ async function main() {
   // --- Startup recovery: catch up on missed cron jobs ---
   const cairoTimeMinutes = getCairoTimeMinutes();
 
-  // Reset streaks if we're past 00:00 Cairo (runs every startup — idempotent)
+  // Reset streaks if we're past 00:00 Cairo (runs every startup — idempotent).
+  // Wrapped in withCronRun so the startup catch-up is recorded alongside
+  // the scheduled run, with name suffix to distinguish the two.
   if (cairoTimeMinutes >= 0) {
     logger.info('[STARTUP] Running streak reset catch-up...');
     try {
-      await resetStreaks();
+      await withCronRun('resetStreaks:startup', async (track) => {
+        const result = await resetStreaks();
+        if (result) track(result);
+      });
     } catch (err) {
       logger.error('[STARTUP] Streak reset failed', { error: String(err) });
     }
@@ -52,7 +57,14 @@ async function main() {
 
   // Prepare today's questions if not already done (idempotent)
   logger.info('[STARTUP] Preparing scheduled questions...');
-  await prepareScheduledQuestions();
+  try {
+    await withCronRun('prepareScheduledQuestions:startup', async (track) => {
+      const result = await prepareScheduledQuestions();
+      if (result) track(result);
+    });
+  } catch (err) {
+    logger.error('[STARTUP] Question preparation failed', { error: String(err) });
+  }
 
   // Set bot menu commands
   await setBotCommands();
@@ -88,7 +100,10 @@ async function main() {
       if (cairoTimeMinutes >= 14 * 60 + 30) {
         logger.info('[STARTUP] Running send-first-question catch-up...');
         try {
-          await sendFirstQuestion(bot);
+          await withCronRun('sendFirstQuestion:startup', async (track) => {
+            const result = await sendFirstQuestion(bot);
+            if (result) track(result);
+          });
         } catch (err) {
           logger.error('[STARTUP] Send first question catch-up failed', { error: String(err) });
         }

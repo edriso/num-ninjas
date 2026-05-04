@@ -111,7 +111,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
 
   if (sections.length === 0) {
     logger.info('No weekly rankings to process (no activity)');
-    return;
+    return { sent: 0, badges: 0 };
   }
 
   const arMessage = buildWeeklyRankingMessage(sections, weekStartIso, 'ar');
@@ -141,4 +141,5 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
   }
 
   logger.info('Weekly ranking broadcast', { sent, badges: totalBadges });
+  return { sent, badges: totalBadges };
 }

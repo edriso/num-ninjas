@@ -17,7 +17,7 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
   if (tomorrow.getUTCDate() !== 1) {
     // Not the last day of the month
-    return;
+    return { skipped: 'not-last-day' };
   }
 
   const monthStart = getMonthStart(now);
@@ -56,7 +56,7 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
 
   if (!mostActive && !sharpest && !independent) {
     logger.info('No monthly ninja champions data');
-    return;
+    return { sent: 0, monthLabel };
   }
 
   // Build per-locale messages once. Pure formatting — no DB calls.
@@ -111,4 +111,5 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   }
 
   logger.info('Monthly ranking broadcast', { sent, monthLabel });
+  return { sent, monthLabel };
 }

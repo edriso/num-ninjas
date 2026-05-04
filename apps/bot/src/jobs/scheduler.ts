@@ -11,10 +11,40 @@ import { runMonthlyRanking } from './monthly-ranking';
 import { runYearlyRanking } from './yearly-ranking';
 import { sendParentReports } from './parent-report';
 import { runCleanup } from './cleanup';
-import { logger } from '@numninjas/database';
+import { logger, withCronRun, type CronRunStats } from '@numninjas/database';
 
 const CAIRO_TZ = 'Africa/Cairo';
 const tasks: ScheduledTask[] = [];
+
+/**
+ * Helper: wrap a job in observability + scheduler-side error handling.
+ *
+ * Each cron callback gets:
+ *   - withCronRun() recording start/end/stats/error to cron_runs
+ *   - logger.info on entry (so a tail of the logs still tells the story)
+ *   - logger.error on failure (so Railway alerts trigger normally)
+ *   - The job's own return value passed to track() as JSON stats
+ *
+ * Errors are caught after withCronRun has already recorded the failure row.
+ * If the bot loop sees an unhandled rejection from a cron, node-cron will
+ * log it and continue; we catch here as belt-and-suspenders.
+ */
+function trackedJob<T extends CronRunStats | void>(
+  name: string,
+  run: () => Promise<T>,
+): () => Promise<void> {
+  return async () => {
+    logger.info(`[CRON] Running ${name}...`);
+    try {
+      await withCronRun(name, async (track) => {
+        const result = await run();
+        if (result && typeof result === 'object') track(result as CronRunStats);
+      });
+    } catch (err) {
+      logger.error(`[CRON] ${name} failed`, { error: String(err) });
+    }
+  };
+}
 
 /**
  * Register all cron jobs. All times are Cairo time.
@@ -29,127 +59,59 @@ const tasks: ScheduledTask[] = [];
  *  Sun 23:00 — Weekly ranking
  *  Last day of month 23:00 — Monthly ninja champions
  *  Dec 31 23:00 — Yearly ninja champions
- *  Mon 03:00 — Weekly cleanup (delete scheduled_questions + study_sessions > 30 days)
+ *  Mon 03:00 — Weekly cleanup (delete scheduled_questions + study_sessions + cron_runs > 30 days)
  */
 export function startScheduler(bot: Bot<BotContext>) {
-  // 00:00 — Reset streaks
   tasks.push(
-    cron.schedule('0 0 * * *', async () => {
-      logger.info('[CRON] Running streak reset...');
-      try {
-        await resetStreaks();
-      } catch (err) {
-        logger.error('[CRON] Streak reset failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 0 * * *', trackedJob('resetStreaks', resetStreaks),
+      { timezone: CAIRO_TZ }),
   );
 
-  // 01:30 — Prepare questions (01:30 not 00:30: Egypt DST springs from 00:00→01:00, skipping 00:30)
+  // 01:30 not 00:30: Egypt DST springs from 00:00→01:00, skipping 00:30
   tasks.push(
-    cron.schedule('30 1 * * *', async () => {
-      logger.info('[CRON] Preparing daily questions...');
-      try {
-        await prepareScheduledQuestions();
-      } catch (err) {
-        logger.error('[CRON] Question preparation failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('30 1 * * *', trackedJob('prepareScheduledQuestions', prepareScheduledQuestions),
+      { timezone: CAIRO_TZ }),
   );
 
-  // 14:30 — Send first question
   tasks.push(
-    cron.schedule('30 14 * * *', async () => {
-      logger.info('[CRON] Sending first question...');
-      try {
-        await sendFirstQuestion(bot);
-      } catch (err) {
-        logger.error('[CRON] Send first question failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('30 14 * * *', trackedJob('sendFirstQuestion', () => sendFirstQuestion(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // 18:00 — Engagement nudges (re-engage drop-offs)
   tasks.push(
-    cron.schedule('0 18 * * *', async () => {
-      logger.info('[CRON] Sending engagement nudges...');
-      try {
-        await sendEngagementNudges(bot);
-      } catch (err) {
-        logger.error('[CRON] Engagement nudges failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 18 * * *', trackedJob('sendEngagementNudges', () => sendEngagementNudges(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // 19:30 — Evening reminder
   tasks.push(
-    cron.schedule('30 19 * * *', async () => {
-      logger.info('[CRON] Sending reminders...');
-      try {
-        await sendReminder(bot);
-      } catch (err) {
-        logger.error('[CRON] Reminder failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('30 19 * * *', trackedJob('sendReminder', () => sendReminder(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // Sunday 22:00 — Parent weekly report
   tasks.push(
-    cron.schedule('0 22 * * 0', async () => {
-      logger.info('[CRON] Sending parent reports...');
-      try {
-        await sendParentReports(bot);
-      } catch (err) {
-        logger.error('[CRON] Parent report failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 22 * * 0', trackedJob('sendParentReports', () => sendParentReports(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // Sunday 23:00 — Weekly ranking
   tasks.push(
-    cron.schedule('0 23 * * 0', async () => {
-      logger.info('[CRON] Running weekly ranking...');
-      try {
-        await runWeeklyRanking(bot);
-      } catch (err) {
-        logger.error('[CRON] Weekly ranking failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 23 * * 0', trackedJob('runWeeklyRanking', () => runWeeklyRanking(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // Last day of month 23:00 — Monthly ninja champions
+  // Cron fires every day 28-31; the job itself no-ops on non-last days.
   tasks.push(
-    cron.schedule('0 23 28-31 * *', async () => {
-      logger.info('[CRON] Checking monthly ranking...');
-      try {
-        await runMonthlyRanking(bot);
-      } catch (err) {
-        logger.error('[CRON] Monthly ranking failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 23 28-31 * *', trackedJob('runMonthlyRanking', () => runMonthlyRanking(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // Dec 31 23:00 — Yearly ninja champions
   tasks.push(
-    cron.schedule('0 23 31 12 *', async () => {
-      logger.info('[CRON] Running yearly ranking...');
-      try {
-        await runYearlyRanking(bot);
-      } catch (err) {
-        logger.error('[CRON] Yearly ranking failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 23 31 12 *', trackedJob('runYearlyRanking', () => runYearlyRanking(bot)),
+      { timezone: CAIRO_TZ }),
   );
 
-  // Monday 03:00 — Weekly cleanup
   tasks.push(
-    cron.schedule('0 3 * * 1', async () => {
-      logger.info('[CRON] Running weekly cleanup...');
-      try {
-        await runCleanup();
-      } catch (err) {
-        logger.error('[CRON] Cleanup failed', { error: String(err) });
-      }
-    }, { timezone: CAIRO_TZ }),
+    cron.schedule('0 3 * * 1', trackedJob('runCleanup', runCleanup),
+      { timezone: CAIRO_TZ }),
   );
 
   logger.info('Scheduler started with 10 jobs (Cairo time)');
