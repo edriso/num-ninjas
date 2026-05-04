@@ -78,64 +78,11 @@ async function prepareQuestionsForUser(userId: number, levelId: number, locale: 
   }
 }
 
-// ─── Onboarding Quiz Questions ─────────────────────────────────────
-
-const QUIZ_QUESTIONS_AR = [
-  {
-    text: '🧮 *سؤال 1/3*\n\nأنت في السوبر ماركت، اشتريت أغراضاً بـ 47 جنيه ودفعت 100 جنيه.\nكم يتبقى؟',
-    options: [
-      { text: '53 جنيه', correct: true },
-      { text: '47 جنيه', correct: false },
-      { text: '63 جنيه', correct: false },
-    ],
-  },
-  {
-    text: '🧮 *سؤال 2/3*\n\nلديك ½ بيتزا وأخذت منها ¼، كم يتبقى؟',
-    options: [
-      { text: '¼', correct: true },
-      { text: '¾', correct: false },
-      { text: '½', correct: false },
-    ],
-  },
-  {
-    text: '🧮 *سؤال 3/3*\n\nمتجر ملابس يقدّم خصم 20% على جاكيت بـ 150 جنيه.\nكم ستدفع؟',
-    options: [
-      { text: '120 جنيه', correct: true },
-      { text: '130 جنيه', correct: false },
-      { text: '100 جنيه', correct: false },
-    ],
-  },
-];
-
-const QUIZ_QUESTIONS_EN = [
-  {
-    text: '🧮 *Question 1/3*\n\nYou\'re at the supermarket, you bought items for 47 pounds and paid 100 pounds.\nHow much change do you get?',
-    options: [
-      { text: '53 pounds', correct: true },
-      { text: '47 pounds', correct: false },
-      { text: '63 pounds', correct: false },
-    ],
-  },
-  {
-    text: '🧮 *Question 2/3*\n\nYou have ½ a pizza and you ate ¼ of it. How much is left?',
-    options: [
-      { text: '¼', correct: true },
-      { text: '¾', correct: false },
-      { text: '½', correct: false },
-    ],
-  },
-  {
-    text: '🧮 *Question 3/3*\n\nA clothing store offers a 20% discount on a jacket that costs 150 pounds.\nHow much will you pay?',
-    options: [
-      { text: '120 pounds', correct: true },
-      { text: '130 pounds', correct: false },
-      { text: '100 pounds', correct: false },
-    ],
-  },
-];
-
+// ─── Onboarding Quiz ───────────────────────────────────────────────
+// The three diagnostic questions live in messages/{arabic,english}.ts as
+// `quizQuestions` so translators have ONE place to edit content.
 function getQuizQuestions(locale: string) {
-  return locale === 'en' ? QUIZ_QUESTIONS_EN : QUIZ_QUESTIONS_AR;
+  return getMessages(locale).quizQuestions;
 }
 
 /** Map quiz score (0-3 correct) → level rankOrder (1-4) */
@@ -144,11 +91,16 @@ function quizScoreToLevelRank(correct: number): number {
   return Math.min(correct + 1, 4);
 }
 
-/** Build inline keyboard for a quiz question. Options are shuffled. */
-function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS_AR[number]['options'], locale = 'ar') {
+/** Build inline keyboard for a quiz question. Options are Fisher-Yates-shuffled. */
+function buildQuizKeyboard(
+  step: number,
+  options: ReadonlyArray<{ text: string; correct: boolean }>,
+  locale = 'ar',
+) {
   const keyboard = new InlineKeyboard();
-  // Shuffle options
-  const shuffled = [...options].sort(() => Math.random() - 0.5);
+  // Use the tested Fisher-Yates shuffle from @numninjas/database, not the
+  // biased [...].sort(() => Math.random() - 0.5).
+  const shuffled = shuffle(options);
   for (const opt of shuffled) {
     const text = fixRtlOptionText(opt.text, locale);
     keyboard.text(text, cbBuild(CB.quizAnswer, step, opt.correct ? 1 : 0)).row();

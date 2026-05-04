@@ -1,6 +1,12 @@
 import { msg as ar } from './arabic';
 import { msg as en } from './english';
 
+/** Shape of one diagnostic-quiz question used in onboarding. */
+export interface QuizQuestion {
+  readonly text: string;
+  readonly options: ReadonlyArray<{ readonly text: string; readonly correct: boolean }>;
+}
+
 /** Message bag type — matches the shape of arabic.ts / english.ts */
 export interface Messages {
   welcome: string;
@@ -32,6 +38,7 @@ export interface Messages {
   nudgeNeverEngaged: (name: string) => string;
   nudgeWentSilent: (name: string) => string;
   cancelDone: string;
+  quizQuestions: ReadonlyArray<QuizQuestion>;
 }
 
 const messages: Record<string, Messages> = { ar, en };

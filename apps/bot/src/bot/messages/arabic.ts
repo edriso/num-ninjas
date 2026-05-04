@@ -63,6 +63,37 @@ export const msg = {
   languageChanged: (lang: string) => `✅ تم تغيير اللغة إلى *${lang}*`,
   languagePrompt: 'اختر اللغة:',
 
+  // ─── Onboarding diagnostic quiz ───────────────────────────────────
+  // Three real-life math questions used to auto-detect the kid's level.
+  // Score → level: 0→L1 (White), 1→L2 (Yellow), 2→L3 (Orange), 3→L4 (Green).
+  // Spacetoon Arabic + Western digits per CLAUDE.md.
+  quizQuestions: [
+    {
+      text: '🧮 *سؤال 1/3*\n\nأنت في السوبر ماركت، اشتريت أغراضاً بـ 47 جنيه ودفعت 100 جنيه.\nكم يتبقى؟',
+      options: [
+        { text: '53 جنيه', correct: true },
+        { text: '47 جنيه', correct: false },
+        { text: '63 جنيه', correct: false },
+      ],
+    },
+    {
+      text: '🧮 *سؤال 2/3*\n\nلديك ½ بيتزا وأخذت منها ¼، كم يتبقى؟',
+      options: [
+        { text: '¼', correct: true },
+        { text: '¾', correct: false },
+        { text: '½', correct: false },
+      ],
+    },
+    {
+      text: '🧮 *سؤال 3/3*\n\nمتجر ملابس يقدّم خصم 20% على جاكيت بـ 150 جنيه.\nكم ستدفع؟',
+      options: [
+        { text: '120 جنيه', correct: true },
+        { text: '130 جنيه', correct: false },
+        { text: '100 جنيه', correct: false },
+      ],
+    },
+  ],
+
   // ─── Cancel ───────────────────────────────────────────────────────
   cancelDone: '✅ تم الإلغاء. أرسل /start عندما تريد البدء من جديد.',
 

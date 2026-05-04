@@ -63,6 +63,35 @@ export const msg = {
   languageChanged: (lang: string) => `✅ Language changed to *${lang}*`,
   languagePrompt: 'Choose a language:',
 
+  // ─── Onboarding diagnostic quiz ───────────────────────────────────
+  // Mirrors the Arabic structure exactly so the typed shape is shared.
+  quizQuestions: [
+    {
+      text: '🧮 *Question 1/3*\n\nYou\'re at the supermarket, you bought items for 47 pounds and paid 100 pounds.\nHow much change do you get?',
+      options: [
+        { text: '53 pounds', correct: true },
+        { text: '47 pounds', correct: false },
+        { text: '63 pounds', correct: false },
+      ],
+    },
+    {
+      text: '🧮 *Question 2/3*\n\nYou have ½ a pizza and you ate ¼ of it. How much is left?',
+      options: [
+        { text: '¼', correct: true },
+        { text: '¾', correct: false },
+        { text: '½', correct: false },
+      ],
+    },
+    {
+      text: '🧮 *Question 3/3*\n\nA clothing store offers a 20% discount on a jacket that costs 150 pounds.\nHow much will you pay?',
+      options: [
+        { text: '120 pounds', correct: true },
+        { text: '130 pounds', correct: false },
+        { text: '100 pounds', correct: false },
+      ],
+    },
+  ],
+
   // ─── Cancel ───────────────────────────────────────────────────────
   cancelDone: '✅ Cancelled. Send /start whenever you want to begin again.',
 
