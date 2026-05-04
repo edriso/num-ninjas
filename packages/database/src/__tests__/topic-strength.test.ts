@@ -5,6 +5,7 @@ function makeTopic(id: number, weight: number, name?: string): TopicStrength {
   return {
     topicId: id,
     topicName: name || `Topic ${id}`,
+    topicNameEn: null,
     totalAttempts: 10,
     correctAttempts: 5,
     accuracy: 0.5,
