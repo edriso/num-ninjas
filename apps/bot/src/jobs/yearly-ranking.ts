@@ -60,27 +60,43 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
     }
   }
 
-  // Build message
-  let message = `🏆✨ *أبطال سنة ${yearLabel}* ✨🏆\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  // Build per-locale messages once. Pure formatting — no DB calls.
+  const buildMessage = (locale: 'ar' | 'en'): string => {
+    const isEn = locale === 'en';
+    let m = isEn
+      ? `🏆✨ *Champions of ${yearLabel}* ✨🏆\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`
+      : `🏆✨ *أبطال سنة ${yearLabel}* ✨🏆\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  if (champion) {
-    message += `🏆 *بطل العام:* ${escapeMd(champion.nickname)}\n`;
-  }
+    if (champion) {
+      m += isEn
+        ? `🏆 *Champion of the year:* ${escapeMd(champion.nickname)}\n`
+        : `🏆 *بطل العام:* ${escapeMd(champion.nickname)}\n`;
+    }
 
-  const medals = ['🥇', '🥈', '🥉'];
-  message += '\n*الترتيب العام:*\n';
-  for (const entry of rankings.slice(0, 10)) {
-    const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-    message += `${medal} ${escapeMd(entry.nickname)} — ${entry.correctCount} صح · ${entry.activeDays} يوم\n`;
-  }
+    const medals = ['🥇', '🥈', '🥉'];
+    m += isEn ? '\n*Overall ranking:*\n' : '\n*الترتيب العام:*\n';
+    const correctLabel = isEn ? 'correct' : 'صح';
+    const dayLabel = isEn ? 'days' : 'يوم';
+    for (const entry of rankings.slice(0, 10)) {
+      const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
+      m += `${medal} ${escapeMd(entry.nickname)} — ${entry.correctCount} ${correctLabel} · ${entry.activeDays} ${dayLabel}\n`;
+    }
+    return m;
+  };
 
-  // Broadcast to all reachable accounts (skip users who blocked the bot)
+  const arMessage = buildMessage('ar');
+  const enMessage = buildMessage('en');
+
+  // Broadcast to all reachable accounts in their active profile's locale.
   const accounts = await prisma.account.findMany({
     where: { activeProfileId: { not: null }, blockedAt: null },
+    include: { activeProfile: { select: { locale: true } } },
   });
 
   let sent = 0;
   for (const account of accounts) {
+    const locale = account.activeProfile?.locale === 'en' ? 'en' : 'ar';
+    const message = locale === 'en' ? enMessage : arMessage;
     try {
       await bot.api.sendMessage(Number(account.telegramId), message, {
         parse_mode: 'Markdown',
@@ -92,9 +108,10 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
     }
   }
 
+  // Post to channel if configured (channel audience is Arabic).
   if (config.channelUsername) {
     try {
-      await bot.api.sendMessage(config.channelUsername, message, {
+      await bot.api.sendMessage(config.channelUsername, arMessage, {
         parse_mode: 'Markdown',
       });
     } catch (err) {

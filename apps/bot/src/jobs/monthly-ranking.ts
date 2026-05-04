@@ -54,31 +54,50 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
     }
   }
 
-  // Build and broadcast ninja champions message
-  let message = `🏆 *أبطال نينجا ${monthLabel}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-  if (mostActive) {
-    message += `🔥 *الأكثر حضوراً:* ${escapeMd(mostActive.nickname)} (${mostActive.activeDays} يوم)\n`;
-  }
-  if (sharpest) {
-    message += `🧠 *الأدق إجابةً:* ${escapeMd(sharpest.nickname)} (${Math.round(sharpest.accuracy * 100)}%)\n`;
-  }
-  if (independent) {
-    message += `⚡ *الأقل استعانةً:* ${escapeMd(independent.nickname)} (${independent.hints} تلميح)\n`;
-  }
-
   if (!mostActive && !sharpest && !independent) {
     logger.info('No monthly ninja champions data');
     return;
   }
 
-  // Broadcast to all reachable accounts (skip users who blocked the bot)
+  // Build per-locale messages once. Pure formatting — no DB calls.
+  const buildMessage = (locale: 'ar' | 'en'): string => {
+    const isEn = locale === 'en';
+    const label = isEn ? monthLabelEn : monthLabel;
+    let m = isEn
+      ? `🏆 *Ninja Champions — ${label}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`
+      : `🏆 *أبطال نينجا ${label}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+    if (mostActive) {
+      m += isEn
+        ? `🔥 *Most active:* ${escapeMd(mostActive.nickname)} (${mostActive.activeDays} ${mostActive.activeDays === 1 ? 'day' : 'days'})\n`
+        : `🔥 *الأكثر حضوراً:* ${escapeMd(mostActive.nickname)} (${mostActive.activeDays} يوم)\n`;
+    }
+    if (sharpest) {
+      m += isEn
+        ? `🧠 *Sharpest mind:* ${escapeMd(sharpest.nickname)} (${Math.round(sharpest.accuracy * 100)}%)\n`
+        : `🧠 *الأدق إجابةً:* ${escapeMd(sharpest.nickname)} (${Math.round(sharpest.accuracy * 100)}%)\n`;
+    }
+    if (independent) {
+      m += isEn
+        ? `⚡ *Most independent:* ${escapeMd(independent.nickname)} (${independent.hints} ${independent.hints === 1 ? 'hint' : 'hints'})\n`
+        : `⚡ *الأقل استعانةً:* ${escapeMd(independent.nickname)} (${independent.hints} تلميح)\n`;
+    }
+    return m;
+  };
+
+  const arMessage = buildMessage('ar');
+  const enMessage = buildMessage('en');
+
+  // Broadcast to all reachable accounts in their active profile's locale.
   const accounts = await prisma.account.findMany({
     where: { activeProfileId: { not: null }, blockedAt: null },
+    include: { activeProfile: { select: { locale: true } } },
   });
 
   let sent = 0;
   for (const account of accounts) {
+    const locale = account.activeProfile?.locale === 'en' ? 'en' : 'ar';
+    const message = locale === 'en' ? enMessage : arMessage;
     try {
       await bot.api.sendMessage(Number(account.telegramId), message, {
         parse_mode: 'Markdown',
@@ -90,10 +109,10 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
     }
   }
 
-  // Post to channel if configured
+  // Post to channel if configured (channel audience is Arabic).
   if (config.channelUsername) {
     try {
-      await bot.api.sendMessage(config.channelUsername, message, {
+      await bot.api.sendMessage(config.channelUsername, arMessage, {
         parse_mode: 'Markdown',
       });
     } catch (err) {
