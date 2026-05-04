@@ -1,5 +1,5 @@
 import { ImageResponse } from '@vercel/og';
-import { prisma, findUserByUsername } from '@numninjas/database';
+import { prisma, findPublicProfile } from '@numninjas/database';
 import { NextRequest } from 'next/server';
 
 export const runtime = 'nodejs';
@@ -36,9 +36,9 @@ export async function GET(
 ) {
   const { username } = await params;
 
-  const user = /^\d+$/.test(username)
-    ? await prisma.user.findUnique({ where: { id: parseInt(username) }, include: { level: true } })
-    : await findUserByUsername(username);
+  // findPublicProfile returns null for both "not found" and "private", so a
+  // private user's certificate looks identical to a missing one from outside.
+  const user = await findPublicProfile(username);
 
   if (!user) {
     return new Response('Not found', { status: 404 });

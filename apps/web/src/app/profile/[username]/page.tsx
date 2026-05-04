@@ -1,4 +1,4 @@
-import { prisma, getUserBadges, findUserByUsername } from '@numninjas/database';
+import { prisma, getUserBadges, findPublicProfile } from '@numninjas/database';
 import { Footer } from '@/components/footer';
 import { CopyLinkButton } from '@/components/copy-link-button';
 import { notFound } from 'next/navigation';
@@ -12,27 +12,13 @@ type Props = {
   params: Promise<{ username: string }>;
 };
 
-/**
- * Resolve a user by username or numeric ID (for backwards compatibility).
- */
-async function resolveUser(usernameOrId: string) {
-  // Try numeric ID first (backwards compat with old /profile/123 links)
-  if (/^\d+$/.test(usernameOrId)) {
-    return prisma.user.findUnique({
-      where: { id: parseInt(usernameOrId) },
-      include: { level: true },
-    });
-  }
-  // Look up by username
-  return findUserByUsername(usernameOrId);
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
   const locale = await getLocale();
   const d = getDictionary(locale);
-  const user = await resolveUser(username);
+  const user = await findPublicProfile(username);
 
+  // Private or unknown profiles share the same metadata so existence isn't leaked.
   if (!user) return { title: d.profile.notFound };
 
   return {
@@ -50,7 +36,9 @@ export default async function ProfilePage({ params }: Props) {
   const { username } = await params;
   const locale = await getLocale();
   const d = getDictionary(locale);
-  const user = await resolveUser(username);
+  // findPublicProfile returns null for both "not found" and "private", so a
+  // private profile is indistinguishable from a missing one to outsiders.
+  const user = await findPublicProfile(username);
 
   if (!user) notFound();
 

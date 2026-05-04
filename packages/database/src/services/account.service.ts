@@ -95,6 +95,33 @@ export async function findUserByUsername(username: string) {
 }
 
 /**
+ * Resolve a public-facing profile by either username string or numeric ID.
+ *
+ * Privacy: returns null when the user has `isPublic = false`, regardless of
+ * whether the username/ID is correct. This is the single chokepoint for
+ * public website pages — profile page, certificate API, OG metadata. The
+ * website is unauthenticated for kids, so a hidden profile means hidden from
+ * everyone on the web.
+ *
+ * Backwards compat: numeric `usernameOrId` falls back to the integer user.id
+ * lookup so old `/profile/123` links still work.
+ */
+export async function findPublicProfile(usernameOrId: string) {
+  const user = /^\d+$/.test(usernameOrId)
+    ? await prisma.user.findUnique({
+        where: { id: parseInt(usernameOrId, 10) },
+        include: { level: true },
+      })
+    : await prisma.user.findUnique({
+        where: { username: usernameOrId },
+        include: { level: true },
+      });
+
+  if (!user || !user.isPublic) return null;
+  return user;
+}
+
+/**
  * Generate a unique username from nickname or Telegram username.
  *
  * Priority:
