@@ -2,7 +2,6 @@ import {
   prisma,
   todayCairoAsUtcMidnight,
   getSettingInt,
-  shuffle,
   logger,
   getTopicStrengths,
   pickWeightedTopics,
@@ -43,6 +42,23 @@ export async function prepareScheduledQuestions() {
   let skippedSleeping = 0;
   let failed = 0;
 
+  // Per-cron-run cache of questions keyed by `${topicId}:${locale}`. Many
+  // kids at the same level want the same topic, so without this we'd hit
+  // the DB once per (user, topic, locale) — the single biggest source of
+  // queries in this cron. With the cache, we hit O(distinct topics × locales).
+  const questionCache = new Map<string, { id: number }[]>();
+  const fetchTopicQuestions = async (topicId: number, locale: string): Promise<{ id: number }[]> => {
+    const key = `${topicId}:${locale}`;
+    const cached = questionCache.get(key);
+    if (cached) return cached;
+    const rows = await prisma.question.findMany({
+      where: { topicId, locale },
+      select: { id: true },
+    });
+    questionCache.set(key, rows);
+    return rows;
+  };
+
   for (const user of users) {
     // Sleep mode: stop preparing questions for users who keep ignoring us.
     // They wake up automatically the next time they interact with the bot.
@@ -81,41 +97,35 @@ export async function prepareScheduledQuestions() {
       const selectedQuestions: { id: number }[] = [];
 
       for (const topic of pickedTopics) {
-        // Try user's locale first, fall back to 'ar' if no questions exist
+        // Try user's locale first, fall back to 'ar' if no questions exist.
+        // The cache + in-memory filter means we fetch each (topic, locale)
+        // pool at most once per cron run, then exclude in memory.
         const userLocale = user.locale || 'ar';
-        let available = await prisma.question.findMany({
-          where: {
-            topicId: topic.topicId,
-            locale: userLocale,
-            ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
-          },
-          select: { id: true },
-        });
+        const localePool = await fetchTopicQuestions(topic.topicId, userLocale);
+        let available = localePool.filter((q) => !excludedIds.has(q.id));
 
         // Fallback to Arabic if no questions in user's locale
         if (available.length === 0 && userLocale !== 'ar') {
-          available = await prisma.question.findMany({
-            where: {
-              topicId: topic.topicId,
-              locale: 'ar',
-              ...(excludedIds.size > 0 ? { id: { notIn: [...excludedIds] } } : {}),
-            },
-            select: { id: true },
-          });
+          const arPool = await fetchTopicQuestions(topic.topicId, 'ar');
+          available = arPool.filter((q) => !excludedIds.has(q.id));
         }
 
         if (available.length > 0) {
-          const picked = shuffle(available)[0];
+          // O(1) random pick — shuffling the whole pool just to take [0] is
+          // unnecessary work, especially when the pool is large.
+          const picked = available[Math.floor(Math.random() * available.length)];
           selectedQuestions.push(picked);
           excludedIds.add(picked.id);
         } else {
-          // Fallback: allow any question from this topic (all in cooldown)
-          const fallback = await prisma.question.findMany({
-            where: { topicId: topic.topicId },
-            select: { id: true },
-          });
-          if (fallback.length > 0) {
-            selectedQuestions.push(shuffle(fallback)[0]);
+          // Last-resort fallback: every question from this topic is in cooldown.
+          // Pull the union of all locales for this topic from cache (or fetch
+          // ar as a representative pool), pick any.
+          const fallbackPool =
+            (await fetchTopicQuestions(topic.topicId, userLocale)).length > 0
+              ? await fetchTopicQuestions(topic.topicId, userLocale)
+              : await fetchTopicQuestions(topic.topicId, 'ar');
+          if (fallbackPool.length > 0) {
+            selectedQuestions.push(fallbackPool[Math.floor(Math.random() * fallbackPool.length)]);
           }
         }
       }

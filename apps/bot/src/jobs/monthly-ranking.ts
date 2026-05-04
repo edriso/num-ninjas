@@ -2,7 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
-import { handleSendError } from '../bot/helpers/send-errors';
+import { broadcastToAccounts } from '../bot/helpers/broadcast';
 import { escapeMd } from '../bot/helpers/escape-md';
 
 /**
@@ -88,26 +88,16 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   const arMessage = buildMessage('ar');
   const enMessage = buildMessage('en');
 
-  // Broadcast to all reachable accounts in their active profile's locale.
+  // Broadcast to all reachable accounts in their active profile's locale,
+  // chunked at the Telegram rate limit (broadcastToAccounts handles parallelism).
   const accounts = await prisma.account.findMany({
     where: { activeProfileId: { not: null }, blockedAt: null },
     include: { activeProfile: { select: { locale: true } } },
   });
 
-  let sent = 0;
-  for (const account of accounts) {
-    const locale = account.activeProfile?.locale === 'en' ? 'en' : 'ar';
-    const message = locale === 'en' ? enMessage : arMessage;
-    try {
-      await bot.api.sendMessage(Number(account.telegramId), message, {
-        parse_mode: 'Markdown',
-      });
-      sent++;
-    } catch (err) {
-      // Self-heal blocked_at if the user has blocked us; otherwise just skip.
-      await handleSendError(err, account.telegramId);
-    }
-  }
+  const { sent } = await broadcastToAccounts(bot, accounts, (account) =>
+    account.activeProfile?.locale === 'en' ? enMessage : arMessage,
+  );
 
   // Post to channel if configured (channel audience is Arabic).
   if (config.channelUsername) {

@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@numninjas/database";
+import { prisma, invalidateSettings } from "@numninjas/database";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
 
@@ -17,6 +17,11 @@ export async function updateSettingAction(formData: FormData) {
     where: { settingKey },
     data: { value },
   });
+
+  // Drop the web app's in-memory cache so the next request sees the new
+  // value immediately. The bot process picks up the change within the
+  // 60s cache TTL — see settings.service.ts for why we don't try to push.
+  invalidateSettings();
 
   revalidatePath("/admin/settings");
 }
