@@ -1,15 +1,24 @@
 const CAIRO_TZ = 'Africa/Cairo';
 
 /**
- * Get today's date string in Cairo timezone (YYYY-MM-DD).
+ * Get the Cairo-local YYYY-MM-DD string for any UTC instant.
+ * Use this when comparing two timestamps as "same calendar day" or
+ * "yesterday vs today" — string comparison is timezone-safe.
  */
-export function todayCairoString(): string {
+export function cairoDateString(date: Date): string {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: CAIRO_TZ,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).format(new Date());
+  }).format(date);
+}
+
+/**
+ * Get today's date string in Cairo timezone (YYYY-MM-DD).
+ */
+export function todayCairoString(): string {
+  return cairoDateString(new Date());
 }
 
 /**

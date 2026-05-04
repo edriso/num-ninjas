@@ -14,6 +14,7 @@ import {
   getSettingInt,
   getActiveProfile,
   checkLevelCompletion,
+  updateStreakOnComplete,
   logger,
 } from '@numninjas/database';
 import { InlineKeyboard } from 'grammy';
@@ -773,13 +774,12 @@ export async function handleStayLevel(ctx: BotContext) {
 }
 
 // ─── Streak Update ──────────────────────────────────────────────────
+//
+// Delegates to updateStreakOnComplete in the database package, which uses
+// computeNextStreak (a pure, tested function) to compare lastActiveAt against
+// today/yesterday in Cairo time. This is correct even if the 00:00 reset cron
+// hasn't run yet — calling it twice in one day is idempotent.
 
 async function updateStreak(userId: number) {
-  await prisma.user.update({
-    where: { id: userId },
-    data: {
-      streakDays: { increment: 1 },
-      lastActiveAt: new Date(),
-    },
-  });
+  await updateStreakOnComplete(userId);
 }

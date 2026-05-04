@@ -33,6 +33,7 @@ export * from './services/spaced-repetition.service';
 export * from './services/cleanup.service';
 export * from './services/engagement-nudge.service';
 export * from './services/block-status.service';
+export * from './services/streak.service';
 
 // Utils
 export * from './utils/cairo-time';
