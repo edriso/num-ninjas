@@ -4,6 +4,7 @@ import { startScheduler, stopScheduler } from './jobs/scheduler';
 import { prepareScheduledQuestions } from './jobs/prepare-questions';
 import { resetStreaks } from './jobs/reset-streaks';
 import { sendFirstQuestion } from './jobs/send-first';
+import { startHealthServer } from './health';
 import { loadSettings, logger, prisma } from '@numninjas/database';
 
 function getCairoTimeMinutes(): number {
@@ -68,6 +69,9 @@ async function main() {
 
   // Start scheduled jobs
   startScheduler(bot);
+
+  // Start the health-check HTTP server (Railway / external uptime monitors)
+  startHealthServer();
 
   // Start the bot.
   // allowed_updates is explicit because `my_chat_member` is NOT in the default

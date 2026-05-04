@@ -72,6 +72,17 @@ bot.command('help', async (ctx) => {
   const msg = getMsg(ctx);
   await ctx.reply(msg.help, { parse_mode: 'Markdown' });
 });
+// Universal escape hatch — any flow (onboarding, edit, mid-question)
+// can be aborted by typing /cancel. Resets state and pendingData like /start
+// but without the welcome-back path; the kid stays where they are with no
+// auto-question being sent.
+bot.command('cancel', async (ctx) => {
+  if (ctx.chat?.type !== 'private') return;
+  ctx.session.state = 'idle';
+  ctx.session.pendingData = {};
+  const msg = getMsg(ctx);
+  await ctx.reply(msg.cancelDone);
+});
 bot.command('addchild', handleAddChild);
 bot.command('switch', handleSwitch);
 bot.command('players', handlePlayers);
@@ -192,6 +203,7 @@ async function setBotCommands() {
     { command: 'players', description: 'Players / اللاعبون' },
     { command: 'settings', description: 'Settings / الإعدادات' },
     { command: 'help', description: 'Help / المساعدة' },
+    { command: 'cancel', description: 'Cancel current action / إلغاء' },
   ]);
 }
 

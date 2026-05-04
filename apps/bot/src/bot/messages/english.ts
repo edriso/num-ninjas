@@ -63,6 +63,9 @@ export const msg = {
   languageChanged: (lang: string) => `✅ Language changed to *${lang}*`,
   languagePrompt: 'Choose a language:',
 
+  // ─── Cancel ───────────────────────────────────────────────────────
+  cancelDone: '✅ Cancelled. Send /start whenever you want to begin again.',
+
   // ─── Engagement nudges ────────────────────────────────────────────
   // One-shot re-engagement messages from the daily 18:00 cron.
   nudgeOnboardingAbandoned:

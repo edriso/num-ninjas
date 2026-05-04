@@ -31,6 +31,7 @@ export interface Messages {
   nudgeOnboardingAbandoned: string;
   nudgeNeverEngaged: (name: string) => string;
   nudgeWentSilent: (name: string) => string;
+  cancelDone: string;
 }
 
 const messages: Record<string, Messages> = { ar, en };
