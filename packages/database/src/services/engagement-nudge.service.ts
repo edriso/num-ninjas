@@ -166,6 +166,7 @@ export async function findAccountNudgeCandidates(now = new Date()): Promise<Acco
     where: {
       activeProfileId: null,
       lastNudgeAt: null,
+      blockedAt: null,
       createdAt: { lte: cutoff },
     },
     select: { telegramId: true, createdAt: true, lastNudgeAt: true },
@@ -189,9 +190,10 @@ export async function findAccountNudgeCandidates(now = new Date()): Promise<Acco
  * Returns only users whose account has them set as the active profile.
  */
 export async function findUserNudgeCandidates(now = new Date()): Promise<UserNudgeCandidate[]> {
-  // Pull only active profiles (the ones their account is currently using).
+  // Pull only active profiles (the ones their account is currently using),
+  // and skip blocked accounts — sending to them would just 403 and waste budget.
   const accounts = await prisma.account.findMany({
-    where: { activeProfileId: { not: null } },
+    where: { activeProfileId: { not: null }, blockedAt: null },
     select: {
       telegramId: true,
       activeProfile: {

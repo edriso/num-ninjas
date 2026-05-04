@@ -5,10 +5,12 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `telegram_id` BIGINT NOT NULL,
   `active_profile_id` INT NULL,
   `last_nudge_at` DATETIME(3) NULL,
+  `blocked_at` DATETIME(3) NULL,
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL,
   PRIMARY KEY (`telegram_id`),
-  UNIQUE INDEX `accounts_active_profile_id_key` (`active_profile_id`)
+  UNIQUE INDEX `accounts_active_profile_id_key` (`active_profile_id`),
+  INDEX `accounts_blocked_at_idx` (`blocked_at`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `levels` (

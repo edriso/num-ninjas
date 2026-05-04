@@ -8,6 +8,7 @@ import {
   logger,
 } from '@numninjas/database';
 import { getMessages } from '../bot/messages';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Daily 18:00 Cairo cron — sends re-engagement nudges to three drop-off groups:
@@ -43,9 +44,11 @@ export async function sendEngagementNudges(bot: Bot<BotContext>) {
       sent++;
     } catch (err) {
       failed++;
-      logSendFailure(err, chatId, 'onboarding_abandoned');
-      if (isUnreachable(err)) {
-        // Don't keep trying tomorrow — they've blocked us or the chat is gone.
+      // If they've blocked us, the helper sets blocked_at so future crons skip them.
+      // Either way, mark nudged so we don't retry the same nudge tomorrow.
+      const { blocked } = await handleSendError(err, c.telegramId);
+      if (!blocked) logSendFailure(err, chatId, 'onboarding_abandoned');
+      if (blocked || isUnreachableNonBlock(err)) {
         await markAccountNudged(c.telegramId, now).catch(() => undefined);
       }
     }
@@ -65,8 +68,9 @@ export async function sendEngagementNudges(bot: Bot<BotContext>) {
       sent++;
     } catch (err) {
       failed++;
-      logSendFailure(err, chatId, c.cohort);
-      if (isUnreachable(err)) {
+      const { blocked } = await handleSendError(err, c.telegramId);
+      if (!blocked) logSendFailure(err, chatId, c.cohort);
+      if (blocked || isUnreachableNonBlock(err)) {
         await markUserNudged(c.userId, now).catch(() => undefined);
       }
     }
@@ -80,18 +84,19 @@ export async function sendEngagementNudges(bot: Bot<BotContext>) {
   });
 }
 
-/** Telegram errors that mean the user is permanently unreachable from this bot. */
-function isUnreachable(err: unknown): boolean {
+/**
+ * Telegram errors that mean the user is permanently unreachable for reasons
+ * OTHER than blocking the bot (the block case is handled by handleSendError,
+ * which has clearer semantics tied to blocked_at). These mean we should still
+ * stop retrying the same nudge.
+ */
+function isUnreachableNonBlock(err: unknown): boolean {
   const s = String(err);
-  return (
-    s.includes('bot was blocked') ||
-    s.includes('user is deactivated') ||
-    s.includes('chat not found')
-  );
+  return s.includes('user is deactivated') || s.includes('chat not found');
 }
 
 function logSendFailure(err: unknown, telegramId: number, kind: string) {
-  if (isUnreachable(err)) {
+  if (isUnreachableNonBlock(err)) {
     logger.warn('Nudge target unreachable, marking as nudged', { telegramId, kind });
   } else {
     logger.error('Failed to send nudge', { telegramId, kind, error: String(err) });

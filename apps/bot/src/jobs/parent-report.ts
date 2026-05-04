@@ -1,6 +1,7 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, getWeekStart, getSettingInt, getTopicStrengths, logger } from '@numninjas/database';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Send weekly progress reports to parents.
@@ -16,7 +17,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
   const pointsPerCorrect = await getSettingInt('points_per_correct');
 
   const accounts = await prisma.account.findMany({
-    where: { users: { some: {} } },
+    where: { users: { some: {} }, blockedAt: null },
     include: {
       users: { include: { level: true }, orderBy: { createdAt: 'asc' } },
     },
@@ -94,10 +95,13 @@ export async function sendParentReports(bot: Bot<BotContext>) {
       });
       sent++;
     } catch (err) {
-      logger.warn('[CRON] Failed to send parent report', {
-        telegramId: String(account.telegramId),
-        error: String(err),
-      });
+      const { blocked } = await handleSendError(err, account.telegramId);
+      if (!blocked) {
+        logger.warn('[CRON] Failed to send parent report', {
+          telegramId: String(account.telegramId),
+          error: String(err),
+        });
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, todayCairoAsUtcMidnight, getSettingBool, getSettingInt, logger, isSleeping } from '@numninjas/database';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Don't fire the daily-session reminder if we already sent an engagement nudge
@@ -24,9 +25,9 @@ export async function sendReminder(bot: Bot<BotContext>) {
   const now = new Date();
   const cooldownMs = NUDGE_COOLDOWN_HOURS * 60 * 60 * 1000;
 
-  // Get all accounts with active profiles
+  // Get all reachable accounts with active profiles (skip users who blocked the bot)
   const accounts = await prisma.account.findMany({
-    where: { activeProfileId: { not: null } },
+    where: { activeProfileId: { not: null }, blockedAt: null },
     include: { activeProfile: true },
   });
 
@@ -101,10 +102,13 @@ export async function sendReminder(bot: Bot<BotContext>) {
       }
       sent++;
     } catch (error) {
-      logger.warn('Failed to send reminder', {
-        telegramId: Number(account.telegramId),
-        error: String(error),
-      });
+      const { blocked } = await handleSendError(error, account.telegramId);
+      if (!blocked) {
+        logger.warn('Failed to send reminder', {
+          telegramId: Number(account.telegramId),
+          error: String(error),
+        });
+      }
     }
   }
 

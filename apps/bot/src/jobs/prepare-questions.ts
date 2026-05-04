@@ -30,7 +30,11 @@ export async function prepareScheduledQuestions() {
   const today = todayCairoAsUtcMidnight();
   const questionsPerDay = await getSettingInt('questions_per_day');
 
+  // Skip users whose account has the bot blocked — their questions would never
+  // be sent anyway, so preparing them just wastes DB connections (Hostinger has
+  // a 500/hour budget) and produces orphaned scheduled_questions rows.
   const users = await prisma.user.findMany({
+    where: { account: { blockedAt: null } },
     include: { level: true },
   });
 

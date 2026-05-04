@@ -30,13 +30,40 @@ import {
 } from './handlers/commands';
 import { handleAdminSend, handleAdminPrepare, handleAdminStats, handleAdminHealth } from './handlers/admin';
 import { getMsg } from './helpers/get-msg';
-import { logger } from '@numninjas/database';
+import { logger, markAccountBlocked, markAccountUnblocked } from '@numninjas/database';
 
 // Create bot instance
 const bot = new Bot<BotContext>(config.botToken);
 
 // ─── Middleware ──────────────────────────────────────────────────────
 bot.use(sessionMiddleware());
+
+// Self-heal blocked_at: if a `my_chat_member` unblock event was missed (e.g.
+// the bot was offline), the user's next interaction clears the flag — they
+// couldn't have messaged us or tapped a button without unblocking us first.
+//
+// Scoped to message + callback_query updates from a private chat. We skip
+// my_chat_member updates because the dedicated handler below handles those
+// directly — running both would just double-write.
+//
+// markAccountUnblocked is a single indexed UPDATE with a where-guard, so for
+// the (overwhelming) majority of interactions where blocked_at IS NULL it's a
+// fast no-op rather than a full write.
+bot.use(async (ctx, next) => {
+  const isUserInteraction = !!(ctx.message || ctx.callbackQuery || ctx.editedMessage);
+  if (isUserInteraction && ctx.chat?.type === 'private' && ctx.from) {
+    try {
+      const changed = await markAccountUnblocked(BigInt(ctx.from.id));
+      if (changed) {
+        logger.info('Cleared stale blocked_at on incoming interaction', { telegramId: ctx.from.id });
+      }
+    } catch (err) {
+      // Non-fatal — log and continue. Don't block the user's interaction on a DB blip.
+      logger.warn('Failed to clear blocked_at', { telegramId: ctx.from.id, error: String(err) });
+    }
+  }
+  await next();
+});
 
 // ─── Commands ───────────────────────────────────────────────────────
 bot.command('start', handleStart);
@@ -84,6 +111,33 @@ bot.callbackQuery('show_lang', handleShowLang);
 bot.callbackQuery('show_privacy', handleShowPrivacy);
 bot.callbackQuery(/^set_lang:/, handleSetLanguage);
 bot.callbackQuery(/^set_privacy:/, handleSetPrivacy);
+
+// ─── Block/unblock tracking ─────────────────────────────────────────
+// Telegram fires `my_chat_member` when a user blocks the bot (status='kicked')
+// or unblocks it (status='member'). We mirror that into accounts.blocked_at
+// so outbound crons can skip blocked users without burning Telegram API calls.
+//
+// Note: this filter only acts on private chats. If the bot is added to or
+// removed from a group/channel we ignore the event — we only operate in DMs.
+bot.on('my_chat_member', async (ctx) => {
+  if (ctx.chat.type !== 'private') return;
+
+  const telegramId = BigInt(ctx.chat.id);
+  const newStatus = ctx.myChatMember.new_chat_member.status;
+  const oldStatus = ctx.myChatMember.old_chat_member.status;
+
+  if (newStatus === 'kicked') {
+    const changed = await markAccountBlocked(telegramId);
+    if (changed) {
+      logger.info('User blocked the bot', { telegramId: Number(telegramId), oldStatus });
+    }
+  } else if (newStatus === 'member') {
+    const changed = await markAccountUnblocked(telegramId);
+    if (changed) {
+      logger.info('User unblocked the bot', { telegramId: Number(telegramId), oldStatus });
+    }
+  }
+});
 
 // ─── Text Messages (state machine) ─────────────────────────────────
 bot.on('message:text', async (ctx) => {

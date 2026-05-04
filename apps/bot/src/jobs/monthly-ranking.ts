@@ -2,6 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Run monthly ninja champions, award category badges.
@@ -70,8 +71,9 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
     return;
   }
 
+  // Broadcast to all reachable accounts (skip users who blocked the bot)
   const accounts = await prisma.account.findMany({
-    where: { activeProfileId: { not: null } },
+    where: { activeProfileId: { not: null }, blockedAt: null },
   });
 
   let sent = 0;
@@ -81,8 +83,9 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
         parse_mode: 'Markdown',
       });
       sent++;
-    } catch {
-      // Skip unreachable users
+    } catch (err) {
+      // Self-heal blocked_at if the user has blocked us; otherwise just skip.
+      await handleSendError(err, account.telegramId);
     }
   }
 

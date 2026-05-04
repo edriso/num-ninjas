@@ -2,6 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger, isSleeping } from '@numninjas/database';
 import { prepareScheduledQuestions } from './prepare-questions';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Send the first daily question (position=1) to all active users.
@@ -13,9 +14,9 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
   // who already have questions for today.
   await prepareScheduledQuestions();
 
-  // Get all accounts with an active profile
+  // Get all reachable accounts with an active profile (skip users who blocked the bot)
   const accounts = await prisma.account.findMany({
-    where: { activeProfileId: { not: null } },
+    where: { activeProfileId: { not: null }, blockedAt: null },
     include: { activeProfile: true },
   });
 
@@ -86,12 +87,11 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
       await markQuestionSent(session.id);
       sent++;
     } catch (error) {
+      const { blocked } = await handleSendError(error, account.telegramId);
       const errStr = String(error);
-      if (
-        errStr.includes('bot was blocked') ||
-        errStr.includes('user is deactivated') ||
-        errStr.includes('chat not found')
-      ) {
+      if (blocked) {
+        // Already handled by handleSendError — no further log needed.
+      } else if (errStr.includes('user is deactivated') || errStr.includes('chat not found')) {
         logger.warn('User unreachable, skipping', {
           telegramId: Number(account.telegramId),
         });

@@ -2,6 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeRankings, getYearStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Run yearly ninja champions, award yearly badges.
@@ -72,9 +73,9 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
     message += `${medal} ${entry.nickname} — ${entry.correctCount} صح · ${entry.activeDays} يوم\n`;
   }
 
-  // Broadcast
+  // Broadcast to all reachable accounts (skip users who blocked the bot)
   const accounts = await prisma.account.findMany({
-    where: { activeProfileId: { not: null } },
+    where: { activeProfileId: { not: null }, blockedAt: null },
   });
 
   let sent = 0;
@@ -84,8 +85,9 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
         parse_mode: 'Markdown',
       });
       sent++;
-    } catch {
-      // Skip unreachable users
+    } catch (err) {
+      // Self-heal blocked_at if the user has blocked us; otherwise just skip.
+      await handleSendError(err, account.telegramId);
     }
   }
 

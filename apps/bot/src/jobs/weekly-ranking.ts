@@ -2,6 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeRankings, getWeekStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
+import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
  * Run weekly ranking per level, award top-3 badges, and broadcast.
@@ -70,9 +71,9 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
     `🏆 *ترتيب الأسبوع*\n${weekLabel}\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
     allMessages.join('\n');
 
-  // Broadcast to all accounts
+  // Broadcast to all reachable accounts (skip users who blocked the bot)
   const accounts = await prisma.account.findMany({
-    where: { activeProfileId: { not: null } },
+    where: { activeProfileId: { not: null }, blockedAt: null },
   });
 
   let sent = 0;
@@ -82,8 +83,9 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
         parse_mode: 'Markdown',
       });
       sent++;
-    } catch {
-      // Skip unreachable users
+    } catch (err) {
+      // Self-heal blocked_at if the user has blocked us; otherwise just skip.
+      await handleSendError(err, account.telegramId);
     }
   }
 

@@ -69,8 +69,13 @@ async function main() {
   // Start scheduled jobs
   startScheduler(bot);
 
-  // Start the bot
+  // Start the bot.
+  // allowed_updates is explicit because `my_chat_member` is NOT in the default
+  // set — without listing it, Telegram silently drops block/unblock events even
+  // though our handler is registered. Once we list it, we must also list every
+  // other update type we still want (Telegram replaces the default, not merges).
   bot.start({
+    allowed_updates: ['message', 'edited_message', 'callback_query', 'my_chat_member'],
     onStart: async () => {
       logger.info('Bot is running! Press Ctrl+C to stop.');
 

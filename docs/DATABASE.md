@@ -9,8 +9,9 @@
 │ telegram_id  │◄─┐    │ id           │
 │ active_profile_id │  │ email        │
 │ last_nudge_at│   │   │ password     │
-│ created_at   │   │   │ created_at   │
-│ updated_at   │   │   │ updated_at   │
+│ blocked_at   │   │   │ created_at   │
+│ created_at   │   │   │ updated_at   │
+│ updated_at   │   │   │              │
 └──────┬───────┘   │   │              │
        │           │   └──────────────┘
        │ 1:N       │
@@ -187,6 +188,27 @@ Two timestamp columns power the daily engagement-nudge cron (18:00 Cairo) and th
 | `users.last_nudge_at` | Set when we send the **never-engaged** or **went-silent** nudge. For went-silent, a fresh inactivity streak unlocks a new nudge — we detect this by comparing `lastNudgeAt < lastActiveAt`. |
 
 **Sleep mode** uses `last_active_at` + `created_at` only (no extra column): a user is skipped by `prepareScheduledQuestions` and `sendFirstQuestion` once `last_active_at IS NULL AND created_at < now − 14d`, OR `last_active_at < now − 30d`. They wake up automatically by interacting with the bot.
+
+## Block Tracking
+
+`accounts.blocked_at` mirrors whether the user currently has the bot blocked, so outbound crons skip them at the SQL level instead of burning Telegram API calls (and Hostinger's 500 conn/hour budget) on guaranteed 403 responses.
+
+| State | Meaning |
+|-------|---------|
+| `blocked_at IS NULL` | Reachable — sends are attempted normally. This is the initial state for new accounts. |
+| `blocked_at IS NOT NULL` | The user has the bot blocked. The timestamp records when we detected it. Every outbound cron filters these out. |
+
+**Becomes non-null when:**
+1. **Real-time** — Telegram fires `my_chat_member` with `new_chat_member.status = 'kicked'`. The bot's `my_chat_member` handler calls `markAccountBlocked()`. (Requires `'my_chat_member'` in `allowed_updates` — Telegram excludes it from the default set.)
+2. **Fallback** — A cron's `bot.api.sendMessage` returns 403 "bot was blocked by the user". The `handleSendError` helper sets it. This catches blocks that happened while the bot was offline.
+
+**Becomes NULL again when:**
+1. **Real-time** — `my_chat_member` fires with `new_chat_member.status = 'member'`.
+2. **Fallback** — The user sends any message or taps a button. The session middleware clears it because the user couldn't be interacting if they hadn't unblocked us first.
+
+Both paths use idempotent `updateMany` with a where-guard, so re-blocks/re-unblocks are no-ops and the state always converges.
+
+Indexed on `blocked_at` because every outbound cron joins on it.
 
 ## Performance Indexes
 
