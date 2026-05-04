@@ -543,14 +543,24 @@ export async function tryHandlePendingAnswer(ctx: BotContext): Promise<boolean> 
   if (!session || session.isComplete) return false;
   if (session.questionsAnswered >= session.questionsSent) return false;
 
-  // Get the next question the user should answer
+  // Get the next question the user should answer.
+  //
+  // Invariant: questions advance strictly in position order. getNextQuestion
+  // returns the question at position (questionsAnswered + 1), and Q(N+1) is
+  // only sent after Q(N) is answered. So there is always at most ONE
+  // un-answered question at a time, and routing the kid's text to "next"
+  // is unambiguous — even if they hit Telegram's Reply on an older message,
+  // any older message is by definition already answered. Don't break this
+  // invariant by sending questions out of order or in batches.
   const user = await prisma.user.findUnique({ where: { id: profileId } });
   if (!user) return false;
 
   const next = await getNextQuestion(profileId, user.levelId);
   if (!next || next.question.questionType !== 'open_ended') return false;
 
-  // Check if already answered
+  // Defensive: hasAnswered shouldn't ever be true here given the invariant
+  // above, but if a future change introduces parallel questions or retries,
+  // this guards against double-recording.
   const alreadyAnswered = await hasAnswered(profileId, next.question.id);
   if (alreadyAnswered) return false;
 
