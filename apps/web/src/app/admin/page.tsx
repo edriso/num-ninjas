@@ -1,14 +1,12 @@
 import { prisma, todayCairoAsUtcMidnight } from "@numninjas/database";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/require-admin";
 
 export const metadata = {
   title: 'Dashboard',
 };
 
 export default async function AdminDashboard() {
-  const session = await auth();
-  if (!session) redirect("/admin/login");
+  await requireAdmin();
   const today = todayCairoAsUtcMidnight();
 
   const [accountCount, userCount, questionCount, todaySessions, completedToday] =

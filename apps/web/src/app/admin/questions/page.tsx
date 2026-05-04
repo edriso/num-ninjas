@@ -1,6 +1,7 @@
 import { prisma, listQuestions } from "@numninjas/database";
 import Link from "next/link";
 import { QuestionFilters } from "@/components/admin/question-filters";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function QuestionsPage({
   searchParams,
@@ -12,6 +13,7 @@ export default async function QuestionsPage({
     type?: string;
   }>;
 }) {
+  await requireAdmin();
   const sp = await searchParams;
   const page = Math.max(1, Number(sp.page) || 1);
   const levelId = sp.levelId ? Number(sp.levelId) : undefined;

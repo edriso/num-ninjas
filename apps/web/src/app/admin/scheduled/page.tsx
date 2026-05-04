@@ -1,6 +1,8 @@
 import { prisma, todayCairoAsUtcMidnight } from "@numninjas/database";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function ScheduledPage() {
+  await requireAdmin();
   const today = todayCairoAsUtcMidnight();
 
   const scheduled = await prisma.scheduledQuestion.findMany({

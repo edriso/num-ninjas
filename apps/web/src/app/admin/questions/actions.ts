@@ -6,8 +6,10 @@ import {
   deleteQuestion,
 } from "@numninjas/database";
 import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function createQuestionAction(formData: FormData) {
+  await requireAdmin();
   const questionType = formData.get("questionType") as string;
   const topicId = Number(formData.get("topicId"));
   const questionText = (formData.get("questionText") as string).trim();
@@ -66,6 +68,7 @@ export async function createQuestionAction(formData: FormData) {
 }
 
 export async function updateQuestionAction(id: number, formData: FormData) {
+  await requireAdmin();
   const topicId = Number(formData.get("topicId"));
   const questionText = (formData.get("questionText") as string).trim();
   const explanation = (formData.get("explanation") as string).trim();
@@ -103,6 +106,7 @@ export async function updateQuestionAction(id: number, formData: FormData) {
 }
 
 export async function deleteQuestionAction(id: number) {
+  await requireAdmin();
   await deleteQuestion(id);
   redirect("/admin/questions");
 }

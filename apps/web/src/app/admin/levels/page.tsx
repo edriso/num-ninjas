@@ -1,7 +1,9 @@
 import { prisma } from "@numninjas/database";
 import { LevelCard } from "@/components/admin/level-card";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function LevelsPage() {
+  await requireAdmin();
   const levels = await prisma.level.findMany({
     orderBy: { rankOrder: "asc" },
     include: {

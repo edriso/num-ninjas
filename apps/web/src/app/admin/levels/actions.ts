@@ -2,8 +2,10 @@
 
 import { prisma } from "@numninjas/database";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function updateLevelAction(formData: FormData) {
+  await requireAdmin();
   const id = Number(formData.get("id"));
   const name = (formData.get("name") as string).trim();
   const description = (formData.get("description") as string)?.trim() || null;

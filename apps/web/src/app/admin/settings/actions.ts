@@ -2,8 +2,10 @@
 
 import { prisma } from "@numninjas/database";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function updateSettingAction(formData: FormData) {
+  await requireAdmin();
   const settingKey = formData.get("settingKey") as string;
   const value = (formData.get("value") as string).trim();
 

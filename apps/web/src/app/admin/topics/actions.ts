@@ -2,8 +2,10 @@
 
 import { prisma } from "@numninjas/database";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function createTopicAction(formData: FormData) {
+  await requireAdmin();
   const levelId = Number(formData.get("levelId"));
   const name = (formData.get("name") as string).trim();
   const description = (formData.get("description") as string)?.trim() || null;
@@ -27,6 +29,7 @@ export async function createTopicAction(formData: FormData) {
 }
 
 export async function updateTopicAction(formData: FormData) {
+  await requireAdmin();
   const id = Number(formData.get("id"));
   const name = (formData.get("name") as string).trim();
   const description = (formData.get("description") as string)?.trim() || null;
@@ -45,6 +48,7 @@ export async function updateTopicAction(formData: FormData) {
 }
 
 export async function deleteTopicAction(formData: FormData) {
+  await requireAdmin();
   const id = Number(formData.get("id"));
 
   if (!id) {

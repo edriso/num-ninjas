@@ -2,8 +2,10 @@
 
 import { prisma } from "@numninjas/database";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function createBadgeAction(formData: FormData) {
+  await requireAdmin();
   const name = (formData.get("name") as string).trim();
   const description = (formData.get("description") as string)?.trim() || null;
   const iconEmoji = (formData.get("iconEmoji") as string)?.trim() || null;
@@ -24,6 +26,7 @@ export async function createBadgeAction(formData: FormData) {
 }
 
 export async function updateBadgeAction(formData: FormData) {
+  await requireAdmin();
   const id = Number(formData.get("id"));
   const name = (formData.get("name") as string).trim();
   const description = (formData.get("description") as string)?.trim() || null;
@@ -46,6 +49,7 @@ export async function updateBadgeAction(formData: FormData) {
 }
 
 export async function deleteBadgeAction(formData: FormData) {
+  await requireAdmin();
   const id = Number(formData.get("id"));
 
   if (!id) {

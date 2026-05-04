@@ -1,7 +1,9 @@
 import { prisma } from "@numninjas/database";
 import { SettingRow } from "@/components/admin/setting-row";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function SettingsPage() {
+  await requireAdmin();
   const settings = await prisma.setting.findMany({
     orderBy: { settingKey: "asc" },
   });

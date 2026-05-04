@@ -1,7 +1,9 @@
 import { prisma } from "@numninjas/database";
 import { TopicList } from "@/components/admin/topic-list";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function TopicsPage() {
+  await requireAdmin();
   const levels = await prisma.level.findMany({
     orderBy: { rankOrder: "asc" },
     include: {

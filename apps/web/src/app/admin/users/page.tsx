@@ -1,6 +1,8 @@
 import { prisma } from "@numninjas/database";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function UsersPage() {
+  await requireAdmin();
   const users = await prisma.user.findMany({
     orderBy: { totalPoints: "desc" },
     include: {

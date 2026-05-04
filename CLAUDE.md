@@ -20,7 +20,7 @@ num-ninjas/
 | Part | Stack |
 |------|-------|
 | Bot | TypeScript, Grammy, node-cron, Node.js 20+ |
-| Website | Next.js 15 (App Router), Tailwind CSS v4, Auth.js v5 |
+| Website | Next.js 16 (App Router, `proxy.ts` not `middleware.ts`), Tailwind CSS v4, Auth.js v5 |
 | Database | Prisma 7 (prisma-client-js), MySQL (both dev and production) |
 | Testing | Vitest (161 unit tests in database package) |
 | Shared | @numninjas/database — services, utils, types, Prisma client |
@@ -203,7 +203,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **`pnpm db:generate`**: Must run after any schema change — the generated client is in node_modules
 - **`pnpm db:reset`**: Destroys all data — dev only
 - **BigInt**: Telegram IDs are BigInt in Prisma. Safe to convert to Number() since Telegram IDs are < 2^53
-- **Proxy can't import Prisma**: The Next.js proxy runs in Edge Runtime. It checks the auth cookie directly, NOT through the Auth.js auth() function (which imports Prisma)
+- **Proxy can't import Prisma**: The Next.js 16 proxy (`apps/web/src/proxy.ts`, formerly `middleware.ts` in Next 15) runs in Edge Runtime and only checks for cookie *presence* — it can't validate the JWT because Auth.js + Prisma don't run on Edge. Therefore every admin page and Server Action must call `requireAdmin()` (from `apps/web/src/lib/require-admin.ts`) at the top to enforce real authentication. The proxy is the first-line filter; `requireAdmin()` is the actual gate.
 - **Bot imports use @numninjas/database**: Never import from relative service/util paths in bot code. Always from the package.
 - **ScheduledQuestion is per-user**: Not per-level. Each kid gets personalized questions based on their weak topics.
 - **Rankings are per-level**: A Level 1 kid only competes with other Level 1 kids. Monthly/yearly are global.
