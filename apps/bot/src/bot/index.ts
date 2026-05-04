@@ -9,7 +9,8 @@ import {
   handlePickProfile,
   handleAddChildCallback,
 } from './handlers/profile';
-import { handleMcqAnswer, handleHint, handleSkip, handleOpenEndedAnswer, tryHandlePendingAnswer, handleLevelUp, handleStayLevel, handleRetryMcq, handleRetryOpen } from './handlers/question';
+import { handleMcqAnswer, handleHint, handleSkip, handleOpenEndedAnswer, tryHandlePendingAnswer, handleRetryMcq, handleRetryOpen } from './handlers/question';
+import { handleLevelUp, handleStayLevel } from './handlers/level-up';
 import {
   handleProfile,
   handleRank,

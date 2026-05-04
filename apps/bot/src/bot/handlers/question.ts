@@ -741,52 +741,10 @@ async function showDailySummary(ctx: BotContext, userId: number) {
   }
 }
 
-// ─── Level Up / Stay Handlers ──────────────────────────────────────
-
-export async function handleLevelUp(ctx: BotContext) {
-  const locale = ctx.session.locale || 'ar';
-  const data = ctx.callbackQuery?.data;
-  if (!data?.startsWith('level_up:')) return;
-
-  const nextLevelId = parseInt(data.split(':')[1], 10);
-  const profileId = ctx.session.activeProfileId;
-
-  if (!profileId) {
-    const text = locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start';
-    await ctx.answerCallbackQuery({ text });
-    return;
-  }
-
-  const nextLevel = await prisma.level.findUnique({ where: { id: nextLevelId } });
-  if (!nextLevel) {
-    const errText = locale === 'en' ? 'An error occurred' : 'حدث خطأ';
-    await ctx.answerCallbackQuery({ text: errText });
-    return;
-  }
-
-  await prisma.user.update({
-    where: { id: profileId },
-    data: { levelId: nextLevelId },
-  });
-
-  const emoji = nextLevel.iconEmoji || '🥷';
-  const nextLevelName = (locale === 'en' && nextLevel.nameEn) ? nextLevel.nameEn : nextLevel.name;
-  await ctx.answerCallbackQuery();
-
-  const levelUpText = locale === 'en'
-    ? `🎉 *Promoted!*\n\nYou're now at ${emoji} ${nextLevelName}!\nLet's keep the challenge going! 💪`
-    : `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevelName}!\nهيا نستمر في التحدي! 💪`;
-  await ctx.editMessageText(levelUpText, { parse_mode: 'Markdown' });
-}
-
-export async function handleStayLevel(ctx: BotContext) {
-  const locale = ctx.session.locale || 'ar';
-  await ctx.answerCallbackQuery();
-  const stayText = locale === 'en'
-    ? '👍 Great! Keep practicing at this level — practice makes you stronger! 💪'
-    : '👍 ممتاز! استمر في نفس المستوى — التمرين يجعلك أقوى! 💪';
-  await ctx.editMessageText(stayText);
-}
+// Level-up / stay handlers were extracted to ./level-up.ts — they're
+// self-contained callback handlers with no shared state with the answer
+// flow. The trigger that SHOWS them lives at the end of showDailySummary
+// above; the kid's choice is handled there.
 
 // ─── Streak Update ──────────────────────────────────────────────────
 //
