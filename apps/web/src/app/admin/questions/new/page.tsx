@@ -1,8 +1,10 @@
 import { prisma } from "@numninjas/database";
 import Link from "next/link";
 import { QuestionForm } from "@/components/admin/question-form";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function NewQuestionPage() {
+  await requireAdmin();
   const levels = await prisma.level.findMany({
     orderBy: { rankOrder: "asc" },
     include: { topics: { orderBy: { orderInLevel: "asc" } } },

@@ -2,12 +2,14 @@ import { prisma, getQuestionById } from "@numninjas/database";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { QuestionForm } from "@/components/admin/question-form";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function EditQuestionPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireAdmin();
   const { id } = await params;
   const questionId = Number(id);
 
@@ -51,6 +53,7 @@ export default async function EditQuestionPage({
             topicId: question.topicId,
             questionType: question.questionType,
             questionText: question.questionText,
+            locale: question.locale,
             correctAnswer: question.correctAnswer,
             correctAnswerNumeric: question.correctAnswerNumeric,
             realLifeContext: question.realLifeContext,

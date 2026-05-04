@@ -20,6 +20,7 @@ type ExistingQuestion = {
   topicId: number;
   questionType: string;
   questionText: string;
+  locale: string;
   correctAnswer: string | null;
   correctAnswerNumeric: number | null;
   realLifeContext: string | null;
@@ -42,9 +43,7 @@ export function QuestionForm({
   const [selectedLevelId, setSelectedLevelId] = useState<number>(
     question?.topic.levelId ?? (levels[0]?.id ?? 0),
   );
-  const [locale, setLocale] = useState<string>(
-    (question as any)?.locale ?? "ar",
-  );
+  const [locale, setLocale] = useState<string>(question?.locale ?? "ar");
   const [questionType, setQuestionType] = useState<string>(
     question?.questionType ?? "mcq",
   );
