@@ -9,10 +9,11 @@ datasource db {
 // ─── Accounts & Profiles ────────────────────────────────────────────
 
 model Account {
-  telegramId      BigInt   @id @map("telegram_id")
-  activeProfileId Int?     @unique @map("active_profile_id")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  telegramId      BigInt    @id @map("telegram_id")
+  activeProfileId Int?      @unique @map("active_profile_id")
+  lastNudgeAt     DateTime? @map("last_nudge_at") // set once when we send the onboarding-abandon nudge; never re-sent (see engagement-nudge.service.ts)
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
   activeProfile User?  @relation("ActiveProfile", fields: [activeProfileId], references: [id])
   users         User[] @relation("AccountUsers")
@@ -31,6 +32,7 @@ model User {
   streakDays   Int       @default(0) @map("streak_days")
   totalPoints  Int       @default(0) @map("total_points")
   lastActiveAt DateTime? @map("last_active_at")
+  lastNudgeAt  DateTime? @map("last_nudge_at") // last time we sent a never-engaged or went-silent nudge; a new inactivity streak unlocks a fresh nudge (see engagement-nudge.service.ts)
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
 

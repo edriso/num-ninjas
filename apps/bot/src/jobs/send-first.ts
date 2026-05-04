@@ -1,6 +1,6 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger } from '@numninjas/database';
+import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger, isSleeping } from '@numninjas/database';
 import { prepareScheduledQuestions } from './prepare-questions';
 
 /**
@@ -19,11 +19,23 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
     include: { activeProfile: true },
   });
 
+  const now = new Date();
   let sent = 0;
   let failed = 0;
+  let skippedSleeping = 0;
 
   for (const account of accounts) {
     if (!account.activeProfile) continue;
+
+    // Sleep mode: skip users who've been idle too long. They wake up by interacting.
+    if (isSleeping({
+      lastActiveAt: account.activeProfile.lastActiveAt,
+      createdAt: account.activeProfile.createdAt,
+      now,
+    })) {
+      skippedSleeping++;
+      continue;
+    }
 
     try {
       // Check if already started today
@@ -93,5 +105,5 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
     }
   }
 
-  logger.info('First question sent', { sent, failed, total: accounts.length });
+  logger.info('First question sent', { sent, failed, skippedSleeping, total: accounts.length });
 }

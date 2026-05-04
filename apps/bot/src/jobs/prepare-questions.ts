@@ -7,6 +7,7 @@ import {
   getTopicStrengths,
   pickWeightedTopics,
   getExcludedQuestionIds,
+  isSleeping,
 } from '@numninjas/database';
 
 /**
@@ -33,9 +34,18 @@ export async function prepareScheduledQuestions() {
     include: { level: true },
   });
 
+  const now = new Date();
   let prepared = 0;
+  let skippedSleeping = 0;
 
   for (const user of users) {
+    // Sleep mode: stop preparing questions for users who keep ignoring us.
+    // They wake up automatically the next time they interact with the bot.
+    if (isSleeping({ lastActiveAt: user.lastActiveAt, createdAt: user.createdAt, now })) {
+      skippedSleeping++;
+      continue;
+    }
+
     // Skip if already prepared today
     const existing = await prisma.scheduledQuestion.findFirst({
       where: { userId: user.id, scheduledDate: today },
@@ -114,5 +124,5 @@ export async function prepareScheduledQuestions() {
     prepared++;
   }
 
-  logger.info(`Prepared adaptive questions for ${prepared} users`);
+  logger.info(`Prepared adaptive questions for ${prepared} users (skipped ${skippedSleeping} sleeping)`);
 }

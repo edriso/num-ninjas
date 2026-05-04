@@ -57,4 +57,20 @@ export const msg = {
   languageCurrent: (lang: string) => `🌍 اللغة الحالية: *${lang}*`,
   languageChanged: (lang: string) => `✅ تم تغيير اللغة إلى *${lang}*`,
   languagePrompt: 'اختر اللغة:',
+
+  // ─── Engagement nudges ────────────────────────────────────────────
+  // One-shot re-engagement messages from the daily 18:00 cron.
+  nudgeOnboardingAbandoned:
+    '🥷 *بدأت رحلتك في نينجا الأرقام لكنك لم تكملها!*\n\n' +
+    'اختر اسمك ومستواك في دقيقة واحدة ✨\n' +
+    '3 أسئلة كل يوم في انتظارك 🔥\n\n' +
+    'أرسل /start لتبدأ',
+  nudgeNeverEngaged: (name: string) =>
+    `🥷 يا *${name}*! ننتظر إجابتك على أول سؤال\n\n` +
+    'اكتشف مستواك الحقيقي وابدأ رحلتك مع الأحزمة 💪\n\n' +
+    'أرسل /start',
+  nudgeWentSilent: (name: string) =>
+    `🥷 يا *${name}*! اشتقنا إليك\n\n` +
+    'مستواك في انتظار عودتك — أكمل تدريبك ولا تترك أصدقاءك يسبقونك 🔥\n\n' +
+    'أرسل /start',
 } as const;

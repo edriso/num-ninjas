@@ -4,6 +4,7 @@ import type { BotContext } from '../bot/middleware/session';
 import { prepareScheduledQuestions } from './prepare-questions';
 import { sendFirstQuestion } from './send-first';
 import { sendReminder } from './send-reminder';
+import { sendEngagementNudges } from './send-engagement-nudges';
 import { resetStreaks } from './reset-streaks';
 import { runWeeklyRanking } from './weekly-ranking';
 import { runMonthlyRanking } from './monthly-ranking';
@@ -22,7 +23,12 @@ const tasks: ScheduledTask[] = [];
  *  00:00 — Reset streaks for inactive users
  *  01:30 — Prepare today's scheduled questions
  *  14:30 — Send first question to all users
- *  19:30 — Reminder for users who haven't answered
+ *  18:00 — Engagement nudges (re-engage drop-offs: onboarding-abandoned / never-engaged / went-silent)
+ *  19:30 — Reminder for users who haven't answered today's questions
+ *  Sun 22:00 — Parent weekly report
+ *  Sun 23:00 — Weekly ranking
+ *  Last day of month 23:00 — Monthly ninja champions
+ *  Dec 31 23:00 — Yearly ninja champions
  *  Mon 03:00 — Weekly cleanup (delete scheduled_questions + study_sessions > 30 days)
  */
 export function startScheduler(bot: Bot<BotContext>) {
@@ -58,6 +64,18 @@ export function startScheduler(bot: Bot<BotContext>) {
         await sendFirstQuestion(bot);
       } catch (err) {
         logger.error('[CRON] Send first question failed', { error: String(err) });
+      }
+    }, { timezone: CAIRO_TZ }),
+  );
+
+  // 18:00 — Engagement nudges (re-engage drop-offs)
+  tasks.push(
+    cron.schedule('0 18 * * *', async () => {
+      logger.info('[CRON] Sending engagement nudges...');
+      try {
+        await sendEngagementNudges(bot);
+      } catch (err) {
+        logger.error('[CRON] Engagement nudges failed', { error: String(err) });
       }
     }, { timezone: CAIRO_TZ }),
   );
@@ -134,7 +152,7 @@ export function startScheduler(bot: Bot<BotContext>) {
     }, { timezone: CAIRO_TZ }),
   );
 
-  logger.info('Scheduler started with 9 jobs (Cairo time)');
+  logger.info('Scheduler started with 10 jobs (Cairo time)');
 }
 
 export function stopScheduler() {

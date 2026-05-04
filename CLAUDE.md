@@ -61,6 +61,8 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 - **Telegram channel**: Weekly/monthly/yearly rankings auto-posted to @NumNinjas channel (optional, set CHANNEL_USERNAME in bot .env)
 - **Spaced repetition**: Questions reappear based on last result: wrong→2d, hint→5d, correct→14d (spaced-repetition.service.ts)
 - **Parent-first UX**: Welcome explains safety to parents, daily summary shows topic names, weekly report includes "next week focus" (weak topics), profile page has share button
+- **Engagement nudges**: A daily 18:00 Cairo cron sends one-shot re-engagement messages to three drop-off states: **onboarding-abandoned** (account hit /start but never finished a profile, 24h+), **never-engaged** (profile created but no question ever answered, 3d+), and **went-silent** (previously-active profile idle for 10d+). Each state gets ONE nudge per drop-off streak — tracked by `accounts.last_nudge_at` and `users.last_nudge_at`. Went-silent unlocks a fresh nudge when the user comes back, engages, then goes silent again (detected via `lastNudgeAt < lastActiveAt`). All thresholds are exported constants in `engagement-nudge.service.ts`.
+- **Sleep mode**: Long-idle users stop receiving daily questions to save the 500 conn/hr Hostinger budget and avoid spamming inactive accounts. Sleeping when `lastActiveAt IS NULL` and account is 14d+ old, OR `lastActiveAt` is 30d+ ago. They wake up by interacting with the bot. Implemented as a filter in `prepare-questions.ts` and `send-first.ts` via `isSleeping()` from the database package.
 - **Database package has no build step**: Consumed as raw TypeScript source. Never run tsc on it. If a dist/ folder appears, delete it (it causes IDE type errors)
 
 ## Environment Variables
@@ -124,7 +126,7 @@ src/
 │   ├── keyboards/      → Inline keyboard builders (MCQ, level, profile)
 │   ├── messages/        → arabic.ts + english.ts + index.ts (i18n)
 │   └── middleware/session.ts → Grammy session with state machine + locale
-└── jobs/               → 8 cron jobs (questions, reminders, rankings, parent report)
+└── jobs/               → 10 cron jobs (questions, reminders, engagement nudges, rankings, parent report)
 ```
 
 ### Website (apps/web/)
@@ -214,6 +216,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **Cloudflare SSL must be Flexible**: Hostinger origin doesn't have SSL. Using "Full" or "Full (Strict)" causes 525 errors.
 - **Hostinger kills idle DB connections**: Shared hosting kills idle MySQL connections after ~60s and has a 500 connections/hour limit. Fixed with `idleTimeout: 30` in PoolConfig + heartbeat in bot. Avoid crash loops — bot has exponential backoff (10 retries) and 5-min exit cooldown.
 - **Level change re-prepares questions**: When a user changes level, their scheduled questions and session are deleted and new questions are prepared for the new level immediately. This prevents getting wrong-level questions.
+- **Engagement nudge cooldown**: The 18:00 engagement-nudge cron and 19:30 daily-session reminder can both target the same user on the same day. The 19:30 reminder explicitly checks `lastNudgeAt` and skips anyone nudged in the last 18 hours, so kids never get stacked notifications. If you add a new outbound message that should respect this cooldown, follow the same pattern. Sleeping users are skipped by both jobs.
 - **Website uses `127.0.0.1`, bot uses `srvXXXX.hstgr.io`**: The website runs on the same Hostinger server as MySQL — `127.0.0.1` connects locally and bypasses the 500 conn/hour Remote MySQL limit. The Railway bot connects from outside so it must use the external hostname.
 - **Remote MySQL "Any Host"**: Railway doesn't have fixed IPs. Hostinger's Remote MySQL must have "Any Host" enabled (not CIDR `0.0.0.0/0` — Hostinger doesn't accept that format).
 

@@ -8,9 +8,10 @@
 │──────────────│       │──────────────│
 │ telegram_id  │◄─┐    │ id           │
 │ active_profile_id │  │ email        │
-│ created_at   │   │   │ password     │
-│ updated_at   │   │   │ created_at   │
-└──────┬───────┘   │   │ updated_at   │
+│ last_nudge_at│   │   │ password     │
+│ created_at   │   │   │ created_at   │
+│ updated_at   │   │   │ updated_at   │
+└──────┬───────┘   │   │              │
        │           │   └──────────────┘
        │ 1:N       │
        ▼           │
@@ -25,6 +26,7 @@
 │ streak_days  │       │ created_at   │
 │ total_points │       │ updated_at   │
 │ last_active_at│      └──────┬───────┘
+│ last_nudge_at│              │
 │ created_at   │              │
 │ updated_at   │              │ 1:N
 └──┬───┬───┬───┘              ▼
@@ -174,6 +176,17 @@ Full bilingual support is implemented. Users choose their language via `/languag
 - `settings.description_en`
 
 **Pattern:** `locale === 'en' && level.nameEn ? level.nameEn : level.name`
+
+## Engagement Tracking
+
+Two timestamp columns power the daily engagement-nudge cron (18:00 Cairo) and the sleep-mode filter:
+
+| Column | Purpose |
+|--------|---------|
+| `accounts.last_nudge_at` | One-shot timestamp set when we send the **onboarding-abandoned** nudge to an account that started but never finished a profile. Never nudged again. |
+| `users.last_nudge_at` | Set when we send the **never-engaged** or **went-silent** nudge. For went-silent, a fresh inactivity streak unlocks a new nudge — we detect this by comparing `lastNudgeAt < lastActiveAt`. |
+
+**Sleep mode** uses `last_active_at` + `created_at` only (no extra column): a user is skipped by `prepareScheduledQuestions` and `sendFirstQuestion` once `last_active_at IS NULL AND created_at < now − 14d`, OR `last_active_at < now − 30d`. They wake up automatically by interacting with the bot.
 
 ## Performance Indexes
 

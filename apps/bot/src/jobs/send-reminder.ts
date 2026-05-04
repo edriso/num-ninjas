@@ -1,6 +1,13 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, todayCairoAsUtcMidnight, getSettingBool, getSettingInt, logger } from '@numninjas/database';
+import { prisma, todayCairoAsUtcMidnight, getSettingBool, getSettingInt, logger, isSleeping } from '@numninjas/database';
+
+/**
+ * Don't fire the daily-session reminder if we already sent an engagement nudge
+ * within this many hours. Prevents stacking the 18:00 nudge and 19:30 reminder
+ * on the same user on the same day.
+ */
+const NUDGE_COOLDOWN_HOURS = 18;
 
 /**
  * Send evening reminder to users who haven't completed today's session.
@@ -14,6 +21,8 @@ export async function sendReminder(bot: Bot<BotContext>) {
   }
 
   const today = todayCairoAsUtcMidnight();
+  const now = new Date();
+  const cooldownMs = NUDGE_COOLDOWN_HOURS * 60 * 60 * 1000;
 
   // Get all accounts with active profiles
   const accounts = await prisma.account.findMany({
@@ -22,9 +31,29 @@ export async function sendReminder(bot: Bot<BotContext>) {
   });
 
   let sent = 0;
+  let skippedNudged = 0;
+  let skippedSleeping = 0;
 
   for (const account of accounts) {
     if (!account.activeProfile) continue;
+
+    // Skip sleeping users — we're not sending them daily questions anyway,
+    // so a "you haven't answered today's questions" reminder makes no sense.
+    if (isSleeping({
+      lastActiveAt: account.activeProfile.lastActiveAt,
+      createdAt: account.activeProfile.createdAt,
+      now,
+    })) {
+      skippedSleeping++;
+      continue;
+    }
+
+    // Skip if we already sent an engagement nudge today (avoid double-tap).
+    const lastNudgeAt = account.activeProfile.lastNudgeAt;
+    if (lastNudgeAt && now.getTime() - lastNudgeAt.getTime() < cooldownMs) {
+      skippedNudged++;
+      continue;
+    }
 
     const session = await prisma.studySession.findUnique({
       where: {
@@ -79,5 +108,5 @@ export async function sendReminder(bot: Bot<BotContext>) {
     }
   }
 
-  logger.info('Reminders sent', { sent, total: accounts.length });
+  logger.info('Reminders sent', { sent, skippedNudged, skippedSleeping, total: accounts.length });
 }

@@ -4,6 +4,7 @@
 CREATE TABLE IF NOT EXISTS `accounts` (
   `telegram_id` BIGINT NOT NULL,
   `active_profile_id` INT NULL,
+  `last_nudge_at` DATETIME(3) NULL,
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL,
   PRIMARY KEY (`telegram_id`),
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `streak_days` INT NOT NULL DEFAULT 0,
   `total_points` INT NOT NULL DEFAULT 0,
   `last_active_at` DATETIME(3) NULL,
+  `last_nudge_at` DATETIME(3) NULL,
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL,
   PRIMARY KEY (`id`),

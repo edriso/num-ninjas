@@ -28,6 +28,9 @@ export interface Messages {
   languageCurrent: (lang: string) => string;
   languageChanged: (lang: string) => string;
   languagePrompt: string;
+  nudgeOnboardingAbandoned: string;
+  nudgeNeverEngaged: (name: string) => string;
+  nudgeWentSilent: (name: string) => string;
 }
 
 const messages: Record<string, Messages> = { ar, en };

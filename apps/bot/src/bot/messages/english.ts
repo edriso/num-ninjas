@@ -57,4 +57,20 @@ export const msg = {
   languageCurrent: (lang: string) => `🌍 Current language: *${lang}*`,
   languageChanged: (lang: string) => `✅ Language changed to *${lang}*`,
   languagePrompt: 'Choose a language:',
+
+  // ─── Engagement nudges ────────────────────────────────────────────
+  // One-shot re-engagement messages from the daily 18:00 cron.
+  nudgeOnboardingAbandoned:
+    '🥷 *You started your NumNinjas journey but didn\'t finish!*\n\n' +
+    'Pick your name and level in one minute ✨\n' +
+    '3 questions a day are waiting for you 🔥\n\n' +
+    'Send /start to begin',
+  nudgeNeverEngaged: (name: string) =>
+    `🥷 Hey *${name}*! We're waiting for your first answer\n\n` +
+    'Find out your real level and start your belt journey 💪\n\n' +
+    'Send /start',
+  nudgeWentSilent: (name: string) =>
+    `🥷 Hey *${name}*! We miss you\n\n` +
+    'Your level is waiting — keep training and don\'t let your friends overtake you 🔥\n\n' +
+    'Send /start',
 } as const;
