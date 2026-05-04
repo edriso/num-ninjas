@@ -11,7 +11,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You went to the school shop and bought a sandwich and juice.',
-    questionText: 'The sandwich costs 15 pounds and the juice costs 8 pounds. How much did you pay?',
+    questionText:
+      'The sandwich costs 15 pounds and the juice costs 8 pounds. How much did you pay?',
     hintText: 'Add the price of the sandwich and the juice',
     explanation: '15 + 8 = 23 pounds',
     options: [
@@ -27,7 +28,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Sara has 50 pounds and she bought some school things.',
-    questionText: 'Sara has 50 pounds. She bought a notebook for 12 pounds and a pen for 8 pounds. How much money is left?',
+    questionText:
+      'Sara has 50 pounds. She bought a notebook for 12 pounds and a pen for 8 pounds. How much money is left?',
     hintText: 'First add what she bought, then subtract from 50',
     explanation: '12 + 8 = 20 pounds spent. 50 - 20 = 30 pounds left',
     options: [
@@ -43,7 +45,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Karim is saving money in his piggy bank.',
-    questionText: 'Karim has 125 pounds in his piggy bank. He added 75 more pounds. How much does he have now?',
+    questionText:
+      'Karim has 125 pounds in his piggy bank. He added 75 more pounds. How much does he have now?',
     hintText: 'Add the two numbers together',
     explanation: '125 + 75 = 200 pounds',
     options: [
@@ -75,7 +78,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Your school is collecting books for the library.',
-    questionText: 'Class A brought 148 books and Class B brought 267 books. How many books in total?',
+    questionText:
+      'Class A brought 148 books and Class B brought 267 books. How many books in total?',
     hintText: 'Add the books from both classes',
     explanation: '148 + 267 = 415 books',
     options: [
@@ -91,7 +95,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'A fruit shop had apples in the morning.',
-    questionText: 'The shop had 500 apples. They sold 186 apples by noon. How many apples are left?',
+    questionText:
+      'The shop had 500 apples. They sold 186 apples by noon. How many apples are left?',
     hintText: 'Subtract the sold apples from the total',
     explanation: '500 - 186 = 314 apples',
     options: [
@@ -107,7 +112,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Ahmed scored points in two basketball games.',
-    questionText: 'Ahmed scored 47 points in the first game and 58 points in the second game. What is his total score?',
+    questionText:
+      'Ahmed scored 47 points in the first game and 58 points in the second game. What is his total score?',
     hintText: 'Add the scores from both games',
     explanation: '47 + 58 = 105 points',
     options: [
@@ -139,7 +145,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'You bought apples and bananas from the fruit shop.',
-    questionText: 'You bought apples for 10 pounds and bananas for 7 pounds. How much did you pay in total?',
+    questionText:
+      'You bought apples for 10 pounds and bananas for 7 pounds. How much did you pay in total?',
     hintText: 'Add the two prices together',
     explanation: '10 + 7 = 17 pounds',
     correctAnswer: '17',
@@ -151,7 +158,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'Mariam has her weekly pocket money.',
-    questionText: 'Mariam has 100 pounds and she spent 64 pounds on food. How many pounds are left?',
+    questionText:
+      'Mariam has 100 pounds and she spent 64 pounds on food. How many pounds are left?',
     hintText: 'Subtract what she spent from what she had',
     explanation: '100 - 64 = 36 pounds',
     correctAnswer: '36',
@@ -163,7 +171,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'Ahmed is saving money to buy a football.',
-    questionText: 'Ahmed has 86 pounds and the football costs 150 pounds. How much more does he need?',
+    questionText:
+      'Ahmed has 86 pounds and the football costs 150 pounds. How much more does he need?',
     hintText: 'Subtract what he has from the price of the football',
     explanation: '150 - 86 = 64 pounds',
     correctAnswer: '64',
@@ -175,7 +184,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'The school bus picks up students from two stops.',
-    questionText: 'The bus picked up 29 students from the first stop and 34 from the second stop. How many students in total?',
+    questionText:
+      'The bus picked up 29 students from the first stop and 34 from the second stop. How many students in total?',
     hintText: 'Add the students from both stops',
     explanation: '29 + 34 = 63 students',
     correctAnswer: '63',
@@ -224,7 +234,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'The school ordered water bottles for a trip.',
-    questionText: 'They ordered 12 packs of water. Each pack has 24 bottles. How many bottles in total?',
+    questionText:
+      'They ordered 12 packs of water. Each pack has 24 bottles. How many bottles in total?',
     hintText: 'Multiply 12 by 24',
     explanation: '12 x 24 = 288 bottles',
     options: [
@@ -256,7 +267,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'Students are sitting in the school hall for a show.',
-    questionText: 'There are 25 rows of chairs with 16 chairs in each row. How many chairs in total?',
+    questionText:
+      'There are 25 rows of chairs with 16 chairs in each row. How many chairs in total?',
     hintText: 'Multiply 25 by 16',
     explanation: '25 x 16 = 400 chairs',
     options: [
@@ -304,7 +316,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'A school bought pencils for all students.',
-    questionText: 'The school bought 32 boxes of pencils. Each box has 12 pencils. How many pencils in total?',
+    questionText:
+      'The school bought 32 boxes of pencils. Each box has 12 pencils. How many pencils in total?',
     hintText: 'Multiply 32 by 12',
     explanation: '32 x 12 = 384 pencils',
     options: [
@@ -320,7 +333,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'You are setting the table for a birthday party.',
-    questionText: 'You need 4 plates for each table. There are 7 tables. How many plates do you need?',
+    questionText:
+      'You need 4 plates for each table. There are 7 tables. How many plates do you need?',
     hintText: 'Multiply the plates per table by the number of tables',
     explanation: '4 x 7 = 28 plates',
     correctAnswer: '28',
@@ -332,7 +346,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'A bus makes trips between two cities.',
-    questionText: 'The bus carries 48 people each trip. It made 3 trips today. How many people did it carry?',
+    questionText:
+      'The bus carries 48 people each trip. It made 3 trips today. How many people did it carry?',
     hintText: 'Multiply 48 by 3',
     explanation: '48 x 3 = 144 people',
     correctAnswer: '144',
@@ -344,7 +359,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'Dad buys milk every week.',
-    questionText: 'Dad buys 3 cartons of milk every week. Each carton costs 15 pounds. How much does he spend on milk each week?',
+    questionText:
+      'Dad buys 3 cartons of milk every week. Each carton costs 15 pounds. How much does he spend on milk each week?',
     hintText: 'Multiply the price of one carton by the number of cartons',
     explanation: '3 x 15 = 45 pounds',
     correctAnswer: '45',
@@ -405,7 +421,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You have bananas to share with your friends.',
-    questionText: 'You have 25 bananas and want to share them equally among 4 friends. How many bananas does each friend get, and how many are left over?',
+    questionText:
+      'You have 25 bananas and want to share them equally among 4 friends. How many bananas does each friend get, and how many are left over?',
     hintText: 'Divide 25 by 4 and find the remainder',
     explanation: '25 / 4 = 6 remainder 1. Each gets 6 and 1 banana is left',
     options: [
@@ -421,7 +438,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'A coach is making teams for a race.',
-    questionText: '23 students want to run a relay race. Each team needs 5 runners. How many full teams can be made?',
+    questionText:
+      '23 students want to run a relay race. Each team needs 5 runners. How many full teams can be made?',
     hintText: 'Divide 23 by 5',
     explanation: '23 / 5 = 4 full teams with 3 students left over',
     options: [
@@ -437,7 +455,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'A shop is packing oranges into bags.',
-    questionText: 'The shop has 50 oranges. Each bag holds 8 oranges. How many full bags can they fill?',
+    questionText:
+      'The shop has 50 oranges. Each bag holds 8 oranges. How many full bags can they fill?',
     hintText: 'Divide 50 by 8',
     explanation: '50 / 8 = 6 full bags with 2 oranges left over',
     options: [
@@ -453,7 +472,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'Youssef is putting photos in an album.',
-    questionText: 'Youssef has 45 photos. Each page holds 7 photos. How many pages does he fill completely?',
+    questionText:
+      'Youssef has 45 photos. Each page holds 7 photos. How many pages does he fill completely?',
     hintText: 'Divide 45 by 7',
     explanation: '45 / 7 = 6 full pages with 3 photos left over',
     options: [
@@ -469,7 +489,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'The school is giving pencils to students.',
-    questionText: '72 pencils are shared equally among 9 students. How many pencils does each student get?',
+    questionText:
+      '72 pencils are shared equally among 9 students. How many pencils does each student get?',
     hintText: 'Divide 72 by 9',
     explanation: '72 / 9 = 8 pencils each',
     options: [
@@ -485,7 +506,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'A baker is boxing cupcakes for a party.',
-    questionText: 'The baker has 38 cupcakes. Each box holds 6 cupcakes. How many boxes are needed to pack all cupcakes?',
+    questionText:
+      'The baker has 38 cupcakes. Each box holds 6 cupcakes. How many boxes are needed to pack all cupcakes?',
     hintText: 'Divide 38 by 6. Do you need an extra box for the remaining?',
     explanation: '38 / 6 = 6 full boxes with 2 left, so 7 boxes are needed',
     options: [
@@ -513,7 +535,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'The teacher is handing out stickers.',
-    questionText: '56 stickers are shared equally among 8 students. How many stickers does each student get?',
+    questionText:
+      '56 stickers are shared equally among 8 students. How many stickers does each student get?',
     hintText: 'Divide 56 by 8',
     explanation: '56 / 8 = 7 stickers each',
     correctAnswer: '7',
@@ -525,7 +548,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'Dad bought juice bottles for the week.',
-    questionText: 'Dad has 29 juice bottles to share among 3 children equally. How many bottles are left over?',
+    questionText:
+      'Dad has 29 juice bottles to share among 3 children equally. How many bottles are left over?',
     hintText: 'Divide 29 by 3 and find the remainder',
     explanation: '29 / 3 = 9 remainder 2. So 2 bottles are left over',
     correctAnswer: '2',
@@ -588,7 +612,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     realLifeContext: 'Two students are comparing their book collections.',
     questionText: 'Which number is bigger: 2,489 or 2,498?',
     hintText: 'Compare the numbers digit by digit from the left',
-    explanation: '2,489 vs 2,498: thousands and hundreds are equal. Tens: 8 vs 9. So 2,498 is bigger',
+    explanation:
+      '2,489 vs 2,498: thousands and hundreds are equal. Tens: 8 vs 9. So 2,498 is bigger',
     options: [
       { optionText: '2,498', isCorrect: true },
       { optionText: '2,489', isCorrect: false },
@@ -887,7 +912,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 5,
     questionType: 'open_ended',
     realLifeContext: 'Students are lining up in equal rows.',
-    questionText: '15 students want to stand in equal rows. How many students in each row if there are 3 rows?',
+    questionText:
+      '15 students want to stand in equal rows. How many students in each row if there are 3 rows?',
     hintText: 'Divide 15 by 3',
     explanation: '15 / 3 = 5 students per row',
     correctAnswer: '5',
@@ -901,7 +927,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     realLifeContext: 'You are looking at even and odd numbers.',
     questionText: 'How many even numbers are there between 1 and 20 (not including 1 and 20)?',
     hintText: 'List the even numbers: 2, 4, 6, 8, 10, 12, 14, 16, 18',
-    explanation: 'The even numbers between 1 and 20 are: 2, 4, 6, 8, 10, 12, 14, 16, 18 = 9 numbers',
+    explanation:
+      'The even numbers between 1 and 20 are: 2, 4, 6, 8, 10, 12, 14, 16, 18 = 9 numbers',
     correctAnswer: '9',
     correctAnswerNumeric: 9,
   },
@@ -916,7 +943,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'Mom cut a pizza into equal pieces for the family.',
-    questionText: 'A pizza is cut into 8 equal pieces. You ate 3 pieces. What fraction of the pizza did you eat?',
+    questionText:
+      'A pizza is cut into 8 equal pieces. You ate 3 pieces. What fraction of the pizza did you eat?',
     hintText: 'The fraction is pieces you ate over total pieces',
     explanation: 'You ate 3 out of 8 pieces = 3/8',
     options: [
@@ -980,7 +1008,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'Dad cut a watermelon into equal pieces.',
-    questionText: 'Dad cut a watermelon into 6 equal pieces. The family ate 4 pieces. What fraction is left?',
+    questionText:
+      'Dad cut a watermelon into 6 equal pieces. The family ate 4 pieces. What fraction is left?',
     hintText: 'Subtract the eaten pieces from the total, then write as a fraction',
     explanation: '6 - 4 = 2 pieces left. So 2/6 = 1/3 is left',
     options: [
@@ -1028,7 +1057,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'You colored part of a shape in art class.',
-    questionText: 'A rectangle is divided into 10 equal parts. You colored 7 parts. What fraction did you color?',
+    questionText:
+      'A rectangle is divided into 10 equal parts. You colored 7 parts. What fraction did you color?',
     hintText: 'Write colored parts over total parts',
     explanation: 'You colored 7 out of 10 parts = 7/10',
     options: [
@@ -1044,7 +1074,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'open_ended',
     realLifeContext: 'You are sharing a cake with friends.',
-    questionText: 'A cake is cut into 4 equal pieces. You ate 1 piece. What fraction did you eat? Write only the top number (numerator).',
+    questionText:
+      'A cake is cut into 4 equal pieces. You ate 1 piece. What fraction did you eat? Write only the top number (numerator).',
     hintText: 'You ate 1 out of 4 pieces',
     explanation: 'You ate 1/4 of the cake. The numerator is 1',
     correctAnswer: '1',
@@ -1113,7 +1144,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'Mom is weighing fruit at the market.',
-    questionText: 'Mom bought 2 kg of apples and 500 g of dates. What is the total weight in grams?',
+    questionText:
+      'Mom bought 2 kg of apples and 500 g of dates. What is the total weight in grams?',
     hintText: '1 kg = 1,000 g',
     explanation: '2 kg = 2,000 g. Total = 2,000 + 500 = 2,500 g',
     options: [
@@ -1129,7 +1161,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You are filling a water bottle.',
-    questionText: 'Your water bottle holds 750 mL. How much more water do you need to fill a 1 liter jug?',
+    questionText:
+      'Your water bottle holds 750 mL. How much more water do you need to fill a 1 liter jug?',
     hintText: '1 liter = 1,000 mL',
     explanation: '1,000 - 750 = 250 mL more',
     options: [
@@ -1161,7 +1194,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'Dad bought bags of rice.',
-    questionText: 'Dad bought a bag of rice that weighs 3 kg and another that weighs 1,500 g. What is the total weight in kg?',
+    questionText:
+      'Dad bought a bag of rice that weighs 3 kg and another that weighs 1,500 g. What is the total weight in kg?',
     hintText: 'Convert 1,500 g to kg first (divide by 1,000)',
     explanation: '1,500 g = 1.5 kg. Total = 3 + 1.5 = 4.5 kg',
     options: [
@@ -1193,7 +1227,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You are making juice for a party.',
-    questionText: 'You need 3 liters of juice. You have 1 liter and 800 mL. How much more do you need?',
+    questionText:
+      'You need 3 liters of juice. You have 1 liter and 800 mL. How much more do you need?',
     hintText: 'Convert everything to mL. 3 liters = 3,000 mL, 1 liter 800 mL = 1,800 mL',
     explanation: '3,000 - 1,800 = 1,200 mL = 1 liter 200 mL',
     options: [
@@ -1209,7 +1244,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You weighed yourself and your school bag.',
-    questionText: 'You weigh 35 kg and your school bag weighs 4,000 g. What is the total weight in kg?',
+    questionText:
+      'You weigh 35 kg and your school bag weighs 4,000 g. What is the total weight in kg?',
     hintText: 'Convert 4,000 g to kg (4,000 / 1,000 = 4)',
     explanation: '4,000 g = 4 kg. Total = 35 + 4 = 39 kg',
     options: [
@@ -1237,7 +1273,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You are pouring milk into glasses.',
-    questionText: 'A milk carton has 1 liter. You poured 400 mL into a glass. How many mL are left in the carton?',
+    questionText:
+      'A milk carton has 1 liter. You poured 400 mL into a glass. How many mL are left in the carton?',
     hintText: '1 liter = 1,000 mL. Subtract what you poured',
     explanation: '1,000 - 400 = 600 mL',
     correctAnswer: '600',
@@ -1261,7 +1298,8 @@ export const level1QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You are measuring a ribbon for a gift.',
-    questionText: 'You need 2 pieces of ribbon. One is 60 cm and the other is 85 cm. How many cm of ribbon do you need in total?',
+    questionText:
+      'You need 2 pieces of ribbon. One is 60 cm and the other is 85 cm. How many cm of ribbon do you need in total?',
     hintText: 'Add the two lengths',
     explanation: '60 + 85 = 145 cm',
     correctAnswer: '145',

@@ -52,7 +52,8 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'على الخريطة، كل 1 سم بيمثل 50 كم في الحقيقة. المسافة بين مدينتين على الخريطة 4 سم.',
+    realLifeContext:
+      'على الخريطة، كل 1 سم بيمثل 50 كم في الحقيقة. المسافة بين مدينتين على الخريطة 4 سم.',
     questionText: 'كم كيلومتر المسافة الحقيقية بين المدينتين؟',
     hintText: 'اضرب عدد السنتيمترات في 50',
     explanation: '4 × 50 = 200 كم',
@@ -100,7 +101,8 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'على الخريطة، كل 2 سم بيمثل 70 كم. المسافة على الخريطة بين القاهرة والمنصورة 3 سم.',
+    realLifeContext:
+      'على الخريطة، كل 2 سم بيمثل 70 كم. المسافة على الخريطة بين القاهرة والمنصورة 3 سم.',
     questionText: 'كم كيلومتر تقريبًا المسافة الحقيقية؟',
     hintText: 'لو 2 سم = 70 كم، يكون 1 سم = 35 كم',
     explanation: '1 سم = 70 ÷ 2 = 35 كم، يكون 3 سم = 35 × 3 = 105 كم',
@@ -132,7 +134,8 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'وصفة الكيكة بتقول 2 بيضة لكل 1 كوباية دقيق. يريد تعمل كيكة كبيرة بـ 5 كوبايات دقيق.',
+    realLifeContext:
+      'وصفة الكيكة بتقول 2 بيضة لكل 1 كوباية دقيق. يريد تعمل كيكة كبيرة بـ 5 كوبايات دقيق.',
     questionText: 'محتاج كم بيضة؟',
     hintText: 'النسبة بيض : دقيق = 2 : 1',
     explanation: 'لكل كوباية دقيق محتاج 2 بيضة، يكون 5 × 2 = 10 بيضات',
@@ -172,7 +175,8 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'open_ended',
-    realLifeContext: 'يريد تعمل لون برتقالي. النسبة: 2 أجزاء أحمر لكل 3 أجزاء أصفر. استخدمت 8 أجزاء أحمر.',
+    realLifeContext:
+      'يريد تعمل لون برتقالي. النسبة: 2 أجزاء أحمر لكل 3 أجزاء أصفر. استخدمت 8 أجزاء أحمر.',
     questionText: 'محتاج كم جزء أصفر؟',
     correctAnswer: '12',
     correctAnswerNumeric: 12,
@@ -675,7 +679,8 @@ export const level4Questions: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'mcq',
-    realLifeContext: 'أحمد وسارة ومحمد عندهم بلي. أحمد عنده ضعف اللي عند سارة. محمد عنده زي سارة. المجموع 32.',
+    realLifeContext:
+      'أحمد وسارة ومحمد عندهم بلي. أحمد عنده ضعف اللي عند سارة. محمد عنده زي سارة. المجموع 32.',
     questionText: 'كم بلية عند سارة؟',
     hintText: 'لو سارة = س، يكون أحمد = 2س ومحمد = س',
     explanation: 'س + 2س + س = 32، يكون 4س = 32، يكون س = 8',

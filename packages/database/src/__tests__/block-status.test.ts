@@ -3,7 +3,9 @@ import { isBlockedError } from '../services/block-status.service';
 
 describe('isBlockedError', () => {
   it('matches the canonical Telegram 403 error message', () => {
-    const err = new Error("GrammyError: Call to 'sendMessage' failed! (403: Forbidden: bot was blocked by the user)");
+    const err = new Error(
+      "GrammyError: Call to 'sendMessage' failed! (403: Forbidden: bot was blocked by the user)",
+    );
     expect(isBlockedError(err)).toBe(true);
   });
 

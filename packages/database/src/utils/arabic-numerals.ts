@@ -2,9 +2,7 @@
  * Convert Eastern Arabic-Indic digits (0123456789) to Western digits (0123456789).
  */
 export function normalizeArabicNumerals(input: string): string {
-  return input.replace(/[\u0660-\u0669]/g, (char) =>
-    String(char.charCodeAt(0) - 0x0660),
-  );
+  return input.replace(/[\u0660-\u0669]/g, (char) => String(char.charCodeAt(0) - 0x0660));
 }
 
 /**
@@ -52,10 +50,6 @@ export function parseNumericAnswer(input: string): number | null {
 /**
  * Check if a numeric answer is correct within a tolerance.
  */
-export function isNumericMatch(
-  parsed: number,
-  correct: number,
-  tolerance = 0.01,
-): boolean {
+export function isNumericMatch(parsed: number, correct: number, tolerance = 0.01): boolean {
   return Math.abs(parsed - correct) <= tolerance;
 }

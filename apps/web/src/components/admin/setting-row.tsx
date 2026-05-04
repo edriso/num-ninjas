@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
-import { updateSettingAction } from "@/app/admin/settings/actions";
+import { useState, useRef } from 'react';
+import { updateSettingAction } from '@/app/admin/settings/actions';
 
 type Setting = {
   id: number;
@@ -12,10 +12,10 @@ type Setting = {
 };
 
 const typeLabels: Record<string, string> = {
-  string: "Text",
-  integer: "Number",
-  boolean: "Boolean",
-  time: "Time",
+  string: 'Text',
+  integer: 'Number',
+  boolean: 'Boolean',
+  time: 'Time',
 };
 
 export function SettingRow({ setting }: { setting: Setting }) {
@@ -29,7 +29,7 @@ export function SettingRow({ setting }: { setting: Setting }) {
       await updateSettingAction(formData);
       setEditing(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSaving(false);
     }
@@ -52,7 +52,7 @@ export function SettingRow({ setting }: { setting: Setting }) {
               autoFocus
               className="border border-gray-300 rounded px-2 py-1 text-sm w-40 focus:outline-none focus:ring-2 focus:ring-gray-300"
               onKeyDown={(e) => {
-                if (e.key === "Escape") setEditing(false);
+                if (e.key === 'Escape') setEditing(false);
               }}
             />
             <button
@@ -60,7 +60,7 @@ export function SettingRow({ setting }: { setting: Setting }) {
               disabled={saving}
               className="text-green-600 hover:text-green-700 text-sm font-medium disabled:opacity-50"
             >
-              {saving ? "..." : "Save"}
+              {saving ? '...' : 'Save'}
             </button>
             <button
               type="button"
@@ -85,9 +85,7 @@ export function SettingRow({ setting }: { setting: Setting }) {
           {typeLabels[setting.type] ?? setting.type}
         </span>
       </td>
-      <td className="px-4 py-3 text-gray-500">
-        {setting.description ?? "-"}
-      </td>
+      <td className="px-4 py-3 text-gray-500">{setting.description ?? '-'}</td>
     </tr>
   );
 }

@@ -1,8 +1,8 @@
-import { prisma } from "@numninjas/database";
-import { NextResponse } from "next/server";
+import { prisma } from '@numninjas/database';
+import { NextResponse } from 'next/server';
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic"; // never cache health checks
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic'; // never cache health checks
 
 /**
  * Health check endpoint for Cloudflare / Hostinger / external monitors.
@@ -21,15 +21,15 @@ export async function GET() {
   try {
     await prisma.$queryRaw`SELECT 1`;
     return NextResponse.json({
-      status: "ok",
-      database: "ok",
+      status: 'ok',
+      database: 'ok',
       latencyMs: Date.now() - startedAt,
     });
   } catch (err) {
     return NextResponse.json(
       {
-        status: "degraded",
-        database: "unreachable",
+        status: 'degraded',
+        database: 'unreachable',
         error: String(err),
       },
       { status: 503 },

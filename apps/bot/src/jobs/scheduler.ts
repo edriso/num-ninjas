@@ -63,55 +63,77 @@ function trackedJob<T extends CronRunStats | void>(
  */
 export function startScheduler(bot: Bot<BotContext>) {
   tasks.push(
-    cron.schedule('0 0 * * *', trackedJob('resetStreaks', resetStreaks),
-      { timezone: CAIRO_TZ }),
+    cron.schedule('0 0 * * *', trackedJob('resetStreaks', resetStreaks), { timezone: CAIRO_TZ }),
   );
 
   // 01:30 not 00:30: Egypt DST springs from 00:00→01:00, skipping 00:30
   tasks.push(
-    cron.schedule('30 1 * * *', trackedJob('prepareScheduledQuestions', prepareScheduledQuestions),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '30 1 * * *',
+      trackedJob('prepareScheduledQuestions', prepareScheduledQuestions),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('30 14 * * *', trackedJob('sendFirstQuestion', () => sendFirstQuestion(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '30 14 * * *',
+      trackedJob('sendFirstQuestion', () => sendFirstQuestion(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('0 18 * * *', trackedJob('sendEngagementNudges', () => sendEngagementNudges(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '0 18 * * *',
+      trackedJob('sendEngagementNudges', () => sendEngagementNudges(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('30 19 * * *', trackedJob('sendReminder', () => sendReminder(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '30 19 * * *',
+      trackedJob('sendReminder', () => sendReminder(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('0 22 * * 0', trackedJob('sendParentReports', () => sendParentReports(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '0 22 * * 0',
+      trackedJob('sendParentReports', () => sendParentReports(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('0 23 * * 0', trackedJob('runWeeklyRanking', () => runWeeklyRanking(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '0 23 * * 0',
+      trackedJob('runWeeklyRanking', () => runWeeklyRanking(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   // Cron fires every day 28-31; the job itself no-ops on non-last days.
   tasks.push(
-    cron.schedule('0 23 28-31 * *', trackedJob('runMonthlyRanking', () => runMonthlyRanking(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '0 23 28-31 * *',
+      trackedJob('runMonthlyRanking', () => runMonthlyRanking(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('0 23 31 12 *', trackedJob('runYearlyRanking', () => runYearlyRanking(bot)),
-      { timezone: CAIRO_TZ }),
+    cron.schedule(
+      '0 23 31 12 *',
+      trackedJob('runYearlyRanking', () => runYearlyRanking(bot)),
+      { timezone: CAIRO_TZ },
+    ),
   );
 
   tasks.push(
-    cron.schedule('0 3 * * 1', trackedJob('runCleanup', runCleanup),
-      { timezone: CAIRO_TZ }),
+    cron.schedule('0 3 * * 1', trackedJob('runCleanup', runCleanup), { timezone: CAIRO_TZ }),
   );
 
   logger.info('Scheduler started with 10 jobs (Cairo time)');

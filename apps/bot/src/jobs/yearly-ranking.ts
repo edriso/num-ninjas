@@ -32,9 +32,16 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   const champion = rankings[0];
   const championBadge = yearlyBadges.find((b) => b.name === 'أسطورة العام');
   if (champion && championBadge) {
-    await awardBadge(champion.userId, championBadge.id, yearLabel, yearStart,
+    await awardBadge(
+      champion.userId,
+      championBadge.id,
+      yearLabel,
+      yearStart,
       `${champion.correctCount} صح · ${champion.activeDays} يوم`,
-      { periodLabelEn: yearLabel, metricSummaryEn: `${champion.correctCount} correct · ${champion.activeDays} days` },
+      {
+        periodLabelEn: yearLabel,
+        metricSummaryEn: `${champion.correctCount} correct · ${champion.activeDays} days`,
+      },
     );
   }
 
@@ -53,10 +60,10 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
     if (byAccuracy.length > 0) {
       const s = byAccuracy[0];
       const acc = Math.round((s.correctCount / (s.correctCount + s.wrongCount)) * 100);
-      await awardBadge(s.userId, smartestBadge.id, yearLabel, yearStart,
-        `${acc}% دقة`,
-        { periodLabelEn: yearLabel, metricSummaryEn: `${acc}% accuracy` },
-      );
+      await awardBadge(s.userId, smartestBadge.id, yearLabel, yearStart, `${acc}% دقة`, {
+        periodLabelEn: yearLabel,
+        metricSummaryEn: `${acc}% accuracy`,
+      });
     }
   }
 

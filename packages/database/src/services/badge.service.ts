@@ -18,7 +18,11 @@ export async function awardBadge(
         user_badge_period: { userId, badgeId, periodStart },
       },
       create: {
-        userId, badgeId, periodLabel, periodStart, metricSummary,
+        userId,
+        badgeId,
+        periodLabel,
+        periodStart,
+        metricSummary,
         periodLabelEn: options?.periodLabelEn,
         metricSummaryEn: options?.metricSummaryEn,
       },
@@ -60,7 +64,10 @@ export async function checkAchievements(userId: number) {
           `سلسلة ${days} يوم`,
           today,
           `${user.streakDays} يوم متواصل`,
-          { periodLabelEn: `${days} day streak`, metricSummaryEn: `${user.streakDays} consecutive days` },
+          {
+            periodLabelEn: `${days} day streak`,
+            metricSummaryEn: `${user.streakDays} consecutive days`,
+          },
         );
       }
     }
@@ -76,14 +83,10 @@ export async function checkAchievements(userId: number) {
       where: { name: 'مئة سؤال', badgeType: 'achievement' },
     });
     if (badge) {
-      await awardBadge(
-        userId,
-        badge.id,
-        '100 إجابة صحيحة',
-        today,
-        `${totalCorrect} إجابة صحيحة`,
-        { periodLabelEn: '100 correct answers', metricSummaryEn: `${totalCorrect} correct answers` },
-      );
+      await awardBadge(userId, badge.id, '100 إجابة صحيحة', today, `${totalCorrect} إجابة صحيحة`, {
+        periodLabelEn: '100 correct answers',
+        metricSummaryEn: `${totalCorrect} correct answers`,
+      });
     }
   }
 }

@@ -65,7 +65,10 @@ export async function withCronRun<T>(
   } catch (err) {
     // Note: can't use logger here without a circular import — services don't
     // know about apps/bot's logger wrapper. Swallow with stderr only.
-    console.warn('[cron-run] Failed to record start row, continuing without tracking', { name, error: String(err) });
+    console.warn('[cron-run] Failed to record start row, continuing without tracking', {
+      name,
+      error: String(err),
+    });
   }
 
   const track = (incoming: CronRunStats) => {
@@ -163,7 +166,9 @@ export async function getCronRunOverview(sinceDays = 30): Promise<CronRunSummary
         select: { startedAt: true, success: true, durationMs: true, finishedAt: true },
       }),
       prisma.cronRun.count({ where: { name, startedAt: { gte: since } } }),
-      prisma.cronRun.count({ where: { name, startedAt: { gte: since }, success: false, finishedAt: { not: null } } }),
+      prisma.cronRun.count({
+        where: { name, startedAt: { gte: since }, success: false, finishedAt: { not: null } },
+      }),
     ]);
 
     summaries.push({

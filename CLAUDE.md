@@ -17,14 +17,14 @@ num-ninjas/
 
 ## Tech Stack
 
-| Part | Stack |
-|------|-------|
-| Bot | TypeScript, Grammy, node-cron, Node.js 20+ |
-| Website | Next.js 16 (App Router, `proxy.ts` not `middleware.ts`), Tailwind CSS v4, Auth.js v5 |
-| Database | Prisma 7 (prisma-client-js), MySQL (both dev and production) |
-| Testing | Vitest (161 unit tests in database package) |
-| Shared | @numninjas/database — services, utils, types, Prisma client |
-| Package Manager | pnpm workspaces |
+| Part            | Stack                                                                                |
+| --------------- | ------------------------------------------------------------------------------------ |
+| Bot             | TypeScript, Grammy, node-cron, Node.js 20+                                           |
+| Website         | Next.js 16 (App Router, `proxy.ts` not `middleware.ts`), Tailwind CSS v4, Auth.js v5 |
+| Database        | Prisma 7 (prisma-client-js), MySQL (both dev and production)                         |
+| Testing         | Vitest (161 unit tests in database package)                                          |
+| Shared          | @numninjas/database — services, utils, types, Prisma client                          |
+| Package Manager | pnpm workspaces                                                                      |
 
 ## Development Commands
 
@@ -69,6 +69,7 @@ pnpm db:reset             # DELETE all data + re-seed (dev only!)
 ## Environment Variables
 
 Each app has its own .env file:
+
 - `packages/database/.env` — DATABASE_URL, ADMIN_EMAIL, ADMIN_PASSWORD (for Prisma CLI + seed)
 - `apps/bot/.env` — BOT_TOKEN, ADMIN_TELEGRAM_ID, CHANNEL_USERNAME, DATABASE_URL, NODE_ENV
 - `apps/web/.env.local` — DATABASE_URL, AUTH_SECRET, AUTH_URL, NODE_ENV, PORT
@@ -83,29 +84,33 @@ Production DATABASE_URL uses the Hostinger MySQL hostname (`srvXXXX.hstgr.io` fr
 - **Table names**: plural snake_case via `@@map()` (users, questions)
 - **Files**: kebab-case (account.service.ts, arabic-numerals.ts)
 - **Seed files**: questions-levelX.ts in prisma/seeds/
-- **Test files**: *.test.ts in src/__tests__/
+- **Test files**: \*.test.ts in src/**tests**/
 
 ## Question Content Guidelines
 
 When writing or generating new questions:
 
 **Language — Spacetoon Arabic:**
+
 - Use أنت not إنت, كم not كام, يريد not عايز, أصدقاء not صحاب
 - Use يكون not يبقى, يأخذ not ياخد, يتبقى not يفضل
 - Short energetic sentences, warm but not childish
 - بابا/ماما/خالتي are fine (universal family terms, not dialect)
 
 **Numbers — always Western digits:**
+
 - Use 3, 5, 15, 420 — NOT ٣، ٥، ١٥، ٤٢٠
 - Arab schools use Western digits (1, 2, 3) in math class
 - This applies to ALL Arabic text: questions, options, explanations, UI
 
 **Healthy lifestyle — no junk food:**
+
 - Never use: شيبسي, بونبون, شوكولاتة, حلويات, بسكويت, كولا, بيبسي
 - Instead use: تفاح, موز, تمر, عصير, فواكه, خضروات, حليب, ماء
 - Food scenarios should model healthy eating habits
 
 **Real-life contexts:**
+
 - Shopping (supermarket, school supplies, clothes)
 - School (students, classroom, exams)
 - Sports and outdoor activities
@@ -116,6 +121,7 @@ When writing or generating new questions:
 ## Architecture Notes
 
 ### Bot (apps/bot/)
+
 ```
 src/
 ├── config.ts           → Reads BOT_TOKEN, ADMIN_TELEGRAM_ID from .env
@@ -131,6 +137,7 @@ src/
 ```
 
 ### Website (apps/web/)
+
 ```
 src/
 ├── auth.ts             → Auth.js v5 config (credentials provider)
@@ -154,6 +161,7 @@ src/
 ```
 
 ### Database Package (packages/database/)
+
 ```
 src/
 ├── client.ts           → Prisma singleton with @prisma/adapter-mariadb (MySQL)
@@ -172,6 +180,7 @@ pnpm --filter @numninjas/database test:watch  # Watch mode
 ```
 
 Tests cover:
+
 - Arabic numeral parsing (fractions, mixed numbers, Arabic digits, unit stripping)
 - Cairo timezone calculations
 - Fisher-Yates shuffle correctness
@@ -192,6 +201,7 @@ Emojis in RTL text appear on the wrong side. Patterns used:
 ## Child Safety
 
 This app is for kids ages 10-12. Follow these rules:
+
 - **No direct messaging links** from child profiles — use "Copy Link" not Telegram/WhatsApp share
 - **No personal data collection** — bot only asks for nickname, not real name or school
 - **Privacy toggle** — users can set profile to private (isPublic: false) to hide from leaderboard links
@@ -203,7 +213,7 @@ This app is for kids ages 10-12. Follow these rules:
 - **`pnpm db:generate`**: Must run after any schema change — the generated client is in node_modules
 - **`pnpm db:reset`**: Destroys all data — dev only
 - **BigInt**: Telegram IDs are BigInt in Prisma. Safe to convert to Number() since Telegram IDs are < 2^53
-- **Proxy can't import Prisma**: The Next.js 16 proxy (`apps/web/src/proxy.ts`, formerly `middleware.ts` in Next 15) runs in Edge Runtime and only checks for cookie *presence* — it can't validate the JWT because Auth.js + Prisma don't run on Edge. Therefore every admin page and Server Action must call `requireAdmin()` (from `apps/web/src/lib/require-admin.ts`) at the top to enforce real authentication. The proxy is the first-line filter; `requireAdmin()` is the actual gate.
+- **Proxy can't import Prisma**: The Next.js 16 proxy (`apps/web/src/proxy.ts`, formerly `middleware.ts` in Next 15) runs in Edge Runtime and only checks for cookie _presence_ — it can't validate the JWT because Auth.js + Prisma don't run on Edge. Therefore every admin page and Server Action must call `requireAdmin()` (from `apps/web/src/lib/require-admin.ts`) at the top to enforce real authentication. The proxy is the first-line filter; `requireAdmin()` is the actual gate.
 - **Bot imports use @numninjas/database**: Never import from relative service/util paths in bot code. Always from the package.
 - **ScheduledQuestion is per-user**: Not per-level. Each kid gets personalized questions based on their weak topics.
 - **Rankings are per-level**: A Level 1 kid only competes with other Level 1 kids. Monthly/yearly are global.

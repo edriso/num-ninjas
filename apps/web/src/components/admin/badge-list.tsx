@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 import {
   createBadgeAction,
   updateBadgeAction,
   deleteBadgeAction,
-} from "@/app/admin/badges/actions";
+} from '@/app/admin/badges/actions';
 
 type Badge = {
   id: number;
@@ -18,22 +18,22 @@ type Badge = {
 };
 
 const badgeTypeLabels: Record<string, string> = {
-  achievement: "Achievement",
-  weekly_rank: "Weekly Rank",
-  monthly_rank: "Monthly Rank",
-  yearly_rank: "Yearly Rank",
+  achievement: 'Achievement',
+  weekly_rank: 'Weekly Rank',
+  monthly_rank: 'Monthly Rank',
+  yearly_rank: 'Yearly Rank',
 };
 
 const badgeTypeOptions = [
-  { value: "achievement", label: "Achievement" },
-  { value: "weekly_rank", label: "Weekly Rank" },
-  { value: "monthly_rank", label: "Monthly Rank" },
-  { value: "yearly_rank", label: "Yearly Rank" },
+  { value: 'achievement', label: 'Achievement' },
+  { value: 'weekly_rank', label: 'Weekly Rank' },
+  { value: 'monthly_rank', label: 'Monthly Rank' },
+  { value: 'yearly_rank', label: 'Yearly Rank' },
 ];
 
 const inputClass =
-  "border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300";
-const labelClass = "block text-xs font-medium text-gray-500 mb-1";
+  'border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300';
+const labelClass = 'block text-xs font-medium text-gray-500 mb-1';
 
 export function BadgeList({ badges }: { badges: Badge[] }) {
   const [showCreate, setShowCreate] = useState(false);
@@ -47,7 +47,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       await createBadgeAction(formData);
       setShowCreate(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -59,7 +59,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       await updateBadgeAction(formData);
       setEditingId(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -71,7 +71,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
       await deleteBadgeAction(formData);
       setDeletingId(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -86,7 +86,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
           onClick={() => setShowCreate(!showCreate)}
           className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800"
         >
-          {showCreate ? "Cancel" : "Add Badge +"}
+          {showCreate ? 'Cancel' : 'Add Badge +'}
         </button>
       </div>
 
@@ -100,31 +100,50 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Name *</label>
-              <input type="text" name="name" required className={inputClass + " w-full"} autoFocus />
+              <input
+                type="text"
+                name="name"
+                required
+                className={inputClass + ' w-full'}
+                autoFocus
+              />
             </div>
             <div>
               <label className={labelClass}>Icon</label>
-              <input type="text" name="iconEmoji" className={inputClass + " w-full"} placeholder="e.g. 🏆" />
+              <input
+                type="text"
+                name="iconEmoji"
+                className={inputClass + ' w-full'}
+                placeholder="e.g. 🏆"
+              />
             </div>
             <div>
               <label className={labelClass}>Award Title</label>
-              <input type="text" name="awardTitle" className={inputClass + " w-full"} />
+              <input type="text" name="awardTitle" className={inputClass + ' w-full'} />
             </div>
             <div>
               <label className={labelClass}>Type *</label>
-              <select name="badgeType" required className={inputClass + " w-full"}>
+              <select name="badgeType" required className={inputClass + ' w-full'}>
                 {badgeTypeOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <label className={labelClass}>Rank Position</label>
-              <input type="number" name="rankPosition" min={1} className={inputClass + " w-full"} placeholder="Optional" />
+              <input
+                type="number"
+                name="rankPosition"
+                min={1}
+                className={inputClass + ' w-full'}
+                placeholder="Optional"
+              />
             </div>
             <div className="md:col-span-2">
               <label className={labelClass}>Description</label>
-              <input type="text" name="description" className={inputClass + " w-full"} />
+              <input type="text" name="description" className={inputClass + ' w-full'} />
             </div>
           </div>
           <button
@@ -132,7 +151,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
             disabled={submitting}
             className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
           >
-            {submitting ? "Adding..." : "Add Badge"}
+            {submitting ? 'Adding...' : 'Add Badge'}
           </button>
         </form>
       )}
@@ -164,19 +183,37 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
                           className="text-gray-300 hover:text-gray-600 p-1"
                           title="Edit"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                            />
                           </svg>
                         </button>
-                        {badge.badgeType === "achievement" && (
-                          deletingId === badge.id ? (
+                        {badge.badgeType === 'achievement' &&
+                          (deletingId === badge.id ? (
                             <form action={handleDelete} className="flex items-center gap-1">
                               <input type="hidden" name="id" value={badge.id} />
                               <span className="text-xs text-red-600">Sure?</span>
-                              <button type="submit" disabled={submitting} className="text-red-600 hover:text-red-700 text-xs font-medium disabled:opacity-50">
+                              <button
+                                type="submit"
+                                disabled={submitting}
+                                className="text-red-600 hover:text-red-700 text-xs font-medium disabled:opacity-50"
+                              >
                                 Yes
                               </button>
-                              <button type="button" onClick={() => setDeletingId(null)} className="text-gray-400 hover:text-gray-600 text-xs">
+                              <button
+                                type="button"
+                                onClick={() => setDeletingId(null)}
+                                className="text-gray-400 hover:text-gray-600 text-xs"
+                              >
                                 No
                               </button>
                             </form>
@@ -189,12 +226,21 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
                               className="text-gray-300 hover:text-red-500 p-1"
                               title="Delete"
                             >
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
                               </svg>
                             </button>
-                          )
-                        )}
+                          ))}
                       </div>
                     </div>
                     {badge.awardTitle && (
@@ -214,9 +260,7 @@ export function BadgeList({ badges }: { badges: Badge[] }) {
         ))}
       </div>
 
-      {badges.length === 0 && (
-        <div className="text-center text-gray-400 py-12">No badges</div>
-      )}
+      {badges.length === 0 && <div className="text-center text-gray-400 py-12">No badges</div>}
     </div>
   );
 }
@@ -241,31 +285,66 @@ function BadgeEditForm({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className={labelClass}>Name *</label>
-          <input type="text" name="name" defaultValue={badge.name} required className={inputClass + " w-full"} autoFocus />
+          <input
+            type="text"
+            name="name"
+            defaultValue={badge.name}
+            required
+            className={inputClass + ' w-full'}
+            autoFocus
+          />
         </div>
         <div>
           <label className={labelClass}>Icon</label>
-          <input type="text" name="iconEmoji" defaultValue={badge.iconEmoji ?? ""} className={inputClass + " w-full"} />
+          <input
+            type="text"
+            name="iconEmoji"
+            defaultValue={badge.iconEmoji ?? ''}
+            className={inputClass + ' w-full'}
+          />
         </div>
         <div>
           <label className={labelClass}>Award Title</label>
-          <input type="text" name="awardTitle" defaultValue={badge.awardTitle ?? ""} className={inputClass + " w-full"} />
+          <input
+            type="text"
+            name="awardTitle"
+            defaultValue={badge.awardTitle ?? ''}
+            className={inputClass + ' w-full'}
+          />
         </div>
         <div>
           <label className={labelClass}>Type *</label>
-          <select name="badgeType" defaultValue={badge.badgeType} required className={inputClass + " w-full"}>
+          <select
+            name="badgeType"
+            defaultValue={badge.badgeType}
+            required
+            className={inputClass + ' w-full'}
+          >
             {badgeTypeOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
             ))}
           </select>
         </div>
         <div>
           <label className={labelClass}>Rank Position</label>
-          <input type="number" name="rankPosition" defaultValue={badge.rankPosition ?? ""} min={1} className={inputClass + " w-full"} />
+          <input
+            type="number"
+            name="rankPosition"
+            defaultValue={badge.rankPosition ?? ''}
+            min={1}
+            className={inputClass + ' w-full'}
+          />
         </div>
         <div>
           <label className={labelClass}>Description</label>
-          <input type="text" name="description" defaultValue={badge.description ?? ""} className={inputClass + " w-full"} />
+          <input
+            type="text"
+            name="description"
+            defaultValue={badge.description ?? ''}
+            className={inputClass + ' w-full'}
+          />
         </div>
       </div>
       <div className="flex items-center gap-2 pt-2">
@@ -274,7 +353,7 @@ function BadgeEditForm({
           disabled={submitting}
           className="bg-gray-900 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-gray-800 disabled:opacity-50"
         >
-          {submitting ? "..." : "Save"}
+          {submitting ? '...' : 'Save'}
         </button>
         <button
           type="button"

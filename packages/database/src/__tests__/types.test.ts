@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  QUESTION_TYPE,
-  BADGE_TYPE,
-  SESSION_STATE,
-  SETTING_TYPE,
-} from '../types';
+import { QUESTION_TYPE, BADGE_TYPE, SESSION_STATE, SETTING_TYPE } from '../types';
 
 describe('QUESTION_TYPE', () => {
   it('should have MCQ value of "mcq"', () => {
@@ -117,8 +112,6 @@ describe('SETTING_TYPE', () => {
 
   it('should contain only expected values', () => {
     const values = Object.values(SETTING_TYPE);
-    expect(values).toEqual(
-      expect.arrayContaining(['integer', 'string', 'time', 'boolean']),
-    );
+    expect(values).toEqual(expect.arrayContaining(['integer', 'string', 'time', 'boolean']));
   });
 });

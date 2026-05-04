@@ -41,8 +41,7 @@ export const msg = {
   activeMarker: ' ◀️ يلعب',
 
   // ─── Levels ───────────────────────────────────────────────────────
-  levelItem: (emoji: string, name: string, desc: string) =>
-    `${emoji} *${name}*\n${desc}`,
+  levelItem: (emoji: string, name: string, desc: string) => `${emoji} *${name}*\n${desc}`,
 
   // ─── Commands ─────────────────────────────────────────────────────
   help:

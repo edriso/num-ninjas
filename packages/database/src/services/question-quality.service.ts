@@ -33,7 +33,7 @@ export interface QuestionQualityRow {
   skipCount: number; // attempts where the kid hit Skip (recorded as user_answer = null + isCorrect = false)
   hintCount: number;
   wrongRate: number; // wrongCount / totalAttempts
-  skipRate: number;  // skipCount / totalAttempts
+  skipRate: number; // skipCount / totalAttempts
   hintRate: number;
 }
 

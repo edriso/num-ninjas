@@ -55,12 +55,15 @@ export async function computeRankings(
   if (attempts.length === 0) return [];
 
   // Aggregate per user
-  const userMap = new Map<number, {
-    correctCount: number;
-    wrongCount: number;
-    hintCount: number;
-    activeDays: Set<string>;
-  }>();
+  const userMap = new Map<
+    number,
+    {
+      correctCount: number;
+      wrongCount: number;
+      hintCount: number;
+      activeDays: Set<string>;
+    }
+  >();
 
   for (const a of attempts) {
     let entry = userMap.get(a.userId);
@@ -88,7 +91,13 @@ export async function computeRankings(
   const userIds = [...userMap.keys()].filter((id) => completedUsers.has(id));
   const users = await prisma.user.findMany({
     where: { id: { in: userIds } },
-    select: { id: true, nickname: true, username: true, isPublic: true, level: { select: { name: true, iconEmoji: true } } },
+    select: {
+      id: true,
+      nickname: true,
+      username: true,
+      isPublic: true,
+      level: { select: { name: true, iconEmoji: true } },
+    },
   });
   const userInfoMap = new Map(users.map((u) => [u.id, u]));
 
@@ -201,12 +210,15 @@ export async function computeMonthlyCategories(start: Date, end: Date, levelId?:
 
   if (attempts.length === 0) return { mostActive: null, sharpest: null, independent: null };
 
-  const userMap = new Map<number, {
-    total: number;
-    correct: number;
-    hints: number;
-    days: Set<string>;
-  }>();
+  const userMap = new Map<
+    number,
+    {
+      total: number;
+      correct: number;
+      hints: number;
+      days: Set<string>;
+    }
+  >();
 
   for (const a of attempts) {
     let entry = userMap.get(a.userId);
@@ -236,13 +248,11 @@ export async function computeMonthlyCategories(start: Date, end: Date, levelId?:
 
   const mostActive = [...entries].sort((a, b) => b.activeDays - a.activeDays)[0] || null;
 
-  const sharpest = entries
-    .filter((e) => e.total >= 5)
-    .sort((a, b) => b.accuracy - a.accuracy)[0] || null;
+  const sharpest =
+    entries.filter((e) => e.total >= 5).sort((a, b) => b.accuracy - a.accuracy)[0] || null;
 
-  const independent = entries
-    .filter((e) => e.total >= 5)
-    .sort((a, b) => a.hints - b.hints)[0] || null;
+  const independent =
+    entries.filter((e) => e.total >= 5).sort((a, b) => a.hints - b.hints)[0] || null;
 
   return { mostActive, sharpest, independent };
 }

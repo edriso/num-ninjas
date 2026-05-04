@@ -7,7 +7,9 @@ Ideas for future development, ordered by impact. Check off items as they're impl
 ## High Impact — Should Do
 
 ### Admin Analytics Dashboard
+
 Replace the simple stats cards with proper charts:
+
 - Daily active users over 30 days (line chart)
 - Completion rate by level (bar chart)
 - Most-failed topics (highlight weak areas in the curriculum)
@@ -18,10 +20,13 @@ Replace the simple stats cards with proper charts:
 ---
 
 ### Broadcast Command
+
 Let the admin send a message to all users from Telegram:
+
 ```
 /admin_broadcast مسابقة خاصة يوم الجمعة! 🎉
 ```
+
 Also post to the @NumNinjas channel.
 
 **How:** New handler in `admin.ts`, iterate all accounts, send via `bot.api.sendMessage`. Add rate limiting (Telegram allows ~30 messages/second).
@@ -29,6 +34,7 @@ Also post to the @NumNinjas channel.
 ---
 
 ### Question Images
+
 The schema already has `imageUrl` on questions, but no questions use it.
 Visual questions (geometry, graphs, clock faces) would make levels 3-5 much more engaging.
 
@@ -39,7 +45,9 @@ Visual questions (geometry, graphs, clock faces) would make levels 3-5 much more
 ## Medium Impact — Nice to Have
 
 ### Unlockable Fun Facts
+
 After completing a daily session, show a random math fun fact or joke:
+
 - "هل تعلم أن الصفر اخترعه العرب؟ 🌟"
 - "كلمة 'الجبر' عربية الأصل — من كتاب الخوارزمي! 📚"
 
@@ -48,6 +56,7 @@ After completing a daily session, show a random math fun fact or joke:
 ---
 
 ### Streak Recovery
+
 Currently, missing one day resets the streak to 0. This is harsh for kids.
 Consider a "freeze" system: earn a streak freeze every 7 days, which protects one missed day.
 
@@ -56,7 +65,9 @@ Consider a "freeze" system: earn a streak freeze every 7 days, which protects on
 ---
 
 ### Topic Progress in Profile
+
 Show per-topic progress in the `/profile` command:
+
 ```
 📊 تقدمك في الحزام الأصفر:
 ✅ الكسور — 90% (ممتاز!)
@@ -69,7 +80,9 @@ Show per-topic progress in the `/profile` command:
 ---
 
 ### Parents-Only Group (after scale)
+
 Once the community reaches ~500+ users, create a Telegram group for parents:
+
 - Share tips on helping kids with math
 - Discuss the curriculum
 - Admins answer questions
@@ -79,6 +92,7 @@ Once the community reaches ~500+ users, create a Telegram group for parents:
 ---
 
 ### More Languages
+
 - French for North Africa (Morocco, Tunisia, Algeria)
 - Urdu for Pakistan (large Muslim market, similar curriculum)
 
@@ -89,18 +103,23 @@ Once the community reaches ~500+ users, create a Telegram group for parents:
 ## Lower Priority — Future Vision
 
 ### Class/School Mode
+
 A teacher creates a "class" and adds students. They see a class leaderboard and can assign specific topics.
 
 ### Parent-Child Linking
+
 Currently, profiles are managed within one Telegram account. Consider a system where a parent can link to their child's separate Telegram account.
 
 ### Voice Questions
+
 Send audio questions (narrated math word problems) for younger kids who struggle with reading.
 
 ### Competitions
+
 Scheduled live competitions where all Level 3 kids compete simultaneously on the same 5 questions within a 10-minute window.
 
 ### Mobile App
+
 If the bot outgrows Telegram, build a dedicated mobile app with offline support, animations, and sound effects.
 
 ---

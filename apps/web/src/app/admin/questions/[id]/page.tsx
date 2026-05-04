@@ -1,14 +1,10 @@
-import { prisma, getQuestionById } from "@numninjas/database";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { QuestionForm } from "@/components/admin/question-form";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma, getQuestionById } from '@numninjas/database';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { QuestionForm } from '@/components/admin/question-form';
+import { requireAdmin } from '@/lib/require-admin';
 
-export default async function EditQuestionPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditQuestionPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
   const questionId = Number(id);
@@ -18,8 +14,8 @@ export default async function EditQuestionPage({
   const [question, levels] = await Promise.all([
     getQuestionById(questionId),
     prisma.level.findMany({
-      orderBy: { rankOrder: "asc" },
-      include: { topics: { orderBy: { orderInLevel: "asc" } } },
+      orderBy: { rankOrder: 'asc' },
+      include: { topics: { orderBy: { orderInLevel: 'asc' } } },
     }),
   ]);
 
@@ -28,16 +24,11 @@ export default async function EditQuestionPage({
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Link
-          href="/admin/questions"
-          className="text-gray-400 hover:text-gray-600"
-        >
+        <Link href="/admin/questions" className="text-gray-400 hover:text-gray-600">
           Questions
         </Link>
         <span className="text-gray-300">/</span>
-        <h1 className="text-2xl font-bold text-gray-900">
-          Edit Question #{question.id}
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900">Edit Question #{question.id}</h1>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">

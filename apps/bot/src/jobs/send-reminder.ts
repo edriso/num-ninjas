@@ -1,6 +1,13 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, todayCairoAsUtcMidnight, getSettingBool, getSettingInt, logger, isSleeping } from '@numninjas/database';
+import {
+  prisma,
+  todayCairoAsUtcMidnight,
+  getSettingBool,
+  getSettingInt,
+  logger,
+  isSleeping,
+} from '@numninjas/database';
 import { handleSendError } from '../bot/helpers/send-errors';
 
 /**
@@ -40,11 +47,13 @@ export async function sendReminder(bot: Bot<BotContext>) {
 
     // Skip sleeping users — we're not sending them daily questions anyway,
     // so a "you haven't answered today's questions" reminder makes no sense.
-    if (isSleeping({
-      lastActiveAt: account.activeProfile.lastActiveAt,
-      createdAt: account.activeProfile.createdAt,
-      now,
-    })) {
+    if (
+      isSleeping({
+        lastActiveAt: account.activeProfile.lastActiveAt,
+        createdAt: account.activeProfile.createdAt,
+        now,
+      })
+    ) {
       skippedSleeping++;
       continue;
     }
@@ -77,27 +86,28 @@ export async function sendReminder(bot: Bot<BotContext>) {
 
       if (!session || session.questionsAnswered === 0) {
         // Hasn't started
-        const text = locale === 'en'
-          ? `👋 Hey *${name}*! You haven't answered today's questions yet\n\n` +
-            `🥷 A true ninja trains every day!\n` +
-            `Send /start to begin 💪`
-          : `👋 يا *${name}*! لم تجب على أسئلة اليوم بعد\n\n` +
-            `🥷 النينجا الحقيقي يتدرب كل يوم!\n` +
-            `أرسل /start لتبدأ 💪`;
+        const text =
+          locale === 'en'
+            ? `👋 Hey *${name}*! You haven't answered today's questions yet\n\n` +
+              `🥷 A true ninja trains every day!\n` +
+              `Send /start to begin 💪`
+            : `👋 يا *${name}*! لم تجب على أسئلة اليوم بعد\n\n` +
+              `🥷 النينجا الحقيقي يتدرب كل يوم!\n` +
+              `أرسل /start لتبدأ 💪`;
         await bot.api.sendMessage(chatId, text, { parse_mode: 'Markdown' });
       } else {
         // Started but didn't finish
         const remaining = questionsPerDay - session.questionsAnswered;
-        const questionWord = locale === 'en'
-          ? (remaining === 1 ? 'question' : 'questions')
-          : 'سؤال';
-        const text = locale === 'en'
-          ? `💪 Hey *${name}*! You only have ${remaining} ${questionWord} left!\n\n` +
-            `Finish to keep your streak going 🔥\n` +
-            `Send /start to continue`
-          : `💪 يا *${name}*! بقي لك ${remaining} ${questionWord} فقط!\n\n` +
-            `أكمل للحفاظ على سلسلتك 🔥\n` +
-            `أرسل /start لتكمل`;
+        const questionWord =
+          locale === 'en' ? (remaining === 1 ? 'question' : 'questions') : 'سؤال';
+        const text =
+          locale === 'en'
+            ? `💪 Hey *${name}*! You only have ${remaining} ${questionWord} left!\n\n` +
+              `Finish to keep your streak going 🔥\n` +
+              `Send /start to continue`
+            : `💪 يا *${name}*! بقي لك ${remaining} ${questionWord} فقط!\n\n` +
+              `أكمل للحفاظ على سلسلتك 🔥\n` +
+              `أرسل /start لتكمل`;
         await bot.api.sendMessage(chatId, text, { parse_mode: 'Markdown' });
       }
       sent++;

@@ -1,6 +1,12 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, getWeekStart, getSettingInt, getTopicStrengths, logger } from '@numninjas/database';
+import {
+  prisma,
+  getWeekStart,
+  getSettingInt,
+  getTopicStrengths,
+  logger,
+} from '@numninjas/database';
 import { handleSendError } from '../bot/helpers/send-errors';
 import { escapeMd } from '../bot/helpers/escape-md';
 
@@ -65,7 +71,7 @@ export async function sendParentReports(bot: Bot<BotContext>) {
           .filter((s) => s.totalAttempts > 0 && s.accuracy < 0.7)
           .sort((a, b) => a.accuracy - b.accuracy)
           .slice(0, 2)
-          .map((s) => isEn ? (s.topicNameEn || s.topicName) : s.topicName);
+          .map((s) => (isEn ? s.topicNameEn || s.topicName : s.topicName));
 
         const safeNickname = escapeMd(user.nickname);
         let summary = isEn

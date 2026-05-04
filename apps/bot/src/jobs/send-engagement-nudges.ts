@@ -59,9 +59,10 @@ export async function sendEngagementNudges(bot: Bot<BotContext>) {
   for (const c of userCandidates) {
     const chatId = Number(c.telegramId);
     const m = getMessages(c.locale);
-    const text = c.cohort === 'never_engaged'
-      ? m.nudgeNeverEngaged(c.nickname)
-      : m.nudgeWentSilent(c.nickname);
+    const text =
+      c.cohort === 'never_engaged'
+        ? m.nudgeNeverEngaged(c.nickname)
+        : m.nudgeWentSilent(c.nickname);
     try {
       await bot.api.sendMessage(chatId, text, { parse_mode: 'Markdown' });
       await markUserNudged(c.userId, now);

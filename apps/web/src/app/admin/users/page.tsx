@@ -1,6 +1,6 @@
-import { prisma } from "@numninjas/database";
-import { requireAdmin } from "@/lib/require-admin";
-import Link from "next/link";
+import { prisma } from '@numninjas/database';
+import { requireAdmin } from '@/lib/require-admin';
+import Link from 'next/link';
 
 const PAGE_SIZE = 50;
 
@@ -19,7 +19,7 @@ export default async function UsersPage({
   // there's no reason to make it sequential with the findMany.
   const [users, total] = await Promise.all([
     prisma.user.findMany({
-      orderBy: { totalPoints: "desc" },
+      orderBy: { totalPoints: 'desc' },
       include: { account: true, level: true },
       skip,
       take: PAGE_SIZE,
@@ -36,7 +36,7 @@ export default async function UsersPage({
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Users</h1>
         <span className="text-sm text-gray-500">
-          {total} {total === 1 ? "user" : "users"} · page {page} of {totalPages}
+          {total} {total === 1 ? 'user' : 'users'} · page {page} of {totalPages}
         </span>
       </div>
 
@@ -55,26 +55,22 @@ export default async function UsersPage({
             <tbody className="divide-y divide-gray-100">
               {users.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">
-                    {user.nickname}
-                  </td>
+                  <td className="px-4 py-3 font-medium text-gray-900">{user.nickname}</td>
                   <td className="px-4 py-3">
                     {user.level.iconEmoji} {user.level.name}
                   </td>
                   <td className="px-4 py-3">{user.totalPoints}</td>
                   <td className="px-4 py-3">
                     {user.streakDays > 0 ? (
-                      <span className="text-orange-600">
-                        {user.streakDays} days
-                      </span>
+                      <span className="text-orange-600">{user.streakDays} days</span>
                     ) : (
                       <span className="text-gray-400">-</span>
                     )}
                   </td>
                   <td className="px-4 py-3 text-gray-500">
                     {user.lastActiveAt
-                      ? user.lastActiveAt.toLocaleDateString("en-US")
-                      : "Never active"}
+                      ? user.lastActiveAt.toLocaleDateString('en-US')
+                      : 'Never active'}
                   </td>
                 </tr>
               ))}
@@ -91,12 +87,12 @@ export default async function UsersPage({
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4 text-sm">
           <Link
-            href={hasPrev ? `?page=${page - 1}` : "#"}
+            href={hasPrev ? `?page=${page - 1}` : '#'}
             aria-disabled={!hasPrev}
             className={`px-4 py-2 rounded-lg border ${
               hasPrev
-                ? "border-gray-200 bg-white hover:bg-gray-50 text-gray-700"
-                : "border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed pointer-events-none"
+                ? 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
+                : 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed pointer-events-none'
             }`}
           >
             ← Previous
@@ -105,12 +101,12 @@ export default async function UsersPage({
             Showing {skip + 1}–{Math.min(skip + PAGE_SIZE, total)} of {total}
           </span>
           <Link
-            href={hasNext ? `?page=${page + 1}` : "#"}
+            href={hasNext ? `?page=${page + 1}` : '#'}
             aria-disabled={!hasNext}
             className={`px-4 py-2 rounded-lg border ${
               hasNext
-                ? "border-gray-200 bg-white hover:bg-gray-50 text-gray-700"
-                : "border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed pointer-events-none"
+                ? 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'
+                : 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed pointer-events-none'
             }`}
           >
             Next →

@@ -649,7 +649,8 @@ export const level4QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 4,
     questionType: 'mcq',
-    realLifeContext: 'Omar buys 4 notebooks. Each notebook costs p pounds. He pays 60 pounds total.',
+    realLifeContext:
+      'Omar buys 4 notebooks. Each notebook costs p pounds. He pays 60 pounds total.',
     questionText: 'Which equation can help find the price of one notebook?',
     hintText: '4 notebooks times the price of each = total',
     explanation: '4 times p = 60, written as 4p = 60',
@@ -798,7 +799,8 @@ export const level4QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'A teacher divides students into equal groups. 5 groups with x students each makes 35 students.',
+    realLifeContext:
+      'A teacher divides students into equal groups. 5 groups with x students each makes 35 students.',
     questionText: 'If 5x = 35, what is x?',
     hintText: 'Divide 35 by 5',
     explanation: 'x = 35 / 5 = 7',
@@ -1011,7 +1013,8 @@ export const level4QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'mcq',
-    realLifeContext: 'A boat travels at 20 km per hour. It needs to cross a lake that is 100 km wide.',
+    realLifeContext:
+      'A boat travels at 20 km per hour. It needs to cross a lake that is 100 km wide.',
     questionText: 'How many hours will the trip take?',
     hintText: 'Time = Distance / Speed',
     explanation: 'Time = 100 / 20 = 5 hours',
@@ -1027,7 +1030,8 @@ export const level4QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'mcq',
-    realLifeContext: 'Sara runs at 8 km per hour. Mona runs at 6 km per hour. They both run for 2 hours.',
+    realLifeContext:
+      'Sara runs at 8 km per hour. Mona runs at 6 km per hour. They both run for 2 hours.',
     questionText: 'How much farther does Sara run than Mona?',
     hintText: 'Find each distance, then subtract',
     explanation: 'Sara: 8 x 2 = 16 km. Mona: 6 x 2 = 12 km. Difference = 16 - 12 = 4 km',
@@ -1176,7 +1180,8 @@ export const level4QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'Mona bought 4 items: a notebook for 10 pounds, a pen for 5 pounds, an eraser for 3 pounds, and a ruler for 2 pounds.',
+    realLifeContext:
+      'Mona bought 4 items: a notebook for 10 pounds, a pen for 5 pounds, an eraser for 3 pounds, and a ruler for 2 pounds.',
     questionText: 'What is the average price of the items?',
     hintText: 'Add all prices and divide by 4',
     explanation: '10 + 5 + 3 + 2 = 20. 20 / 4 = 5 pounds',
@@ -1248,7 +1253,8 @@ export const level4QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'The average height of 5 students is 140 cm. Four of them are 135, 145, 130, and 150 cm.',
+    realLifeContext:
+      'The average height of 5 students is 140 cm. Four of them are 135, 145, 130, and 150 cm.',
     questionText: 'What is the height of the fifth student?',
     hintText: 'Total = 140 x 5 = 700. Subtract the four known heights',
     explanation: 'Total = 700. Fifth = 700 - 135 - 145 - 130 - 150 = 140 cm',

@@ -38,7 +38,9 @@ function createPrismaClient() {
   return new PrismaClient({ adapter });
 }
 
-const globalForPrisma = globalThis as unknown as { __prisma: ReturnType<typeof createPrismaClient> };
+const globalForPrisma = globalThis as unknown as {
+  __prisma: ReturnType<typeof createPrismaClient>;
+};
 const prisma = globalForPrisma.__prisma ?? createPrismaClient();
 if (process.env.NODE_ENV !== 'production') globalForPrisma.__prisma = prisma;
 

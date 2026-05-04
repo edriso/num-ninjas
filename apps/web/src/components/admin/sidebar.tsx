@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { logout } from "@/app/admin/actions";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { logout } from '@/app/admin/actions';
 import {
   LayoutDashboard,
   HelpCircle,
@@ -19,20 +19,20 @@ import {
   LogOut,
   Menu,
   X,
-} from "lucide-react";
+} from 'lucide-react';
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/questions", label: "Questions", icon: HelpCircle },
-  { href: "/admin/topics", label: "Topics", icon: BookOpen },
-  { href: "/admin/levels", label: "Levels", icon: Layers },
-  { href: "/admin/badges", label: "Badges", icon: Award },
-  { href: "/admin/users", label: "Users", icon: Users },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
-  { href: "/admin/scheduled", label: "Scheduled", icon: CalendarClock },
-  { href: "/admin/cron", label: "Cron Runs", icon: Activity },
-  { href: "/admin/quality", label: "Quality", icon: AlertTriangle },
-  { href: "/admin/announce", label: "Announce", icon: Megaphone },
+  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/questions', label: 'Questions', icon: HelpCircle },
+  { href: '/admin/topics', label: 'Topics', icon: BookOpen },
+  { href: '/admin/levels', label: 'Levels', icon: Layers },
+  { href: '/admin/badges', label: 'Badges', icon: Award },
+  { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin/scheduled', label: 'Scheduled', icon: CalendarClock },
+  { href: '/admin/cron', label: 'Cron Runs', icon: Activity },
+  { href: '/admin/quality', label: 'Quality', icon: AlertTriangle },
+  { href: '/admin/announce', label: 'Announce', icon: Megaphone },
 ];
 
 export function AdminSidebar({ email }: { email: string }) {
@@ -40,7 +40,7 @@ export function AdminSidebar({ email }: { email: string }) {
   const [open, setOpen] = useState(false);
 
   const isActive = (href: string) => {
-    if (href === "/admin") return pathname === "/admin";
+    if (href === '/admin') return pathname === '/admin';
     return pathname.startsWith(href);
   };
 
@@ -64,8 +64,8 @@ export function AdminSidebar({ email }: { email: string }) {
               onClick={() => setOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                 active
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
               <Icon size={18} />
@@ -101,16 +101,13 @@ export function AdminSidebar({ email }: { email: string }) {
 
       {/* Mobile overlay */}
       {open && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/50 z-30 md:hidden" onClick={() => setOpen(false)} />
       )}
 
       {/* Sidebar */}
       <aside
         className={`fixed md:static inset-y-0 left-0 z-40 w-64 bg-gray-800 flex flex-col transition-transform md:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {sidebarContent}

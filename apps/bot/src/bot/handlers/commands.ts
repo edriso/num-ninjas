@@ -2,7 +2,15 @@ import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session';
 import { getMsg } from '../helpers/get-msg';
 import { getMessages } from '../messages';
-import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, updateUsername, logger } from '@numninjas/database';
+import {
+  prisma,
+  getUserBadges,
+  computeRankings,
+  getWeekStart,
+  getActiveProfile,
+  updateUsername,
+  logger,
+} from '@numninjas/database';
 import { buildLevelKeyboard } from '../keyboards/level';
 import { escapeMd } from '../helpers/escape-md';
 import { CB, cbBuild } from '../callbacks';
@@ -61,10 +69,12 @@ export async function handleProfile(ctx: BotContext) {
 
   // Compute accuracy
   const totalAttempts = await prisma.questionAttempt.count({ where: { userId: profileId } });
-  const correctAttempts = await prisma.questionAttempt.count({ where: { userId: profileId, isCorrect: true } });
+  const correctAttempts = await prisma.questionAttempt.count({
+    where: { userId: profileId, isCorrect: true },
+  });
   const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
 
-  const levelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
+  const levelName = locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
 
   const safeNickname = escapeMd(user.nickname);
   let text: string;
@@ -111,7 +121,7 @@ export async function handleProfile(ctx: BotContext) {
   if (badges.length > 0) {
     text += locale === 'en' ? '\n\n*Recent badges:*\n' : '\n\n*آخر الشارات:*\n';
     for (const ub of badges.slice(0, 5)) {
-      const badgeName = (locale === 'en' && ub.badge.nameEn) ? ub.badge.nameEn : ub.badge.name;
+      const badgeName = locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name;
       text += `${ub.badge.iconEmoji || '🏅'} ${badgeName} — ${ub.periodLabel}\n`;
     }
   }
@@ -121,17 +131,18 @@ export async function handleProfile(ctx: BotContext) {
     text += `\n🔗 numninjas.com/profile/${user.username}`;
   }
 
-  const keyboard = locale === 'en'
-    ? new InlineKeyboard()
-        .text('✏️ Change name', CB.editNickname)
-        .text('🥷 Change level', CB.editLevel)
-        .row()
-        .text('🔗 Change username', CB.editUsername)
-    : new InlineKeyboard()
-        .text('✏️ تغيير الاسم', CB.editNickname)
-        .text('🥷 تغيير المستوى', CB.editLevel)
-        .row()
-        .text('🔗 تغيير اسم المستخدم', CB.editUsername);
+  const keyboard =
+    locale === 'en'
+      ? new InlineKeyboard()
+          .text('✏️ Change name', CB.editNickname)
+          .text('🥷 Change level', CB.editLevel)
+          .row()
+          .text('🔗 Change username', CB.editUsername)
+      : new InlineKeyboard()
+          .text('✏️ تغيير الاسم', CB.editNickname)
+          .text('🥷 تغيير المستوى', CB.editLevel)
+          .row()
+          .text('🔗 تغيير اسم المستخدم', CB.editUsername);
 
   await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
@@ -157,12 +168,13 @@ export async function handleRank(ctx: BotContext) {
   weekEnd.setUTCDate(weekEnd.getUTCDate() + 7);
 
   const rankings = await computeRankings(weekStart, weekEnd, user.levelId, 'accuracy');
-  const levelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
+  const levelName = locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
 
   if (rankings.length === 0) {
-    const noRankText = locale === 'en'
-      ? '📊 No rankings yet this week. Start answering questions! 💪'
-      : '📊 لا يوجد ترتيب بعد هذا الأسبوع. ابدأ بالإجابة على الأسئلة! 💪';
+    const noRankText =
+      locale === 'en'
+        ? '📊 No rankings yet this week. Start answering questions! 💪'
+        : '📊 لا يوجد ترتيب بعد هذا الأسبوع. ابدأ بالإجابة على الأسئلة! 💪';
     await ctx.reply(noRankText);
     return;
   }
@@ -195,7 +207,7 @@ export async function handleRank(ctx: BotContext) {
   if (recentBadges.length > 0) {
     text += locale === 'en' ? '\n\n🏆 *Ninja Champions*\n' : '\n\n🏆 *أبطال النينجا*\n';
     for (const ub of recentBadges) {
-      const badgeName = (locale === 'en' && ub.badge.nameEn) ? ub.badge.nameEn : ub.badge.name;
+      const badgeName = locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name;
       text += `${ub.badge.iconEmoji || '🏅'} *${escapeMd(ub.user.nickname)}* — ${badgeName}\n`;
     }
   }
@@ -218,20 +230,23 @@ export async function handleHall(ctx: BotContext) {
   });
 
   if (recentBadges.length === 0) {
-    const noChampText = locale === 'en'
-      ? '🏆 No champions yet. Be the first! 🏆'
-      : '🏆 لا يوجد أبطال بعد. كن أول بطل! 🏆';
+    const noChampText =
+      locale === 'en'
+        ? '🏆 No champions yet. Be the first! 🏆'
+        : '🏆 لا يوجد أبطال بعد. كن أول بطل! 🏆';
     await ctx.reply(noChampText);
     return;
   }
 
-  let text = locale === 'en'
-    ? '🏆 *Ninja Champions*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n'
-    : '🏆 *أبطال النينجا*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  let text =
+    locale === 'en'
+      ? '🏆 *Ninja Champions*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n'
+      : '🏆 *أبطال النينجا*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
   for (const ub of recentBadges) {
-    const badgeName = (locale === 'en' && ub.badge.nameEn) ? ub.badge.nameEn : ub.badge.name;
+    const badgeName = locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name;
     text += `${ub.badge.iconEmoji || '🏅'} *${ub.user.nickname}* — ${badgeName}`;
-    const awardTitle = (locale === 'en' && ub.badge.awardTitleEn) ? ub.badge.awardTitleEn : ub.badge.awardTitle;
+    const awardTitle =
+      locale === 'en' && ub.badge.awardTitleEn ? ub.badge.awardTitleEn : ub.badge.awardTitle;
     if (awardTitle) text += ` (${awardTitle})`;
     text += `\n   ${ub.periodLabel}\n`;
   }
@@ -294,15 +309,17 @@ export async function handleLevel(ctx: BotContext) {
 
   const { keyboard, levels } = await buildLevelKeyboard(locale);
 
-  const userLevelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
-  let levelInfo = locale === 'en'
-    ? `Current level: ${user.level.iconEmoji || '🥷'} *${userLevelName}*\n\nChoose a new level:\n\n`
-    : `المستوى الحالي: ${user.level.iconEmoji || '🥷'} *${userLevelName}*\n\nاختر مستوى جديداً:\n\n`;
+  const userLevelName = locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
+  let levelInfo =
+    locale === 'en'
+      ? `Current level: ${user.level.iconEmoji || '🥷'} *${userLevelName}*\n\nChoose a new level:\n\n`
+      : `المستوى الحالي: ${user.level.iconEmoji || '🥷'} *${userLevelName}*\n\nاختر مستوى جديداً:\n\n`;
 
   for (const level of levels) {
     const current = level.id === user.levelId ? ' ◀️' : '';
-    const levelName = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
-    const levelDesc = (locale === 'en' && level.descriptionEn) ? level.descriptionEn : (level.description || '');
+    const levelName = locale === 'en' && level.nameEn ? level.nameEn : level.name;
+    const levelDesc =
+      locale === 'en' && level.descriptionEn ? level.descriptionEn : level.description || '';
     levelInfo += `${level.iconEmoji || '🥷'} *${levelName}* — ${levelDesc}${current}\n`;
   }
 
@@ -356,15 +373,16 @@ export async function handleEditUsername(ctx: BotContext) {
   ctx.session.pendingData.changingUsername = true;
   await ctx.answerCallbackQuery();
 
-  const promptText = locale === 'en'
-    ? '🔗 Send me the new username:\n\n' +
-      'Rules: lowercase letters (a-z), numbers (0-9), underscore (_)\n' +
-      'Length: 3 to 20 characters\n' +
-      'Example: ahmed_123, ninja_star, math_pro'
-    : '🔗 أرسل لي اسم المستخدم الجديد:\n\n' +
-      'القواعد: حروف إنجليزية صغيرة (a-z)، أرقام (0-9)، شرطة سفلية (_)\n' +
-      'الطول: 3 إلى 20 حرفاً\n' +
-      'مثال: ahmed_123, ninja_star, math_pro';
+  const promptText =
+    locale === 'en'
+      ? '🔗 Send me the new username:\n\n' +
+        'Rules: lowercase letters (a-z), numbers (0-9), underscore (_)\n' +
+        'Length: 3 to 20 characters\n' +
+        'Example: ahmed_123, ninja_star, math_pro'
+      : '🔗 أرسل لي اسم المستخدم الجديد:\n\n' +
+        'القواعد: حروف إنجليزية صغيرة (a-z)، أرقام (0-9)، شرطة سفلية (_)\n' +
+        'الطول: 3 إلى 20 حرفاً\n' +
+        'مثال: ahmed_123, ninja_star, math_pro';
   await ctx.reply(promptText);
 }
 
@@ -377,27 +395,29 @@ export async function handleUsernameInput(ctx: BotContext, text: string): Promis
     await updateUsername(profileId, text);
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
-    const successText = locale === 'en'
-      ? `✅ Username changed to *${text}*\n🔗 numninjas.com/profile/${text}`
-      : `✅ تم تغيير اسم المستخدم إلى *${text}*\n🔗 numninjas.com/profile/${text}`;
+    const successText =
+      locale === 'en'
+        ? `✅ Username changed to *${text}*\n🔗 numninjas.com/profile/${text}`
+        : `✅ تم تغيير اسم المستخدم إلى *${text}*\n🔗 numninjas.com/profile/${text}`;
     await ctx.reply(successText, { parse_mode: 'Markdown' });
     return true;
   } catch (err) {
     const errMsg = (err as Error).message;
     if (errMsg === 'USERNAME_TAKEN') {
-      const takenText = locale === 'en'
-        ? '❌ This username is already taken. Try another:'
-        : '❌ اسم المستخدم هذا مستخدم بالفعل. حاول اسماً آخر:';
+      const takenText =
+        locale === 'en'
+          ? '❌ This username is already taken. Try another:'
+          : '❌ اسم المستخدم هذا مستخدم بالفعل. حاول اسماً آخر:';
       await ctx.reply(takenText);
     } else if (errMsg === 'INVALID_USERNAME') {
-      const invalidText = locale === 'en'
-        ? '❌ Username must be 3-20 characters (letters, numbers, underscore). Try again:'
-        : '❌ اسم المستخدم يجب أن يكون 3-20 حرفاً (حروف، أرقام، شرطة سفلية). حاول مرة أخرى:';
+      const invalidText =
+        locale === 'en'
+          ? '❌ Username must be 3-20 characters (letters, numbers, underscore). Try again:'
+          : '❌ اسم المستخدم يجب أن يكون 3-20 حرفاً (حروف، أرقام، شرطة سفلية). حاول مرة أخرى:';
       await ctx.reply(invalidText);
     } else {
-      const errorText = locale === 'en'
-        ? '⚠️ Something went wrong, try again'
-        : '⚠️ حدثت مشكلة، حاول مرة أخرى';
+      const errorText =
+        locale === 'en' ? '⚠️ Something went wrong, try again' : '⚠️ حدثت مشكلة، حاول مرة أخرى';
       await ctx.reply(errorText);
       ctx.session.state = 'idle';
       ctx.session.pendingData = {};
@@ -412,18 +432,22 @@ export async function handleSettings(ctx: BotContext) {
   const locale = ctx.session.locale || 'ar';
   const profileId = ctx.session.activeProfileId;
 
-  const user = profileId
-    ? await prisma.user.findUnique({ where: { id: profileId } })
-    : null;
+  const user = profileId ? await prisma.user.findUnique({ where: { id: profileId } }) : null;
 
   const langLabel = locale === 'ar' ? 'العربية 🇪🇬' : 'English 🇬🇧';
-  const privacyLabel = user?.isPublic !== false
-    ? (locale === 'en' ? 'Public 🔓' : 'عام 🔓')
-    : (locale === 'en' ? 'Private 🔒' : 'خاص 🔒');
+  const privacyLabel =
+    user?.isPublic !== false
+      ? locale === 'en'
+        ? 'Public 🔓'
+        : 'عام 🔓'
+      : locale === 'en'
+        ? 'Private 🔒'
+        : 'خاص 🔒';
 
-  const text = locale === 'en'
-    ? `⚙️ *Settings*\n\n🌍 Language: *${langLabel}*\n🔒 Profile: *${privacyLabel}*`
-    : `⚙️ *الإعدادات*\n\n🌍 اللغة: *${langLabel}*\n🔒 الملف الشخصي: *${privacyLabel}*`;
+  const text =
+    locale === 'en'
+      ? `⚙️ *Settings*\n\n🌍 Language: *${langLabel}*\n🔒 Profile: *${privacyLabel}*`
+      : `⚙️ *الإعدادات*\n\n🌍 اللغة: *${langLabel}*\n🔒 الملف الشخصي: *${privacyLabel}*`;
 
   const keyboard = new InlineKeyboard()
     .text(locale === 'en' ? '🌍 Change Language' : '🌍 تغيير اللغة', CB.showLang)
@@ -494,13 +518,14 @@ export async function handlePrivacy(ctx: BotContext) {
     .text(locale === 'en' ? '🔓 Public' : '🔓 عام', cbBuild(CB.setPrivacy, 'true'))
     .text(locale === 'en' ? '🔒 Private' : '🔒 خاص', cbBuild(CB.setPrivacy, 'false'));
 
-  const text = locale === 'en'
-    ? `🔒 *Profile Privacy*\n\nYour profile is currently: *${currentStatus ? 'Public 🔓' : 'Private 🔒'}*\n\n` +
-      `Public = your name links to your profile on the leaderboard\n` +
-      `Private = your name shows but no link to your profile`
-    : `🔒 *خصوصية الملف الشخصي*\n\nملفك الشخصي حالياً: *${currentStatus ? 'عام 🔓' : 'خاص 🔒'}*\n\n` +
-      `عام = اسمك في الترتيب يربط بملفك الشخصي\n` +
-      `خاص = اسمك يظهر لكن بدون رابط لملفك`;
+  const text =
+    locale === 'en'
+      ? `🔒 *Profile Privacy*\n\nYour profile is currently: *${currentStatus ? 'Public 🔓' : 'Private 🔒'}*\n\n` +
+        `Public = your name links to your profile on the leaderboard\n` +
+        `Private = your name shows but no link to your profile`
+      : `🔒 *خصوصية الملف الشخصي*\n\nملفك الشخصي حالياً: *${currentStatus ? 'عام 🔓' : 'خاص 🔒'}*\n\n` +
+        `عام = اسمك في الترتيب يربط بملفك الشخصي\n` +
+        `خاص = اسمك يظهر لكن بدون رابط لملفك`;
 
   await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
@@ -514,7 +539,9 @@ export async function handleSetPrivacy(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
 
   if (!profileId) {
-    await ctx.answerCallbackQuery({ text: locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start' });
+    await ctx.answerCallbackQuery({
+      text: locale === 'en' ? 'Choose a player first /start' : 'اختر لاعباً أولاً /start',
+    });
     return;
   }
 
@@ -524,8 +551,9 @@ export async function handleSetPrivacy(ctx: BotContext) {
   });
 
   await ctx.answerCallbackQuery();
-  const text = locale === 'en'
-    ? `✅ Profile is now *${isPublic ? 'Public 🔓' : 'Private 🔒'}*`
-    : `✅ الملف الشخصي الآن *${isPublic ? 'عام 🔓' : 'خاص 🔒'}*`;
+  const text =
+    locale === 'en'
+      ? `✅ Profile is now *${isPublic ? 'Public 🔓' : 'Private 🔒'}*`
+      : `✅ الملف الشخصي الآن *${isPublic ? 'عام 🔓' : 'خاص 🔒'}*`;
   await ctx.editMessageText(text, { parse_mode: 'Markdown' });
 }

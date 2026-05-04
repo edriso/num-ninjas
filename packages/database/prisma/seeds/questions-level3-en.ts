@@ -11,7 +11,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You ate part of a cake and your sister ate a different part.',
-    questionText: 'You ate 1/3 of a cake and your sister ate 1/6. How much cake was eaten in total?',
+    questionText:
+      'You ate 1/3 of a cake and your sister ate 1/6. How much cake was eaten in total?',
     hintText: 'Find a common denominator. 1/3 = 2/6',
     explanation: '1/3 = 2/6. So 2/6 + 1/6 = 3/6 = 1/2',
     options: [
@@ -27,7 +28,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Two friends drank juice from the same bottle.',
-    questionText: 'Ali drank 1/4 of the juice and Omar drank 1/2. How much did they drink together?',
+    questionText:
+      'Ali drank 1/4 of the juice and Omar drank 1/2. How much did they drink together?',
     hintText: 'Convert 1/2 to fourths: 1/2 = 2/4',
     explanation: '1/4 + 2/4 = 3/4',
     options: [
@@ -43,7 +45,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You painted parts of a wall on different days.',
-    questionText: 'On Monday you painted 1/3 of the wall. On Tuesday you painted 1/4. How much did you paint in total?',
+    questionText:
+      'On Monday you painted 1/3 of the wall. On Tuesday you painted 1/4. How much did you paint in total?',
     hintText: 'Common denominator of 3 and 4 is 12. Convert both fractions',
     explanation: '1/3 = 4/12, 1/4 = 3/12. Total = 4/12 + 3/12 = 7/12',
     options: [
@@ -59,7 +62,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'A water tank was partly full.',
-    questionText: 'A tank is 3/4 full. You used 1/2 of the tank for the garden. How much water is left?',
+    questionText:
+      'A tank is 3/4 full. You used 1/2 of the tank for the garden. How much water is left?',
     hintText: 'Convert to the same denominator: 1/2 = 2/4',
     explanation: '3/4 - 2/4 = 1/4',
     options: [
@@ -75,7 +79,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You are baking and mixing two types of flour.',
-    questionText: 'You used 2/5 kg of white flour and 1/3 kg of brown flour. How much flour in total?',
+    questionText:
+      'You used 2/5 kg of white flour and 1/3 kg of brown flour. How much flour in total?',
     hintText: 'Common denominator of 5 and 3 is 15',
     explanation: '2/5 = 6/15, 1/3 = 5/15. Total = 6/15 + 5/15 = 11/15 kg',
     options: [
@@ -91,7 +96,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You walked part of the way to school and rode a bus for the rest.',
-    questionText: 'You walked 1/6 of the way and rode 1/3 of the way. How much of the trip have you done?',
+    questionText:
+      'You walked 1/6 of the way and rode 1/3 of the way. How much of the trip have you done?',
     hintText: '1/3 = 2/6',
     explanation: '1/6 + 2/6 = 3/6 = 1/2',
     options: [
@@ -123,7 +129,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You solved part of a puzzle in the morning and more at night.',
-    questionText: 'You solved 3/8 of a puzzle in the morning and 1/4 at night. How much did you solve in total?',
+    questionText:
+      'You solved 3/8 of a puzzle in the morning and 1/4 at night. How much did you solve in total?',
     hintText: '1/4 = 2/8',
     explanation: '3/8 + 2/8 = 5/8',
     options: [
@@ -139,7 +146,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'You drank milk at breakfast and lunch.',
-    questionText: 'You drank 1/3 of a bottle at breakfast and 1/6 at lunch. What fraction did you drink in total? Write as top/bottom (e.g. 3/6).',
+    questionText:
+      'You drank 1/3 of a bottle at breakfast and 1/6 at lunch. What fraction did you drink in total? Write as top/bottom (e.g. 3/6).',
     hintText: '1/3 = 2/6. Then add 2/6 + 1/6',
     explanation: '2/6 + 1/6 = 3/6',
     correctAnswer: '3/6',
@@ -192,7 +200,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'You are sharing a pizza with friends.',
-    questionText: 'You have 1/2 of a pizza. You eat 1/3 of your piece. What fraction of the whole pizza did you eat?',
+    questionText:
+      'You have 1/2 of a pizza. You eat 1/3 of your piece. What fraction of the whole pizza did you eat?',
     hintText: 'Multiply the fractions: 1/2 x 1/3',
     explanation: '1/2 x 1/3 = 1/6 of the whole pizza',
     options: [
@@ -208,7 +217,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'A recipe needs a fraction of a cup of milk.',
-    questionText: 'A recipe needs 3/4 cup of milk. You want to make half the recipe. How much milk do you need?',
+    questionText:
+      'A recipe needs 3/4 cup of milk. You want to make half the recipe. How much milk do you need?',
     hintText: 'Multiply 3/4 by 1/2',
     explanation: '3/4 x 1/2 = 3/8 cup',
     options: [
@@ -272,7 +282,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'A garden is partly used for flowers.',
-    questionText: '1/4 of a garden is for flowers. 2/3 of the flower area is roses. What fraction of the whole garden is roses?',
+    questionText:
+      '1/4 of a garden is for flowers. 2/3 of the flower area is roses. What fraction of the whole garden is roses?',
     hintText: 'Multiply 1/4 x 2/3',
     explanation: '1/4 x 2/3 = 2/12 = 1/6',
     options: [
@@ -356,7 +367,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'A class is going on a trip.',
-    questionText: 'There are 36 students. 2/9 of them brought lunch from home. How many brought lunch?',
+    questionText:
+      'There are 36 students. 2/9 of them brought lunch from home. How many brought lunch?',
     hintText: '36 / 9 = 4. Then 4 x 2 = ?',
     explanation: '1/9 of 36 = 4. 2/9 of 36 = 8 students',
     correctAnswer: '8',
@@ -373,7 +385,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You are sharing a cake equally.',
-    questionText: 'You have 1/2 of a cake. You want to share it equally between 3 people. What fraction does each person get?',
+    questionText:
+      'You have 1/2 of a cake. You want to share it equally between 3 people. What fraction does each person get?',
     hintText: 'Divide 1/2 by 3: flip 3 to 1/3 and multiply',
     explanation: '1/2 / 3 = 1/2 x 1/3 = 1/6',
     options: [
@@ -389,7 +402,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You are cutting ribbon into equal pieces.',
-    questionText: 'You have 3/4 of a meter of ribbon. You cut it into pieces of 1/4 meter each. How many pieces do you get?',
+    questionText:
+      'You have 3/4 of a meter of ribbon. You cut it into pieces of 1/4 meter each. How many pieces do you get?',
     hintText: 'Divide 3/4 by 1/4: flip 1/4 and multiply',
     explanation: '3/4 / 1/4 = 3/4 x 4/1 = 12/4 = 3 pieces',
     options: [
@@ -421,7 +435,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You are pouring juice into small cups.',
-    questionText: 'You have 4/5 liter of juice. Each cup holds 2/5 liter. How many cups can you fill?',
+    questionText:
+      'You have 4/5 liter of juice. Each cup holds 2/5 liter. How many cups can you fill?',
     hintText: 'Divide 4/5 by 2/5',
     explanation: '4/5 / 2/5 = 4/5 x 5/2 = 20/10 = 2 cups',
     options: [
@@ -453,7 +468,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You are sharing dates equally.',
-    questionText: 'You have 3/4 kg of dates to share between 2 people. How much does each person get?',
+    questionText:
+      'You have 3/4 kg of dates to share between 2 people. How much does each person get?',
     hintText: 'Divide 3/4 by 2',
     explanation: '3/4 / 2 = 3/4 x 1/2 = 3/8 kg each',
     options: [
@@ -485,7 +501,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You are measuring ingredients for cooking.',
-    questionText: 'A recipe needs 1/3 cup of water. You only have a 1/6 cup measure. How many scoops do you need?',
+    questionText:
+      'A recipe needs 1/3 cup of water. You only have a 1/6 cup measure. How many scoops do you need?',
     hintText: 'Divide 1/3 by 1/6',
     explanation: '1/3 / 1/6 = 1/3 x 6/1 = 6/3 = 2 scoops',
     options: [
@@ -501,7 +518,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'You are cutting a rope.',
-    questionText: 'You have 1/2 meter of rope. You cut it into 4 equal pieces. What fraction of a meter is each piece? Write the bottom number.',
+    questionText:
+      'You have 1/2 meter of rope. You cut it into 4 equal pieces. What fraction of a meter is each piece? Write the bottom number.',
     hintText: '1/2 / 4 = 1/2 x 1/4 = 1/8. The bottom number is 8',
     explanation: '1/2 / 4 = 1/8. Each piece is 1/8 meter. Bottom number is 8',
     correctAnswer: '8',
@@ -513,7 +531,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'You are portioning juice.',
-    questionText: 'You have 6/8 liter of juice. Each glass takes 2/8 liter. How many glasses can you fill?',
+    questionText:
+      'You have 6/8 liter of juice. Each glass takes 2/8 liter. How many glasses can you fill?',
     hintText: 'Divide 6/8 by 2/8',
     explanation: '6/8 / 2/8 = 6/8 x 8/2 = 48/16 = 3 glasses',
     correctAnswer: '3',
@@ -537,7 +556,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'You are sharing a bag of dates.',
-    questionText: 'A bag has 2/3 kg of dates. It is shared equally between 4 children. How many twelfths of a kg does each child get? (Hint: 2/3 / 4 = 2/12)',
+    questionText:
+      'A bag has 2/3 kg of dates. It is shared equally between 4 children. How many twelfths of a kg does each child get? (Hint: 2/3 / 4 = 2/12)',
     hintText: '2/3 / 4 = 2/3 x 1/4 = 2/12. How many twelfths?',
     explanation: '2/3 / 4 = 2/12. Each child gets 2 twelfths',
     correctAnswer: '2',
@@ -1097,7 +1117,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You sold lemonade at a school fair.',
-    questionText: 'You spent 30 pounds on lemons and sold lemonade for 50 pounds. What is your profit?',
+    questionText:
+      'You spent 30 pounds on lemons and sold lemonade for 50 pounds. What is your profit?',
     hintText: 'Profit = selling price - cost',
     explanation: '50 - 30 = 20 pounds profit',
     options: [
@@ -1129,7 +1150,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You are planning a weekly budget.',
-    questionText: 'You get 100 pounds per week. You spend 35 on food, 25 on transport, and 15 on school supplies. How much can you save?',
+    questionText:
+      'You get 100 pounds per week. You spend 35 on food, 25 on transport, and 15 on school supplies. How much can you save?',
     hintText: 'Add all expenses and subtract from 100',
     explanation: '35 + 25 + 15 = 75 pounds spent. 100 - 75 = 25 pounds saved',
     options: [
@@ -1145,7 +1167,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'A boy bought bananas and sold them at school.',
-    questionText: 'Omar bought 10 bananas for 2 pounds each. He sold them for 3 pounds each. What is his total profit?',
+    questionText:
+      'Omar bought 10 bananas for 2 pounds each. He sold them for 3 pounds each. What is his total profit?',
     hintText: 'Total cost = 10 x 2. Total selling = 10 x 3. Profit = selling - cost',
     explanation: 'Cost = 20 pounds. Selling = 30 pounds. Profit = 30 - 20 = 10 pounds',
     options: [
@@ -1161,7 +1184,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'A family is budgeting for a trip.',
-    questionText: 'The family has 500 pounds for a trip. Transport costs 150 pounds and food costs 200 pounds. How much is left for fun activities?',
+    questionText:
+      'The family has 500 pounds for a trip. Transport costs 150 pounds and food costs 200 pounds. How much is left for fun activities?',
     hintText: 'Subtract transport and food from the total budget',
     explanation: '500 - 150 - 200 = 150 pounds left',
     options: [
@@ -1177,7 +1201,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'A girl made juice to sell.',
-    questionText: 'Sara spent 24 pounds on fruit. She made 8 cups of juice and sold each for 5 pounds. What is her profit?',
+    questionText:
+      'Sara spent 24 pounds on fruit. She made 8 cups of juice and sold each for 5 pounds. What is her profit?',
     hintText: 'Total sales = 8 x 5. Profit = sales - cost',
     explanation: 'Sales = 8 x 5 = 40 pounds. Profit = 40 - 24 = 16 pounds',
     options: [
@@ -1193,7 +1218,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You are comparing costs at two shops.',
-    questionText: 'Shop A sells 3 kg of rice for 45 pounds. Shop B sells 2 kg of rice for 28 pounds. Which shop has the better price per kg?',
+    questionText:
+      'Shop A sells 3 kg of rice for 45 pounds. Shop B sells 2 kg of rice for 28 pounds. Which shop has the better price per kg?',
     hintText: 'Find cost per kg: Shop A = 45/3, Shop B = 28/2',
     explanation: 'Shop A: 45/3 = 15 pounds/kg. Shop B: 28/2 = 14 pounds/kg. Shop B is cheaper',
     options: [
@@ -1209,7 +1235,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You saved money over 4 weeks.',
-    questionText: 'You saved 15 pounds in week 1, 20 in week 2, 10 in week 3, and 25 in week 4. What is the total saved?',
+    questionText:
+      'You saved 15 pounds in week 1, 20 in week 2, 10 in week 3, and 25 in week 4. What is the total saved?',
     hintText: 'Add all 4 amounts',
     explanation: '15 + 20 + 10 + 25 = 70 pounds',
     options: [
@@ -1225,7 +1252,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You bought and sold dates.',
-    questionText: 'You bought dates for 50 pounds and sold them for 72 pounds. What is your profit?',
+    questionText:
+      'You bought dates for 50 pounds and sold them for 72 pounds. What is your profit?',
     hintText: 'Profit = selling price - cost price',
     explanation: '72 - 50 = 22 pounds',
     correctAnswer: '22',
@@ -1237,7 +1265,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You are making a budget for a school project.',
-    questionText: 'You have 80 pounds. You spend 28 pounds on paper and 17 pounds on colors. How much is left?',
+    questionText:
+      'You have 80 pounds. You spend 28 pounds on paper and 17 pounds on colors. How much is left?',
     hintText: 'Subtract both expenses from 80',
     explanation: '80 - 28 - 17 = 35 pounds',
     correctAnswer: '35',
@@ -1249,7 +1278,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'A boy sells water bottles at a sports event.',
-    questionText: 'He bought 20 bottles at 3 pounds each. He sold them at 5 pounds each. What is his total profit?',
+    questionText:
+      'He bought 20 bottles at 3 pounds each. He sold them at 5 pounds each. What is his total profit?',
     hintText: 'Cost = 20 x 3. Sales = 20 x 5. Profit = sales - cost',
     explanation: 'Cost = 60. Sales = 100. Profit = 100 - 60 = 40 pounds',
     correctAnswer: '40',
@@ -1261,7 +1291,8 @@ export const level3QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You bought a toy and later sold it.',
-    questionText: 'You bought a toy for 65 pounds but could only sell it for 50 pounds. How much money did you lose?',
+    questionText:
+      'You bought a toy for 65 pounds but could only sell it for 50 pounds. How much money did you lose?',
     hintText: 'Loss = cost - selling price',
     explanation: '65 - 50 = 15 pounds loss',
     correctAnswer: '15',

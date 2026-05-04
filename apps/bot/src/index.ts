@@ -21,7 +21,10 @@ async function waitForDatabase(maxRetries = 10): Promise<void> {
       return;
     } catch (err) {
       const delay = Math.min(attempt * 10, 60); // 10s, 20s, 30s... max 60s
-      logger.warn(`[STARTUP] Database not ready (attempt ${attempt}/${maxRetries}), retrying in ${delay}s...`, { error: String(err) });
+      logger.warn(
+        `[STARTUP] Database not ready (attempt ${attempt}/${maxRetries}), retrying in ${delay}s...`,
+        { error: String(err) },
+      );
       await new Promise((r) => setTimeout(r, delay * 1000));
     }
   }

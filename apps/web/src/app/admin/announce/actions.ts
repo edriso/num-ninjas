@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { sendTelegramBroadcast } from "@/lib/telegram-broadcast";
-import { requireAdmin } from "@/lib/require-admin";
+import { sendTelegramBroadcast } from '@/lib/telegram-broadcast';
+import { requireAdmin } from '@/lib/require-admin';
 
 const MAX_LENGTH = 4096; // Telegram's per-message text limit
 
@@ -18,11 +18,11 @@ export async function announceAction(
 ): Promise<AnnounceState> {
   await requireAdmin();
 
-  const ar = ((formData.get("ar") as string) ?? "").trim();
-  const en = ((formData.get("en") as string) ?? "").trim();
+  const ar = ((formData.get('ar') as string) ?? '').trim();
+  const en = ((formData.get('en') as string) ?? '').trim();
 
   if (!ar && !en) {
-    return { error: "Provide at least one message (Arabic and/or English)." };
+    return { error: 'Provide at least one message (Arabic and/or English).' };
   }
   if (ar.length > MAX_LENGTH || en.length > MAX_LENGTH) {
     return { error: `Each message must be at most ${MAX_LENGTH} characters.` };

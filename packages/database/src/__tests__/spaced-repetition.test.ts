@@ -5,7 +5,6 @@ import { REPEAT_INTERVALS } from '../services/spaced-repetition.service';
 // constants and the cooldown math against any future drift.
 
 describe('Spaced Repetition — Interval Logic', () => {
-
   it('wrong answers have the shortest cooldown (2 days)', () => {
     expect(REPEAT_INTERVALS.WRONG).toBe(2);
     expect(REPEAT_INTERVALS.WRONG).toBeLessThan(REPEAT_INTERVALS.HINT_USED);

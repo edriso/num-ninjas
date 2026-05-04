@@ -1,23 +1,23 @@
-"use server";
+'use server';
 
-import { prisma } from "@numninjas/database";
-import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma } from '@numninjas/database';
+import { revalidatePath } from 'next/cache';
+import { requireAdmin } from '@/lib/require-admin';
 
 export async function createTopicAction(formData: FormData) {
   await requireAdmin();
-  const levelId = Number(formData.get("levelId"));
-  const name = (formData.get("name") as string).trim();
-  const description = (formData.get("description") as string)?.trim() || null;
+  const levelId = Number(formData.get('levelId'));
+  const name = (formData.get('name') as string).trim();
+  const description = (formData.get('description') as string)?.trim() || null;
 
   if (!levelId || !name) {
-    throw new Error("Topic name and level are required");
+    throw new Error('Topic name and level are required');
   }
 
   // Auto-assign next orderInLevel
   const lastTopic = await prisma.topic.findFirst({
     where: { levelId },
-    orderBy: { orderInLevel: "desc" },
+    orderBy: { orderInLevel: 'desc' },
   });
   const orderInLevel = (lastTopic?.orderInLevel ?? 0) + 1;
 
@@ -25,18 +25,18 @@ export async function createTopicAction(formData: FormData) {
     data: { levelId, name, description, orderInLevel },
   });
 
-  revalidatePath("/admin/topics");
+  revalidatePath('/admin/topics');
 }
 
 export async function updateTopicAction(formData: FormData) {
   await requireAdmin();
-  const id = Number(formData.get("id"));
-  const name = (formData.get("name") as string).trim();
-  const description = (formData.get("description") as string)?.trim() || null;
-  const orderInLevel = Number(formData.get("orderInLevel"));
+  const id = Number(formData.get('id'));
+  const name = (formData.get('name') as string).trim();
+  const description = (formData.get('description') as string)?.trim() || null;
+  const orderInLevel = Number(formData.get('orderInLevel'));
 
   if (!id || !name || !orderInLevel) {
-    throw new Error("Required data is incomplete");
+    throw new Error('Required data is incomplete');
   }
 
   await prisma.topic.update({
@@ -44,15 +44,15 @@ export async function updateTopicAction(formData: FormData) {
     data: { name, description, orderInLevel },
   });
 
-  revalidatePath("/admin/topics");
+  revalidatePath('/admin/topics');
 }
 
 export async function deleteTopicAction(formData: FormData) {
   await requireAdmin();
-  const id = Number(formData.get("id"));
+  const id = Number(formData.get('id'));
 
   if (!id) {
-    throw new Error("Topic ID is required");
+    throw new Error('Topic ID is required');
   }
 
   // Check if topic has questions
@@ -66,5 +66,5 @@ export async function deleteTopicAction(formData: FormData) {
 
   await prisma.topic.delete({ where: { id } });
 
-  revalidatePath("/admin/topics");
+  revalidatePath('/admin/topics');
 }

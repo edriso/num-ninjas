@@ -1,30 +1,25 @@
-"use server";
+'use server';
 
-import {
-  createQuestion,
-  updateQuestion,
-  deleteQuestion,
-} from "@numninjas/database";
-import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/require-admin";
+import { createQuestion, updateQuestion, deleteQuestion } from '@numninjas/database';
+import { redirect } from 'next/navigation';
+import { requireAdmin } from '@/lib/require-admin';
 
 export async function createQuestionAction(formData: FormData) {
   await requireAdmin();
-  const questionType = formData.get("questionType") as string;
-  const topicId = Number(formData.get("topicId"));
-  const questionText = (formData.get("questionText") as string).trim();
-  const explanation = (formData.get("explanation") as string).trim();
-  const realLifeContext =
-    (formData.get("realLifeContext") as string)?.trim() || undefined;
-  const hintText = (formData.get("hintText") as string)?.trim() || undefined;
+  const questionType = formData.get('questionType') as string;
+  const topicId = Number(formData.get('topicId'));
+  const questionText = (formData.get('questionText') as string).trim();
+  const explanation = (formData.get('explanation') as string).trim();
+  const realLifeContext = (formData.get('realLifeContext') as string)?.trim() || undefined;
+  const hintText = (formData.get('hintText') as string)?.trim() || undefined;
 
   if (!topicId || !questionText || !explanation || !questionType) {
-    throw new Error("Required fields are incomplete");
+    throw new Error('Required fields are incomplete');
   }
 
-  if (questionType === "mcq") {
+  if (questionType === 'mcq') {
     const options: { optionText: string; isCorrect: boolean }[] = [];
-    const correctIndex = Number(formData.get("correctOption"));
+    const correctIndex = Number(formData.get('correctOption'));
 
     for (let i = 0; i < 4; i++) {
       const text = (formData.get(`option${i}Text`) as string)?.trim();
@@ -34,7 +29,7 @@ export async function createQuestionAction(formData: FormData) {
     }
 
     if (options.length < 2) {
-      throw new Error("Multiple choice questions need at least 2 options");
+      throw new Error('Multiple choice questions need at least 2 options');
     }
 
     await createQuestion({
@@ -47,14 +42,13 @@ export async function createQuestionAction(formData: FormData) {
       options,
     });
   } else {
-    const correctAnswer =
-      (formData.get("correctAnswer") as string)?.trim() || undefined;
-    const numericStr = formData.get("correctAnswerNumeric") as string;
+    const correctAnswer = (formData.get('correctAnswer') as string)?.trim() || undefined;
+    const numericStr = formData.get('correctAnswerNumeric') as string;
     const correctAnswerNumeric = numericStr ? parseFloat(numericStr) : undefined;
 
     await createQuestion({
       topicId,
-      questionType: "open_ended",
+      questionType: 'open_ended',
       questionText,
       explanation,
       realLifeContext,
@@ -64,32 +58,29 @@ export async function createQuestionAction(formData: FormData) {
     });
   }
 
-  redirect("/admin/questions");
+  redirect('/admin/questions');
 }
 
 export async function updateQuestionAction(id: number, formData: FormData) {
   await requireAdmin();
-  const topicId = Number(formData.get("topicId"));
-  const questionText = (formData.get("questionText") as string).trim();
-  const explanation = (formData.get("explanation") as string).trim();
-  const realLifeContext =
-    (formData.get("realLifeContext") as string)?.trim() || undefined;
-  const hintText = (formData.get("hintText") as string)?.trim() || undefined;
-  const questionType = formData.get("questionType") as string;
+  const topicId = Number(formData.get('topicId'));
+  const questionText = (formData.get('questionText') as string).trim();
+  const explanation = (formData.get('explanation') as string).trim();
+  const realLifeContext = (formData.get('realLifeContext') as string)?.trim() || undefined;
+  const hintText = (formData.get('hintText') as string)?.trim() || undefined;
+  const questionType = formData.get('questionType') as string;
 
   if (!topicId || !questionText || !explanation || !questionType) {
-    throw new Error("Required fields are incomplete");
+    throw new Error('Required fields are incomplete');
   }
 
   const correctAnswer =
-    questionType === "open_ended"
-      ? ((formData.get("correctAnswer") as string)?.trim() || undefined)
+    questionType === 'open_ended'
+      ? (formData.get('correctAnswer') as string)?.trim() || undefined
       : undefined;
-  const numericStr = formData.get("correctAnswerNumeric") as string;
+  const numericStr = formData.get('correctAnswerNumeric') as string;
   const correctAnswerNumeric =
-    questionType === "open_ended" && numericStr
-      ? parseFloat(numericStr)
-      : undefined;
+    questionType === 'open_ended' && numericStr ? parseFloat(numericStr) : undefined;
 
   await updateQuestion(id, {
     topicId,
@@ -102,11 +93,11 @@ export async function updateQuestionAction(id: number, formData: FormData) {
     correctAnswerNumeric,
   });
 
-  redirect("/admin/questions");
+  redirect('/admin/questions');
 }
 
 export async function deleteQuestionAction(id: number) {
   await requireAdmin();
   await deleteQuestion(id);
-  redirect("/admin/questions");
+  redirect('/admin/questions');
 }

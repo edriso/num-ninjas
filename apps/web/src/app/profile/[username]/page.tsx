@@ -63,9 +63,7 @@ export default async function ProfilePage({ params }: Props) {
         <span className="text-5xl block mb-3">{levelEmoji}</span>
         <h1 className="text-3xl font-bold">{user.nickname}</h1>
         <p className="text-slate-400 mt-1">{levelName}</p>
-        {user.username && (
-          <p className="text-slate-500 text-sm mt-1">@{user.username}</p>
-        )}
+        {user.username && <p className="text-slate-500 text-sm mt-1">@{user.username}</p>}
         <div className="mt-4">
           <CopyLinkButton label={d.profile.copyLink} copiedLabel={d.profile.copied} />
         </div>
@@ -93,7 +91,9 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Badges */}
         <section>
-          <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><span>🏅</span> {d.profile.badges}</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <span>🏅</span> {d.profile.badges}
+          </h2>
           {badges.length === 0 ? (
             <p className="text-slate-500 text-center py-8">{d.profile.noBadges}</p>
           ) : (
@@ -105,16 +105,16 @@ export default async function ProfilePage({ params }: Props) {
                 >
                   <span className="text-2xl">{ub.badge.iconEmoji || '🏅'}</span>
                   <div className="flex-1">
-                    <p className="font-bold text-slate-800">{locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}</p>
+                    <p className="font-bold text-slate-800">
+                      {locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}
+                    </p>
                     <p className="text-sm text-slate-500">
                       {locale === 'en'
-                        ? (ub.metricSummaryEn || ub.badge.descriptionEn || ub.metricSummary || '')
-                        : (ub.metricSummary || ub.periodLabel)}
+                        ? ub.metricSummaryEn || ub.badge.descriptionEn || ub.metricSummary || ''
+                        : ub.metricSummary || ub.periodLabel}
                     </p>
                   </div>
-                  <span className="text-xs text-slate-500">
-                    {formatDate(ub.earnedAt)}
-                  </span>
+                  <span className="text-xs text-slate-500">{formatDate(ub.earnedAt)}</span>
                 </div>
               ))}
             </div>

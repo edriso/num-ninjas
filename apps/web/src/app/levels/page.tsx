@@ -41,7 +41,9 @@ export default async function LevelsPage() {
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
-        <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🥷</span> {d.levels.title}</h1>
+        <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
+          <span>🥷</span> {d.levels.title}
+        </h1>
         <p className="text-slate-400 mt-2">{d.levels.subtitle}</p>
       </header>
 
@@ -56,9 +58,15 @@ export default async function LevelsPage() {
                 {level.iconEmoji || levelEmojis[level.rankOrder] || '🥷'}
               </span>
               <div>
-                <h2 className="text-lg font-bold">{locale === 'en' && level.nameEn ? level.nameEn : level.name}</h2>
+                <h2 className="text-lg font-bold">
+                  {locale === 'en' && level.nameEn ? level.nameEn : level.name}
+                </h2>
                 {(level.description || level.descriptionEn) && (
-                  <p className="text-slate-400 text-sm">{locale === 'en' && level.descriptionEn ? level.descriptionEn : level.description}</p>
+                  <p className="text-slate-400 text-sm">
+                    {locale === 'en' && level.descriptionEn
+                      ? level.descriptionEn
+                      : level.description}
+                  </p>
                 )}
               </div>
             </div>
@@ -68,7 +76,9 @@ export default async function LevelsPage() {
                   <span className="w-7 h-7 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-sm font-bold">
                     {i + 1}
                   </span>
-                  <span className="text-slate-700">{locale === 'en' && topic.nameEn ? topic.nameEn : topic.name}</span>
+                  <span className="text-slate-700">
+                    {locale === 'en' && topic.nameEn ? topic.nameEn : topic.name}
+                  </span>
                 </li>
               ))}
             </ul>

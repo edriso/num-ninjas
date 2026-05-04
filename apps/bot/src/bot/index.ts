@@ -1,7 +1,15 @@
 import { Bot } from 'grammy';
 import { config } from '../config';
 import { sessionMiddleware, type BotContext } from './middleware/session';
-import { handleStart, handleNicknameInput, handleLevelSelection, handleQuizAnswer, handleChangeQuizLevel, handleOnboardLanguage, handleStartFirstQuestion } from './handlers/start';
+import {
+  handleStart,
+  handleNicknameInput,
+  handleLevelSelection,
+  handleQuizAnswer,
+  handleChangeQuizLevel,
+  handleOnboardLanguage,
+  handleStartFirstQuestion,
+} from './handlers/start';
 import {
   handleAddChild,
   handleSwitch,
@@ -9,7 +17,15 @@ import {
   handlePickProfile,
   handleAddChildCallback,
 } from './handlers/profile';
-import { handleMcqAnswer, handleHint, handleSkip, handleOpenEndedAnswer, tryHandlePendingAnswer, handleRetryMcq, handleRetryOpen } from './handlers/question';
+import {
+  handleMcqAnswer,
+  handleHint,
+  handleSkip,
+  handleOpenEndedAnswer,
+  tryHandlePendingAnswer,
+  handleRetryMcq,
+  handleRetryOpen,
+} from './handlers/question';
 import { handleLevelUp, handleStayLevel } from './handlers/level-up';
 import {
   handleProfile,
@@ -29,7 +45,12 @@ import {
   handlePrivacy,
   handleSetPrivacy,
 } from './handlers/commands';
-import { handleAdminSend, handleAdminPrepare, handleAdminStats, handleAdminHealth } from './handlers/admin';
+import {
+  handleAdminSend,
+  handleAdminPrepare,
+  handleAdminStats,
+  handleAdminHealth,
+} from './handlers/admin';
 import { getMsg } from './helpers/get-msg';
 import { logger, markAccountBlocked, markAccountUnblocked } from '@numninjas/database';
 import { CB, cbPrefix } from './callbacks';
@@ -57,7 +78,9 @@ bot.use(async (ctx, next) => {
     try {
       const changed = await markAccountUnblocked(BigInt(ctx.from.id));
       if (changed) {
-        logger.info('Cleared stale blocked_at on incoming interaction', { telegramId: ctx.from.id });
+        logger.info('Cleared stale blocked_at on incoming interaction', {
+          telegramId: ctx.from.id,
+        });
       }
     } catch (err) {
       // Non-fatal — log and continue. Don't block the user's interaction on a DB blip.

@@ -49,13 +49,17 @@ function formatCorrectFeedback(explanation: string, points: number, locale: stri
 
 function formatWrongFeedback(explanation: string, correctAnswer: string, locale: string): string {
   if (locale === 'en') {
-    return `❌ *Almost! But you learned something new!*\n\n` +
+    return (
+      `❌ *Almost! But you learned something new!*\n\n` +
       `The correct answer: *${correctAnswer}*\n💡 ${explanation}\n\n` +
-      `💪 Want to try again?`;
+      `💪 Want to try again?`
+    );
   }
-  return `❌ *تقريباً! لكن تعلمت شيئاً جديداً!*\n\n` +
+  return (
+    `❌ *تقريباً! لكن تعلمت شيئاً جديداً!*\n\n` +
     `الإجابة الصحيحة: *${correctAnswer}*\n💡 ${explanation}\n\n` +
-    `💪 هل تريد المحاولة مرة أخرى؟`;
+    `💪 هل تريد المحاولة مرة أخرى؟`
+  );
 }
 
 function formatDailySummary(
@@ -104,9 +108,10 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
       await showDailySummary(ctx, userId);
     } else {
       // No questions scheduled yet — tell the user
-      const noQuestionsText = locale === 'en'
-        ? '📅 No questions ready yet! Your daily questions arrive at 2:30 PM Cairo time.'
-        : '📅 لا توجد أسئلة جاهزة بعد! أسئلتك اليومية تصل الساعة 2:30 مساءً بتوقيت القاهرة.';
+      const noQuestionsText =
+        locale === 'en'
+          ? '📅 No questions ready yet! Your daily questions arrive at 2:30 PM Cairo time.'
+          : '📅 لا توجد أسئلة جاهزة بعد! أسئلتك اليومية تصل الساعة 2:30 مساءً بتوقيت القاهرة.';
       await ctx.reply(noQuestionsText);
     }
     return false;
@@ -121,7 +126,8 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
     include: { level: true },
   });
 
-  const topicName = (locale === 'en' && question.topic.nameEn) ? question.topic.nameEn : question.topic.name;
+  const topicName =
+    locale === 'en' && question.topic.nameEn ? question.topic.nameEn : question.topic.name;
   const text = formatQuestion(
     position,
     totalQuestions,
@@ -133,12 +139,7 @@ export async function sendQuestionToUser(ctx: BotContext, userId: number, levelI
   );
 
   if (question.questionType === 'mcq') {
-    const keyboard = buildMcqKeyboard(
-      question.id,
-      question.options,
-      !!question.hintText,
-      locale,
-    );
+    const keyboard = buildMcqKeyboard(question.id, question.options, !!question.hintText, locale);
     await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
     // MCQ: state stays idle, answers come via callback
   } else {
@@ -187,7 +188,8 @@ export async function handleMcqAnswer(ctx: BotContext) {
     // Check if already answered (only for non-retries)
     const alreadyAnswered = await hasAnswered(profileId, questionId);
     if (alreadyAnswered) {
-      const text = locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
+      const text =
+        locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
       await ctx.answerCallbackQuery({ text });
       return;
     }
@@ -201,16 +203,21 @@ export async function handleMcqAnswer(ctx: BotContext) {
     ctx.session.pendingData[`retry_${questionId}`] = undefined;
     await ctx.answerCallbackQuery();
     if (isCorrect) {
-      const retryCorrect = locale === 'en'
-        ? '✅ *Well done! Correct this time!* 🎉'
-        : '✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉';
+      const retryCorrect =
+        locale === 'en'
+          ? '✅ *Well done! Correct this time!* 🎉'
+          : '✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉';
       await ctx.editMessageText(retryCorrect, { parse_mode: 'Markdown' });
     } else {
-      const question = await prisma.question.findUnique({ where: { id: questionId }, include: { options: true } });
+      const question = await prisma.question.findUnique({
+        where: { id: questionId },
+        include: { options: true },
+      });
       const correctOption = question?.options.find((o) => o.isCorrect);
-      const retryWrong = locale === 'en'
-        ? `❌ Not the correct answer.\n\nThe correct answer: *${correctOption?.optionText || ''}*\nDon't worry, you'll review it soon! 💪`
-        : `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctOption?.optionText || ''}*\nلا تقلق، ستراجعها قريباً! 💪`;
+      const retryWrong =
+        locale === 'en'
+          ? `❌ Not the correct answer.\n\nThe correct answer: *${correctOption?.optionText || ''}*\nDon't worry, you'll review it soon! 💪`
+          : `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctOption?.optionText || ''}*\nلا تقلق، ستراجعها قريباً! 💪`;
       await ctx.editMessageText(retryWrong, { parse_mode: 'Markdown' });
     }
     return;
@@ -253,12 +260,11 @@ export async function handleMcqAnswer(ctx: BotContext) {
     );
   } else {
     const retryLabel = locale === 'en' ? '🔄 Try again' : '🔄 حاول مرة أخرى';
-    const retryKeyboard = new InlineKeyboard()
-      .text(retryLabel, cbBuild(CB.retryMcq, questionId));
-    await ctx.editMessageText(
-      formatWrongFeedback(question.explanation, correctText, locale),
-      { parse_mode: 'Markdown', reply_markup: retryKeyboard },
-    );
+    const retryKeyboard = new InlineKeyboard().text(retryLabel, cbBuild(CB.retryMcq, questionId));
+    await ctx.editMessageText(formatWrongFeedback(question.explanation, correctText, locale), {
+      parse_mode: 'Markdown',
+      reply_markup: retryKeyboard,
+    });
   }
 
   // Send next question or summary
@@ -296,9 +302,10 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     ctx.session.state = 'idle';
     ctx.session.pendingData.currentQuestionId = undefined;
 
-    const skipText = locale === 'en'
-      ? '⏭️ Skipped — no worries, let\'s try the next one! 💪'
-      : '⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪';
+    const skipText =
+      locale === 'en'
+        ? "⏭️ Skipped — no worries, let's try the next one! 💪"
+        : '⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪';
     await ctx.reply(skipText);
 
     const updatedSession = session;
@@ -330,15 +337,13 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     return;
   }
 
-  const { isCorrect, parsed } = checkOpenEndedAnswer(
-    text,
-    question.correctAnswerNumeric,
-  );
+  const { isCorrect, parsed } = checkOpenEndedAnswer(text, question.correctAnswerNumeric);
 
   if (parsed === null) {
-    const numOnly = locale === 'en'
-      ? '🔢 Send a number only — Arabic or English digits'
-      : '🔢 أرسل رقماً فقط — أرقام عربية أو إنجليزية';
+    const numOnly =
+      locale === 'en'
+        ? '🔢 Send a number only — Arabic or English digits'
+        : '🔢 أرسل رقماً فقط — أرقام عربية أو إنجليزية';
     await ctx.reply(numOnly);
     return; // Stay in awaiting_answer state
   }
@@ -352,15 +357,17 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     ctx.session.pendingData[`retry_${questionId}`] = undefined;
 
     if (isCorrect) {
-      const retryCorrect = locale === 'en'
-        ? '✅ *Well done! Correct this time!* 🎉'
-        : '✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉';
+      const retryCorrect =
+        locale === 'en'
+          ? '✅ *Well done! Correct this time!* 🎉'
+          : '✅ *أحسنت! إجابة صحيحة هذه المرة!* 🎉';
       await ctx.reply(retryCorrect, { parse_mode: 'Markdown' });
     } else {
       const correctText = question.correctAnswer || String(question.correctAnswerNumeric);
-      const retryWrong = locale === 'en'
-        ? `❌ Not the correct answer.\n\nThe correct answer: *${correctText}*\nDon't worry, you'll review it soon! 💪`
-        : `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctText}*\nلا تقلق، ستراجعها قريباً! 💪`;
+      const retryWrong =
+        locale === 'en'
+          ? `❌ Not the correct answer.\n\nThe correct answer: *${correctText}*\nDon't worry, you'll review it soon! 💪`
+          : `❌ ليست الإجابة الصحيحة.\n\nالإجابة الصحيحة: *${correctText}*\nلا تقلق، ستراجعها قريباً! 💪`;
       await ctx.reply(retryWrong, { parse_mode: 'Markdown' });
     }
     return;
@@ -391,8 +398,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
     });
   } else {
     const retryLabel = locale === 'en' ? '🔄 Try again' : '🔄 حاول مرة أخرى';
-    const retryKeyboard = new InlineKeyboard()
-      .text(retryLabel, cbBuild(CB.retryOpen, questionId));
+    const retryKeyboard = new InlineKeyboard().text(retryLabel, cbBuild(CB.retryOpen, questionId));
     await ctx.reply(formatWrongFeedback(question.explanation, correctText, locale), {
       parse_mode: 'Markdown',
       reply_markup: retryKeyboard,
@@ -437,7 +443,8 @@ export async function handleSkip(ctx: BotContext) {
   // Check if already answered
   const alreadyAnswered = await hasAnswered(profileId, questionId);
   if (alreadyAnswered) {
-    const text = locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
+    const text =
+      locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
     await ctx.answerCallbackQuery({ text });
     return;
   }
@@ -468,9 +475,10 @@ export async function handleSkip(ctx: BotContext) {
   }
 
   await ctx.answerCallbackQuery();
-  const skipText = locale === 'en'
-    ? '⏭️ Skipped — no worries, let\'s try the next one! 💪'
-    : '⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪';
+  const skipText =
+    locale === 'en'
+      ? "⏭️ Skipped — no worries, let's try the next one! 💪"
+      : '⏭️ تم التخطي — لا مشكلة، هيا نجرب السؤال التالي! 💪';
   await ctx.editMessageText(skipText);
 
   // Send next question or summary
@@ -699,8 +707,10 @@ async function showDailySummary(ctx: BotContext, userId: number) {
       if (nextLevel) {
         const levelEmoji = user.level.iconEmoji || '🥷';
         const nextEmoji = nextLevel.iconEmoji || '🥷';
-        const levelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
-        const nextLevelName = (locale === 'en' && nextLevel.nameEn) ? nextLevel.nameEn : nextLevel.name;
+        const levelName =
+          locale === 'en' && user.level.nameEn ? user.level.nameEn : user.level.name;
+        const nextLevelName =
+          locale === 'en' && nextLevel.nameEn ? nextLevel.nameEn : nextLevel.name;
 
         const levelUpLabel = locale === 'en' ? '🔼 Go to next level' : '🔼 انتقل للمستوى التالي';
         const stayLabel = locale === 'en' ? '🔄 Stay at this level' : '🔄 استمر في نفس المستوى';
@@ -713,9 +723,10 @@ async function showDailySummary(ctx: BotContext, userId: number) {
         const certUrl = `https://numninjas.com/api/certificate/${profileSlug}?type=level&levelName=${encodeURIComponent(levelName)}`;
         try {
           const safeNickname = escapeMd(user.nickname);
-          const certCaption = locale === 'en'
-            ? `🎉 *Congratulations, ${safeNickname}!*\nYou've mastered ${levelEmoji} ${levelName}!`
-            : `🎉 *مبروك يا ${safeNickname}!*\nلقد أتقنت ${levelEmoji} ${levelName}!`;
+          const certCaption =
+            locale === 'en'
+              ? `🎉 *Congratulations, ${safeNickname}!*\nYou've mastered ${levelEmoji} ${levelName}!`
+              : `🎉 *مبروك يا ${safeNickname}!*\nلقد أتقنت ${levelEmoji} ${levelName}!`;
           await ctx.replyWithPhoto(certUrl, {
             caption: certCaption,
             parse_mode: 'Markdown',
@@ -725,13 +736,14 @@ async function showDailySummary(ctx: BotContext, userId: number) {
         }
 
         const safeNickname2 = escapeMd(user.nickname);
-        const completionText = locale === 'en'
-          ? `🎉🥷 *Congratulations, ${safeNickname2}!*\n\n` +
-            `You've mastered all topics in ${levelEmoji} ${levelName}!\n\n` +
-            `Are you ready to move to ${nextEmoji} ${nextLevelName}?`
-          : `🎉🥷 *مبروك يا ${safeNickname2}!*\n\n` +
-            `لقد أتقنت جميع مواضيع ${levelEmoji} ${levelName}!\n\n` +
-            `هل أنت جاهز للانتقال إلى ${nextEmoji} ${nextLevelName}؟`;
+        const completionText =
+          locale === 'en'
+            ? `🎉🥷 *Congratulations, ${safeNickname2}!*\n\n` +
+              `You've mastered all topics in ${levelEmoji} ${levelName}!\n\n` +
+              `Are you ready to move to ${nextEmoji} ${nextLevelName}?`
+            : `🎉🥷 *مبروك يا ${safeNickname2}!*\n\n` +
+              `لقد أتقنت جميع مواضيع ${levelEmoji} ${levelName}!\n\n` +
+              `هل أنت جاهز للانتقال إلى ${nextEmoji} ${nextLevelName}؟`;
 
         await ctx.reply(completionText, { parse_mode: 'Markdown', reply_markup: keyboard });
       }

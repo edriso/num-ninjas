@@ -14,15 +14,39 @@ const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
 const prisma = new PrismaClient({ adapter });
 
 const NICKNAMES = [
-  'أحمد', 'سارة', 'محمد', 'نور', 'ياسمين',
-  'عمر', 'مريم', 'خالد', 'فاطمة', 'يوسف',
-  'لينا', 'حسن', 'ريم', 'علي', 'دينا',
+  'أحمد',
+  'سارة',
+  'محمد',
+  'نور',
+  'ياسمين',
+  'عمر',
+  'مريم',
+  'خالد',
+  'فاطمة',
+  'يوسف',
+  'لينا',
+  'حسن',
+  'ريم',
+  'علي',
+  'دينا',
 ];
 
 const USERNAMES = [
-  'ahmed123', 'sara_ninja', 'moh99', 'nour_star', 'yasmin_math',
-  'omar_champ', 'mariam22', 'khaled_pro', 'fatma_smart', 'youssef7',
-  'lina_ace', 'hassan_q', 'reem_top', 'ali_ninja', 'dina_cool',
+  'ahmed123',
+  'sara_ninja',
+  'moh99',
+  'nour_star',
+  'yasmin_math',
+  'omar_champ',
+  'mariam22',
+  'khaled_pro',
+  'fatma_smart',
+  'youssef7',
+  'lina_ace',
+  'hassan_q',
+  'reem_top',
+  'ali_ninja',
+  'dina_cool',
 ];
 
 function randomInt(min: number, max: number) {

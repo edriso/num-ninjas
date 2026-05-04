@@ -11,7 +11,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You ate some pieces of a cake that was cut into equal slices.',
-    questionText: 'You ate 2/7 of the cake, then you ate 3/7 more. How much cake did you eat in total?',
+    questionText:
+      'You ate 2/7 of the cake, then you ate 3/7 more. How much cake did you eat in total?',
     hintText: 'When the bottom numbers are the same, just add the top numbers',
     explanation: '2/7 + 3/7 = 5/7',
     options: [
@@ -43,7 +44,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Two friends are painting a wall together.',
-    questionText: 'Sara painted 3/10 of the wall and Nour painted 4/10. How much did they paint together?',
+    questionText:
+      'Sara painted 3/10 of the wall and Nour painted 4/10. How much did they paint together?',
     hintText: 'Add the top numbers, keep the bottom number the same',
     explanation: '3/10 + 4/10 = 7/10',
     options: [
@@ -59,7 +61,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You are filling a jar with dates.',
-    questionText: 'The jar is 7/8 full. You took out 3/8 to give to your friend. How full is the jar now?',
+    questionText:
+      'The jar is 7/8 full. You took out 3/8 to give to your friend. How full is the jar now?',
     hintText: 'Subtract the top numbers',
     explanation: '7/8 - 3/8 = 4/8 = 1/2',
     options: [
@@ -75,7 +78,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You walked part of the way to school, then ran the rest.',
-    questionText: 'You walked 1/5 of the way and ran 3/5 of the way. How much of the way have you covered?',
+    questionText:
+      'You walked 1/5 of the way and ran 3/5 of the way. How much of the way have you covered?',
     hintText: 'Add the top numbers',
     explanation: '1/5 + 3/5 = 4/5',
     options: [
@@ -91,7 +95,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'A garden has flowers and trees.',
-    questionText: '4/9 of the garden is flowers and 2/9 is trees. What fraction of the garden is flowers and trees together?',
+    questionText:
+      '4/9 of the garden is flowers and 2/9 is trees. What fraction of the garden is flowers and trees together?',
     hintText: 'Add the two fractions',
     explanation: '4/9 + 2/9 = 6/9 = 2/3',
     options: [
@@ -107,7 +112,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'You have a piece of ribbon.',
-    questionText: 'Your ribbon is 8/12 of a meter. You cut off 5/12 of a meter. How much ribbon is left?',
+    questionText:
+      'Your ribbon is 8/12 of a meter. You cut off 5/12 of a meter. How much ribbon is left?',
     hintText: 'Subtract the top numbers',
     explanation: '8/12 - 5/12 = 3/12 = 1/4 of a meter',
     options: [
@@ -123,7 +129,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'Mom used flour from a bag to bake bread.',
-    questionText: 'Mom had 6/6 (a full bag) of flour. She used 2/6 for bread and 1/6 for a cake. How much flour is left?',
+    questionText:
+      'Mom had 6/6 (a full bag) of flour. She used 2/6 for bread and 1/6 for a cake. How much flour is left?',
     hintText: 'Subtract both amounts from 6/6',
     explanation: '6/6 - 2/6 - 1/6 = 3/6 = 1/2',
     options: [
@@ -139,7 +146,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'You drank juice from a bottle.',
-    questionText: 'You drank 2/9 of the juice, then 4/9 more. What fraction did you drink in total? Write just the top number.',
+    questionText:
+      'You drank 2/9 of the juice, then 4/9 more. What fraction did you drink in total? Write just the top number.',
     hintText: 'Add the top numbers: 2 + 4',
     explanation: '2/9 + 4/9 = 6/9. The top number is 6',
     correctAnswer: '6',
@@ -151,7 +159,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'A tank was full of water.',
-    questionText: 'A tank is 10/10 full. You used 3/10 for watering plants. What fraction is left? Write just the top number.',
+    questionText:
+      'A tank is 10/10 full. You used 3/10 for watering plants. What fraction is left? Write just the top number.',
     hintText: '10 - 3 = ?',
     explanation: '10/10 - 3/10 = 7/10. The top number is 7',
     correctAnswer: '7',
@@ -163,7 +172,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'open_ended',
     realLifeContext: 'You colored parts of a drawing.',
-    questionText: 'You colored 1/8, then 2/8, then 3/8 of a drawing. What fraction did you color in total? Write just the top number.',
+    questionText:
+      'You colored 1/8, then 2/8, then 3/8 of a drawing. What fraction did you color in total? Write just the top number.',
     hintText: 'Add the top numbers: 1 + 2 + 3',
     explanation: '1/8 + 2/8 + 3/8 = 6/8. The top number is 6',
     correctAnswer: '6',
@@ -208,7 +218,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'You are comparing two runners in a race.',
-    questionText: 'Ali finished the race in 12.3 seconds. Omar finished in 12.7 seconds. Who was faster?',
+    questionText:
+      'Ali finished the race in 12.3 seconds. Omar finished in 12.7 seconds. Who was faster?',
     hintText: 'In a race, a smaller time means faster',
     explanation: '12.3 < 12.7, so Ali was faster',
     options: [
@@ -256,7 +267,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'mcq',
     realLifeContext: 'You are comparing prices at two shops.',
-    questionText: 'Shop A sells apples for 3.45 pounds per kg. Shop B sells them for 3.54 pounds per kg. Which is cheaper?',
+    questionText:
+      'Shop A sells apples for 3.45 pounds per kg. Shop B sells them for 3.54 pounds per kg. Which is cheaper?',
     hintText: 'Compare the numbers. The smaller price is cheaper',
     explanation: '3.45 < 3.54, so Shop A is cheaper',
     options: [
@@ -356,7 +368,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 2,
     questionType: 'open_ended',
     realLifeContext: 'You measured the length of a table.',
-    questionText: 'The table is 2.48 meters long. What is this number rounded to the nearest tenth?',
+    questionText:
+      'The table is 2.48 meters long. What is this number rounded to the nearest tenth?',
     hintText: 'Look at the hundredths digit (8). Is it 5 or more?',
     explanation: '2.48 rounded to the nearest tenth is 2.5 (because 8 >= 5)',
     correctAnswer: '2.5',
@@ -373,7 +386,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You bought a notebook and an eraser from the shop.',
-    questionText: 'The notebook costs 4.50 pounds and the eraser costs 1.25 pounds. What is the total?',
+    questionText:
+      'The notebook costs 4.50 pounds and the eraser costs 1.25 pounds. What is the total?',
     hintText: 'Line up the decimal points and add',
     explanation: '4.50 + 1.25 = 5.75 pounds',
     options: [
@@ -405,7 +419,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You ran two laps around the playground.',
-    questionText: 'The first lap took 2.4 minutes and the second took 2.8 minutes. What is the total time?',
+    questionText:
+      'The first lap took 2.4 minutes and the second took 2.8 minutes. What is the total time?',
     hintText: 'Add 2.4 + 2.8',
     explanation: '2.4 + 2.8 = 5.2 minutes',
     options: [
@@ -421,7 +436,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'You weighed two bags of fruit.',
-    questionText: 'One bag weighs 3.65 kg and the other weighs 2.15 kg. What is the difference in weight?',
+    questionText:
+      'One bag weighs 3.65 kg and the other weighs 2.15 kg. What is the difference in weight?',
     hintText: 'Subtract the smaller from the bigger',
     explanation: '3.65 - 2.15 = 1.50 kg',
     options: [
@@ -513,7 +529,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'You are measuring ribbon.',
-    questionText: 'You have 5.00 meters of ribbon. You cut off 1.75 meters. How many meters are left?',
+    questionText:
+      'You have 5.00 meters of ribbon. You cut off 1.75 meters. How many meters are left?',
     hintText: 'Subtract 1.75 from 5.00',
     explanation: '5.00 - 1.75 = 3.25 meters',
     correctAnswer: '3.25',
@@ -525,7 +542,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'You walked to school and back.',
-    questionText: 'The walk to school is 0.8 km. You walk there and back. What is the total distance in km?',
+    questionText:
+      'The walk to school is 0.8 km. You walk there and back. What is the total distance in km?',
     hintText: 'Add 0.8 + 0.8',
     explanation: '0.8 + 0.8 = 1.6 km',
     correctAnswer: '1.6',
@@ -586,7 +604,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'You are watching a movie with your family.',
-    questionText: 'The movie starts at 6:45 PM and is 1 hour 30 minutes long. What time does it end?',
+    questionText:
+      'The movie starts at 6:45 PM and is 1 hour 30 minutes long. What time does it end?',
     hintText: 'Add 1 hour 30 minutes to 6:45',
     explanation: '6:45 + 1:30 = 8:15 PM',
     options: [
@@ -602,7 +621,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'You are waiting for the school bus.',
-    questionText: 'The bus comes every 20 minutes. You just missed the 8:00 AM bus. When is the next one?',
+    questionText:
+      'The bus comes every 20 minutes. You just missed the 8:00 AM bus. When is the next one?',
     hintText: 'Add 20 minutes to 8:00',
     explanation: '8:00 + 20 minutes = 8:20 AM',
     options: [
@@ -618,7 +638,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'You are baking a cake with mom.',
-    questionText: 'The cake goes in the oven at 3:20 PM. It needs to bake for 45 minutes. When should you take it out?',
+    questionText:
+      'The cake goes in the oven at 3:20 PM. It needs to bake for 45 minutes. When should you take it out?',
     hintText: 'Add 45 minutes to 3:20',
     explanation: '3:20 + 45 = 4:05 PM',
     options: [
@@ -650,7 +671,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'You have different activities after school.',
-    questionText: 'Soccer practice is 1 hour 15 minutes. Homework takes 50 minutes. How long are both together?',
+    questionText:
+      'Soccer practice is 1 hour 15 minutes. Homework takes 50 minutes. How long are both together?',
     hintText: 'Add 1 hour 15 minutes + 50 minutes',
     explanation: '1:15 + 0:50 = 2 hours 5 minutes',
     options: [
@@ -666,7 +688,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'You are planning your morning before school.',
-    questionText: 'You wake up at 6:30 AM. You need 90 minutes to get ready and eat breakfast. What time will you be ready?',
+    questionText:
+      'You wake up at 6:30 AM. You need 90 minutes to get ready and eat breakfast. What time will you be ready?',
     hintText: '90 minutes = 1 hour 30 minutes. Add to 6:30',
     explanation: '6:30 + 1:30 = 8:00 AM',
     options: [
@@ -682,7 +705,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'You timed how long you read a book.',
-    questionText: 'You started reading at 5:00 PM and stopped at 5:35 PM. How many minutes did you read?',
+    questionText:
+      'You started reading at 5:00 PM and stopped at 5:35 PM. How many minutes did you read?',
     hintText: 'Count the minutes from 5:00 to 5:35',
     explanation: '5:35 - 5:00 = 35 minutes',
     correctAnswer: '35',
@@ -694,7 +718,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'You have two classes in the morning.',
-    questionText: 'Math class is 40 minutes and Science class is 40 minutes. What is the total time in minutes?',
+    questionText:
+      'Math class is 40 minutes and Science class is 40 minutes. What is the total time in minutes?',
     hintText: 'Add 40 + 40',
     explanation: '40 + 40 = 80 minutes',
     correctAnswer: '80',
@@ -706,7 +731,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'You are timing your walk to school.',
-    questionText: 'You left home at 7:10 AM and arrived at school at 7:40 AM. How many minutes did the walk take?',
+    questionText:
+      'You left home at 7:10 AM and arrived at school at 7:40 AM. How many minutes did the walk take?',
     hintText: 'Subtract 7:10 from 7:40',
     explanation: '7:40 - 7:10 = 30 minutes',
     correctAnswer: '30',
@@ -916,7 +942,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'You are shopping and want to estimate the total cost.',
-    questionText: 'You bought items for 28 pounds and 43 pounds. Estimate the total by rounding to the nearest ten.',
+    questionText:
+      'You bought items for 28 pounds and 43 pounds. Estimate the total by rounding to the nearest ten.',
     hintText: 'Round 28 to 30 and 43 to 40, then add',
     explanation: '28 rounds to 30. 43 rounds to 40. Estimate: 30 + 40 = 70 pounds',
     options: [
@@ -964,7 +991,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'You want to estimate the cost of groceries.',
-    questionText: 'Apples cost 52 pounds and bananas cost 37 pounds. Estimate the total to the nearest ten.',
+    questionText:
+      'Apples cost 52 pounds and bananas cost 37 pounds. Estimate the total to the nearest ten.',
     hintText: 'Round 52 to 50 and 37 to 40',
     explanation: '52 rounds to 50. 37 rounds to 40. Estimate: 50 + 40 = 90 pounds',
     options: [
@@ -1012,7 +1040,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'Dad is checking if he has enough money.',
-    questionText: 'Dad wants to buy 3 shirts. Each costs 68 pounds. Estimate the total by rounding.',
+    questionText:
+      'Dad wants to buy 3 shirts. Each costs 68 pounds. Estimate the total by rounding.',
     hintText: 'Round 68 to 70, then multiply by 3',
     explanation: '68 rounds to 70. Estimate: 70 x 3 = 210 pounds',
     options: [
@@ -1028,9 +1057,11 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'You are checking your math homework.',
-    questionText: 'Your answer for 48 x 21 is 1,008. Estimate to check: round both numbers to the nearest ten.',
+    questionText:
+      'Your answer for 48 x 21 is 1,008. Estimate to check: round both numbers to the nearest ten.',
     hintText: 'Round 48 to 50 and 21 to 20',
-    explanation: 'Estimate: 50 x 20 = 1,000. Your answer 1,008 is close to 1,000, so it looks correct',
+    explanation:
+      'Estimate: 50 x 20 = 1,000. Your answer 1,008 is close to 1,000, so it looks correct',
     options: [
       { optionText: '1,000', isCorrect: true },
       { optionText: '900', isCorrect: false },
@@ -1068,7 +1099,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'open_ended',
     realLifeContext: 'You are estimating how many eggs.',
-    questionText: 'A farm has 29 boxes with about 10 eggs each. Estimate the total by rounding 29 to the nearest ten.',
+    questionText:
+      'A farm has 29 boxes with about 10 eggs each. Estimate the total by rounding 29 to the nearest ten.',
     hintText: 'Round 29 to 30, then multiply by 10',
     explanation: '30 x 10 = 300 eggs',
     correctAnswer: '300',
@@ -1080,7 +1112,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'open_ended',
     realLifeContext: 'You are estimating costs at a fruit shop.',
-    questionText: 'You buy 4 bags of dates. Each bag costs 47 pounds. Estimate the total by rounding 47 to the nearest ten.',
+    questionText:
+      'You buy 4 bags of dates. Each bag costs 47 pounds. Estimate the total by rounding 47 to the nearest ten.',
     hintText: 'Round 47 to 50, then multiply by 4',
     explanation: '50 x 4 = 200 pounds',
     correctAnswer: '200',
@@ -1161,7 +1194,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You are stacking blocks in a growing pattern.',
-    questionText: 'Row 1 has 1 block, row 2 has 3 blocks, row 3 has 5 blocks. How many blocks in row 4?',
+    questionText:
+      'Row 1 has 1 block, row 2 has 3 blocks, row 3 has 5 blocks. How many blocks in row 4?',
     hintText: 'How many blocks are added each row?',
     explanation: 'The pattern adds 2 each time: 1, 3, 5, 7',
     options: [
@@ -1209,7 +1243,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'mcq',
     realLifeContext: 'You are saving money each week.',
-    questionText: 'Week 1 you save 10 pounds, week 2 you save 15 pounds, week 3 you save 20 pounds. How much will you save in week 5?',
+    questionText:
+      'Week 1 you save 10 pounds, week 2 you save 15 pounds, week 3 you save 20 pounds. How much will you save in week 5?',
     hintText: 'You save 5 more each week',
     explanation: 'Week 4: 25, Week 5: 30 pounds',
     options: [
@@ -1249,7 +1284,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You are solving a number puzzle.',
-    questionText: 'In the pattern 2, 6, 18, 54, each number is multiplied by 3. What is the next number?',
+    questionText:
+      'In the pattern 2, 6, 18, 54, each number is multiplied by 3. What is the next number?',
     hintText: 'Multiply 54 by 3',
     explanation: '54 x 3 = 162',
     correctAnswer: '162',
@@ -1261,7 +1297,8 @@ export const level2QuestionsEn: QuestionSeed[] = [
     topicIndex: 7,
     questionType: 'open_ended',
     realLifeContext: 'You are figuring out a pattern.',
-    questionText: 'Each day you do 2 more push-ups than the day before. Day 1: 5, Day 2: 7, Day 3: 9. How many on Day 5?',
+    questionText:
+      'Each day you do 2 more push-ups than the day before. Day 1: 5, Day 2: 7, Day 3: 9. How many on Day 5?',
     hintText: 'Day 4 = 11, Day 5 = ?',
     explanation: 'Day 4: 11, Day 5: 13',
     correctAnswer: '13',

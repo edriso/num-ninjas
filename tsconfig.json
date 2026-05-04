@@ -1,8 +1,4 @@
 {
   "files": [],
-  "references": [
-    { "path": "packages/database" },
-    { "path": "apps/bot" },
-    { "path": "apps/web" }
-  ]
+  "references": [{ "path": "packages/database" }, { "path": "apps/bot" }, { "path": "apps/web" }]
 }

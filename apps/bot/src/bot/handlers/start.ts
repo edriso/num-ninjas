@@ -2,7 +2,19 @@ import { InlineKeyboard } from 'grammy';
 import type { BotContext } from '../middleware/session';
 import { getMsg } from '../helpers/get-msg';
 import { getMessages } from '../messages';
-import { prisma, findOrCreateAccount, createProfile, updateNickname, logger, todayCairoAsUtcMidnight, getSettingInt, getTopicStrengths, pickWeightedTopics, getExcludedQuestionIds, shuffle } from '@numninjas/database';
+import {
+  prisma,
+  findOrCreateAccount,
+  createProfile,
+  updateNickname,
+  logger,
+  todayCairoAsUtcMidnight,
+  getSettingInt,
+  getTopicStrengths,
+  pickWeightedTopics,
+  getExcludedQuestionIds,
+  shuffle,
+} from '@numninjas/database';
 import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
 import { fixRtlOptionText } from '../keyboards/mcq';
@@ -68,7 +80,12 @@ async function prepareQuestionsForUser(userId: number, levelId: number, locale: 
 
     for (let i = 0; i < selectedQuestions.length; i++) {
       await prisma.scheduledQuestion.create({
-        data: { userId, questionId: selectedQuestions[i].id, position: i + 1, scheduledDate: today },
+        data: {
+          userId,
+          questionId: selectedQuestions[i].id,
+          position: i + 1,
+          scheduledDate: today,
+        },
       });
     }
 
@@ -142,11 +159,10 @@ export async function handleStart(ctx: BotContext) {
       .text('🇸🇦 عربي', cbBuild(CB.onboardLang, 'ar'))
       .text('🇬🇧 English', cbBuild(CB.onboardLang, 'en'));
 
-    await ctx.reply(
-      '🥷 *نينجا الأرقام | NumNinjas*\n\n' +
-      'اختر لغتك / Choose your language:',
-      { parse_mode: 'Markdown', reply_markup: keyboard },
-    );
+    await ctx.reply('🥷 *نينجا الأرقام | NumNinjas*\n\n' + 'اختر لغتك / Choose your language:', {
+      parse_mode: 'Markdown',
+      reply_markup: keyboard,
+    });
     return;
   }
 
@@ -158,10 +174,9 @@ export async function handleStart(ctx: BotContext) {
     // state already reset at the top of handleStart
 
     const localMsg = getMessages(ctx.session.locale);
-    await ctx.reply(
-      localMsg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥷'),
-      { parse_mode: 'Markdown' },
-    );
+    await ctx.reply(localMsg.welcomeBack(profile.nickname, profile.level.iconEmoji || '🥷'), {
+      parse_mode: 'Markdown',
+    });
 
     // Auto-send next question if available
     await sendQuestionToUser(ctx, profile.id, profile.levelId);
@@ -194,9 +209,8 @@ export async function handleNicknameInput(ctx: BotContext) {
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
     const locale = ctx.session.locale || 'ar';
-    const confirmText = locale === 'en'
-      ? `✅ Name changed to *${text}*`
-      : `✅ تم تغيير الاسم لـ *${text}*`;
+    const confirmText =
+      locale === 'en' ? `✅ Name changed to *${text}*` : `✅ تم تغيير الاسم لـ *${text}*`;
     await ctx.reply(confirmText, { parse_mode: 'Markdown' });
     logger.info('Nickname changed', { profileId: ctx.session.activeProfileId, newName: text });
     return true;
@@ -209,13 +223,14 @@ export async function handleNicknameInput(ctx: BotContext) {
   ctx.session.pendingData.quizCorrect = 0;
 
   const locale = ctx.session.locale || 'ar';
-  const quizIntro = locale === 'en'
-    ? `👋 Hi *${text}*!\n\n` +
-      '🧪 We\'ll ask you 3 quick questions to find your level.\n' +
-      'Take your time — no right or wrong here! 😊'
-    : `👋 مرحباً يا *${text}*!\n\n` +
-      '🧪 سنسألك 3 أسئلة سريعة لتحديد مستواك.\n' +
-      'أجب براحتك — لا صحيح ولا خطأ هنا! 😊';
+  const quizIntro =
+    locale === 'en'
+      ? `👋 Hi *${text}*!\n\n` +
+        "🧪 We'll ask you 3 quick questions to find your level.\n" +
+        'Take your time — no right or wrong here! 😊'
+      : `👋 مرحباً يا *${text}*!\n\n` +
+        '🧪 سنسألك 3 أسئلة سريعة لتحديد مستواك.\n' +
+        'أجب براحتك — لا صحيح ولا خطأ هنا! 😊';
 
   await ctx.reply(quizIntro, { parse_mode: 'Markdown' });
   await sendQuizQuestion(ctx, 0);
@@ -255,10 +270,11 @@ export async function handleLevelSelection(ctx: BotContext) {
 
       ctx.session.pendingData = {};
       await ctx.answerCallbackQuery();
-      const levelName = (locale === 'en' && level?.nameEn) ? level.nameEn : level?.name;
-      const confirmText = locale === 'en'
-        ? `✅ Level changed to ${level?.iconEmoji || '🥷'} *${levelName}*`
-        : `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${levelName}*`;
+      const levelName = locale === 'en' && level?.nameEn ? level.nameEn : level?.name;
+      const confirmText =
+        locale === 'en'
+          ? `✅ Level changed to ${level?.iconEmoji || '🥷'} *${levelName}*`
+          : `✅ تم تغيير المستوى لـ ${level?.iconEmoji || '🥷'} *${levelName}*`;
 
       if (fromOnboarding) {
         const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
@@ -280,7 +296,8 @@ export async function handleLevelSelection(ctx: BotContext) {
   // Case 2: Creating new profile (onboarding or quiz override)
   const nickname = ctx.session.pendingData.nickname ?? '';
   if (!nickname) {
-    const errText = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
+    const errText =
+      locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
     await ctx.answerCallbackQuery({ text: errText });
     ctx.session.state = 'idle';
     return;
@@ -297,7 +314,8 @@ export async function handleLevelSelection(ctx: BotContext) {
     await prepareQuestionsForUser(profile.id, levelId, locale);
 
     await ctx.answerCallbackQuery();
-    const levelName = (locale === 'en' && profile.level.nameEn) ? profile.level.nameEn : profile.level.name;
+    const levelName =
+      locale === 'en' && profile.level.nameEn ? profile.level.nameEn : profile.level.name;
     const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
     const keyboard = new InlineKeyboard().text(startNowText, CB.startFirstQuestion);
     await ctx.editMessageText(
@@ -337,7 +355,8 @@ export async function handleQuizAnswer(ctx: BotContext) {
 
   // Prevent answering same question twice
   if (step !== currentStep) {
-    const text = locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
+    const text =
+      locale === 'en' ? 'You already answered this question!' : 'لقد أجبت على هذا السؤال بالفعل!';
     await ctx.answerCallbackQuery({ text });
     return;
   }
@@ -395,19 +414,21 @@ export async function handleQuizAnswer(ctx: BotContext) {
     ctx.session.state = 'idle';
     ctx.session.pendingData = {};
 
-    const levelName = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
-    const resultText = locale === 'en'
-      ? `🎯 *Quiz result: ${quizCorrect}/3*\n\n` +
-        `Based on your answers, your level is ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
-        `✅ *${escapeMd(nickname)}* is registered! Ready for the challenge! 🔥`
-      : `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
-        `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
-        `✅ تم تسجيل *${escapeMd(nickname)}*! جاهز للتحدي! 🔥`;
+    const levelName = locale === 'en' && level.nameEn ? level.nameEn : level.name;
+    const resultText =
+      locale === 'en'
+        ? `🎯 *Quiz result: ${quizCorrect}/3*\n\n` +
+          `Based on your answers, your level is ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
+          `✅ *${escapeMd(nickname)}* is registered! Ready for the challenge! 🔥`
+        : `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
+          `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
+          `✅ تم تسجيل *${escapeMd(nickname)}*! جاهز للتحدي! 🔥`;
 
     const chooseLevelText = locale === 'en' ? '🥷 Choose a different level' : '🥷 اختر مستوى آخر';
     const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
     const keyboard = new InlineKeyboard()
-      .text(chooseLevelText, CB.changeQuizLevel).row()
+      .text(chooseLevelText, CB.changeQuizLevel)
+      .row()
       .text(startNowText, CB.startFirstQuestion);
 
     // Prepare questions before showing the button so they're ready the moment user taps
@@ -455,7 +476,8 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
   const locale = ctx.session.locale || 'ar';
   if (!profileId) {
-    const errText = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
+    const errText =
+      locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
     await ctx.answerCallbackQuery({ text: errText });
     return;
   }
@@ -464,11 +486,13 @@ export async function handleChangeQuizLevel(ctx: BotContext) {
 
   const { keyboard, levels } = await buildLevelKeyboard(locale);
 
-  const chooseText = locale === 'en' ? 'Choose the level that suits you:\n\n' : 'اختر المستوى الذي يناسبك:\n\n';
+  const chooseText =
+    locale === 'en' ? 'Choose the level that suits you:\n\n' : 'اختر المستوى الذي يناسبك:\n\n';
   let levelInfo = chooseText;
   for (const level of levels) {
-    const levelName = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
-    const levelDesc = (locale === 'en' && level.descriptionEn) ? level.descriptionEn : (level.description || '');
+    const levelName = locale === 'en' && level.nameEn ? level.nameEn : level.name;
+    const levelDesc =
+      locale === 'en' && level.descriptionEn ? level.descriptionEn : level.description || '';
     levelInfo += `${level.iconEmoji || '🥷'} *${levelName}* — ${levelDesc}\n`;
   }
 
@@ -484,7 +508,8 @@ export async function handleStartFirstQuestion(ctx: BotContext) {
   const profileId = ctx.session.activeProfileId;
 
   if (!profileId) {
-    const text = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
+    const text =
+      locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
     await ctx.answerCallbackQuery({ text });
     return;
   }

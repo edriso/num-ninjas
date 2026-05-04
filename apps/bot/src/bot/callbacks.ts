@@ -19,38 +19,38 @@
  */
 export const CB = {
   // Onboarding
-  onboardLang: 'onboard_lang',           // onboard_lang:ar | onboard_lang:en
-  quizAnswer: 'quiz_answer',             // quiz_answer:0|1|2 (0/1/2 = answer index)
-  changeQuizLevel: 'change_quiz_level',  // exact
+  onboardLang: 'onboard_lang', // onboard_lang:ar | onboard_lang:en
+  quizAnswer: 'quiz_answer', // quiz_answer:0|1|2 (0/1/2 = answer index)
+  changeQuizLevel: 'change_quiz_level', // exact
   startFirstQuestion: 'start_first_question', // exact
-  selectLevel: 'select_level',           // select_level:1..5
+  selectLevel: 'select_level', // select_level:1..5
 
   // Profile
-  pickProfile: 'pick_profile',           // pick_profile:<userId>
-  addChild: 'add_child',                 // exact
-  editNickname: 'edit_nickname',         // exact
-  editLevel: 'edit_level',               // exact
-  editUsername: 'edit_username',         // exact
+  pickProfile: 'pick_profile', // pick_profile:<userId>
+  addChild: 'add_child', // exact
+  editNickname: 'edit_nickname', // exact
+  editLevel: 'edit_level', // exact
+  editUsername: 'edit_username', // exact
 
   // Question flow
-  answer: 'answer',                      // answer:<optionId>
-  hint: 'hint',                          // hint:<questionId>
-  skip: 'skip',                          // skip:<questionId>
-  retryMcq: 'retry_mcq',                 // retry_mcq:<questionId>
-  retryOpen: 'retry_open',               // retry_open:<questionId>
+  answer: 'answer', // answer:<optionId>
+  hint: 'hint', // hint:<questionId>
+  skip: 'skip', // skip:<questionId>
+  retryMcq: 'retry_mcq', // retry_mcq:<questionId>
+  retryOpen: 'retry_open', // retry_open:<questionId>
 
   // Level transition
-  levelUp: 'level_up',                   // level_up:<nextLevelId>
-  stayLevel: 'stay_level',               // exact
+  levelUp: 'level_up', // level_up:<nextLevelId>
+  stayLevel: 'stay_level', // exact
 
   // Settings
-  showLang: 'show_lang',                 // exact
-  showPrivacy: 'show_privacy',           // exact
-  setLang: 'set_lang',                   // set_lang:ar|en
-  setPrivacy: 'set_privacy',             // set_privacy:public|private
+  showLang: 'show_lang', // exact
+  showPrivacy: 'show_privacy', // exact
+  setLang: 'set_lang', // set_lang:ar|en
+  setPrivacy: 'set_privacy', // set_privacy:public|private
 } as const;
 
-export type CallbackName = typeof CB[keyof typeof CB];
+export type CallbackName = (typeof CB)[keyof typeof CB];
 
 /**
  * Build a callback data string. Pass the CB.* name and any parameters.

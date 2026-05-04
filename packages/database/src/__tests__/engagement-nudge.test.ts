@@ -286,8 +286,8 @@ describe('lifecycle: never-engaged → engaged → went-silent', () => {
     // because the last activity is recent and the went-silent threshold isn't met.
     const day5 = classifyUser({
       createdAt: daysAgo(11),
-      lastActiveAt: daysAgo(8),    // active 3 days ago (well within threshold)
-      lastNudgeAt: daysAgo(10),     // nudged when they were never-engaged
+      lastActiveAt: daysAgo(8), // active 3 days ago (well within threshold)
+      lastNudgeAt: daysAgo(10), // nudged when they were never-engaged
       now: NOW,
     });
     expect(day5).toBeNull();
@@ -297,8 +297,8 @@ describe('lifecycle: never-engaged → engaged → went-silent', () => {
     // so this counts as a fresh inactivity streak — should fire went-silent.
     const day16 = classifyUser({
       createdAt: daysAgo(16),
-      lastActiveAt: daysAgo(11),    // active 11d ago, idle threshold met
-      lastNudgeAt: daysAgo(13),     // earlier, before they came back
+      lastActiveAt: daysAgo(11), // active 11d ago, idle threshold met
+      lastNudgeAt: daysAgo(13), // earlier, before they came back
       now: NOW,
     });
     expect(day16).toBe('went_silent');
@@ -312,8 +312,8 @@ describe('lifecycle: went-silent nudge does not repeat in the same streak', () =
     // Day 20: still silent. Same streak, so no second nudge.
     const stillSameStreak = classifyUser({
       createdAt: daysAgo(60),
-      lastActiveAt: daysAgo(20),    // last activity was 20d ago
-      lastNudgeAt: daysAgo(10),     // we nudged 10d ago, AFTER lastActiveAt
+      lastActiveAt: daysAgo(20), // last activity was 20d ago
+      lastNudgeAt: daysAgo(10), // we nudged 10d ago, AFTER lastActiveAt
       now: NOW,
     });
     expect(stillSameStreak).toBeNull();
@@ -324,8 +324,8 @@ describe('lifecycle: a fully-engaged kid is never nudged', () => {
   it('recently-active user with old past nudges still gets no nudge', () => {
     const result = classifyUser({
       createdAt: daysAgo(120),
-      lastActiveAt: daysAgo(0.5),   // active 12 hours ago — still engaged
-      lastNudgeAt: daysAgo(30),     // we nudged a month ago during a past silent streak
+      lastActiveAt: daysAgo(0.5), // active 12 hours ago — still engaged
+      lastNudgeAt: daysAgo(30), // we nudged a month ago during a past silent streak
       now: NOW,
     });
     expect(result).toBeNull();

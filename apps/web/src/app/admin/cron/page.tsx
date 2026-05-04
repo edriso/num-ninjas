@@ -1,17 +1,17 @@
-import { getCronRunOverview, getRecentCronRuns } from "@numninjas/database";
-import { requireAdmin } from "@/lib/require-admin";
+import { getCronRunOverview, getRecentCronRuns } from '@numninjas/database';
+import { requireAdmin } from '@/lib/require-admin';
 
-export const metadata = { title: "Cron Runs" };
-export const dynamic = "force-dynamic"; // observability data should never be cached
+export const metadata = { title: 'Cron Runs' };
+export const dynamic = 'force-dynamic'; // observability data should never be cached
 
 function formatDuration(ms: number | null): string {
-  if (ms === null) return "—";
+  if (ms === null) return '—';
   if (ms < 1000) return `${ms}ms`;
   return `${(ms / 1000).toFixed(2)}s`;
 }
 
 function formatRelative(date: Date | null): string {
-  if (!date) return "never";
+  if (!date) return 'never';
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
   if (seconds < 60) return `${seconds}s ago`;
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
@@ -58,33 +58,22 @@ export default async function CronPage({
                 const failurePct = Math.round(row.failureRate * 100);
                 const failureColor =
                   failurePct === 0
-                    ? "text-gray-400"
+                    ? 'text-gray-400'
                     : failurePct < 10
-                      ? "text-yellow-600"
-                      : "text-red-600";
+                      ? 'text-yellow-600'
+                      : 'text-red-600';
                 return (
                   <tr key={row.name} className="hover:bg-gray-50">
                     <td className="px-4 py-3 font-mono text-gray-800">
-                      <a
-                        href={`?name=${encodeURIComponent(row.name)}`}
-                        className="hover:underline"
-                      >
+                      <a href={`?name=${encodeURIComponent(row.name)}`} className="hover:underline">
                         {row.name}
                       </a>
                     </td>
-                    <td className="px-4 py-3 text-gray-600">
-                      {formatRelative(row.lastRunAt)}
-                    </td>
+                    <td className="px-4 py-3 text-gray-600">{formatRelative(row.lastRunAt)}</td>
                     <td className="px-4 py-3">
-                      {row.lastSuccess === null && (
-                        <span className="text-gray-400">running…</span>
-                      )}
-                      {row.lastSuccess === true && (
-                        <span className="text-green-600">✅ ok</span>
-                      )}
-                      {row.lastSuccess === false && (
-                        <span className="text-red-600">❌ failed</span>
-                      )}
+                      {row.lastSuccess === null && <span className="text-gray-400">running…</span>}
+                      {row.lastSuccess === true && <span className="text-green-600">✅ ok</span>}
+                      {row.lastSuccess === false && <span className="text-red-600">❌ failed</span>}
                     </td>
                     <td className="px-4 py-3 text-gray-600">
                       {formatDuration(row.lastDurationMs)}
@@ -97,9 +86,7 @@ export default async function CronPage({
             </tbody>
           </table>
           {overview.length === 0 && (
-            <div className="text-center text-gray-400 py-12">
-              No cron runs recorded yet.
-            </div>
+            <div className="text-center text-gray-400 py-12">No cron runs recorded yet.</div>
           )}
         </div>
       </div>
@@ -126,12 +113,10 @@ export default async function CronPage({
                   {recent.map((run) => (
                     <tr key={run.id} className="hover:bg-gray-50 align-top">
                       <td className="px-4 py-3 text-gray-700 whitespace-nowrap">
-                        {run.startedAt.toISOString().replace("T", " ").slice(0, 19)}
+                        {run.startedAt.toISOString().replace('T', ' ').slice(0, 19)}
                       </td>
                       <td className="px-4 py-3">
-                        {run.finishedAt === null && (
-                          <span className="text-gray-400">running…</span>
-                        )}
+                        {run.finishedAt === null && <span className="text-gray-400">running…</span>}
                         {run.finishedAt !== null && run.success && (
                           <span className="text-green-600">✅</span>
                         )}
@@ -143,21 +128,21 @@ export default async function CronPage({
                         {formatDuration(run.durationMs)}
                       </td>
                       <td className="px-4 py-3 text-gray-700">
-                        <code className="text-xs">{run.statsJson || "—"}</code>
+                        <code className="text-xs">{run.statsJson || '—'}</code>
                       </td>
                       <td className="px-4 py-3 text-red-600">
                         {run.errorMessage ? (
                           <details>
                             <summary className="cursor-pointer text-xs">
                               {run.errorMessage.slice(0, 80)}
-                              {run.errorMessage.length > 80 ? "…" : ""}
+                              {run.errorMessage.length > 80 ? '…' : ''}
                             </summary>
                             <pre className="mt-1 text-xs whitespace-pre-wrap">
                               {run.errorMessage}
                             </pre>
                           </details>
                         ) : (
-                          "—"
+                          '—'
                         )}
                       </td>
                     </tr>
@@ -165,9 +150,7 @@ export default async function CronPage({
                 </tbody>
               </table>
               {recent.length === 0 && (
-                <div className="text-center text-gray-400 py-8">
-                  No recent runs for this job.
-                </div>
+                <div className="text-center text-gray-400 py-8">No recent runs for this job.</div>
               )}
             </div>
           </div>

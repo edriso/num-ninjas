@@ -16,8 +16,7 @@ export const en: Dictionary = {
     title: 'NumNinjas',
     subtitle: 'نينجا الأرقام',
     desc: 'A Telegram bot that teaches kids math in a fun way',
-    subDesc:
-      '3 questions daily, ninja belt system, points and weekly leaderboard, all free!',
+    subDesc: '3 questions daily, ninja belt system, points and weekly leaderboard, all free!',
     cta: 'Start on Telegram \u2192',
     howItWorks: 'How It Works',
     step1Title: 'Start the Bot',

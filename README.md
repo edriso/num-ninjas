@@ -69,15 +69,15 @@ num-ninjas/
 
 ## Tech Stack
 
-| Part | What | Why |
-|------|------|-----|
-| Bot | TypeScript + Grammy + node-cron | Modern Telegram framework, great TS support |
-| Website | Next.js 15 + Tailwind CSS v4 | Server Components, fast, easy to deploy |
-| Database | Prisma 7 + MySQL | Type-safe queries, easy schema changes |
-| Auth | Auth.js v5 (admin only) | Simple credentials login for admin panel |
-| Testing | Vitest (161 unit tests) | Fast, native ESM, no config needed |
-| Package Manager | pnpm workspaces | Fast, handles monorepo dependencies well |
-| Deployment | Railway (bot) + Hostinger (website + MySQL) | Cheap, reliable, auto-deploy from GitHub |
+| Part            | What                                        | Why                                         |
+| --------------- | ------------------------------------------- | ------------------------------------------- |
+| Bot             | TypeScript + Grammy + node-cron             | Modern Telegram framework, great TS support |
+| Website         | Next.js 15 + Tailwind CSS v4                | Server Components, fast, easy to deploy     |
+| Database        | Prisma 7 + MySQL                            | Type-safe queries, easy schema changes      |
+| Auth            | Auth.js v5 (admin only)                     | Simple credentials login for admin panel    |
+| Testing         | Vitest (161 unit tests)                     | Fast, native ESM, no config needed          |
+| Package Manager | pnpm workspaces                             | Fast, handles monorepo dependencies well    |
+| Deployment      | Railway (bot) + Hostinger (website + MySQL) | Cheap, reliable, auto-deploy from GitHub    |
 
 ---
 
@@ -127,18 +127,18 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 
 ### All Commands
 
-| Command | What It Does |
-|---------|-------------|
-| `pnpm dev:bot` | Start the bot with hot reload |
-| `pnpm --filter web dev` | Start the website at localhost:3000 |
-| `pnpm build:bot` | Compile the bot for production |
-| `pnpm build:web` | Build the website for production |
-| `pnpm test` | Run all 161 unit tests |
-| `pnpm db:generate` | Regenerate Prisma client (after schema changes) |
-| `pnpm db:push` | Apply schema changes to the database |
-| `pnpm db:seed` | Seed the database with all data |
-| `pnpm db:seed:demo` | Add 15 fake users with activity (dev only!) |
-| `pnpm db:reset` | **Delete everything** and re-seed (dev only!) |
+| Command                 | What It Does                                    |
+| ----------------------- | ----------------------------------------------- |
+| `pnpm dev:bot`          | Start the bot with hot reload                   |
+| `pnpm --filter web dev` | Start the website at localhost:3000             |
+| `pnpm build:bot`        | Compile the bot for production                  |
+| `pnpm build:web`        | Build the website for production                |
+| `pnpm test`             | Run all 161 unit tests                          |
+| `pnpm db:generate`      | Regenerate Prisma client (after schema changes) |
+| `pnpm db:push`          | Apply schema changes to the database            |
+| `pnpm db:seed`          | Seed the database with all data                 |
+| `pnpm db:seed:demo`     | Add 15 fake users with activity (dev only!)     |
+| `pnpm db:reset`         | **Delete everything** and re-seed (dev only!)   |
 
 ---
 
@@ -146,23 +146,23 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 
 ### For Students / Parents
 
-| Command | What It Does |
-|---------|-------------|
-| `/start` | Start the bot or continue today's questions |
-| `/profile` | Your stats + buttons to change name or level |
-| `/rank` | Weekly leaderboard for your level |
-| `/players` | All players (switch, add child) |
-| `/language` | Switch between Arabic and English |
-| `/settings` | Privacy, level, and other settings |
-| `/help` | Show commands |
+| Command     | What It Does                                 |
+| ----------- | -------------------------------------------- |
+| `/start`    | Start the bot or continue today's questions  |
+| `/profile`  | Your stats + buttons to change name or level |
+| `/rank`     | Weekly leaderboard for your level            |
+| `/players`  | All players (switch, add child)              |
+| `/language` | Switch between Arabic and English            |
+| `/settings` | Privacy, level, and other settings           |
+| `/help`     | Show commands                                |
 
 ### For Admin (your Telegram account only)
 
-| Command | What It Does |
-|---------|-------------|
-| `/admin_send` | Manually send today's questions to everyone |
-| `/admin_prepare` | Manually prepare today's questions |
-| `/admin_stats` | Bot statistics (users, attempts, completions) |
+| Command          | What It Does                                  |
+| ---------------- | --------------------------------------------- |
+| `/admin_send`    | Manually send today's questions to everyone   |
+| `/admin_prepare` | Manually prepare today's questions            |
+| `/admin_stats`   | Bot statistics (users, attempts, completions) |
 
 ---
 
@@ -170,55 +170,55 @@ pnpm --filter web dev       # Start the website (http://localhost:3000)
 
 ### Public (no login needed)
 
-| Page | URL | What It Shows |
-|------|-----|--------------|
-| Landing | `/` | What the bot is, 5 levels, link to Telegram (AR/EN) |
-| Leaderboard | `/leaderboard` | Per-level weekly top players (updates hourly) |
-| ninja champions | `/champions` | Monthly winners and badges (updates daily) |
-| Profile | `/profile/123` | Any player's public stats, badges, OG tags for sharing |
-| Levels | `/levels` | All 5 levels and their topics explained |
+| Page            | URL            | What It Shows                                          |
+| --------------- | -------------- | ------------------------------------------------------ |
+| Landing         | `/`            | What the bot is, 5 levels, link to Telegram (AR/EN)    |
+| Leaderboard     | `/leaderboard` | Per-level weekly top players (updates hourly)          |
+| ninja champions | `/champions`   | Monthly winners and badges (updates daily)             |
+| Profile         | `/profile/123` | Any player's public stats, badges, OG tags for sharing |
+| Levels          | `/levels`      | All 5 levels and their topics explained                |
 
 ### Admin (login required)
 
-| Page | URL | What It Does |
-|------|-----|-------------|
-| Dashboard | `/admin` | Quick stats overview |
+| Page      | URL                | What It Does                                       |
+| --------- | ------------------ | -------------------------------------------------- |
+| Dashboard | `/admin`           | Quick stats overview                               |
 | Questions | `/admin/questions` | Full CRUD — create, edit, delete, filter questions |
-| Topics | `/admin/topics` | Manage topics per level |
-| Levels | `/admin/levels` | Edit level names and descriptions |
-| Badges | `/admin/badges` | View and manage badge types |
-| Users | `/admin/users` | Browse all players and their stats |
-| Settings | `/admin/settings` | Edit bot runtime settings (send times, points) |
-| Scheduled | `/admin/scheduled` | See today's per-user scheduled questions |
+| Topics    | `/admin/topics`    | Manage topics per level                            |
+| Levels    | `/admin/levels`    | Edit level names and descriptions                  |
+| Badges    | `/admin/badges`    | View and manage badge types                        |
+| Users     | `/admin/users`     | Browse all players and their stats                 |
+| Settings  | `/admin/settings`  | Edit bot runtime settings (send times, points)     |
+| Scheduled | `/admin/scheduled` | See today's per-user scheduled questions           |
 
 ---
 
 ## Daily Schedule (Cairo Time)
 
-| Time | What Happens |
-|------|-------------|
-| 12:00 AM | Reset streaks for users who didn't play yesterday |
-| 12:30 AM | Prepare 3 personalized questions per user (adaptive) |
-| 2:30 PM | Send the first question to all users |
-| 7:30 PM | Reminder for users who haven't finished |
-| Sunday 10 PM | Parent weekly report (per-child summary) |
-| Sunday 11 PM | Per-level weekly leaderboard + award top-3 badges |
-| Last day of month 11 PM | Monthly ninja champions awards (global) |
-| Dec 31 11 PM | Yearly champion awards (global) |
+| Time                    | What Happens                                         |
+| ----------------------- | ---------------------------------------------------- |
+| 12:00 AM                | Reset streaks for users who didn't play yesterday    |
+| 12:30 AM                | Prepare 3 personalized questions per user (adaptive) |
+| 2:30 PM                 | Send the first question to all users                 |
+| 7:30 PM                 | Reminder for users who haven't finished              |
+| Sunday 10 PM            | Parent weekly report (per-child summary)             |
+| Sunday 11 PM            | Per-level weekly leaderboard + award top-3 badges    |
+| Last day of month 11 PM | Monthly ninja champions awards (global)              |
+| Dec 31 11 PM            | Yearly champion awards (global)                      |
 
 ---
 
 ## The 5 Ninja Levels
 
-| Level | Name | What Kids Learn |
-|-------|------|----------------|
-| ⚪ 1 | White Belt | Addition, subtraction, multiplication, division, fractions basics |
-| 🟡 2 | Yellow Belt | Decimals, time calculations, perimeter, area, patterns |
-| 🟠 3 | Orange Belt | Advanced fractions, order of operations, money math |
-| 🟢 4 | Green Belt | Percentages, intro to algebra, speed/distance/time |
-| 🥋 5 | Black Belt | Exponents, probability, negative numbers, math puzzles |
+| Level | Name        | What Kids Learn                                                   |
+| ----- | ----------- | ----------------------------------------------------------------- |
+| ⚪ 1  | White Belt  | Addition, subtraction, multiplication, division, fractions basics |
+| 🟡 2  | Yellow Belt | Decimals, time calculations, perimeter, area, patterns            |
+| 🟠 3  | Orange Belt | Advanced fractions, order of operations, money math               |
+| 🟢 4  | Green Belt  | Percentages, intro to algebra, speed/distance/time                |
+| 🥋 5  | Black Belt  | Exponents, probability, negative numbers, math puzzles            |
 
-Each level has 7 topics with 12 questions each = **840 total questions (420 Arabic + 420 English), all with real-life scenarios.
+Each level has 7 topics with 12 questions each = \*\*840 total questions (420 Arabic + 420 English), all with real-life scenarios.
 
 ---
 
@@ -252,14 +252,15 @@ After adding questions, run `pnpm db:reset` to reload everything.
 
 Both apps deploy from the same GitHub repo — push to `main` and both platforms auto-build.
 
-| Service | Platform | Cost | Auto-Deploy |
-|---------|----------|------|-------------|
-| Website | Hostinger Business | Hosting plan | Yes (on push) |
-| Bot | Railway Hobby | ~$5/month | Yes (on push) |
-| Database | Hostinger MySQL | Included | — |
-| Domain/SSL | Cloudflare | Free | — |
+| Service    | Platform           | Cost         | Auto-Deploy   |
+| ---------- | ------------------ | ------------ | ------------- |
+| Website    | Hostinger Business | Hosting plan | Yes (on push) |
+| Bot        | Railway Hobby      | ~$5/month    | Yes (on push) |
+| Database   | Hostinger MySQL    | Included     | —             |
+| Domain/SSL | Cloudflare         | Free         | —             |
 
 **Key deployment details:**
+
 - **Hostinger entry file**: `apps/web/.next/standalone/apps/web/server.js` (standalone output for monorepo)
 - **Cloudflare SSL**: Must be **Flexible** (Hostinger origin has no SSL)
 - **Remote MySQL**: Enable **Any Host** in Hostinger (Railway has no fixed IPs)
@@ -274,10 +275,10 @@ See **[docs/DEPLOY.md](docs/DEPLOY.md)** for the full step-by-step guide coverin
 
 ## Telegram Setup
 
-| What | Handle | Purpose |
-|------|--------|---------|
-| Bot | @NumNinjasBot | Core experience — kids answer questions here |
-| Channel | @NumNinjas | Broadcast — leaderboards, ninja champions, tips |
+| What    | Handle        | Purpose                                         |
+| ------- | ------------- | ----------------------------------------------- |
+| Bot     | @NumNinjasBot | Core experience — kids answer questions here    |
+| Channel | @NumNinjas    | Broadcast — leaderboards, ninja champions, tips |
 
 The bot auto-posts rankings to the channel. Parents subscribe, see their kid's name, screenshot it, share on WhatsApp → viral loop.
 

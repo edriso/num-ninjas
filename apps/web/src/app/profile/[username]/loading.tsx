@@ -1,4 +1,4 @@
-import { StaticFooter } from "@/components/static-footer";
+import { StaticFooter } from '@/components/static-footer';
 
 export default function Loading() {
   return (

@@ -18,33 +18,33 @@ pnpm --filter web dev
 
 ### Public (no login)
 
-| Page | URL | What It Shows |
-|------|-----|--------------|
-| Landing | / | Bot explanation, 5 levels, Telegram CTA |
-| Leaderboard | /leaderboard | Per-level weekly rankings (updates hourly) |
-| ninja champions | /champions | Monthly winners and badges |
-| Profile | /profile/ahmed123 | Player stats, badges, share button |
-| Levels | /levels | All 5 levels and their topics |
+| Page            | URL               | What It Shows                              |
+| --------------- | ----------------- | ------------------------------------------ |
+| Landing         | /                 | Bot explanation, 5 levels, Telegram CTA    |
+| Leaderboard     | /leaderboard      | Per-level weekly rankings (updates hourly) |
+| ninja champions | /champions        | Monthly winners and badges                 |
+| Profile         | /profile/ahmed123 | Player stats, badges, share button         |
+| Levels          | /levels           | All 5 levels and their topics              |
 
 ### Admin (login required)
 
-| Page | URL | What It Does |
-|------|-----|-------------|
-| Login | /admin/login | Email + password |
-| Dashboard | /admin | Stats overview |
-| Questions | /admin/questions | Full CRUD with filters |
-| Topics | /admin/topics | Manage topics per level |
-| Levels | /admin/levels | Edit level details |
-| Badges | /admin/badges | Manage badge types |
-| Users | /admin/users | Browse all players |
-| Settings | /admin/settings | Edit bot runtime settings |
+| Page      | URL              | What It Does               |
+| --------- | ---------------- | -------------------------- |
+| Login     | /admin/login     | Email + password           |
+| Dashboard | /admin           | Stats overview             |
+| Questions | /admin/questions | Full CRUD with filters     |
+| Topics    | /admin/topics    | Manage topics per level    |
+| Levels    | /admin/levels    | Edit level details         |
+| Badges    | /admin/badges    | Manage badge types         |
+| Users     | /admin/users     | Browse all players         |
+| Settings  | /admin/settings  | Edit bot runtime settings  |
 | Scheduled | /admin/scheduled | Today's per-user questions |
 
 ### API
 
-| Route | What It Does |
-|-------|-------------|
-| /api/auth/* | Auth.js authentication |
+| Route                       | What It Does                       |
+| --------------------------- | ---------------------------------- |
+| /api/auth/\*                | Auth.js authentication             |
 | /api/certificate/[username] | Generate shareable PNG certificate |
 
 ## Project Structure

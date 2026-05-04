@@ -127,21 +127,21 @@
 
 ## Tables Summary
 
-| Table | Rows (seeded) | Purpose |
-|-------|--------------|---------|
-| accounts | 0 | Telegram user accounts (one per phone) |
-| users | 0 | Player profiles (up to 5 per account, with locale) |
-| levels | 5 | Ninja belt levels (⚪🟡🟠🟢🥋) |
-| topics | 35 | 7 topics per level |
-| questions | 840 | 12 per topic per language, MCQ + open-ended (420 AR + 420 EN) |
-| options | ~1260 | 3-4 options per MCQ question |
-| scheduled_questions | dynamic | Per-user daily question assignments |
-| study_sessions | dynamic | Daily progress tracking per user |
-| question_attempts | dynamic | Every answer recorded |
-| badges | 12 | Badge definitions (weekly/monthly/yearly/achievement) |
-| user_badges | dynamic | Earned badges per user per period |
-| settings | 9 | Runtime config (times, points, etc.) |
-| admins | 1 | Website admin accounts |
+| Table               | Rows (seeded) | Purpose                                                       |
+| ------------------- | ------------- | ------------------------------------------------------------- |
+| accounts            | 0             | Telegram user accounts (one per phone)                        |
+| users               | 0             | Player profiles (up to 5 per account, with locale)            |
+| levels              | 5             | Ninja belt levels (⚪🟡🟠🟢🥋)                                |
+| topics              | 35            | 7 topics per level                                            |
+| questions           | 840           | 12 per topic per language, MCQ + open-ended (420 AR + 420 EN) |
+| options             | ~1260         | 3-4 options per MCQ question                                  |
+| scheduled_questions | dynamic       | Per-user daily question assignments                           |
+| study_sessions      | dynamic       | Daily progress tracking per user                              |
+| question_attempts   | dynamic       | Every answer recorded                                         |
+| badges              | 12            | Badge definitions (weekly/monthly/yearly/achievement)         |
+| user_badges         | dynamic       | Earned badges per user per period                             |
+| settings            | 9             | Runtime config (times, points, etc.)                          |
+| admins              | 1             | Website admin accounts                                        |
 
 ## Key Relationships
 
@@ -168,10 +168,12 @@
 Full bilingual support is implemented. Users choose their language via `/language` command or website footer button.
 
 **Locale preference:**
+
 - `users.locale` — `'ar'` (default) or `'en'` — determines bot message language and question language
 - `questions.locale` — which language the question content is in (`'ar'` or `'en'`)
 
 **Translated content (`_en` columns, nullable):**
+
 - `levels.name_en`, `levels.description_en`
 - `topics.name_en`, `topics.description_en`
 - `badges.name_en`, `badges.description_en`, `badges.award_title_en`
@@ -184,10 +186,10 @@ Full bilingual support is implemented. Users choose their language via `/languag
 
 Two timestamp columns power the daily engagement-nudge cron (18:00 Cairo) and the sleep-mode filter:
 
-| Column | Purpose |
-|--------|---------|
-| `accounts.last_nudge_at` | One-shot timestamp set when we send the **onboarding-abandoned** nudge to an account that started but never finished a profile. Never nudged again. |
-| `users.last_nudge_at` | Set when we send the **never-engaged** or **went-silent** nudge. For went-silent, a fresh inactivity streak unlocks a new nudge — we detect this by comparing `lastNudgeAt < lastActiveAt`. |
+| Column                   | Purpose                                                                                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accounts.last_nudge_at` | One-shot timestamp set when we send the **onboarding-abandoned** nudge to an account that started but never finished a profile. Never nudged again.                                         |
+| `users.last_nudge_at`    | Set when we send the **never-engaged** or **went-silent** nudge. For went-silent, a fresh inactivity streak unlocks a new nudge — we detect this by comparing `lastNudgeAt < lastActiveAt`. |
 
 **Sleep mode** uses `last_active_at` + `created_at` only (no extra column): a user is skipped by `prepareScheduledQuestions` and `sendFirstQuestion` once `last_active_at IS NULL AND created_at < now − 14d`, OR `last_active_at < now − 30d`. They wake up automatically by interacting with the bot.
 
@@ -195,16 +197,18 @@ Two timestamp columns power the daily engagement-nudge cron (18:00 Cairo) and th
 
 `accounts.blocked_at` mirrors whether the user currently has the bot blocked, so outbound crons skip them at the SQL level instead of burning Telegram API calls (and Hostinger's 500 conn/hour budget) on guaranteed 403 responses.
 
-| State | Meaning |
-|-------|---------|
-| `blocked_at IS NULL` | Reachable — sends are attempted normally. This is the initial state for new accounts. |
+| State                    | Meaning                                                                                                         |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `blocked_at IS NULL`     | Reachable — sends are attempted normally. This is the initial state for new accounts.                           |
 | `blocked_at IS NOT NULL` | The user has the bot blocked. The timestamp records when we detected it. Every outbound cron filters these out. |
 
 **Becomes non-null when:**
+
 1. **Real-time** — Telegram fires `my_chat_member` with `new_chat_member.status = 'kicked'`. The bot's `my_chat_member` handler calls `markAccountBlocked()`. (Requires `'my_chat_member'` in `allowed_updates` — Telegram excludes it from the default set.)
 2. **Fallback** — A cron's `bot.api.sendMessage` returns 403 "bot was blocked by the user". The `handleSendError` helper sets it. This catches blocks that happened while the bot was offline.
 
 **Becomes NULL again when:**
+
 1. **Real-time** — `my_chat_member` fires with `new_chat_member.status = 'member'`.
 2. **Fallback** — The user sends any message or taps a button. The session middleware clears it because the user couldn't be interacting if they hadn't unblocked us first.
 
@@ -214,11 +218,11 @@ Indexed on `blocked_at` because every outbound cron joins on it.
 
 ## Performance Indexes
 
-| Index | Table | Why |
-|-------|-------|-----|
-| `(user_id, answered_at)` | question_attempts | Rankings query: filter by user + date range |
-| `(question_id)` | question_attempts | Spaced repetition: per-question lookups |
-| `(topic_id)` | questions | Adaptive difficulty: filter by topic |
-| `(locale)` | questions | i18n: filter questions by language |
-| `(scheduled_date)` | scheduled_questions | Daily question prep |
-| `(session_date)` | study_sessions | Daily session lookups |
+| Index                    | Table               | Why                                         |
+| ------------------------ | ------------------- | ------------------------------------------- |
+| `(user_id, answered_at)` | question_attempts   | Rankings query: filter by user + date range |
+| `(question_id)`          | question_attempts   | Spaced repetition: per-question lookups     |
+| `(topic_id)`             | questions           | Adaptive difficulty: filter by topic        |
+| `(locale)`               | questions           | i18n: filter questions by language          |
+| `(scheduled_date)`       | scheduled_questions | Daily question prep                         |
+| `(session_date)`         | study_sessions      | Daily session lookups                       |

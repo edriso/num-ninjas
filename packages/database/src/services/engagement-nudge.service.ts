@@ -127,7 +127,11 @@ export function classifyUser(input: UserCohortInput): UserCohort {
  * Should this user stop receiving daily questions until they engage again?
  * Used by prepare-questions and send-first to filter out long-idle users.
  */
-export function isSleeping(input: { lastActiveAt: Date | null; createdAt: Date; now?: Date }): boolean {
+export function isSleeping(input: {
+  lastActiveAt: Date | null;
+  createdAt: Date;
+  now?: Date;
+}): boolean {
   const now = input.now ?? new Date();
 
   if (input.lastActiveAt === null) {
@@ -159,7 +163,9 @@ export interface UserNudgeCandidate {
  * Pre-filters at the SQL level for efficiency, then re-checks with the pure
  * classifier so the rules live in one place.
  */
-export async function findAccountNudgeCandidates(now = new Date()): Promise<AccountNudgeCandidate[]> {
+export async function findAccountNudgeCandidates(
+  now = new Date(),
+): Promise<AccountNudgeCandidate[]> {
   const cutoff = new Date(now.getTime() - ONBOARDING_ABANDON_HOURS * MS_PER_HOUR);
 
   const accounts = await prisma.account.findMany({

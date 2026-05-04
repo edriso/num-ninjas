@@ -62,7 +62,11 @@ export async function recordAttemptAndProgress(params: RecordAttemptParams) {
 
     return {
       attempt,
-      session: { ...updated, questionsAnswered: updated.questionsAnswered, isComplete: updated.questionsAnswered >= totalQuestions },
+      session: {
+        ...updated,
+        questionsAnswered: updated.questionsAnswered,
+        isComplete: updated.questionsAnswered >= totalQuestions,
+      },
     };
   });
 

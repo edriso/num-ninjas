@@ -72,7 +72,7 @@ export async function updateQuestion(
     realLifeContext?: string;
     hintText?: string;
     explanation?: string;
-  }
+  },
 ) {
   return prisma.question.update({
     where: { id },

@@ -18,10 +18,7 @@ export default function Loading() {
             </div>
             {/* Question cards */}
             {Array.from({ length: 3 }).map((_, j) => (
-              <div
-                key={j}
-                className="px-5 py-3 flex items-center gap-3 border-t border-gray-50"
-              >
+              <div key={j} className="px-5 py-3 flex items-center gap-3 border-t border-gray-50">
                 <div className="w-7 h-7 bg-gray-200 rounded-full" />
                 <div className="flex-1 space-y-1">
                   <div className="h-4 w-48 bg-gray-200 rounded" />

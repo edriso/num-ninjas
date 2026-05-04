@@ -10,9 +10,8 @@ export const msg = {
     '3 math questions every day with instant explanations.\n' +
     'Ninja belts, points, badges, and weekly rankings!\n\n' +
     '📌 *For parents:* The bot is completely safe — no personal data required,\n' +
-    'and you\'ll receive weekly progress reports.',
-  welcomeBack: (name: string, emoji: string) =>
-    `${emoji} Welcome back, *${escapeMd(name)}*! 🎉`,
+    "and you'll receive weekly progress reports.",
+  welcomeBack: (name: string, emoji: string) => `${emoji} Welcome back, *${escapeMd(name)}*! 🎉`,
   error: '⚠️ Something went wrong, please try again in a moment',
   privateChatOnly: '🔒 This bot only works in private chats',
 
@@ -20,7 +19,7 @@ export const msg = {
   askRole: 'Are you a student or a parent?',
   roleStudent: '🎒 Student',
   roleParent: '👨‍👩‍👧 Parent',
-  askNickname: '✏️ Send me the player\'s name\n(or your own name if you\'re playing)',
+  askNickname: "✏️ Send me the player's name\n(or your own name if you're playing)",
   askNicknameShort: '✏️ Send me the name',
   invalidNickname: '❌ The name must be 2 to 20 characters. Try again:',
   askLevel: (name: string) =>
@@ -30,31 +29,30 @@ export const msg = {
   // ─── Profile ──────────────────────────────────────────────────────
   profileCreated: (name: string, levelEmoji: string, levelName: string) =>
     `✅ *${escapeMd(name)}* is registered!\n${levelEmoji} Level: ${levelName}\n\n` +
-    'You\'ll get 3 questions every day at 2:30 PM — ready for the challenge! 🔥',
-  whoIsPlaying: 'Who\'s playing now? 🎮',
+    "You'll get 3 questions every day at 2:30 PM — ready for the challenge! 🔥",
+  whoIsPlaying: "Who's playing now? 🎮",
   addChild: '➕ Add a child',
   profileSwitched: (name: string, emoji: string) =>
     `${emoji} Done! *${escapeMd(name)}* is now playing`,
   noProfiles: '🤔 No one is registered yet. Send /start to begin!',
-  maxProfiles: '⚠️ You\'ve reached the maximum (5 children). Remove one first.',
+  maxProfiles: "⚠️ You've reached the maximum (5 children). Remove one first.",
   playersList: (players: string) => `📋 *Players:*\n\n${players}`,
   activeMarker: ' ◀️ playing',
 
   // ─── Levels ───────────────────────────────────────────────────────
-  levelItem: (emoji: string, name: string, desc: string) =>
-    `${emoji} *${name}*\n${desc}`,
+  levelItem: (emoji: string, name: string, desc: string) => `${emoji} *${name}*\n${desc}`,
 
   // ─── Commands ─────────────────────────────────────────────────────
   help:
     '📖 *NumNinjas Commands:*\n\n' +
-    '/start — Start or continue today\'s questions\n' +
+    "/start — Start or continue today's questions\n" +
     '/profile — My profile (change name and level)\n' +
     '/rank — Weekly ranking and ninja champions\n' +
     '/players — Players (switch or add a child)\n' +
     '/language — Change language\n' +
     '/help — Help\n\n' +
     '🥷 3 new questions every day — start whenever you like!\n' +
-    '(You\'ll get a reminder at 2:30 PM if you haven\'t started)\n\n' +
+    "(You'll get a reminder at 2:30 PM if you haven't started)\n\n" +
     '📩 Support: @NumNinjas',
   needProfile: '⚠️ You need to choose a player first. Send /start',
 
@@ -67,7 +65,7 @@ export const msg = {
   // Mirrors the Arabic structure exactly so the typed shape is shared.
   quizQuestions: [
     {
-      text: '🧮 *Question 1/3*\n\nYou\'re at the supermarket, you bought items for 47 pounds and paid 100 pounds.\nHow much change do you get?',
+      text: "🧮 *Question 1/3*\n\nYou're at the supermarket, you bought items for 47 pounds and paid 100 pounds.\nHow much change do you get?",
       options: [
         { text: '53 pounds', correct: true },
         { text: '47 pounds', correct: false },
@@ -98,7 +96,7 @@ export const msg = {
   // ─── Engagement nudges ────────────────────────────────────────────
   // One-shot re-engagement messages from the daily 18:00 cron.
   nudgeOnboardingAbandoned:
-    '🥷 *You started your NumNinjas journey but didn\'t finish!*\n\n' +
+    "🥷 *You started your NumNinjas journey but didn't finish!*\n\n" +
     'Pick your name and level in one minute ✨\n' +
     '3 questions a day are waiting for you 🔥\n\n' +
     'Send /start to begin',
@@ -108,6 +106,6 @@ export const msg = {
     'Send /start',
   nudgeWentSilent: (name: string) =>
     `🥷 Hey *${escapeMd(name)}*! We miss you\n\n` +
-    'Your level is waiting — keep training and don\'t let your friends overtake you 🔥\n\n' +
+    "Your level is waiting — keep training and don't let your friends overtake you 🔥\n\n" +
     'Send /start',
 } as const;

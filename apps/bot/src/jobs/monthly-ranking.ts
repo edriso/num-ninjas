@@ -1,6 +1,12 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninjas/database';
+import {
+  prisma,
+  computeMonthlyCategories,
+  getMonthStart,
+  awardBadge,
+  logger,
+} from '@numninjas/database';
 import { config } from '../config';
 import { broadcastToAccounts } from '../bot/helpers/broadcast';
 import { escapeMd } from '../bot/helpers/escape-md';
@@ -24,8 +30,9 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   const nextMonth = new Date(monthStart);
   nextMonth.setUTCMonth(nextMonth.getUTCMonth() + 1);
 
-  const monthLabel = new Intl.DateTimeFormat('ar-EG', { month: 'long', year: 'numeric' })
-    .format(monthStart);
+  const monthLabel = new Intl.DateTimeFormat('ar-EG', { month: 'long', year: 'numeric' }).format(
+    monthStart,
+  );
 
   const { mostActive, sharpest, independent } = await computeMonthlyCategories(
     monthStart,
@@ -33,12 +40,34 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   );
 
   // Award badges
-  const monthLabelEn = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(monthStart);
+  const monthLabelEn = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
+    monthStart,
+  );
 
-  const badgeEntries: { name: string; winner: typeof mostActive; metricAr: string; metricEn: string }[] = [
-    { name: 'الثابت', winner: mostActive, metricAr: mostActive ? `${mostActive.activeDays} يوم نشط` : '', metricEn: mostActive ? `${mostActive.activeDays} active days` : '' },
-    { name: 'العقل الحاد', winner: sharpest, metricAr: sharpest ? `${Math.round(sharpest.accuracy * 100)}% دقة` : '', metricEn: sharpest ? `${Math.round(sharpest.accuracy * 100)}% accuracy` : '' },
-    { name: 'المستقل', winner: independent, metricAr: independent ? `${independent.hints} تلميح فقط` : '', metricEn: independent ? `${independent.hints} hints only` : '' },
+  const badgeEntries: {
+    name: string;
+    winner: typeof mostActive;
+    metricAr: string;
+    metricEn: string;
+  }[] = [
+    {
+      name: 'الثابت',
+      winner: mostActive,
+      metricAr: mostActive ? `${mostActive.activeDays} يوم نشط` : '',
+      metricEn: mostActive ? `${mostActive.activeDays} active days` : '',
+    },
+    {
+      name: 'العقل الحاد',
+      winner: sharpest,
+      metricAr: sharpest ? `${Math.round(sharpest.accuracy * 100)}% دقة` : '',
+      metricEn: sharpest ? `${Math.round(sharpest.accuracy * 100)}% accuracy` : '',
+    },
+    {
+      name: 'المستقل',
+      winner: independent,
+      metricAr: independent ? `${independent.hints} تلميح فقط` : '',
+      metricEn: independent ? `${independent.hints} hints only` : '',
+    },
   ];
 
   for (const { name: badgeName, winner, metricAr, metricEn } of badgeEntries) {

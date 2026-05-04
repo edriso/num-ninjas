@@ -191,7 +191,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'You have 12 apples and 8 bananas. You want to make equal bags with no fruit left over.',
+    realLifeContext:
+      'You have 12 apples and 8 bananas. You want to make equal bags with no fruit left over.',
     questionText: 'What is the greatest number of bags you can make? (GCD of 12 and 8)',
     hintText: 'Find the largest number that divides both 12 and 8',
     explanation: 'Factors of 12: 1, 2, 3, 4, 6, 12. Factors of 8: 1, 2, 4, 8. GCD = 4',
@@ -207,8 +208,10 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'Two buses leave a station. One comes every 6 minutes and the other every 8 minutes.',
-    questionText: 'After how many minutes will both buses leave at the same time again? (LCM of 6 and 8)',
+    realLifeContext:
+      'Two buses leave a station. One comes every 6 minutes and the other every 8 minutes.',
+    questionText:
+      'After how many minutes will both buses leave at the same time again? (LCM of 6 and 8)',
     hintText: 'Find the smallest number that both 6 and 8 divide into',
     explanation: 'Multiples of 6: 6, 12, 18, 24. Multiples of 8: 8, 16, 24. LCM = 24',
     options: [
@@ -223,10 +226,12 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'Sara wants to cut two ribbons (18 cm and 24 cm) into equal pieces with nothing left.',
+    realLifeContext:
+      'Sara wants to cut two ribbons (18 cm and 24 cm) into equal pieces with nothing left.',
     questionText: 'What is the longest piece she can cut? (GCD of 18 and 24)',
     hintText: 'Find the largest number that divides both 18 and 24',
-    explanation: 'Factors of 18: 1, 2, 3, 6, 9, 18. Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. GCD = 6',
+    explanation:
+      'Factors of 18: 1, 2, 3, 6, 9, 18. Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. GCD = 6',
     options: [
       { optionText: '6 cm', isCorrect: true },
       { optionText: '3 cm', isCorrect: false },
@@ -239,7 +244,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'Ali exercises every 3 days. Omar exercises every 5 days. They both exercised today.',
+    realLifeContext:
+      'Ali exercises every 3 days. Omar exercises every 5 days. They both exercised today.',
     questionText: 'In how many days will they exercise together again? (LCM of 3 and 5)',
     hintText: 'Find the smallest number that both 3 and 5 go into',
     explanation: 'Multiples of 3: 3, 6, 9, 12, 15. Multiples of 5: 5, 10, 15. LCM = 15',
@@ -258,7 +264,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
     realLifeContext: 'You have 20 dates and 30 apples to put into gift bags equally.',
     questionText: 'What is the most bags you can make with no fruit left over? (GCD of 20 and 30)',
     hintText: 'Find the largest number that divides both 20 and 30',
-    explanation: 'Factors of 20: 1, 2, 4, 5, 10, 20. Factors of 30: 1, 2, 3, 5, 6, 10, 15, 30. GCD = 10',
+    explanation:
+      'Factors of 20: 1, 2, 4, 5, 10, 20. Factors of 30: 1, 2, 3, 5, 6, 10, 15, 30. GCD = 10',
     options: [
       { optionText: '10', isCorrect: true },
       { optionText: '5', isCorrect: false },
@@ -271,7 +278,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'Two lights flash. One flashes every 4 seconds and the other every 10 seconds.',
+    realLifeContext:
+      'Two lights flash. One flashes every 4 seconds and the other every 10 seconds.',
     questionText: 'When will they flash at the same time? (LCM of 4 and 10)',
     hintText: 'List multiples of 4 and 10 until you find one they share',
     explanation: 'Multiples of 4: 4, 8, 12, 16, 20. Multiples of 10: 10, 20. LCM = 20',
@@ -303,7 +311,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'Nour waters plants every 6 days. Her brother waters every 9 days. They both watered today.',
+    realLifeContext:
+      'Nour waters plants every 6 days. Her brother waters every 9 days. They both watered today.',
     questionText: 'When will they next water on the same day? (LCM of 6 and 9)',
     hintText: 'List multiples of 6 and 9 until you find the first one they share',
     explanation: 'Multiples of 6: 6, 12, 18. Multiples of 9: 9, 18. LCM = 18',
@@ -468,7 +477,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 3,
     questionType: 'mcq',
-    realLifeContext: 'The temperature was -6 degrees in the morning and -2 degrees in the afternoon.',
+    realLifeContext:
+      'The temperature was -6 degrees in the morning and -2 degrees in the afternoon.',
     questionText: 'How many degrees did it rise?',
     hintText: 'Find the difference: -2 minus -6',
     explanation: '-2 - (-6) = -2 + 6 = 4 degrees rise',
@@ -602,7 +612,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'mcq',
     realLifeContext: 'A box has 5 apples, 3 bananas, and 2 oranges.',
-    questionText: 'If you pick one fruit without looking, what is the probability of getting a banana?',
+    questionText:
+      'If you pick one fruit without looking, what is the probability of getting a banana?',
     hintText: 'Total fruits = 5 + 3 + 2 = 10',
     explanation: 'Probability = 3/10',
     options: [
@@ -706,7 +717,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'A box has 20 balls: 5 are white and 15 are black.',
-    questionText: 'Out of 20, how many are white? (This is the top number of the probability fraction)',
+    questionText:
+      'Out of 20, how many are white? (This is the top number of the probability fraction)',
     hintText: 'Count the white balls',
     explanation: 'There are 5 white balls, so probability = 5/20',
     correctAnswer: '5',
@@ -830,7 +842,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 5,
     questionType: 'mcq',
-    realLifeContext: 'A rectangular water tank holds water. It is 50 cm long, 20 cm wide, and 30 cm tall.',
+    realLifeContext:
+      'A rectangular water tank holds water. It is 50 cm long, 20 cm wide, and 30 cm tall.',
     questionText: 'What is the volume of the tank?',
     hintText: 'Multiply length x width x height',
     explanation: 'Volume = 50 x 20 x 30 = 30000 cubic cm',
@@ -915,7 +928,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'mcq',
-    realLifeContext: 'Ahmed buys some books. Each book costs 2 pounds. He also pays 3 pounds for a bag.',
+    realLifeContext:
+      'Ahmed buys some books. Each book costs 2 pounds. He also pays 3 pounds for a bag.',
     questionText: 'He pays 15 pounds total. If 2x + 3 = 15, what is x?',
     hintText: 'First subtract 3 from both sides, then divide by 2',
     explanation: '2x + 3 = 15. 2x = 12. x = 6',
@@ -964,7 +978,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'mcq',
     realLifeContext: 'Nour saves 4 pounds each week. She already had 8 pounds saved.',
-    questionText: 'After some weeks she has 28 pounds. If 4x + 8 = 28, how many weeks did she save?',
+    questionText:
+      'After some weeks she has 28 pounds. If 4x + 8 = 28, how many weeks did she save?',
     hintText: 'Subtract 8 from both sides, then divide by 4',
     explanation: '4x + 8 = 28. 4x = 20. x = 5 weeks',
     options: [
@@ -1160,7 +1175,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'Three friends share some apples. Karim gets twice as many as Mona. Mona gets 4 apples.',
+    realLifeContext:
+      'Three friends share some apples. Karim gets twice as many as Mona. Mona gets 4 apples.',
     questionText: 'How many apples does Karim get?',
     hintText: 'Twice means 2 times',
     explanation: 'Karim gets 2 x 4 = 8 apples',
@@ -1176,8 +1192,10 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'A magic square has rows, columns, and diagonals that all add up to the same number.',
-    questionText: 'If one row is 8, 1, 6 (total 15), and another row starts with 3, 5, what is the third number?',
+    realLifeContext:
+      'A magic square has rows, columns, and diagonals that all add up to the same number.',
+    questionText:
+      'If one row is 8, 1, 6 (total 15), and another row starts with 3, 5, what is the third number?',
     hintText: 'The row must add up to 15. So 3 + 5 + ? = 15',
     explanation: '3 + 5 = 8. 15 - 8 = 7',
     options: [
@@ -1208,7 +1226,8 @@ export const level5QuestionsEn: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'Sara is older than Mona. Mona is older than Nour. Nour is 8 years old and Mona is 10.',
+    realLifeContext:
+      'Sara is older than Mona. Mona is older than Nour. Nour is 8 years old and Mona is 10.',
     questionText: 'If Sara is 3 years older than Mona, how old is Sara?',
     hintText: 'Mona is 10. Sara is 3 more than Mona',
     explanation: 'Sara = 10 + 3 = 13 years old',

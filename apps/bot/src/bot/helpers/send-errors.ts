@@ -14,14 +14,19 @@ import { isBlockedError, markAccountBlocked, logger } from '@numninjas/database'
  * to log / retry. This keeps blocked_at semantically clean: only set on real
  * "user blocked the bot" errors.
  */
-export async function handleSendError(err: unknown, telegramId: bigint | number): Promise<{ blocked: boolean }> {
+export async function handleSendError(
+  err: unknown,
+  telegramId: bigint | number,
+): Promise<{ blocked: boolean }> {
   if (!isBlockedError(err)) return { blocked: false };
 
   const idBigInt = typeof telegramId === 'bigint' ? telegramId : BigInt(telegramId);
   try {
     const changed = await markAccountBlocked(idBigInt);
     if (changed) {
-      logger.info('Detected blocked bot via send-side 403, marked account', { telegramId: Number(idBigInt) });
+      logger.info('Detected blocked bot via send-side 403, marked account', {
+        telegramId: Number(idBigInt),
+      });
     }
   } catch (markErr) {
     logger.warn('Failed to mark account as blocked after 403', {

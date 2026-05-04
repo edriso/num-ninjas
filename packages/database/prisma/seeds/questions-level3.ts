@@ -20,7 +20,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'ماما بتعمل كيكة العيد ومحتاجة تخلط دقيق. حطت 1/3 كيلو دقيق أبيض و1/4 كيلو دقيق ذرة.',
+    realLifeContext:
+      'ماما بتعمل كيكة العيد ومحتاجة تخلط دقيق. حطت 1/3 كيلو دقيق أبيض و1/4 كيلو دقيق ذرة.',
     questionText: 'كم كيلو دقيق حطت في الكيكة كلها؟',
     hintText: 'وحّد المقامات الأول: المقام المشترك لـ 3 و 4 هو 12',
     explanation: '1/3 + 1/4 = 4/12 + 3/12 = 7/12 كيلو',
@@ -68,7 +69,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 1,
     questionType: 'mcq',
-    realLifeContext: 'ماما صنعت أرز بلبن لإفطار رمضان. حطت 5/6 كوباية سكر الأول وبعدين زادت 1/4 كوباية.',
+    realLifeContext:
+      'ماما صنعت أرز بلبن لإفطار رمضان. حطت 5/6 كوباية سكر الأول وبعدين زادت 1/4 كوباية.',
     questionText: 'كم كوباية سكر حطت كلها؟',
     hintText: 'المقام المشترك لـ 6 و 4 هو 12',
     explanation: '5/6 + 1/4 = 10/12 + 3/12 = 13/12 = 1 و 1/12 كوباية',
@@ -201,7 +203,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'ماما صنعت بسبوسة وتريد تأخذ 2/3 الوصفة. الوصفة الأصلية محتاجة 3/4 كوباية سكر.',
+    realLifeContext:
+      'ماما صنعت بسبوسة وتريد تأخذ 2/3 الوصفة. الوصفة الأصلية محتاجة 3/4 كوباية سكر.',
     questionText: 'كم كوباية سكر هتحتاج؟',
     hintText: 'اضرب البسط × البسط والمقام × المقام',
     explanation: '2/3 × 3/4 = 6/12 = 1/2 كوباية',
@@ -941,7 +944,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 6,
     questionType: 'mcq',
-    realLifeContext: 'في الفسحة اشتريت 2 ساندويتش وعصير. الساندويتش بـ 10 جنيه والعصير بـ 5 جنيه وأخوك إداك 3 جنيه.',
+    realLifeContext:
+      'في الفسحة اشتريت 2 ساندويتش وعصير. الساندويتش بـ 10 جنيه والعصير بـ 5 جنيه وأخوك إداك 3 جنيه.',
     questionText: 'احسب: 2 × 10 + 5 - 3 = ؟',
     hintText: 'الضرب الأول: 2 × 10 = 20، بعدين الجمع والطرح من الشمال لليمين',
     explanation: '2 × 10 = 20، بعدين 20 + 5 = 25، بعدين 25 - 3 = 22',
@@ -1106,7 +1110,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'أحمد فتح كُشك صغير وبيبيع ساندويتشات شاورما. بيشتري المكونات بـ 30 جنيه ويبيع الساندويتش بـ 50 جنيه.',
+    realLifeContext:
+      'أحمد فتح كُشك صغير وبيبيع ساندويتشات شاورما. بيشتري المكونات بـ 30 جنيه ويبيع الساندويتش بـ 50 جنيه.',
     questionText: 'كم ربحه في الساندويتش الواحد؟',
     hintText: 'الربح = سعر البيع - سعر التكلفة',
     explanation: '50 - 30 = 20 جنيه ربح',
@@ -1138,7 +1143,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'ماما تريد تعمل ميزانية للمدرسة. الكتب بـ 250 جنيه، الأدوات بـ 150 جنيه، الشنطة بـ 350 جنيه، والمعاها 1000 جنيه.',
+    realLifeContext:
+      'ماما تريد تعمل ميزانية للمدرسة. الكتب بـ 250 جنيه، الأدوات بـ 150 جنيه، الشنطة بـ 350 جنيه، والمعاها 1000 جنيه.',
     questionText: 'كم هيتبقى معاها بعد المصاريف دي كلها؟',
     hintText: 'اجمع المصاريف كلها واطرحها من المبلغ المتاح',
     explanation: 'المصاريف = 250 + 150 + 350 = 750. الباقي = 1000 - 750 = 250 جنيه',
@@ -1154,7 +1160,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'محمد بيبيع كشري في العربية. تكلفة الطبق 25 جنيه ويبيعه بـ 45 جنيه. في اليوم باع 20 طبق.',
+    realLifeContext:
+      'محمد بيبيع كشري في العربية. تكلفة الطبق 25 جنيه ويبيعه بـ 45 جنيه. في اليوم باع 20 طبق.',
     questionText: 'كم أرباحه في اليوم ده؟',
     hintText: 'ربح الطبق الواحد = 45 - 25 = 20، بعدين اضرب × عدد الأطباق',
     explanation: 'ربح الطبق = 45 - 25 = 20 جنيه. الربح الكلي = 20 × 20 = 400 جنيه',
@@ -1186,7 +1193,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'بابا يريد يعمل ميزانية شهرية. المرتب 8000 جنيه. الإيجار 3000، الأكل 2500، المواصلات 1000.',
+    realLifeContext:
+      'بابا يريد يعمل ميزانية شهرية. المرتب 8000 جنيه. الإيجار 3000، الأكل 2500، المواصلات 1000.',
     questionText: 'كم هيتبقى من المرتب بعد المصاريف؟',
     hintText: 'اجمع المصاريف واطرحها من المرتب',
     explanation: 'المصاريف = 3000 + 2500 + 1000 = 6500. الباقي = 8000 - 6500 = 1500 جنيه',
@@ -1202,7 +1210,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'نورا بتبيع عصير ليمون في المدرسة. بتشتري الليمون بـ 30 جنيه والسكر بـ 10 جنيه والأكواب بـ 10 جنيه. بتعمل 20 كوباية وتبيع الواحدة بـ 5 جنيه.',
+    realLifeContext:
+      'نورا بتبيع عصير ليمون في المدرسة. بتشتري الليمون بـ 30 جنيه والسكر بـ 10 جنيه والأكواب بـ 10 جنيه. بتعمل 20 كوباية وتبيع الواحدة بـ 5 جنيه.',
     questionText: 'كم صافي ربحها؟',
     hintText: 'التكلفة = 30 + 10 + 10. إجمالي البيع = 20 × 5',
     explanation: 'التكلفة = 50 جنيه. إجمالي البيع = 20 × 5 = 100. صافي الربح = 100 - 50 = 50 جنيه',
@@ -1218,7 +1227,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'عمرو يجمع مال حتى يشتري دراجة بـ 2400 جنيه. كل أسبوع يوفّر 200 جنيه ومعاه فعلاً 600 جنيه.',
+    realLifeContext:
+      'عمرو يجمع مال حتى يشتري دراجة بـ 2400 جنيه. كل أسبوع يوفّر 200 جنيه ومعاه فعلاً 600 جنيه.',
     questionText: 'كم أسبوعاً يحتاج حتى يجمع المال كلها؟',
     hintText: 'المبلغ المتبقي = 2400 - 600. اقسم على المبلغ الأسبوعي',
     explanation: 'المتبقي = 2400 - 600 = 1800. عدد الأسابيع = 1800 ÷ 200 = 9 أسابيع',
@@ -1234,7 +1244,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'ياسمين بتبيع كب كيك في العيد. تكلفة الواحدة 8 جنيه وبتبيعها بـ 15 جنيه. باعت 30 واحدة.',
+    realLifeContext:
+      'ياسمين بتبيع كب كيك في العيد. تكلفة الواحدة 8 جنيه وبتبيعها بـ 15 جنيه. باعت 30 واحدة.',
     questionText: 'كم صافي ربحها الكلي؟',
     correctAnswer: '210',
     correctAnswerNumeric: 210,
@@ -1246,7 +1257,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'ماما تريد تعمل ميزانية لشراء أدوات المدرسة لـ 3 أطفال. كل واحد محتاج كشاكيل بـ 80 جنيه وأقلام بـ 40 جنيه وشنطة بـ 250 جنيه.',
+    realLifeContext:
+      'ماما تريد تعمل ميزانية لشراء أدوات المدرسة لـ 3 أطفال. كل واحد محتاج كشاكيل بـ 80 جنيه وأقلام بـ 40 جنيه وشنطة بـ 250 جنيه.',
     questionText: 'كم الميزانية الكلية المحتاجة؟',
     correctAnswer: '1110',
     correctAnswerNumeric: 1110,
@@ -1258,7 +1270,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'خالد اشترى 20 قطعة إكسسوار بـ 500 جنيه. باع 15 قطعة بـ 40 جنيه الواحدة والباقي ما اتباعش.',
+    realLifeContext:
+      'خالد اشترى 20 قطعة إكسسوار بـ 500 جنيه. باع 15 قطعة بـ 40 جنيه الواحدة والباقي ما اتباعش.',
     questionText: 'كم ربحه أو خسارته؟',
     correctAnswer: '100',
     correctAnswerNumeric: 100,
@@ -1270,7 +1283,8 @@ export const level3Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'open_ended',
-    realLifeContext: 'في رمضان، ماما بتصرف يومياً: إفطار 150 جنيه، سحور 70 جنيه، ومشروبات 30 جنيه. الشهر 30 يوم.',
+    realLifeContext:
+      'في رمضان، ماما بتصرف يومياً: إفطار 150 جنيه، سحور 70 جنيه، ومشروبات 30 جنيه. الشهر 30 يوم.',
     questionText: 'كم ميزانية الأكل كله في رمضان؟',
     correctAnswer: '7500',
     correctAnswerNumeric: 7500,

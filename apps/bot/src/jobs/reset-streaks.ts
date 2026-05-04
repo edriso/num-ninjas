@@ -18,10 +18,7 @@ export async function resetStreaks() {
   const result = await prisma.user.updateMany({
     where: {
       streakDays: { gt: 0 },
-      OR: [
-        { lastActiveAt: null },
-        { lastActiveAt: { lt: yesterday } },
-      ],
+      OR: [{ lastActiveAt: null }, { lastActiveAt: { lt: yesterday } }],
     },
     data: { streakDays: 0 },
   });

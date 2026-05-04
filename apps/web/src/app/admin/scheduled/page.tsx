@@ -1,5 +1,5 @@
-import { prisma, todayCairoAsUtcMidnight } from "@numninjas/database";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma, todayCairoAsUtcMidnight } from '@numninjas/database';
+import { requireAdmin } from '@/lib/require-admin';
 
 export default async function ScheduledPage() {
   await requireAdmin();
@@ -7,7 +7,7 @@ export default async function ScheduledPage() {
 
   const scheduled = await prisma.scheduledQuestion.findMany({
     where: { scheduledDate: today },
-    orderBy: [{ userId: "asc" }, { position: "asc" }],
+    orderBy: [{ userId: 'asc' }, { position: 'asc' }],
     include: {
       user: { include: { level: true } },
       question: { include: { topic: true } },
@@ -18,7 +18,7 @@ export default async function ScheduledPage() {
   const grouped = new Map<
     number,
     {
-      user: (typeof scheduled)[0]["user"];
+      user: (typeof scheduled)[0]['user'];
       items: typeof scheduled;
     }
   >();
@@ -30,11 +30,11 @@ export default async function ScheduledPage() {
     grouped.get(sq.userId)!.items.push(sq);
   }
 
-  const todayStr = today.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  const todayStr = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   return (
@@ -76,23 +76,17 @@ export default async function ScheduledPage() {
                         {sq.position}
                       </span>
                       <div className="flex-1">
-                        <p className="text-gray-800 text-sm">
-                          {sq.question.questionText}
-                        </p>
+                        <p className="text-gray-800 text-sm">{sq.question.questionText}</p>
                         <div className="flex gap-3 mt-1">
-                          <span className="text-xs text-gray-500">
-                            {sq.question.topic.name}
-                          </span>
+                          <span className="text-xs text-gray-500">{sq.question.topic.name}</span>
                           <span
                             className={`text-xs px-1.5 py-0.5 rounded ${
-                              sq.question.questionType === "mcq"
-                                ? "bg-blue-50 text-blue-600"
-                                : "bg-green-50 text-green-600"
+                              sq.question.questionType === 'mcq'
+                                ? 'bg-blue-50 text-blue-600'
+                                : 'bg-green-50 text-green-600'
                             }`}
                           >
-                            {sq.question.questionType === "mcq"
-                              ? "Multiple Choice"
-                              : "Open Ended"}
+                            {sq.question.questionType === 'mcq' ? 'Multiple Choice' : 'Open Ended'}
                           </span>
                         </div>
                       </div>

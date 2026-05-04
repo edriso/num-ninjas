@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { announceAction, type AnnounceState } from "@/app/admin/announce/actions";
+import { useActionState } from 'react';
+import { announceAction, type AnnounceState } from '@/app/admin/announce/actions';
 
 export function AnnounceForm() {
   const [state, formAction, isPending] = useActionState<AnnounceState | null, FormData>(
@@ -38,9 +38,8 @@ export function AnnounceForm() {
       </div>
 
       <p className="text-xs text-gray-500">
-        Markdown is supported (<code>*bold*</code>, <code>_italic_</code>,{" "}
-        <code>[link](url)</code>). If you fill only one language, the other
-        gets the same text.
+        Markdown is supported (<code>*bold*</code>, <code>_italic_</code>, <code>[link](url)</code>
+        ). If you fill only one language, the other gets the same text.
       </p>
 
       <div className="flex items-center justify-between">
@@ -49,17 +48,15 @@ export function AnnounceForm() {
           disabled={isPending}
           className="px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          {isPending ? "Sending..." : "Send to everyone"}
+          {isPending ? 'Sending...' : 'Send to everyone'}
         </button>
 
-        {state?.error && (
-          <p className="text-sm text-red-600">{state.error}</p>
-        )}
+        {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
 
         {state && state.error === undefined && state.total !== undefined && (
           <p className="text-sm text-green-700">
             ✅ Sent {state.sent}/{state.total}
-            {state.failed ? ` · ${state.failed} failed` : ""}
+            {state.failed ? ` · ${state.failed} failed` : ''}
           </p>
         )}
       </div>

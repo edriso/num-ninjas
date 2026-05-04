@@ -1,16 +1,16 @@
-"use server";
+'use server';
 
-import { prisma, invalidateSettings } from "@numninjas/database";
-import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma, invalidateSettings } from '@numninjas/database';
+import { revalidatePath } from 'next/cache';
+import { requireAdmin } from '@/lib/require-admin';
 
 export async function updateSettingAction(formData: FormData) {
   await requireAdmin();
-  const settingKey = formData.get("settingKey") as string;
-  const value = (formData.get("value") as string).trim();
+  const settingKey = formData.get('settingKey') as string;
+  const value = (formData.get('value') as string).trim();
 
   if (!settingKey || !value) {
-    throw new Error("Key and value are required");
+    throw new Error('Key and value are required');
   }
 
   await prisma.setting.update({
@@ -23,5 +23,5 @@ export async function updateSettingAction(formData: FormData) {
   // 60s cache TTL — see settings.service.ts for why we don't try to push.
   invalidateSettings();
 
-  revalidatePath("/admin/settings");
+  revalidatePath('/admin/settings');
 }

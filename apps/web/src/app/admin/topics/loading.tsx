@@ -15,10 +15,7 @@ export default function Loading() {
             </div>
             {/* Topic rows */}
             {Array.from({ length: 7 }).map((_, j) => (
-              <div
-                key={j}
-                className="px-5 py-3 flex items-center gap-3 border-t border-gray-50"
-              >
+              <div key={j} className="px-5 py-3 flex items-center gap-3 border-t border-gray-50">
                 <div className="w-6 h-6 bg-gray-200 rounded-full" />
                 <div className="h-4 w-40 bg-gray-200 rounded" />
               </div>

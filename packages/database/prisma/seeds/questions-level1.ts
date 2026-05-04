@@ -85,7 +85,8 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 1,
     questionType: 'mcq',
     realLifeContext: 'عمر بيشتري هدية لصاحبه من محل لعب',
-    questionText: 'عمر اشترى لعبة بـ 45 جنيه وكارت معايدة بـ 15 جنيه وكيس هدايا بـ 5 جنيه. المجموع كم؟',
+    questionText:
+      'عمر اشترى لعبة بـ 45 جنيه وكارت معايدة بـ 15 جنيه وكيس هدايا بـ 5 جنيه. المجموع كم؟',
     hintText: 'اجمع الثلاث حاجات مع بعض',
     explanation: '45 + 15 + 5 = 65 جنيه',
     options: [
@@ -399,7 +400,8 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'mcq',
     realLifeContext: 'سارة عندها تمر وتريد توزعها على زميلاتها',
-    questionText: 'سارة عندها 25 تمرة وتريد توزعهم على 4 زميلات بالتساوي. كل واحدة تأخذ كم ويتبقى كم؟',
+    questionText:
+      'سارة عندها 25 تمرة وتريد توزعهم على 4 زميلات بالتساوي. كل واحدة تأخذ كم ويتبقى كم؟',
     hintText: 'اقسم 25 على 4 وشوف الباقي',
     explanation: '25 ÷ 4 = 6 لكل واحدة والباقي 1 (لأن 4 × 6 = 24)',
     options: [
@@ -523,7 +525,8 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 3,
     questionType: 'open_ended',
     realLifeContext: 'أحمد يقسم تفاح على أصدقائه',
-    questionText: 'أحمد عنده 29 تفاحة ويريد يقسمهم على 5 أصدقاء. كل واحد يأخذ 5 تفاحات. الباقي كم تفاحة؟',
+    questionText:
+      'أحمد عنده 29 تفاحة ويريد يقسمهم على 5 أصدقاء. كل واحد يأخذ 5 تفاحات. الباقي كم تفاحة؟',
     hintText: 'احسب 5 × 5 واطرح من 29',
     explanation: '5 × 5 = 25، والباقي = 29 - 25 = 4 تفاحات',
     correctAnswer: '4',
@@ -1090,7 +1093,8 @@ export const level1Questions: QuestionSeed[] = [
     topicIndex: 6,
     questionType: 'open_ended',
     realLifeContext: 'نور بتقارن كسور في حصة الرياضيات',
-    questionText: 'لوح فواكه متقسم 10 مربعات. نور أكلت 5 مربعات. أكلت كم على 10 من اللوح؟ (اكتب البسط)',
+    questionText:
+      'لوح فواكه متقسم 10 مربعات. نور أكلت 5 مربعات. أكلت كم على 10 من اللوح؟ (اكتب البسط)',
     hintText: 'البسط = عدد المربعات اللي أُكِلت',
     explanation: 'أكلت 5 من 10 = 5/10 = 1/2. البسط = 5',
     correctAnswer: '5',

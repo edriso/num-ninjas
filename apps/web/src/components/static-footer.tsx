@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { getLocale } from "@/lib/locale";
-import { getDictionary } from "@/lib/dictionaries";
-import { LanguageSwitcher } from "./language-switcher";
+import Link from 'next/link';
+import { getLocale } from '@/lib/locale';
+import { getDictionary } from '@/lib/dictionaries';
+import { LanguageSwitcher } from './language-switcher';
 
 /**
  * A minimal footer used in loading skeletons

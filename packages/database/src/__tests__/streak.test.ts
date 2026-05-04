@@ -6,7 +6,9 @@ import { computeNextStreak } from '../services/streak.service';
 
 // Mid-day UTC on a Cairo date — comfortably away from any boundary.
 const NOON = (cairoYear: number, cairoMonth: number, cairoDay: number) =>
-  new Date(`${cairoYear}-${String(cairoMonth).padStart(2, '0')}-${String(cairoDay).padStart(2, '0')}T10:00:00.000Z`);
+  new Date(
+    `${cairoYear}-${String(cairoMonth).padStart(2, '0')}-${String(cairoDay).padStart(2, '0')}T10:00:00.000Z`,
+  );
 
 const TODAY = NOON(2026, 2, 10); // Feb 10 12:00 Cairo (winter, UTC+2)
 
@@ -44,9 +46,17 @@ describe('computeNextStreak', () => {
   it('handles same-day duplicate calls idempotently (no off-by-one)', () => {
     // A retry after a successful update would call this with currentStreak that already includes today.
     const earlierToday = new Date(TODAY.getTime() - 60 * 1000); // 1 minute ago
-    const first = computeNextStreak({ lastActiveAt: NOON(2026, 2, 9), currentStreak: 3, now: TODAY });
+    const first = computeNextStreak({
+      lastActiveAt: NOON(2026, 2, 9),
+      currentStreak: 3,
+      now: TODAY,
+    });
     expect(first).toBe(4);
-    const second = computeNextStreak({ lastActiveAt: earlierToday, currentStreak: first, now: TODAY });
+    const second = computeNextStreak({
+      lastActiveAt: earlierToday,
+      currentStreak: first,
+      now: TODAY,
+    });
     expect(second).toBe(4); // unchanged
   });
 
@@ -62,7 +72,7 @@ describe('computeNextStreak — Cairo timezone correctness', () => {
     // If the kid plays Feb 10 22:00 UTC and it's now Feb 11 12:00 UTC (Feb 11 14:00 Cairo)...
     // lastActive Cairo date = Feb 11. now Cairo date = Feb 11. Same day → no change.
     const lastActive = new Date('2026-02-10T22:00:00.000Z'); // Feb 11 00:00 Cairo
-    const now = new Date('2026-02-11T12:00:00.000Z');         // Feb 11 14:00 Cairo
+    const now = new Date('2026-02-11T12:00:00.000Z'); // Feb 11 14:00 Cairo
     expect(computeNextStreak({ lastActiveAt: lastActive, currentStreak: 5, now })).toBe(5);
   });
 
@@ -77,7 +87,7 @@ describe('computeNextStreak — Cairo timezone correctness', () => {
   it('handles DST (UTC+3) — late June, summer time in Egypt', () => {
     // June 15 in Cairo: UTC+3 (DST). 21:00 UTC = June 16 00:00 Cairo.
     const lastActive = new Date('2026-06-15T21:00:00.000Z'); // June 16 00:00 Cairo
-    const now = new Date('2026-06-16T12:00:00.000Z');         // June 16 15:00 Cairo
+    const now = new Date('2026-06-16T12:00:00.000Z'); // June 16 15:00 Cairo
     // Same Cairo day.
     expect(computeNextStreak({ lastActiveAt: lastActive, currentStreak: 5, now })).toBe(5);
   });
@@ -86,13 +96,13 @@ describe('computeNextStreak — Cairo timezone correctness', () => {
     // June 14 22:00 UTC = June 15 01:00 Cairo (UTC+3). That's June 15 Cairo.
     // Now: June 16 12:00 UTC = June 16 15:00 Cairo. Yesterday (Cairo) was June 15.
     const lastActive = new Date('2026-06-14T22:00:00.000Z'); // June 15 01:00 Cairo
-    const now = new Date('2026-06-16T12:00:00.000Z');         // June 16 15:00 Cairo
+    const now = new Date('2026-06-16T12:00:00.000Z'); // June 16 15:00 Cairo
     expect(computeNextStreak({ lastActiveAt: lastActive, currentStreak: 5, now })).toBe(6);
   });
 
   it('crosses month boundary correctly (Jan 31 → Feb 1)', () => {
     const lastActive = new Date('2026-01-31T12:00:00.000Z'); // Jan 31 14:00 Cairo
-    const now = new Date('2026-02-01T12:00:00.000Z');         // Feb 1 14:00 Cairo
+    const now = new Date('2026-02-01T12:00:00.000Z'); // Feb 1 14:00 Cairo
     expect(computeNextStreak({ lastActiveAt: lastActive, currentStreak: 4, now })).toBe(5);
   });
 

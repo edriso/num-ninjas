@@ -1,4 +1,4 @@
-import { StaticFooter } from "@/components/static-footer";
+import { StaticFooter } from '@/components/static-footer';
 
 export default function Loading() {
   return (
@@ -22,10 +22,7 @@ export default function Loading() {
               </div>
             </div>
             {Array.from({ length: 7 }).map((_, j) => (
-              <div
-                key={j}
-                className="px-6 py-3 flex items-center gap-3 border-t border-slate-50"
-              >
+              <div key={j} className="px-6 py-3 flex items-center gap-3 border-t border-slate-50">
                 <div className="w-7 h-7 bg-gray-200 rounded-full" />
                 <div className="h-4 bg-gray-200 rounded w-40" />
               </div>

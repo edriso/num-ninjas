@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   createQuestionAction,
   updateQuestionAction,
   deleteQuestionAction,
-} from "@/app/admin/questions/actions";
+} from '@/app/admin/questions/actions';
 
 type Level = {
   id: number;
@@ -41,21 +41,17 @@ export function QuestionForm({
   const isEdit = !!question;
 
   const [selectedLevelId, setSelectedLevelId] = useState<number>(
-    question?.topic.levelId ?? (levels[0]?.id ?? 0),
+    question?.topic.levelId ?? levels[0]?.id ?? 0,
   );
-  const [locale, setLocale] = useState<string>(question?.locale ?? "ar");
-  const [questionType, setQuestionType] = useState<string>(
-    question?.questionType ?? "mcq",
-  );
+  const [locale, setLocale] = useState<string>(question?.locale ?? 'ar');
+  const [questionType, setQuestionType] = useState<string>(question?.questionType ?? 'mcq');
   const [submitting, setSubmitting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const topics =
-    levels.find((l) => l.id === selectedLevelId)?.topics ?? [];
+  const topics = levels.find((l) => l.id === selectedLevelId)?.topics ?? [];
 
   // Find correct option index for pre-fill
-  const correctOptionIndex =
-    question?.options.findIndex((o) => o.isCorrect) ?? 0;
+  const correctOptionIndex = question?.options.findIndex((o) => o.isCorrect) ?? 0;
 
   async function handleSubmit(formData: FormData) {
     setSubmitting(true);
@@ -80,8 +76,8 @@ export function QuestionForm({
   }
 
   const inputClass =
-    "w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300";
-  const labelClass = "block text-sm font-medium text-gray-700 mb-1";
+    'w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300';
+  const labelClass = 'block text-sm font-medium text-gray-700 mb-1';
 
   return (
     <form action={handleSubmit} className="space-y-6 max-w-2xl">
@@ -110,8 +106,8 @@ export function QuestionForm({
               type="radio"
               name="locale"
               value="ar"
-              checked={locale === "ar"}
-              onChange={() => setLocale("ar")}
+              checked={locale === 'ar'}
+              onChange={() => setLocale('ar')}
               className="accent-gray-900"
             />
             <span className="text-sm">AR Arabic</span>
@@ -121,8 +117,8 @@ export function QuestionForm({
               type="radio"
               name="locale"
               value="en"
-              checked={locale === "en"}
-              onChange={() => setLocale("en")}
+              checked={locale === 'en'}
+              onChange={() => setLocale('en')}
               className="accent-gray-900"
             />
             <span className="text-sm">EN English</span>
@@ -135,7 +131,7 @@ export function QuestionForm({
         <label className={labelClass}>Topic *</label>
         <select
           name="topicId"
-          defaultValue={question?.topicId ?? (topics[0]?.id ?? "")}
+          defaultValue={question?.topicId ?? topics[0]?.id ?? ''}
           key={selectedLevelId}
           required
           className={inputClass}
@@ -162,8 +158,8 @@ export function QuestionForm({
               type="radio"
               name="questionType"
               value="mcq"
-              checked={questionType === "mcq"}
-              onChange={() => setQuestionType("mcq")}
+              checked={questionType === 'mcq'}
+              onChange={() => setQuestionType('mcq')}
               className="accent-gray-900"
             />
             <span className="text-sm">Multiple Choice (MCQ)</span>
@@ -173,8 +169,8 @@ export function QuestionForm({
               type="radio"
               name="questionType"
               value="open_ended"
-              checked={questionType === "open_ended"}
-              onChange={() => setQuestionType("open_ended")}
+              checked={questionType === 'open_ended'}
+              onChange={() => setQuestionType('open_ended')}
               className="accent-gray-900"
             />
             <span className="text-sm">Open Ended</span>
@@ -187,7 +183,7 @@ export function QuestionForm({
         <label className={labelClass}>Real-life Context (optional)</label>
         <textarea
           name="realLifeContext"
-          defaultValue={question?.realLifeContext ?? ""}
+          defaultValue={question?.realLifeContext ?? ''}
           rows={2}
           className={inputClass}
           placeholder="e.g. Ahmed went to the store..."
@@ -199,7 +195,7 @@ export function QuestionForm({
         <label className={labelClass}>Question Text *</label>
         <textarea
           name="questionText"
-          defaultValue={question?.questionText ?? ""}
+          defaultValue={question?.questionText ?? ''}
           rows={3}
           required
           className={inputClass}
@@ -212,7 +208,7 @@ export function QuestionForm({
         <label className={labelClass}>Explanation *</label>
         <textarea
           name="explanation"
-          defaultValue={question?.explanation ?? ""}
+          defaultValue={question?.explanation ?? ''}
           rows={3}
           required
           className={inputClass}
@@ -226,19 +222,17 @@ export function QuestionForm({
         <input
           type="text"
           name="hintText"
-          defaultValue={question?.hintText ?? ""}
+          defaultValue={question?.hintText ?? ''}
           className={inputClass}
           placeholder="A hint to help the student..."
         />
       </div>
 
       {/* MCQ options */}
-      {questionType === "mcq" && (
+      {questionType === 'mcq' && (
         <div>
           <label className={labelClass}>Options *</label>
-          <p className="text-xs text-gray-400 mb-3">
-            Click the button to mark the correct answer
-          </p>
+          <p className="text-xs text-gray-400 mb-3">Click the button to mark the correct answer</p>
           <div className="space-y-3">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="flex items-center gap-3">
@@ -252,10 +246,10 @@ export function QuestionForm({
                 <input
                   type="text"
                   name={`option${i}Text`}
-                  defaultValue={question?.options[i]?.optionText ?? ""}
+                  defaultValue={question?.options[i]?.optionText ?? ''}
                   required={i < 2}
                   className={inputClass}
-                  placeholder={`Option ${i + 1}${i < 2 ? " *" : " (optional)"}`}
+                  placeholder={`Option ${i + 1}${i < 2 ? ' *' : ' (optional)'}`}
                 />
               </div>
             ))}
@@ -264,14 +258,14 @@ export function QuestionForm({
       )}
 
       {/* Open-ended answer */}
-      {questionType === "open_ended" && (
+      {questionType === 'open_ended' && (
         <div className="space-y-4">
           <div>
             <label className={labelClass}>Correct Answer (text)</label>
             <input
               type="text"
               name="correctAnswer"
-              defaultValue={question?.correctAnswer ?? ""}
+              defaultValue={question?.correctAnswer ?? ''}
               className={inputClass}
               placeholder="e.g. 45"
             />
@@ -281,7 +275,7 @@ export function QuestionForm({
             <input
               type="number"
               name="correctAnswerNumeric"
-              defaultValue={question?.correctAnswerNumeric ?? ""}
+              defaultValue={question?.correctAnswerNumeric ?? ''}
               step="any"
               className={inputClass}
               placeholder="e.g. 45"
@@ -298,11 +292,11 @@ export function QuestionForm({
           disabled={submitting}
           className="bg-gray-900 text-white px-6 py-2 rounded-lg text-sm hover:bg-gray-800 transition-colors disabled:opacity-50"
         >
-          {submitting ? "Saving..." : isEdit ? "Save Changes" : "Add Question"}
+          {submitting ? 'Saving...' : isEdit ? 'Save Changes' : 'Add Question'}
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/questions")}
+          onClick={() => router.push('/admin/questions')}
           className="text-sm text-gray-500 hover:text-gray-700"
         >
           Cancel

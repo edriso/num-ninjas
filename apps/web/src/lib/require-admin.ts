@@ -1,5 +1,5 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
 /**
  * Auth gate for admin server components and Server Actions.
@@ -23,6 +23,6 @@ import { redirect } from "next/navigation";
  */
 export async function requireAdmin() {
   const session = await auth();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect('/admin/login');
   return session;
 }

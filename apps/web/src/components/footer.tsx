@@ -1,13 +1,13 @@
-import Link from "next/link";
-import type { Dictionary } from "@/lib/dictionaries";
-import { LanguageSwitcher } from "./language-switcher";
+import Link from 'next/link';
+import type { Dictionary } from '@/lib/dictionaries';
+import { LanguageSwitcher } from './language-switcher';
 
 export function Footer({ d, locale }: { d: Dictionary; locale: string }) {
   return (
     <footer className="bg-slate-950 text-slate-400 py-8 px-6 mt-auto">
       <nav
         className="max-w-4xl mx-auto flex flex-wrap justify-center items-center gap-4 mb-4 text-sm"
-        aria-label={locale === "ar" ? "تنقل الموقع" : "Site navigation"}
+        aria-label={locale === 'ar' ? 'تنقل الموقع' : 'Site navigation'}
       >
         <Link
           href="/"

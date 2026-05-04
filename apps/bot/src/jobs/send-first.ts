@@ -1,6 +1,13 @@
 import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
-import { prisma, getOrCreateTodaySession, getNextQuestion, markQuestionSent, logger, isSleeping } from '@numninjas/database';
+import {
+  prisma,
+  getOrCreateTodaySession,
+  getNextQuestion,
+  markQuestionSent,
+  logger,
+  isSleeping,
+} from '@numninjas/database';
 import { prepareScheduledQuestions } from './prepare-questions';
 import { handleSendError } from '../bot/helpers/send-errors';
 
@@ -29,11 +36,13 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
     if (!account.activeProfile) continue;
 
     // Sleep mode: skip users who've been idle too long. They wake up by interacting.
-    if (isSleeping({
-      lastActiveAt: account.activeProfile.lastActiveAt,
-      createdAt: account.activeProfile.createdAt,
-      now,
-    })) {
+    if (
+      isSleeping({
+        lastActiveAt: account.activeProfile.lastActiveAt,
+        createdAt: account.activeProfile.createdAt,
+        now,
+      })
+    ) {
       skippedSleeping++;
       continue;
     }
@@ -62,21 +71,29 @@ export async function sendFirstQuestion(bot: Bot<BotContext>) {
 
       // Build message
       const questionLabel = locale === 'en' ? 'Question' : 'سؤال';
-      const topicName = (locale === 'en' && question.topic.nameEn) ? question.topic.nameEn : question.topic.name;
+      const topicName =
+        locale === 'en' && question.topic.nameEn ? question.topic.nameEn : question.topic.name;
       let text = `${user?.level.iconEmoji || '🥷'} *${questionLabel} ${position}/${totalQuestions}* — ${topicName}\n\n`;
       if (question.realLifeContext) text += `${question.realLifeContext}\n\n`;
       text += `❓ ${question.questionText}`;
 
       if (question.questionType === 'mcq') {
         const { buildMcqKeyboard } = await import('../bot/keyboards/mcq');
-        const keyboard = buildMcqKeyboard(question.id, question.options, !!question.hintText, locale);
+        const keyboard = buildMcqKeyboard(
+          question.id,
+          question.options,
+          !!question.hintText,
+          locale,
+        );
         await bot.api.sendMessage(chatId, text, {
           parse_mode: 'Markdown',
           reply_markup: keyboard,
         });
       } else {
         const { buildHintKeyboard } = await import('../bot/keyboards/mcq');
-        const markup = question.hintText ? { reply_markup: buildHintKeyboard(question.id, locale) } : {};
+        const markup = question.hintText
+          ? { reply_markup: buildHintKeyboard(question.id, locale) }
+          : {};
         const writeAnswer = locale === 'en' ? '✏️ Type your answer:' : '✏️ اكتب إجابتك:';
         await bot.api.sendMessage(chatId, text + '\n\n' + writeAnswer, {
           parse_mode: 'Markdown',

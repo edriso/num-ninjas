@@ -15,10 +15,7 @@ export default function Loading() {
         </div>
         {/* Table rows */}
         {Array.from({ length: 10 }).map((_, i) => (
-          <div
-            key={i}
-            className="flex gap-4 px-4 py-3 border-t border-gray-50"
-          >
+          <div key={i} className="flex gap-4 px-4 py-3 border-t border-gray-50">
             {Array.from({ length: 5 }).map((_, j) => (
               <div key={j} className="h-4 bg-gray-200 rounded flex-1" />
             ))}

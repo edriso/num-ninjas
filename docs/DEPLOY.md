@@ -15,14 +15,14 @@ Both connect to the same MySQL on Hostinger
 Cloudflare handles your domain + SSL + CDN
 ```
 
-| Part | Where | What It Does |
-|------|-------|-------------|
-| Website | Hostinger Business | The public site + admin panel |
-| Bot | Railway | The Telegram bot (always running) |
-| Database | Hostinger MySQL | Shared by both website and bot |
-| Domain + SSL | Cloudflare | Makes your site fast and secure |
-| Bot account | Telegram @BotFather | The bot users talk to |
-| Channel | Telegram | Where leaderboards get posted |
+| Part         | Where               | What It Does                      |
+| ------------ | ------------------- | --------------------------------- |
+| Website      | Hostinger Business  | The public site + admin panel     |
+| Bot          | Railway             | The Telegram bot (always running) |
+| Database     | Hostinger MySQL     | Shared by both website and bot    |
+| Domain + SSL | Cloudflare          | Makes your site fast and secure   |
+| Bot account  | Telegram @BotFather | The bot users talk to             |
+| Channel      | Telegram            | Where leaderboards get posted     |
 
 ---
 
@@ -36,7 +36,9 @@ Cloudflare handles your domain + SSL + CDN
 6. **Save this token** — you'll need it later
 
 ### Set the bot's profile
+
 Send these commands to @BotFather:
+
 ```
 /setdescription
   → Pick your bot
@@ -52,6 +54,7 @@ Send these commands to @BotFather:
 ```
 
 ### Set the bot's commands
+
 Send `/setcommands` to @BotFather, pick your bot, then paste this **exactly**:
 
 ```
@@ -68,6 +71,7 @@ This creates the command menu that appears when users tap the `/` button or the 
 > **Note:** `/language`, `/privacy`, `/level`, `/streak`, `/hall`, `/addchild`, `/switch` all still work when typed — they're just not in the menu to keep it clean. Admin commands (`admin_send`, `admin_prepare`, `admin_stats`) are also hidden.
 
 ### Get your Telegram ID
+
 1. Search for **@userinfobot** on Telegram
 2. Send it any message
 3. It replies with your user ID (a number like `5422369364`)
@@ -109,6 +113,7 @@ This creates the command menu that appears when users tap the `/` button or the 
 6. Go to **Remote MySQL** and enable **Any Host** (allows all IPs — needed for Railway to connect, since Railway doesn't have fixed IPs on Hobby plan). Hostinger doesn't accept CIDR notation like `0.0.0.0/0` — use the "Any Host" toggle instead.
 
 Your DATABASE_URL will look like:
+
 ```
 mysql://numninja_admin:your-password@srvXXXX.hstgr.io:3306/num_ninjas
 ```
@@ -147,23 +152,25 @@ git push -u origin main
    > **Why these settings?** Hostinger doesn't have `pnpm` or `npx` in PATH for subprocesses. The `build:web` script in root package.json uses `node_modules/.bin/` paths directly. The standalone output bundles everything Next.js needs into a single server.js file. In monorepos, the standalone server.js is nested under the app's path.
 
 3. Set **Environment Variables** in Hostinger:
+
    ```
    DATABASE_URL=mysql://your-user:your-password@127.0.0.1:3306/your_database
    AUTH_SECRET=generate-a-random-string-here
    AUTH_URL=https://numninjas.com
    NODE_ENV=production
    ```
-   
+
    > **Important:** The website's DATABASE_URL must use `127.0.0.1` (not `srvXXXX.hstgr.io`). Since the website and MySQL are on the same Hostinger server, `127.0.0.1` connects locally — this bypasses the Remote MySQL 500 connections/hour limit entirely. The bot on Railway must use `srvXXXX.hstgr.io` since it connects from outside.
-   
+
    > **AUTH_URL** — set this to your website's public URL (e.g. `https://numninjas.com`). Auth.js reads it as an environment variable (no code change needed) and uses it to build correct redirect URLs after login. Without it, callbacks may fall back to the internal `0.0.0.0:3000` address and redirect incorrectly.
-   
+
    To generate AUTH_SECRET, run this on your computer:
+
    ```bash
    openssl rand -base64 32
    ```
 
-   > **Password with special characters?** URL-encode them in DATABASE_URL: `@` → `%40`, `&` → `%26`, `#` → `%23`. Or use a password with only letters, numbers, `-`, `_`, `.` to avoid issues.
+   > **Password with special characters?** URL-encode them in DATABASE*URL: `@` → `%40`, `&` → `%26`, `#` → `%23`. Or use a password with only letters, numbers, `-`, `*`, `.` to avoid issues.
 
 4. Click **Deploy** and wait for it to build
 5. Your website should be live at your Hostinger domain!
@@ -171,12 +178,14 @@ git push -u origin main
 ### First-time database setup
 
 **Recommended: use phpMyAdmin** (easiest on Hostinger):
+
 1. Go to **Databases → phpMyAdmin** → **Enter phpMyAdmin**
 2. Select your database
 3. Click **Import** tab → upload `docs/schema.sql` → click **Go** (creates all tables)
 4. Click **Import** tab → upload `docs/seed.sql` → click **Go** (seeds all data)
 
 **Alternative: use SSH** (if Prisma CLI cooperates):
+
 ```bash
 cd ~/domains/your-domain.com/nodejs
 chmod +x packages/database/node_modules/.bin/prisma
@@ -203,6 +212,7 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
    - **Restart Policy**: On Failure (default)
 
 5. Go to **Variables** tab and add:
+
    ```
    BOT_TOKEN=your-bot-token-from-botfather
    ADMIN_TELEGRAM_ID=your-telegram-id
@@ -210,13 +220,14 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
    DATABASE_URL=mysql://your-user:your-password@srvXXXX.hstgr.io:3306/your_database
    NODE_ENV=production
    ```
-   
+
    Use the **same DATABASE_URL** as the website — both connect to the same Hostinger MySQL.
 
    > **Important:** Make sure **Remote MySQL → Any Host** is enabled in Hostinger hPanel. Railway doesn't have fixed IPs, so the database must accept connections from any IP.
 
 6. Click **Deploy** (first deploy takes ~5-10 minutes; subsequent deploys are faster)
 7. Check the **Deploy Logs** — you should see:
+
    ```
    [INFO] NumNinjas starting...
    [INFO] [STARTUP] Running streak reset catch-up...
@@ -254,12 +265,14 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
 ## Step 8: Verify Everything Works
 
 ### Test the bot
+
 - Open Telegram → find @NumNinjasBot → send `/start`
 - Complete the onboarding quiz
 - Answer today's questions
 - Check `/profile`, `/rank`, `/help`
 
 ### Test the website
+
 - Visit your domain (e.g., https://numninjas.com)
 - Check the leaderboard, levels, ninja champions pages
 - Log in to admin panel at `/admin/login`
@@ -268,6 +281,7 @@ packages/database/node_modules/.bin/prisma db seed --schema=packages/database/pr
   - **Change this password immediately** — see "Changing the admin password" below
 
 ### Test the channel
+
 - Wait for Sunday 11 PM Cairo time (or use `/admin_send` to trigger manually)
 - Check that the weekly ranking appears in your @NumNinjas channel
 
@@ -278,9 +292,11 @@ The default admin password is `password` (set during initial database setup). **
 There's no password change screen in the app. Use **phpMyAdmin** to update it:
 
 1. Generate a bcrypt hash of your new password. From the project root, run:
+
    ```bash
    node docs/generate-hash.js YOUR_NEW_PASSWORD
    ```
+
    Replace `YOUR_NEW_PASSWORD` with your actual password. It outputs a hash like `$2b$10$...`.
 
    **Or** use an online generator: https://bcrypt-generator.com — enter your password, use 10 rounds, and copy the hash.
@@ -293,9 +309,10 @@ There's no password change screen in the app. Use **phpMyAdmin** to update it:
    Replace `$2b$10$YOUR_HASH_HERE` with the hash from step 1.
 
 > **How admin passwords work:** The password is stored as a bcrypt hash in the `admins` table. There are two ways the initial admin gets created:
+>
 > - **Production (phpMyAdmin):** Import `docs/seed.sql` — contains a pre-hashed bcrypt password for `password`
 > - **Local dev (`pnpm db:seed`):** Reads `ADMIN_PASSWORD` from `packages/database/.env` and hashes it at seed time (default: `password`)
-> 
+>
 > Both are independent. The only password that matters is what's in the database. Change it via phpMyAdmin as described above.
 
 ---
@@ -303,6 +320,7 @@ There's no password change screen in the app. Use **phpMyAdmin** to update it:
 ## Updating Your App
 
 Every time you push to GitHub:
+
 - **Hostinger** automatically rebuilds and redeploys the website
 - **Railway** automatically rebuilds and redeploys the bot
 
@@ -321,20 +339,23 @@ git push
 After your app is live with real users, be very careful with database commands.
 
 ### Safe to run anytime
-| Command | What It Does | When to Use |
-|---------|-------------|-------------|
+
+| Command            | What It Does                   | When to Use                    |
+| ------------------ | ------------------------------ | ------------------------------ |
 | `pnpm db:generate` | Regenerates Prisma client code | After changing `schema.prisma` |
 
 ### Safe but be careful
-| Command | What It Does | Risk |
-|---------|-------------|------|
+
+| Command        | What It Does                           | Risk                                                                                                            |
+| -------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | `pnpm db:push` | Applies schema changes to the database | Adding new columns is safe. Renaming or removing columns **will lose data**. Always back up the database first. |
 
 ### NEVER run on production
-| Command | What It Does | Why It's Dangerous |
-|---------|-------------|--------------------|
-| `pnpm db:reset` | **Deletes ALL data** and re-seeds | Destroys every user account, every answer, every badge. Only for local development. |
-| `pnpm db:seed` | Inserts seed data (levels, questions, badges) | Uses upsert so it won't duplicate, but it will overwrite any changes you made to levels/badges/settings via the admin panel. |
+
+| Command         | What It Does                                  | Why It's Dangerous                                                                                                           |
+| --------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm db:reset` | **Deletes ALL data** and re-seeds             | Destroys every user account, every answer, every badge. Only for local development.                                          |
+| `pnpm db:seed`  | Inserts seed data (levels, questions, badges) | Uses upsert so it won't duplicate, but it will overwrite any changes you made to levels/badges/settings via the admin panel. |
 
 ### When you change the schema after launch
 
@@ -346,6 +367,7 @@ After your app is live with real users, be very careful with database commands.
 ### If you need to add new questions after launch
 
 Don't run `pnpm db:seed` — it would overwrite admin panel changes. Instead:
+
 - Use the **admin panel** at `/admin/questions` to add questions one by one
 - Or write a custom script that only inserts new questions without touching existing ones
 
@@ -359,6 +381,7 @@ mysqldump -u numninjas -ppassword --no-create-info --complete-insert numninjas s
 ```
 
 Then prepend these lines to the file:
+
 ```sql
 SET NAMES utf8mb4;
 SET CHARACTER SET utf8mb4;
@@ -366,6 +389,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 ```
 
 And append at the end:
+
 ```sql
 SET FOREIGN_KEY_CHECKS = 1;
 ```
@@ -377,16 +401,19 @@ SET FOREIGN_KEY_CHECKS = 1;
 ## If Something Goes Wrong
 
 ### Bot not responding
+
 1. Check Railway logs (Dashboard → your service → Logs)
 2. Make sure BOT_TOKEN is correct
 3. Make sure DATABASE_URL is accessible from Railway
 
 ### Website not loading
+
 1. Check Hostinger build logs
 2. Make sure DATABASE_URL is correct
 3. Make sure the build command ran successfully
 
 ### Database connection errors
+
 1. Check that Remote MySQL is enabled in Hostinger hPanel
 2. Check that the IP is whitelisted (or 0.0.0.0/0 is set)
 3. Test the connection string locally:
@@ -396,6 +423,7 @@ SET FOREIGN_KEY_CHECKS = 1;
    ```
 
 ### "Permission denied" or build errors
+
 1. Make sure pnpm is available on the server
 2. Try running `pnpm approve-builds` if native modules fail
 
@@ -404,6 +432,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 ## Quick Reference — All Environment Variables
 
 ### apps/bot/.env (Railway)
+
 ```
 BOT_TOKEN=8686082436:AAFLILHq...        # From @BotFather
 ADMIN_TELEGRAM_ID=5422369364             # From @userinfobot
@@ -413,6 +442,7 @@ NODE_ENV=production
 ```
 
 ### apps/web/.env.local (Hostinger)
+
 ```
 DATABASE_URL=mysql://user:pass@127.0.0.1:3306/num_ninjas  # Use 127.0.0.1, NOT srvXXXX.hstgr.io
 AUTH_SECRET=a-random-32-char-string      # openssl rand -base64 32
@@ -421,6 +451,7 @@ NODE_ENV=production
 ```
 
 ### packages/database/.env (local dev only)
+
 ```
 DATABASE_URL=mysql://numninjas:password@localhost:3306/numninjas
 ADMIN_EMAIL=admin@numninjas.com

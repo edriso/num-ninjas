@@ -54,13 +54,13 @@ DATABASE_URL=file:../../packages/database/dev.db
 
 ## All Bot Commands
 
-| Command | Who | What |
-|---------|-----|------|
-| /start | Everyone | Start or continue today's questions |
-| /profile | Everyone | Stats + edit name/level/username |
-| /rank | Everyone | Weekly leaderboard for your level |
-| /players | Everyone | Switch or add child profiles |
-| /help | Everyone | Show commands + support link |
-| /admin_send | Admin | Manually send questions to everyone |
-| /admin_prepare | Admin | Manually prepare today's questions |
-| /admin_stats | Admin | Bot statistics |
+| Command        | Who      | What                                |
+| -------------- | -------- | ----------------------------------- |
+| /start         | Everyone | Start or continue today's questions |
+| /profile       | Everyone | Stats + edit name/level/username    |
+| /rank          | Everyone | Weekly leaderboard for your level   |
+| /players       | Everyone | Switch or add child profiles        |
+| /help          | Everyone | Show commands + support link        |
+| /admin_send    | Admin    | Manually send questions to everyone |
+| /admin_prepare | Admin    | Manually prepare today's questions  |
+| /admin_stats   | Admin    | Bot statistics                      |

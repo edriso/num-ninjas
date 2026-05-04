@@ -515,7 +515,7 @@ export const level2Questions: QuestionSeed[] = [
     hintText: 'اجمع الجزء العشري مع بعض والصحيح مع بعض',
     explanation: '15٫30 + 7٫50 = 22٫80 جنيه',
     correctAnswer: '22٫80',
-    correctAnswerNumeric: 22.80,
+    correctAnswerNumeric: 22.8,
   },
 
   // Topic 3 - Open Ended 2
@@ -704,7 +704,8 @@ export const level2Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'ياسمين بتشوف جدول مواعيد القطرات',
-    questionText: 'القطر بيمشي الساعة 16:45 بنظام 24 ساعة. هذا يكون كم بنظام 12 ساعة؟ اكتب الساعة بس.',
+    questionText:
+      'القطر بيمشي الساعة 16:45 بنظام 24 ساعة. هذا يكون كم بنظام 12 ساعة؟ اكتب الساعة بس.',
     hintText: 'اطرح 12 من 16',
     explanation: '16 - 12 = 4، يكون الساعة 4:45 مساءً',
     correctAnswer: '4:45',
@@ -728,7 +729,8 @@ export const level2Questions: QuestionSeed[] = [
     topicIndex: 4,
     questionType: 'open_ended',
     realLifeContext: 'حازم بيركب أتوبيس المدرسة',
-    questionText: 'الأتوبيس يمر عليه 6:50 الصبح والمدرسة تبدأ 7:30. يصل قبل المدرسة بكم دقيقة لو الطريق 25 دقيقة؟',
+    questionText:
+      'الأتوبيس يمر عليه 6:50 الصبح والمدرسة تبدأ 7:30. يصل قبل المدرسة بكم دقيقة لو الطريق 25 دقيقة؟',
     hintText: '6:50 + 25 = وقت الوصول، وبعدين احسب الفرق لـ 7:30',
     explanation: '6:50 + 25 = 7:15. الفرق بين 7:15 و 7:30 = 15 دقيقة',
     correctAnswer: '15',

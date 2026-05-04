@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 import {
   createTopicAction,
   updateTopicAction,
   deleteTopicAction,
-} from "@/app/admin/topics/actions";
+} from '@/app/admin/topics/actions';
 
 type Topic = {
   id: number;
@@ -38,7 +38,7 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
   const [submitting, setSubmitting] = useState(false);
 
   const inputClass =
-    "border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300";
+    'border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300';
 
   async function handleCreate(formData: FormData) {
     setSubmitting(true);
@@ -46,7 +46,7 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
       await createTopicAction(formData);
       setShowCreate(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -58,7 +58,7 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
       await updateTopicAction(formData);
       setEditingId(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -70,7 +70,7 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
       await deleteTopicAction(formData);
       setDeletingId(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -89,16 +89,13 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
           onClick={() => setShowCreate(!showCreate)}
           className="text-sm text-blue-600 hover:text-blue-700 font-medium"
         >
-          {showCreate ? "Cancel" : "Add Topic +"}
+          {showCreate ? 'Cancel' : 'Add Topic +'}
         </button>
       </div>
 
       {/* Create form */}
       {showCreate && (
-        <form
-          action={handleCreate}
-          className="px-5 py-3 border-b border-gray-200 bg-blue-50/50"
-        >
+        <form action={handleCreate} className="px-5 py-3 border-b border-gray-200 bg-blue-50/50">
           <input type="hidden" name="levelId" value={level.id} />
           <div className="flex items-center gap-3 flex-wrap">
             <input
@@ -106,21 +103,21 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
               name="name"
               required
               placeholder="Topic Name"
-              className={inputClass + " flex-1 min-w-48"}
+              className={inputClass + ' flex-1 min-w-48'}
               autoFocus
             />
             <input
               type="text"
               name="description"
               placeholder="Description (optional)"
-              className={inputClass + " flex-1 min-w-48"}
+              className={inputClass + ' flex-1 min-w-48'}
             />
             <button
               type="submit"
               disabled={submitting}
               className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50"
             >
-              {submitting ? "..." : "Add"}
+              {submitting ? '...' : 'Add'}
             </button>
           </div>
         </form>
@@ -138,29 +135,29 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
                   name="orderInLevel"
                   defaultValue={topic.orderInLevel}
                   min={1}
-                  className={inputClass + " w-16 text-center"}
+                  className={inputClass + ' w-16 text-center'}
                 />
                 <input
                   type="text"
                   name="name"
                   defaultValue={topic.name}
                   required
-                  className={inputClass + " flex-1 min-w-48"}
+                  className={inputClass + ' flex-1 min-w-48'}
                   autoFocus
                 />
                 <input
                   type="text"
                   name="description"
-                  defaultValue={topic.description ?? ""}
+                  defaultValue={topic.description ?? ''}
                   placeholder="Description (optional)"
-                  className={inputClass + " flex-1 min-w-48"}
+                  className={inputClass + ' flex-1 min-w-48'}
                 />
                 <button
                   type="submit"
                   disabled={submitting}
                   className="text-green-600 hover:text-green-700 text-sm font-medium disabled:opacity-50"
                 >
-                  {submitting ? "..." : "Save"}
+                  {submitting ? '...' : 'Save'}
                 </button>
                 <button
                   type="button"
@@ -174,14 +171,10 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
               /* Display row */
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-sm text-gray-400 ml-3">
-                    {topic.orderInLevel}.
-                  </span>
+                  <span className="text-sm text-gray-400 ml-3">{topic.orderInLevel}.</span>
                   <span className="text-gray-800">{topic.name}</span>
                   {topic.description && (
-                    <span className="text-sm text-gray-500 mr-3">
-                      : {topic.description}
-                    </span>
+                    <span className="text-sm text-gray-500 mr-3">: {topic.description}</span>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
@@ -194,7 +187,12 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
                     title="Edit"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                      />
                     </svg>
                   </button>
 
@@ -226,8 +224,18 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
                       className="text-gray-400 hover:text-red-500 p-1"
                       title="Delete"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
                       </svg>
                     </button>
                   )}
@@ -238,9 +246,7 @@ function TopicSection({ level }: { level: LevelWithTopics }) {
         ))}
 
         {level.topics.length === 0 && (
-          <div className="px-5 py-4 text-sm text-gray-400">
-            No topics
-          </div>
+          <div className="px-5 py-4 text-sm text-gray-400">No topics</div>
         )}
       </div>
     </div>

@@ -204,7 +204,8 @@ export const level5Questions: QuestionSeed[] = [
     realLifeContext: 'عندك 36 تفاحة و 24 برتقالة ويريد توزعهم في أكياس متساوية بأكبر عدد ممكن.',
     questionText: 'كم كيس تقدر تعمل (أكبر عدد)؟ يعني العامل المشترك الأكبر لـ 36 و 24؟',
     hintText: 'دور على أكبر عدد يقسم 36 و 24 من غير باقي',
-    explanation: 'عوامل 36: 1، 2، 3، 4، 6، 9، 12، 18، 36 | عوامل 24: 1، 2، 3، 4، 6، 8، 12، 24 | العامل المشترك الأكبر = 12',
+    explanation:
+      'عوامل 36: 1، 2، 3، 4، 6، 9، 12، 18، 36 | عوامل 24: 1، 2، 3، 4، 6، 8، 12، 24 | العامل المشترك الأكبر = 12',
     options: [
       { optionText: '12', isCorrect: true },
       { optionText: '6', isCorrect: false },
@@ -220,7 +221,8 @@ export const level5Questions: QuestionSeed[] = [
     realLifeContext: 'أحمد يذهب الجيم كل 6 أيام ومحمد كل 8 أيام. اليوم راحوا مع بعض.',
     questionText: 'بعد كم يوم هيروحوا مع بعض تاني؟ (المضاعف المشترك الأصغر لـ 6 و 8)',
     hintText: 'دور على أصغر عدد يقبل القسمة على 6 و 8',
-    explanation: 'مضاعفات 6: 6، 12، 18، 24... | مضاعفات 8: 8، 16، 24... | المضاعف المشترك الأصغر = 24 يوم',
+    explanation:
+      'مضاعفات 6: 6، 12، 18، 24... | مضاعفات 8: 8، 16، 24... | المضاعف المشترك الأصغر = 24 يوم',
     options: [
       { optionText: '24 يوم', isCorrect: true },
       { optionText: '12 يوم', isCorrect: false },
@@ -281,7 +283,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'mcq',
-    realLifeContext: 'حافلة رقم 1 تأتي كل 15 دقيقة وحافلة رقم 2 كل 20 دقيقة. الاثنين وصلوا المحطة الآن.',
+    realLifeContext:
+      'حافلة رقم 1 تأتي كل 15 دقيقة وحافلة رقم 2 كل 20 دقيقة. الاثنين وصلوا المحطة الآن.',
     questionText: 'بعد كم دقيقة هيوصلوا المحطة مع بعض تاني؟',
     hintText: 'المضاعف المشترك الأصغر لـ 15 و 20',
     explanation: '15 = 3 × 5 و 20 = 2² × 5 | م.م.أ = 2² × 3 × 5 = 60 دقيقة',
@@ -329,7 +332,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 2,
     questionType: 'open_ended',
-    realLifeContext: 'في حفلة المدرسة، عندك 80 ساندوتش و 120 عصير ويريد توزعهم بالتساوي على الطلبة.',
+    realLifeContext:
+      'في حفلة المدرسة، عندك 80 ساندوتش و 120 عصير ويريد توزعهم بالتساوي على الطلبة.',
     questionText: 'أكبر عدد طلبة تقدر توزع عليهم بالتساوي (ع.م.أ لـ 80 و 120)؟',
     correctAnswer: '40',
     correctAnswerNumeric: 40,
@@ -827,7 +831,8 @@ export const level5Questions: QuestionSeed[] = [
     realLifeContext: 'تحتاج أن تعرف كم مكعب صغير (ضلعه 5 سم) يملا صندوق 20 × 15 × 10 سم.',
     questionText: 'كم مكعب صغير هيملا الصندوق؟',
     hintText: 'حجم الصندوق ÷ حجم المكعب الصغير',
-    explanation: 'حجم الصندوق = 20 × 15 × 10 = 3000 سم³ | حجم المكعب = 5³ = 125 سم³ | العدد = 3000 ÷ 125 = 24',
+    explanation:
+      'حجم الصندوق = 20 × 15 × 10 = 3000 سم³ | حجم المكعب = 5³ = 125 سم³ | العدد = 3000 ÷ 125 = 24',
     options: [
       { optionText: '24 مكعب', isCorrect: true },
       { optionText: '12 مكعب', isCorrect: false },
@@ -1218,7 +1223,8 @@ export const level5Questions: QuestionSeed[] = [
   {
     topicIndex: 7,
     questionType: 'mcq',
-    realLifeContext: 'لغز المثلث السحري: كل ضلع مجموعه 12. الأرقام 1-6. في رأس المثلث 1 وعلى ضلعه 5.',
+    realLifeContext:
+      'لغز المثلث السحري: كل ضلع مجموعه 12. الأرقام 1-6. في رأس المثلث 1 وعلى ضلعه 5.',
     questionText: 'العدد الناقص على نفس الضلع (1 + ؟ + 5 = 12) كم؟',
     hintText: '12 - 1 - 5 = ؟',
     explanation: '1 + ؟ + 5 = 12 | ؟ = 12 - 6 = 6',

@@ -1,13 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  serverExternalPackages: [
-    "mariadb",
-    "@prisma/adapter-mariadb",
-  ],
+  output: 'standalone',
+  serverExternalPackages: ['mariadb', '@prisma/adapter-mariadb'],
   turbopack: {
-    resolveExtensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+    resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
 };
 

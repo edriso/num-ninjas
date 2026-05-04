@@ -27,9 +27,7 @@ interface Props {
 }
 
 export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
-  const [selectedLevel, setSelectedLevel] = useState<number>(
-    levelRankings[0]?.levelId ?? 0,
-  );
+  const [selectedLevel, setSelectedLevel] = useState<number>(levelRankings[0]?.levelId ?? 0);
 
   // Load saved tab from localStorage
   useEffect(() => {
@@ -66,9 +64,7 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
             }`}
           >
             <span>{level.levelEmoji}</span>
-            {locale === 'en' && level.levelNameEn
-              ? level.levelNameEn
-              : level.levelName}
+            {locale === 'en' && level.levelNameEn ? level.levelNameEn : level.levelName}
           </button>
         ))}
       </div>
@@ -80,24 +76,12 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
             <table className="w-full text-sm min-w-[480px]">
               <thead>
                 <tr className="bg-slate-50 text-slate-500 text-xs">
-                  <th className="py-2.5 px-4 text-center font-medium w-16">
-                    {labels.rank}
-                  </th>
-                  <th className={`py-2.5 px-4 ${textAlign} font-medium`}>
-                    {labels.name}
-                  </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
-                    {labels.correct}
-                  </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
-                    {labels.wrong}
-                  </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
-                    {labels.hints}
-                  </th>
-                  <th className="py-2.5 px-4 text-center font-medium">
-                    {labels.days}
-                  </th>
+                  <th className="py-2.5 px-4 text-center font-medium w-16">{labels.rank}</th>
+                  <th className={`py-2.5 px-4 ${textAlign} font-medium`}>{labels.name}</th>
+                  <th className="py-2.5 px-4 text-center font-medium">{labels.correct}</th>
+                  <th className="py-2.5 px-4 text-center font-medium">{labels.wrong}</th>
+                  <th className="py-2.5 px-4 text-center font-medium">{labels.hints}</th>
+                  <th className="py-2.5 px-4 text-center font-medium">{labels.days}</th>
                 </tr>
               </thead>
               <tbody>
@@ -111,11 +95,12 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                     >
                       {rankBadge(entry.rank)}
                     </td>
-                    <td
-                      className={`py-3 px-4 ${textAlign} font-medium text-slate-800`}
-                    >
+                    <td className={`py-3 px-4 ${textAlign} font-medium text-slate-800`}>
                       {entry.isPublic && entry.username ? (
-                        <Link href={`/profile/${entry.username}`} className="hover:text-emerald-600 hover:underline transition-colors">
+                        <Link
+                          href={`/profile/${entry.username}`}
+                          className="hover:text-emerald-600 hover:underline transition-colors"
+                        >
                           {entry.nickname}
                         </Link>
                       ) : (
@@ -125,15 +110,9 @@ export function LeaderboardTabs({ levelRankings, locale, labels }: Props) {
                     <td className="py-3 px-4 text-center text-emerald-600 font-semibold">
                       {entry.correctCount}
                     </td>
-                    <td className="py-3 px-4 text-center text-red-500">
-                      {entry.wrongCount}
-                    </td>
-                    <td className="py-3 px-4 text-center text-amber-500">
-                      {entry.hintCount}
-                    </td>
-                    <td className="py-3 px-4 text-center text-slate-600">
-                      {entry.activeDays}
-                    </td>
+                    <td className="py-3 px-4 text-center text-red-500">{entry.wrongCount}</td>
+                    <td className="py-3 px-4 text-center text-amber-500">{entry.hintCount}</td>
+                    <td className="py-3 px-4 text-center text-slate-600">{entry.activeDays}</td>
                   </tr>
                 ))}
               </tbody>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { loginAction } from "./actions";
+import { useActionState } from 'react';
+import { loginAction } from './actions';
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
@@ -16,10 +16,7 @@ export default function LoginPage() {
 
         <form action={formAction} className="space-y-5">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
@@ -34,10 +31,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
@@ -51,9 +45,7 @@ export default function LoginPage() {
           </div>
 
           {state?.error && (
-            <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg">
-              {state.error}
-            </div>
+            <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg">{state.error}</div>
           )}
 
           <button
@@ -61,7 +53,7 @@ export default function LoginPage() {
             disabled={isPending}
             className="w-full py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
-            {isPending ? "Signing in..." : "Sign In"}
+            {isPending ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
       </div>

@@ -47,7 +47,10 @@ export async function prepareScheduledQuestions() {
   // the DB once per (user, topic, locale) — the single biggest source of
   // queries in this cron. With the cache, we hit O(distinct topics × locales).
   const questionCache = new Map<string, { id: number }[]>();
-  const fetchTopicQuestions = async (topicId: number, locale: string): Promise<{ id: number }[]> => {
+  const fetchTopicQuestions = async (
+    topicId: number,
+    locale: string,
+  ): Promise<{ id: number }[]> => {
     const key = `${topicId}:${locale}`;
     const cached = questionCache.get(key);
     if (cached) return cached;
@@ -155,6 +158,8 @@ export async function prepareScheduledQuestions() {
     }
   }
 
-  logger.info(`Prepared adaptive questions for ${prepared} users (skipped ${skippedSleeping} sleeping, failed ${failed})`);
+  logger.info(
+    `Prepared adaptive questions for ${prepared} users (skipped ${skippedSleeping} sleeping, failed ${failed})`,
+  );
   return { prepared, skippedSleeping, failed };
 }

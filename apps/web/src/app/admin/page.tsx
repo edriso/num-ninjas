@@ -1,5 +1,5 @@
-import { prisma, todayCairoAsUtcMidnight } from "@numninjas/database";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma, todayCairoAsUtcMidnight } from '@numninjas/database';
+import { requireAdmin } from '@/lib/require-admin';
 
 export const metadata = {
   title: 'Dashboard',
@@ -9,8 +9,8 @@ export default async function AdminDashboard() {
   await requireAdmin();
   const today = todayCairoAsUtcMidnight();
 
-  const [accountCount, userCount, questionCount, todaySessions, completedToday] =
-    await Promise.all([
+  const [accountCount, userCount, questionCount, todaySessions, completedToday] = await Promise.all(
+    [
       prisma.account.count(),
       prisma.user.count(),
       prisma.question.count(),
@@ -20,22 +20,20 @@ export default async function AdminDashboard() {
       prisma.studySession.count({
         where: { sessionDate: today, isComplete: true },
       }),
-    ]);
+    ],
+  );
 
-  const completionRate =
-    todaySessions > 0
-      ? Math.round((completedToday / todaySessions) * 100)
-      : 0;
+  const completionRate = todaySessions > 0 ? Math.round((completedToday / todaySessions) * 100) : 0;
 
   const stats = [
-    { label: "Accounts", value: accountCount, color: "bg-blue-500" },
-    { label: "Users", value: userCount, color: "bg-green-500" },
-    { label: "Questions", value: questionCount, color: "bg-purple-500" },
-    { label: "Today's Sessions", value: todaySessions, color: "bg-orange-500" },
+    { label: 'Accounts', value: accountCount, color: 'bg-blue-500' },
+    { label: 'Users', value: userCount, color: 'bg-green-500' },
+    { label: 'Questions', value: questionCount, color: 'bg-purple-500' },
+    { label: "Today's Sessions", value: todaySessions, color: 'bg-orange-500' },
     {
       label: "Today's Completion Rate",
       value: `${completionRate}%`,
-      color: "bg-teal-500",
+      color: 'bg-teal-500',
     },
   ];
 
@@ -51,9 +49,7 @@ export default async function AdminDashboard() {
           >
             <div className={`w-10 h-10 ${stat.color} rounded-lg mb-3`} />
             <p className="text-sm text-gray-500">{stat.label}</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">
-              {stat.value}
-            </p>
+            <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
           </div>
         ))}
       </div>

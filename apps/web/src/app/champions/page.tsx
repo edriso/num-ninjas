@@ -28,9 +28,7 @@ export default async function HallOfFamePage() {
       title: d.champions.mostActive,
       desc: d.champions.mostActiveDesc,
       winner: categories.mostActive,
-      stat: categories.mostActive
-        ? d.champions.activeDays(categories.mostActive.activeDays)
-        : null,
+      stat: categories.mostActive ? d.champions.activeDays(categories.mostActive.activeDays) : null,
     },
     {
       emoji: '🎯',
@@ -46,9 +44,7 @@ export default async function HallOfFamePage() {
       title: d.champions.independent,
       desc: d.champions.independentDesc,
       winner: categories.independent,
-      stat: categories.independent
-        ? d.champions.hintsOnly(categories.independent.hints)
-        : null,
+      stat: categories.independent ? d.champions.hintsOnly(categories.independent.hints) : null,
     },
   ];
 
@@ -60,14 +56,18 @@ export default async function HallOfFamePage() {
   return (
     <div className="flex-1 flex flex-col bg-slate-50">
       <header className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 px-6 text-center">
-        <h1 className="text-3xl font-bold flex items-center justify-center gap-2"><span>🏆</span> {d.champions.title}</h1>
+        <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
+          <span>🏆</span> {d.champions.title}
+        </h1>
         <p className="text-slate-400 mt-2">{d.champions.subtitle}</p>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Monthly Categories */}
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>⭐</span> {d.champions.monthlyTitle}</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <span>⭐</span> {d.champions.monthlyTitle}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {categoryCards.map((cat) => (
               <div
@@ -92,7 +92,9 @@ export default async function HallOfFamePage() {
 
         {/* Recent Badges */}
         <section>
-          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><span>🏅</span> {d.champions.recentBadges}</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <span>🏅</span> {d.champions.recentBadges}
+          </h2>
           {recentBadges.length === 0 ? (
             <p className="text-slate-500 text-center py-10">{d.champions.noBadges}</p>
           ) : (
@@ -109,13 +111,11 @@ export default async function HallOfFamePage() {
                       {locale === 'en' && ub.badge.nameEn ? ub.badge.nameEn : ub.badge.name}
                       {', '}
                       {locale === 'en'
-                        ? (ub.metricSummaryEn || ub.badge.descriptionEn || ub.metricSummary || '')
-                        : (ub.metricSummary || ub.periodLabel)}
+                        ? ub.metricSummaryEn || ub.badge.descriptionEn || ub.metricSummary || ''
+                        : ub.metricSummary || ub.periodLabel}
                     </p>
                   </div>
-                  <span className="text-xs text-slate-500">
-                    {formatDate(ub.earnedAt)}
-                  </span>
+                  <span className="text-xs text-slate-500">{formatDate(ub.earnedAt)}</span>
                 </div>
               ))}
             </div>

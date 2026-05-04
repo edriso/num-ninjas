@@ -1,11 +1,11 @@
-import { prisma } from "@numninjas/database";
-import { SettingRow } from "@/components/admin/setting-row";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma } from '@numninjas/database';
+import { SettingRow } from '@/components/admin/setting-row';
+import { requireAdmin } from '@/lib/require-admin';
 
 export default async function SettingsPage() {
   await requireAdmin();
   const settings = await prisma.setting.findMany({
-    orderBy: { settingKey: "asc" },
+    orderBy: { settingKey: 'asc' },
   });
 
   return (
@@ -41,9 +41,7 @@ export default async function SettingsPage() {
         </div>
       </div>
 
-      {settings.length === 0 && (
-        <div className="text-center text-gray-400 py-12">No settings</div>
-      )}
+      {settings.length === 0 && <div className="text-center text-gray-400 py-12">No settings</div>}
     </div>
   );
 }

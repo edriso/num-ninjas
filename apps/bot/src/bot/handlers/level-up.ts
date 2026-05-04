@@ -43,20 +43,22 @@ export async function handleLevelUp(ctx: BotContext) {
   });
 
   const emoji = nextLevel.iconEmoji || '🥷';
-  const nextLevelName = (locale === 'en' && nextLevel.nameEn) ? nextLevel.nameEn : nextLevel.name;
+  const nextLevelName = locale === 'en' && nextLevel.nameEn ? nextLevel.nameEn : nextLevel.name;
   await ctx.answerCallbackQuery();
 
-  const levelUpText = locale === 'en'
-    ? `🎉 *Promoted!*\n\nYou're now at ${emoji} ${nextLevelName}!\nLet's keep the challenge going! 💪`
-    : `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevelName}!\nهيا نستمر في التحدي! 💪`;
+  const levelUpText =
+    locale === 'en'
+      ? `🎉 *Promoted!*\n\nYou're now at ${emoji} ${nextLevelName}!\nLet's keep the challenge going! 💪`
+      : `🎉 *تم الترقية!*\n\nأنت الآن في ${emoji} ${nextLevelName}!\nهيا نستمر في التحدي! 💪`;
   await ctx.editMessageText(levelUpText, { parse_mode: 'Markdown' });
 }
 
 export async function handleStayLevel(ctx: BotContext) {
   const locale = ctx.session.locale || 'ar';
   await ctx.answerCallbackQuery();
-  const stayText = locale === 'en'
-    ? '👍 Great! Keep practicing at this level — practice makes you stronger! 💪'
-    : '👍 ممتاز! استمر في نفس المستوى — التمرين يجعلك أقوى! 💪';
+  const stayText =
+    locale === 'en'
+      ? '👍 Great! Keep practicing at this level — practice makes you stronger! 💪'
+      : '👍 ممتاز! استمر في نفس المستوى — التمرين يجعلك أقوى! 💪';
   await ctx.editMessageText(stayText);
 }

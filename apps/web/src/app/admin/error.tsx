@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export default function AdminError({
   error,
@@ -11,7 +11,7 @@ export default function AdminError({
     <div className="flex flex-col items-center justify-center py-20">
       <h2 className="text-xl font-bold text-red-600 mb-4">Something went wrong</h2>
       <p className="text-gray-500 mb-6">Try again or contact support</p>
-      {process.env.NODE_ENV === "development" && (
+      {process.env.NODE_ENV === 'development' && (
         <pre className="text-xs text-red-400 bg-red-50 rounded-lg p-4 mb-6 max-w-lg overflow-auto">
           {error.message}
         </pre>

@@ -1,7 +1,7 @@
-import { prisma, listQuestions } from "@numninjas/database";
-import Link from "next/link";
-import { QuestionFilters } from "@/components/admin/question-filters";
-import { requireAdmin } from "@/lib/require-admin";
+import { prisma, listQuestions } from '@numninjas/database';
+import Link from 'next/link';
+import { QuestionFilters } from '@/components/admin/question-filters';
+import { requireAdmin } from '@/lib/require-admin';
 
 export default async function QuestionsPage({
   searchParams,
@@ -21,8 +21,8 @@ export default async function QuestionsPage({
   const type = sp.type || undefined;
 
   const levels = await prisma.level.findMany({
-    orderBy: { rankOrder: "asc" },
-    include: { topics: { orderBy: { orderInLevel: "asc" } } },
+    orderBy: { rankOrder: 'asc' },
+    include: { topics: { orderBy: { orderInLevel: 'asc' } } },
   });
 
   const { questions, total, totalPages } = await listQuestions({
@@ -93,18 +93,18 @@ export default async function QuestionsPage({
                   <td className="px-4 py-3 text-gray-500">{q.id}</td>
                   <td className="px-4 py-3 max-w-xs truncate">
                     {q.questionText.length > 60
-                      ? q.questionText.slice(0, 60) + "..."
+                      ? q.questionText.slice(0, 60) + '...'
                       : q.questionText}
                   </td>
                   <td className="px-4 py-3">
                     <span
                       className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
-                        q.questionType === "mcq"
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-green-100 text-green-700"
+                        q.questionType === 'mcq'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-green-100 text-green-700'
                       }`}
                     >
-                      {q.questionType === "mcq" ? "Multiple Choice" : "Open Ended"}
+                      {q.questionType === 'mcq' ? 'Multiple Choice' : 'Open Ended'}
                     </span>
                   </td>
                   <td className="px-4 py-3">
@@ -123,10 +123,7 @@ export default async function QuestionsPage({
               ))}
               {questions.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={6}
-                    className="px-4 py-8 text-center text-gray-400"
-                  >
+                  <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
                     No questions
                   </td>
                 </tr>

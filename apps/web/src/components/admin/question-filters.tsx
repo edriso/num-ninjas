@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 
 type Level = {
   id: number;
@@ -14,15 +14,15 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const levelId = searchParams.get("levelId") ?? "";
-  const topicId = searchParams.get("topicId") ?? "";
-  const type = searchParams.get("type") ?? "";
-  const locale = searchParams.get("locale") ?? "";
+  const levelId = searchParams.get('levelId') ?? '';
+  const topicId = searchParams.get('topicId') ?? '';
+  const type = searchParams.get('type') ?? '';
+  const locale = searchParams.get('locale') ?? '';
 
   const hasFilters = levelId || topicId || type || locale;
 
   const filteredTopics = levelId
-    ? levels.find((l) => l.id === Number(levelId))?.topics ?? []
+    ? (levels.find((l) => l.id === Number(levelId))?.topics ?? [])
     : levels.flatMap((l) => l.topics);
 
   const navigate = useCallback(
@@ -39,7 +39,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
         if (v) params.set(k, v);
       }
       // Reset page when filters change
-      params.delete("page");
+      params.delete('page');
       router.push(`/admin/questions?${params.toString()}`);
     },
     [levelId, topicId, type, locale, router],
@@ -50,9 +50,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
       <div className="flex flex-wrap items-center gap-3">
         <select
           value={levelId}
-          onChange={(e) =>
-            navigate({ levelId: e.target.value, topicId: "" })
-          }
+          onChange={(e) => navigate({ levelId: e.target.value, topicId: '' })}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
           <option value="">All Levels</option>
@@ -98,7 +96,7 @@ export function QuestionFilters({ levels }: { levels: Level[] }) {
 
         {hasFilters && (
           <button
-            onClick={() => router.push("/admin/questions")}
+            onClick={() => router.push('/admin/questions')}
             className="text-sm text-red-500 hover:text-red-600"
           >
             Clear Filters

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { updateLevelAction } from "@/app/admin/levels/actions";
+import { useState } from 'react';
+import { updateLevelAction } from '@/app/admin/levels/actions';
 
 type LevelData = {
   id: number;
@@ -16,7 +16,7 @@ export function LevelCard({ level }: { level: LevelData }) {
   const [submitting, setSubmitting] = useState(false);
 
   const inputClass =
-    "w-full border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300";
+    'w-full border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-300';
 
   async function handleSubmit(formData: FormData) {
     setSubmitting(true);
@@ -24,7 +24,7 @@ export function LevelCard({ level }: { level: LevelData }) {
       await updateLevelAction(formData);
       setEditing(false);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "An error occurred");
+      alert(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setSubmitting(false);
     }
@@ -37,22 +37,18 @@ export function LevelCard({ level }: { level: LevelData }) {
           <input type="hidden" name="id" value={level.id} />
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              Icon
-            </label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Icon</label>
             <input
               type="text"
               name="iconEmoji"
-              defaultValue={level.iconEmoji ?? ""}
-              className={inputClass + " w-20 text-center text-2xl"}
+              defaultValue={level.iconEmoji ?? ''}
+              className={inputClass + ' w-20 text-center text-2xl'}
               autoFocus
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              Name
-            </label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Name</label>
             <input
               type="text"
               name="name"
@@ -63,13 +59,11 @@ export function LevelCard({ level }: { level: LevelData }) {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              Description
-            </label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
             <input
               type="text"
               name="description"
-              defaultValue={level.description ?? ""}
+              defaultValue={level.description ?? ''}
               placeholder="Level description (optional)"
               className={inputClass}
             />
@@ -81,7 +75,7 @@ export function LevelCard({ level }: { level: LevelData }) {
               disabled={submitting}
               className="bg-gray-900 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-gray-800 disabled:opacity-50"
             >
-              {submitting ? "Saving..." : "Save"}
+              {submitting ? 'Saving...' : 'Save'}
             </button>
             <button
               type="button"
@@ -106,14 +100,17 @@ export function LevelCard({ level }: { level: LevelData }) {
           title="Edit"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            />
           </svg>
         </button>
       </div>
       <h2 className="text-lg font-bold text-gray-900">{level.name}</h2>
-      {level.description && (
-        <p className="text-sm text-gray-500 mt-1">{level.description}</p>
-      )}
+      {level.description && <p className="text-sm text-gray-500 mt-1">{level.description}</p>}
       <div className="flex gap-4 mt-4 text-sm text-gray-600">
         <div>
           <span className="font-medium">{level._count.topics}</span> topics

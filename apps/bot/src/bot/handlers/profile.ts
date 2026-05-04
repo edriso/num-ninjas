@@ -1,6 +1,12 @@
 import type { BotContext } from '../middleware/session';
 import { getMsg } from '../helpers/get-msg';
-import { getProfileCount, getProfiles, setActiveProfile, getActiveProfile, logger } from '@numninjas/database';
+import {
+  getProfileCount,
+  getProfiles,
+  setActiveProfile,
+  getActiveProfile,
+  logger,
+} from '@numninjas/database';
 import { buildProfileKeyboard } from '../keyboards/profile';
 
 const MAX_PROFILES = 5;
@@ -48,10 +54,9 @@ export async function handleSwitch(ctx: BotContext) {
     ctx.session.activeProfileId = profile.id;
     ctx.session.locale = profile.locale || 'ar';
     await setActiveProfile(telegramId, profile.id);
-    await ctx.reply(
-      msg.profileSwitched(profile.nickname, profile.level.iconEmoji || '🥷'),
-      { parse_mode: 'Markdown' },
-    );
+    await ctx.reply(msg.profileSwitched(profile.nickname, profile.level.iconEmoji || '🥷'), {
+      parse_mode: 'Markdown',
+    });
     return;
   }
 
@@ -80,17 +85,17 @@ export async function handlePlayers(ctx: BotContext) {
   const playerLines = profiles.map((p) => {
     const isActive = activeProfile?.id === p.id;
     const emoji = p.level.iconEmoji || '🥷';
-    const levelName = (locale === 'en' && p.level.nameEn) ? p.level.nameEn : p.level.name;
+    const levelName = locale === 'en' && p.level.nameEn ? p.level.nameEn : p.level.name;
     return `${emoji} ${p.nickname} — ${levelName}${isActive ? msg.activeMarker : ''}`;
   });
 
   // Show list with switch buttons + add child
   const keyboard = buildProfileKeyboard(profiles, true, locale);
   const switchText = locale === 'en' ? '\n\nTap a name to switch:' : '\n\nاضغط على اسم للتبديل:';
-  await ctx.reply(
-    msg.playersList(playerLines.join('\n')) + switchText,
-    { parse_mode: 'Markdown', reply_markup: keyboard },
-  );
+  await ctx.reply(msg.playersList(playerLines.join('\n')) + switchText, {
+    parse_mode: 'Markdown',
+    reply_markup: keyboard,
+  });
 }
 
 export async function handlePickProfile(ctx: BotContext) {

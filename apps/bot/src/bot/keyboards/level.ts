@@ -7,11 +7,8 @@ export async function buildLevelKeyboard(locale = 'ar') {
 
   const keyboard = new InlineKeyboard();
   for (const level of levels) {
-    const name = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
-    keyboard.text(
-      `${level.iconEmoji || '🥷'} ${name}`,
-      cbBuild(CB.selectLevel, level.id),
-    ).row();
+    const name = locale === 'en' && level.nameEn ? level.nameEn : level.name;
+    keyboard.text(`${level.iconEmoji || '🥷'} ${name}`, cbBuild(CB.selectLevel, level.id)).row();
   }
 
   return { keyboard, levels };

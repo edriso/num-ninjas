@@ -34,7 +34,7 @@ export async function handleAdminPrepare(ctx: BotContext) {
   await ctx.reply('⏳ Preparing questions...');
   try {
     await prepareScheduledQuestions();
-    await ctx.reply('✅ Today\'s questions prepared!');
+    await ctx.reply("✅ Today's questions prepared!");
   } catch (error) {
     logger.error('Admin prepare failed', { error: String(error) });
     await ctx.reply('❌ Error preparing questions');
@@ -47,20 +47,19 @@ export async function handleAdminStats(ctx: BotContext) {
     return;
   }
 
-  const [accountCount, userCount, attemptCount, todaySessions, questionCount] =
-    await Promise.all([
-      prisma.account.count(),
-      prisma.user.count(),
-      prisma.questionAttempt.count(),
-      prisma.studySession.count({
-        where: {
-          sessionDate: {
-            gte: new Date(new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'),
-          },
+  const [accountCount, userCount, attemptCount, todaySessions, questionCount] = await Promise.all([
+    prisma.account.count(),
+    prisma.user.count(),
+    prisma.questionAttempt.count(),
+    prisma.studySession.count({
+      where: {
+        sessionDate: {
+          gte: new Date(new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'),
         },
-      }),
-      prisma.question.count(),
-    ]);
+      },
+    }),
+    prisma.question.count(),
+  ]);
 
   const completedToday = await prisma.studySession.count({
     where: {
@@ -108,9 +107,15 @@ export async function handleAdminHealth(ctx: BotContext) {
     prisma.question.count({ where: { locale: 'ar' } }).catch(() => 0),
     prisma.question.count({ where: { locale: 'en' } }).catch(() => 0),
     prisma.user.count().catch(() => 0),
-    prisma.scheduledQuestion.count({
-      where: { scheduledDate: { gte: new Date(new Date().toISOString().split('T')[0] + 'T00:00:00.000Z') } },
-    }).catch(() => 0),
+    prisma.scheduledQuestion
+      .count({
+        where: {
+          scheduledDate: {
+            gte: new Date(new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'),
+          },
+        },
+      })
+      .catch(() => 0),
   ]);
 
   const text =

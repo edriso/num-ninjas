@@ -1,4 +1,4 @@
-import { prisma } from "@numninjas/database";
+import { prisma } from '@numninjas/database';
 
 /**
  * Direct-to-Telegram broadcast helper for the admin panel.
