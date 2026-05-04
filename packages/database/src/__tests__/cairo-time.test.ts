@@ -3,6 +3,7 @@ import {
   todayCairoString,
   todayCairoAsUtcMidnight,
   todayCairoStartUtc,
+  cairoDateString,
   formatCairoDate,
   formatCairoDateTime,
 } from '../utils/cairo-time';
@@ -189,5 +190,90 @@ describe('formatCairoDateTime', () => {
     const result = formatCairoDateTime(date);
     expect(typeof result).toBe('string');
     expect(result.length).toBeGreaterThan(0);
+  });
+});
+
+describe('cairoDateString (parameterised)', () => {
+  it('returns YYYY-MM-DD for a noon UTC date in winter (UTC+2)', () => {
+    // Noon UTC on Feb 10 = 14:00 Cairo (winter). Same Cairo date.
+    expect(cairoDateString(new Date('2026-02-10T12:00:00Z'))).toBe('2026-02-10');
+  });
+
+  it('returns the next Cairo day for late-evening UTC in winter', () => {
+    // 22:30 UTC = 00:30 Cairo next day (UTC+2). New Cairo date.
+    expect(cairoDateString(new Date('2026-02-10T22:30:00Z'))).toBe('2026-02-11');
+  });
+
+  it('returns the same Cairo day for 21:00 UTC in winter (boundary)', () => {
+    // 21:00 UTC = 23:00 Cairo, still same day.
+    expect(cairoDateString(new Date('2026-02-10T21:00:00Z'))).toBe('2026-02-10');
+  });
+
+  it('handles DST (UTC+3) — late June example', () => {
+    // June 15 14:00 UTC = June 15 17:00 Cairo (UTC+3 DST). Same Cairo date.
+    expect(cairoDateString(new Date('2026-06-15T14:00:00Z'))).toBe('2026-06-15');
+  });
+
+  it('handles DST boundary — 21:00 UTC in summer is next Cairo day', () => {
+    // June 15 21:00 UTC = June 16 00:00 Cairo (UTC+3). Next Cairo day.
+    expect(cairoDateString(new Date('2026-06-15T21:00:00Z'))).toBe('2026-06-16');
+  });
+
+  it('handles month boundary (Jan 31 → Feb 1)', () => {
+    expect(cairoDateString(new Date('2026-01-31T22:30:00Z'))).toBe('2026-02-01');
+  });
+
+  it('handles year boundary (Dec 31 → Jan 1)', () => {
+    expect(cairoDateString(new Date('2025-12-31T23:00:00Z'))).toBe('2026-01-01');
+  });
+});
+
+describe('Cairo time — DST behavior', () => {
+  // Egypt observes DST from the last Friday of April (springs 00:00 → 01:00)
+  // through the last Thursday of October (falls 00:00 → 23:00 prev day).
+  // Source: https://www.timeanddate.com/time/zone/egypt/cairo
+
+  it('returns UTC+2 offset for a winter date', () => {
+    const winter = new Date('2026-01-15T12:00:00Z');
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Africa/Cairo',
+      hour: '2-digit',
+      hour12: false,
+    });
+    const cairoHour = parseInt(formatter.format(winter), 10);
+    expect(cairoHour - 12).toBe(2); // UTC+2 in winter
+  });
+
+  it('returns UTC+3 offset for a summer DST date (mid-July)', () => {
+    const summer = new Date('2026-07-15T12:00:00Z');
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Africa/Cairo',
+      hour: '2-digit',
+      hour12: false,
+    });
+    const cairoHour = parseInt(formatter.format(summer), 10);
+    expect(cairoHour - 12).toBe(3); // UTC+3 during DST
+  });
+
+  it('cairoDateString is correct on the DST spring-forward day (April 24, 2026 — last Friday)', () => {
+    // April 25 2026 is the last Friday of April → spring forward at 00:00 Cairo → jumps to 01:00
+    // April 24 noon UTC = April 24 14:00 Cairo (still UTC+2)
+    expect(cairoDateString(new Date('2026-04-24T12:00:00Z'))).toBe('2026-04-24');
+    // April 25 noon UTC = April 25 15:00 Cairo (now UTC+3 after spring forward)
+    expect(cairoDateString(new Date('2026-04-25T12:00:00Z'))).toBe('2026-04-25');
+  });
+
+  it('cairoDateString is correct on the DST fall-back day (October 30, 2026 — last Thursday/Friday)', () => {
+    // Around the fall-back boundary, dates should still cleanly map to Cairo days.
+    expect(cairoDateString(new Date('2026-10-29T12:00:00Z'))).toBe('2026-10-29');
+    expect(cairoDateString(new Date('2026-10-31T12:00:00Z'))).toBe('2026-10-31');
+  });
+
+  it('todayCairoStartUtc respects DST offset (offset between 2h and 3h)', () => {
+    // We can't pin "today" but the difference must be exactly 2 or 3 hours.
+    const start = todayCairoStartUtc();
+    const utcMidnight = todayCairoAsUtcMidnight();
+    const diffHours = (utcMidnight.getTime() - start.getTime()) / 3_600_000;
+    expect([2, 3]).toContain(diffHours);
   });
 });

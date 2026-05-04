@@ -12,7 +12,11 @@ import prisma from '../client';
  * This replaces the blunt 30-day question_repeat_days setting
  * with per-question, per-user smart intervals.
  */
-const REPEAT_INTERVALS = {
+/**
+ * Days a question stays excluded from re-prep after a given answer outcome.
+ * Exported so tests verify the actual values rather than re-declaring them.
+ */
+export const REPEAT_INTERVALS = {
   WRONG: 2,
   HINT_USED: 5,
   CORRECT: 14,

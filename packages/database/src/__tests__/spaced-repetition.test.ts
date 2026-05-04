@@ -1,15 +1,10 @@
 import { describe, it, expect } from 'vitest';
+import { REPEAT_INTERVALS } from '../services/spaced-repetition.service';
 
-// The getExcludedQuestionIds function needs DB access, so we can't unit test it.
-// But we CAN test the interval logic by verifying the constants and cooldown math.
+// getExcludedQuestionIds needs DB access. Here we lock in the exported
+// constants and the cooldown math against any future drift.
 
 describe('Spaced Repetition — Interval Logic', () => {
-  // These mirror the constants in spaced-repetition.service.ts
-  const REPEAT_INTERVALS = {
-    WRONG: 2,
-    HINT_USED: 5,
-    CORRECT: 14,
-  };
 
   it('wrong answers have the shortest cooldown (2 days)', () => {
     expect(REPEAT_INTERVALS.WRONG).toBe(2);
