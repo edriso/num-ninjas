@@ -6,6 +6,7 @@ import { prisma, findOrCreateAccount, createProfile, updateNickname, logger, tod
 import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
 import { fixRtlOptionText } from '../keyboards/mcq';
+import { escapeMd } from '../helpers/escape-md';
 import { sendQuestionToUser } from './question';
 
 // ─── Prepare Questions for New User ───────────────────────────────
@@ -440,10 +441,10 @@ export async function handleQuizAnswer(ctx: BotContext) {
     const resultText = locale === 'en'
       ? `🎯 *Quiz result: ${quizCorrect}/3*\n\n` +
         `Based on your answers, your level is ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
-        `✅ *${nickname}* is registered! Ready for the challenge! 🔥`
+        `✅ *${escapeMd(nickname)}* is registered! Ready for the challenge! 🔥`
       : `🎯 *نتيجة الاختبار: ${quizCorrect}/3*\n\n` +
         `بناءً على إجاباتك، مستواك هو ${level.iconEmoji || '🥷'} *${levelName}*!\n\n` +
-        `✅ تم تسجيل *${nickname}*! جاهز للتحدي! 🔥`;
+        `✅ تم تسجيل *${escapeMd(nickname)}*! جاهز للتحدي! 🔥`;
 
     const chooseLevelText = locale === 'en' ? '🥷 Choose a different level' : '🥷 اختر مستوى آخر';
     const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';

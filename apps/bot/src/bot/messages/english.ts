@@ -1,3 +1,8 @@
+import { escapeMd } from '../helpers/escape-md';
+
+// User-controlled inputs (the `name` argument in the functions below) may
+// contain Markdown special characters — we run them through escapeMd so the
+// rendered Markdown stays well-formed and there's no injection surface.
 export const msg = {
   // ─── General ──────────────────────────────────────────────────────
   welcome:
@@ -7,7 +12,7 @@ export const msg = {
     '📌 *For parents:* The bot is completely safe — no personal data required,\n' +
     'and you\'ll receive weekly progress reports.',
   welcomeBack: (name: string, emoji: string) =>
-    `${emoji} Welcome back, *${name}*! 🎉`,
+    `${emoji} Welcome back, *${escapeMd(name)}*! 🎉`,
   error: '⚠️ Something went wrong, please try again in a moment',
   privateChatOnly: '🔒 This bot only works in private chats',
 
@@ -19,17 +24,17 @@ export const msg = {
   askNicknameShort: '✏️ Send me the name',
   invalidNickname: '❌ The name must be 2 to 20 characters. Try again:',
   askLevel: (name: string) =>
-    `🎯 Choose a level for *${name}*:\n\n` +
+    `🎯 Choose a level for *${escapeMd(name)}*:\n\n` +
     'Each level is a ninja belt — the further you go, the higher your belt! 🥷',
 
   // ─── Profile ──────────────────────────────────────────────────────
   profileCreated: (name: string, levelEmoji: string, levelName: string) =>
-    `✅ *${name}* is registered!\n${levelEmoji} Level: ${levelName}\n\n` +
+    `✅ *${escapeMd(name)}* is registered!\n${levelEmoji} Level: ${levelName}\n\n` +
     'You\'ll get 3 questions every day at 2:30 PM — ready for the challenge! 🔥',
   whoIsPlaying: 'Who\'s playing now? 🎮',
   addChild: '➕ Add a child',
   profileSwitched: (name: string, emoji: string) =>
-    `${emoji} Done! *${name}* is now playing`,
+    `${emoji} Done! *${escapeMd(name)}* is now playing`,
   noProfiles: '🤔 No one is registered yet. Send /start to begin!',
   maxProfiles: '⚠️ You\'ve reached the maximum (5 children). Remove one first.',
   playersList: (players: string) => `📋 *Players:*\n\n${players}`,
@@ -66,11 +71,11 @@ export const msg = {
     '3 questions a day are waiting for you 🔥\n\n' +
     'Send /start to begin',
   nudgeNeverEngaged: (name: string) =>
-    `🥷 Hey *${name}*! We're waiting for your first answer\n\n` +
+    `🥷 Hey *${escapeMd(name)}*! We're waiting for your first answer\n\n` +
     'Find out your real level and start your belt journey 💪\n\n' +
     'Send /start',
   nudgeWentSilent: (name: string) =>
-    `🥷 Hey *${name}*! We miss you\n\n` +
+    `🥷 Hey *${escapeMd(name)}*! We miss you\n\n` +
     'Your level is waiting — keep training and don\'t let your friends overtake you 🔥\n\n' +
     'Send /start',
 } as const;

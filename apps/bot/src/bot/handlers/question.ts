@@ -19,6 +19,7 @@ import {
 } from '@numninjas/database';
 import { InlineKeyboard } from 'grammy';
 import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq';
+import { escapeMd } from '../helpers/escape-md';
 
 // ─── Message Templates ──────────────────────────────────────────────
 
@@ -64,8 +65,9 @@ function formatDailySummary(
   totalPoints: number,
   locale: string,
 ): string {
+  const safeName = escapeMd(nickname);
   if (locale === 'en') {
-    let text = `🏁 *Today's challenge is done, ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    let text = `🏁 *Today's challenge is done, ${safeName}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     attempts.forEach((a, i) => {
       const icon = a.isCorrect ? '✅' : '❌';
       const topicName = a.question.topic.nameEn || a.question.topic.name;
@@ -77,7 +79,7 @@ function formatDailySummary(
     return text;
   }
 
-  let text = `🏁 *انتهى تحدي اليوم يا ${nickname}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  let text = `🏁 *انتهى تحدي اليوم يا ${safeName}!*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   attempts.forEach((a, i) => {
     const icon = a.isCorrect ? '✅' : '❌';
     text += `${icon} س${i + 1} — ${a.question.topic.name}\n`;
@@ -699,9 +701,10 @@ async function showDailySummary(ctx: BotContext, userId: number) {
         const profileSlug = user.username || String(user.id);
         const certUrl = `https://numninjas.com/api/certificate/${profileSlug}?type=level&levelName=${encodeURIComponent(levelName)}`;
         try {
+          const safeNickname = escapeMd(user.nickname);
           const certCaption = locale === 'en'
-            ? `🎉 *Congratulations, ${user.nickname}!*\nYou've mastered ${levelEmoji} ${levelName}!`
-            : `🎉 *مبروك يا ${user.nickname}!*\nلقد أتقنت ${levelEmoji} ${levelName}!`;
+            ? `🎉 *Congratulations, ${safeNickname}!*\nYou've mastered ${levelEmoji} ${levelName}!`
+            : `🎉 *مبروك يا ${safeNickname}!*\nلقد أتقنت ${levelEmoji} ${levelName}!`;
           await ctx.replyWithPhoto(certUrl, {
             caption: certCaption,
             parse_mode: 'Markdown',
@@ -710,11 +713,12 @@ async function showDailySummary(ctx: BotContext, userId: number) {
           // Fallback if image fails (e.g., site not deployed yet)
         }
 
+        const safeNickname2 = escapeMd(user.nickname);
         const completionText = locale === 'en'
-          ? `🎉🥷 *Congratulations, ${user.nickname}!*\n\n` +
+          ? `🎉🥷 *Congratulations, ${safeNickname2}!*\n\n` +
             `You've mastered all topics in ${levelEmoji} ${levelName}!\n\n` +
             `Are you ready to move to ${nextEmoji} ${nextLevelName}?`
-          : `🎉🥷 *مبروك يا ${user.nickname}!*\n\n` +
+          : `🎉🥷 *مبروك يا ${safeNickname2}!*\n\n` +
             `لقد أتقنت جميع مواضيع ${levelEmoji} ${levelName}!\n\n` +
             `هل أنت جاهز للانتقال إلى ${nextEmoji} ${nextLevelName}؟`;
 

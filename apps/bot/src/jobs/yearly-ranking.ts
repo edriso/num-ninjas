@@ -3,6 +3,7 @@ import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeRankings, getYearStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
 import { handleSendError } from '../bot/helpers/send-errors';
+import { escapeMd } from '../bot/helpers/escape-md';
 
 /**
  * Run yearly ninja champions, award yearly badges.
@@ -63,14 +64,14 @@ export async function runYearlyRanking(bot: Bot<BotContext>) {
   let message = `🏆✨ *أبطال سنة ${yearLabel}* ✨🏆\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   if (champion) {
-    message += `🏆 *بطل العام:* ${champion.nickname}\n`;
+    message += `🏆 *بطل العام:* ${escapeMd(champion.nickname)}\n`;
   }
 
   const medals = ['🥇', '🥈', '🥉'];
   message += '\n*الترتيب العام:*\n';
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-    message += `${medal} ${entry.nickname} — ${entry.correctCount} صح · ${entry.activeDays} يوم\n`;
+    message += `${medal} ${escapeMd(entry.nickname)} — ${entry.correctCount} صح · ${entry.activeDays} يوم\n`;
   }
 
   // Broadcast to all reachable accounts (skip users who blocked the bot)

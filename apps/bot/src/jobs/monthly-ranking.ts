@@ -3,6 +3,7 @@ import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeMonthlyCategories, getMonthStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
 import { handleSendError } from '../bot/helpers/send-errors';
+import { escapeMd } from '../bot/helpers/escape-md';
 
 /**
  * Run monthly ninja champions, award category badges.
@@ -57,13 +58,13 @@ export async function runMonthlyRanking(bot: Bot<BotContext>) {
   let message = `🏆 *أبطال نينجا ${monthLabel}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   if (mostActive) {
-    message += `🔥 *الأكثر حضوراً:* ${mostActive.nickname} (${mostActive.activeDays} يوم)\n`;
+    message += `🔥 *الأكثر حضوراً:* ${escapeMd(mostActive.nickname)} (${mostActive.activeDays} يوم)\n`;
   }
   if (sharpest) {
-    message += `🧠 *الأدق إجابةً:* ${sharpest.nickname} (${Math.round(sharpest.accuracy * 100)}%)\n`;
+    message += `🧠 *الأدق إجابةً:* ${escapeMd(sharpest.nickname)} (${Math.round(sharpest.accuracy * 100)}%)\n`;
   }
   if (independent) {
-    message += `⚡ *الأقل استعانةً:* ${independent.nickname} (${independent.hints} تلميح)\n`;
+    message += `⚡ *الأقل استعانةً:* ${escapeMd(independent.nickname)} (${independent.hints} تلميح)\n`;
   }
 
   if (!mostActive && !sharpest && !independent) {

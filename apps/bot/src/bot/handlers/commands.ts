@@ -4,6 +4,7 @@ import { getMsg } from '../helpers/get-msg';
 import { getMessages } from '../messages';
 import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, updateUsername, logger } from '@numninjas/database';
 import { buildLevelKeyboard } from '../keyboards/level';
+import { escapeMd } from '../helpers/escape-md';
 
 /**
  * Ensure user has an active profile, load it into session if needed.
@@ -64,9 +65,10 @@ export async function handleProfile(ctx: BotContext) {
 
   const levelName = (locale === 'en' && user.level.nameEn) ? user.level.nameEn : user.level.name;
 
+  const safeNickname = escapeMd(user.nickname);
   let text: string;
   if (locale === 'en') {
-    text = `🥷 *${user.nickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    text = `🥷 *${safeNickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     text += `${user.level.iconEmoji || '🥷'} Level: *${levelName}*\n`;
     text += `💎 Points: *${user.totalPoints}*\n`;
     text += `📊 Accuracy: *${accuracy}%* (${correctAttempts}/${totalAttempts})\n`;
@@ -83,7 +85,7 @@ export async function handleProfile(ctx: BotContext) {
       text += `🔥🔥🔥🔥 Streak: *${user.streakDays} days* — True ninja! 🥷✨\n`;
     }
   } else {
-    text = `🥷 *${user.nickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    text = `🥷 *${safeNickname}*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     text += `${user.level.iconEmoji || '🥷'} المستوى: *${levelName}*\n`;
     text += `💎 النقاط: *${user.totalPoints}*\n`;
     text += `📊 الدقة: *${accuracy}%* (${correctAttempts}/${totalAttempts})\n`;
@@ -173,13 +175,13 @@ export async function handleRank(ctx: BotContext) {
   for (const entry of rankings.slice(0, 10)) {
     const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
     const isMe = entry.userId === profileId ? ' ◀️' : '';
-    text += `${medal} *${entry.nickname}* — ${entry.correctCount} ${correctLabel} · ${entry.activeDays} ${dayLabel}${isMe}\n`;
+    text += `${medal} *${escapeMd(entry.nickname)}* — ${entry.correctCount} ${correctLabel} · ${entry.activeDays} ${dayLabel}${isMe}\n`;
   }
 
   // Show user's rank if not in top 10
   const myRank = rankings.find((r) => r.userId === profileId);
   if (myRank && myRank.rank > 10) {
-    text += `\n...\n${myRank.rank}. *${myRank.nickname}* — ${myRank.correctCount} ${correctLabel} ◀️`;
+    text += `\n...\n${myRank.rank}. *${escapeMd(myRank.nickname)}* — ${myRank.correctCount} ${correctLabel} ◀️`;
   }
 
   // Append recent ninja champions
@@ -193,7 +195,7 @@ export async function handleRank(ctx: BotContext) {
     text += locale === 'en' ? '\n\n🏆 *Ninja Champions*\n' : '\n\n🏆 *أبطال النينجا*\n';
     for (const ub of recentBadges) {
       const badgeName = (locale === 'en' && ub.badge.nameEn) ? ub.badge.nameEn : ub.badge.name;
-      text += `${ub.badge.iconEmoji || '🏅'} *${ub.user.nickname}* — ${badgeName}\n`;
+      text += `${ub.badge.iconEmoji || '🏅'} *${escapeMd(ub.user.nickname)}* — ${badgeName}\n`;
     }
   }
 

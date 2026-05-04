@@ -2,6 +2,7 @@ import type { Bot } from 'grammy';
 import type { BotContext } from '../bot/middleware/session';
 import { prisma, getWeekStart, getSettingInt, getTopicStrengths, logger } from '@numninjas/database';
 import { handleSendError } from '../bot/helpers/send-errors';
+import { escapeMd } from '../bot/helpers/escape-md';
 
 /**
  * Send weekly progress reports to parents.
@@ -61,12 +62,13 @@ export async function sendParentReports(bot: Bot<BotContext>) {
           .slice(0, 2)
           .map((s) => isEn ? (s.topicNameEn || s.topicName) : s.topicName);
 
+        const safeNickname = escapeMd(user.nickname);
         let summary = isEn
-          ? `${levelEmoji} *${user.nickname}:*\n` +
+          ? `${levelEmoji} *${safeNickname}:*\n` +
             `✅ Answered ${total} questions (${correct} correct, ${accuracy}%)\n` +
             `🔥 Streak: ${user.streakDays} days${streakStar}\n` +
             `💎 Points: +${pointsEarned}`
-          : `${levelEmoji} *${user.nickname}:*\n` +
+          : `${levelEmoji} *${safeNickname}:*\n` +
             `✅ أجاب على ${total} سؤال (${correct} صح، ${accuracy}%)\n` +
             `🔥 السلسلة: ${user.streakDays} أيام${streakStar}\n` +
             `💎 النقاط: +${pointsEarned} نقطة`;

@@ -40,6 +40,7 @@ export * from './utils/cairo-time';
 export * from './utils/arabic-numerals';
 export * from './utils/logger';
 export * from './utils/shuffle';
+export * from './utils/markdown';
 
 // Types
 export * from './types';

@@ -1,3 +1,8 @@
+import { escapeMd } from '../helpers/escape-md';
+
+// User-controlled inputs (the `name` argument in the functions below) may
+// contain Markdown special characters — we run them through escapeMd so the
+// rendered Markdown stays well-formed and there's no injection surface.
 export const msg = {
   // ─── General ──────────────────────────────────────────────────────
   welcome:
@@ -7,7 +12,7 @@ export const msg = {
     '📌 *للأهل:* البوت آمن تماماً — لا يطلب بيانات شخصية،\n' +
     'وستصلكم تقارير أسبوعية عن تقدم أبنائكم.',
   welcomeBack: (name: string, emoji: string) =>
-    `${emoji} مرحباً يا *${name}*! أهلاً بعودتك 🎉`,
+    `${emoji} مرحباً يا *${escapeMd(name)}*! أهلاً بعودتك 🎉`,
   error: '⚠️ حدثت مشكلة، حاول مرة أخرى بعد قليل',
   privateChatOnly: '🔒 هذا البوت يعمل في المحادثات الخاصة فقط',
 
@@ -19,17 +24,17 @@ export const msg = {
   askNicknameShort: '✏️ أرسل لي الاسم',
   invalidNickname: '❌ الاسم يجب أن يكون من 2 إلى 20 حرفاً. حاول مرة أخرى:',
   askLevel: (name: string) =>
-    `🎯 اختر مستوى *${name}*:\n\n` +
+    `🎯 اختر مستوى *${escapeMd(name)}*:\n\n` +
     'كل مستوى هو حزام نينجا — كلما تقدمت، تغيّر الحزام! 🥷',
 
   // ─── Profile ──────────────────────────────────────────────────────
   profileCreated: (name: string, levelEmoji: string, levelName: string) =>
-    `✅ تم تسجيل *${name}*!\n${levelEmoji} المستوى: ${levelName}\n\n` +
+    `✅ تم تسجيل *${escapeMd(name)}*!\n${levelEmoji} المستوى: ${levelName}\n\n` +
     'ستصلك 3 أسئلة كل يوم الساعة 2:30 الظهر — جاهز للتحدي! 🔥',
   whoIsPlaying: 'من سيلعب الآن؟ 🎮',
   addChild: '➕ إضافة طفل',
   profileSwitched: (name: string, emoji: string) =>
-    `${emoji} تم! *${name}* هو من يلعب الآن`,
+    `${emoji} تم! *${escapeMd(name)}* هو من يلعب الآن`,
   noProfiles: '🤔 لا يوجد أحد مسجّل بعد. أرسل /start لتبدأ!',
   maxProfiles: '⚠️ وصلت لأقصى عدد (5 أطفال). احذف أحدهم أولاً.',
   playersList: (players: string) => `📋 *اللاعبون:*\n\n${players}`,
@@ -66,11 +71,11 @@ export const msg = {
     '3 أسئلة كل يوم في انتظارك 🔥\n\n' +
     'أرسل /start لتبدأ',
   nudgeNeverEngaged: (name: string) =>
-    `🥷 يا *${name}*! ننتظر إجابتك على أول سؤال\n\n` +
+    `🥷 يا *${escapeMd(name)}*! ننتظر إجابتك على أول سؤال\n\n` +
     'اكتشف مستواك الحقيقي وابدأ رحلتك مع الأحزمة 💪\n\n' +
     'أرسل /start',
   nudgeWentSilent: (name: string) =>
-    `🥷 يا *${name}*! اشتقنا إليك\n\n` +
+    `🥷 يا *${escapeMd(name)}*! اشتقنا إليك\n\n` +
     'مستواك في انتظار عودتك — أكمل تدريبك ولا تترك أصدقاءك يسبقونك 🔥\n\n' +
     'أرسل /start',
 } as const;

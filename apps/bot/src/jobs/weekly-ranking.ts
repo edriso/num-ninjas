@@ -3,6 +3,7 @@ import type { BotContext } from '../bot/middleware/session';
 import { prisma, computeRankings, getWeekStart, awardBadge, logger } from '@numninjas/database';
 import { config } from '../config';
 import { handleSendError } from '../bot/helpers/send-errors';
+import { escapeMd } from '../bot/helpers/escape-md';
 
 /**
  * Run weekly ranking per level, award top-3 badges, and broadcast.
@@ -54,7 +55,7 @@ export async function runWeeklyRanking(bot: Bot<BotContext>) {
     let section = `${level.iconEmoji || '🥷'} *${level.name}*\n`;
     for (const entry of rankings.slice(0, 5)) {
       const medal = entry.rank <= 3 ? medals[entry.rank - 1] : `${entry.rank}.`;
-      section += `${medal} *${entry.nickname}* — ${entry.correctCount} صح`;
+      section += `${medal} *${escapeMd(entry.nickname)}* — ${entry.correctCount} صح`;
       if (entry.rank <= 3) section += ` · ${entry.activeDays} يوم`;
       section += '\n';
     }
