@@ -1,5 +1,6 @@
 import { InlineKeyboard } from 'grammy';
 import { prisma } from '@numninjas/database';
+import { CB, cbBuild } from '../callbacks';
 
 export async function buildLevelKeyboard(locale = 'ar') {
   const levels = await prisma.level.findMany({ orderBy: { rankOrder: 'asc' } });
@@ -9,7 +10,7 @@ export async function buildLevelKeyboard(locale = 'ar') {
     const name = (locale === 'en' && level.nameEn) ? level.nameEn : level.name;
     keyboard.text(
       `${level.iconEmoji || '🥷'} ${name}`,
-      `select_level:${level.id}`,
+      cbBuild(CB.selectLevel, level.id),
     ).row();
   }
 

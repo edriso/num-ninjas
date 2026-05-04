@@ -7,6 +7,7 @@ import { buildProfileKeyboard } from '../keyboards/profile';
 import { buildLevelKeyboard } from '../keyboards/level';
 import { fixRtlOptionText } from '../keyboards/mcq';
 import { escapeMd } from '../helpers/escape-md';
+import { CB, cbBuild } from '../callbacks';
 import { sendQuestionToUser } from './question';
 
 // ─── Prepare Questions for New User ───────────────────────────────
@@ -150,7 +151,7 @@ function buildQuizKeyboard(step: number, options: typeof QUIZ_QUESTIONS_AR[numbe
   const shuffled = [...options].sort(() => Math.random() - 0.5);
   for (const opt of shuffled) {
     const text = fixRtlOptionText(opt.text, locale);
-    keyboard.text(text, `quiz_answer:${step}:${opt.correct ? 1 : 0}`).row();
+    keyboard.text(text, cbBuild(CB.quizAnswer, step, opt.correct ? 1 : 0)).row();
   }
   return keyboard;
 }
@@ -186,8 +187,8 @@ export async function handleStart(ctx: BotContext) {
   // No profiles yet → start onboarding with language choice
   if (account.users.length === 0) {
     const keyboard = new InlineKeyboard()
-      .text('🇸🇦 عربي', 'onboard_lang:ar')
-      .text('🇬🇧 English', 'onboard_lang:en');
+      .text('🇸🇦 عربي', cbBuild(CB.onboardLang, 'ar'))
+      .text('🇬🇧 English', cbBuild(CB.onboardLang, 'en'));
 
     await ctx.reply(
       '🥷 *نينجا الأرقام | NumNinjas*\n\n' +
@@ -309,7 +310,7 @@ export async function handleLevelSelection(ctx: BotContext) {
 
       if (fromOnboarding) {
         const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
-        const keyboard = new InlineKeyboard().text(startNowText, 'start_first_question');
+        const keyboard = new InlineKeyboard().text(startNowText, CB.startFirstQuestion);
         await ctx.editMessageText(confirmText, { parse_mode: 'Markdown', reply_markup: keyboard });
       } else {
         await ctx.editMessageText(confirmText, { parse_mode: 'Markdown' });
@@ -325,7 +326,7 @@ export async function handleLevelSelection(ctx: BotContext) {
   }
 
   // Case 2: Creating new profile (onboarding or quiz override)
-  const nickname = ctx.session.pendingData.nickname as string;
+  const nickname = ctx.session.pendingData.nickname ?? '';
   if (!nickname) {
     const errText = locale === 'en' ? 'An error occurred, send /start again' : 'حدث خطأ، أرسل /start مرة أخرى';
     await ctx.answerCallbackQuery({ text: errText });
@@ -346,7 +347,7 @@ export async function handleLevelSelection(ctx: BotContext) {
     await ctx.answerCallbackQuery();
     const levelName = (locale === 'en' && profile.level.nameEn) ? profile.level.nameEn : profile.level.name;
     const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
-    const keyboard = new InlineKeyboard().text(startNowText, 'start_first_question');
+    const keyboard = new InlineKeyboard().text(startNowText, CB.startFirstQuestion);
     await ctx.editMessageText(
       msg.profileCreated(profile.nickname, profile.level.iconEmoji || '🥷', levelName),
       { parse_mode: 'Markdown', reply_markup: keyboard },
@@ -380,7 +381,7 @@ export async function handleQuizAnswer(ctx: BotContext) {
     return;
   }
 
-  const currentStep = (ctx.session.pendingData.quizStep as number) ?? 0;
+  const currentStep = ctx.session.pendingData.quizStep ?? 0;
 
   // Prevent answering same question twice
   if (step !== currentStep) {
@@ -390,7 +391,7 @@ export async function handleQuizAnswer(ctx: BotContext) {
   }
 
   // Update score
-  let quizCorrect = (ctx.session.pendingData.quizCorrect as number) ?? 0;
+  let quizCorrect = ctx.session.pendingData.quizCorrect ?? 0;
   if (isCorrect) quizCorrect++;
   ctx.session.pendingData.quizCorrect = quizCorrect;
 
@@ -432,7 +433,7 @@ export async function handleQuizAnswer(ctx: BotContext) {
   }
 
   // Create profile with auto-detected level
-  const nickname = ctx.session.pendingData.nickname as string;
+  const nickname = ctx.session.pendingData.nickname ?? '';
   const telegramId = BigInt(ctx.from!.id);
 
   try {
@@ -454,8 +455,8 @@ export async function handleQuizAnswer(ctx: BotContext) {
     const chooseLevelText = locale === 'en' ? '🥷 Choose a different level' : '🥷 اختر مستوى آخر';
     const startNowText = locale === 'en' ? '🚀 Start now!' : '🚀 ابدأ الآن!';
     const keyboard = new InlineKeyboard()
-      .text(chooseLevelText, 'change_quiz_level').row()
-      .text(startNowText, 'start_first_question');
+      .text(chooseLevelText, CB.changeQuizLevel).row()
+      .text(startNowText, CB.startFirstQuestion);
 
     // Prepare questions before showing the button so they're ready the moment user taps
     await prepareQuestionsForUser(profile.id, level.id, locale);

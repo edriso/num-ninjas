@@ -31,6 +31,7 @@ import {
 import { handleAdminSend, handleAdminPrepare, handleAdminStats, handleAdminHealth } from './handlers/admin';
 import { getMsg } from './helpers/get-msg';
 import { logger, markAccountBlocked, markAccountUnblocked } from '@numninjas/database';
+import { CB, cbPrefix } from './callbacks';
 
 // Create bot instance
 const bot = new Bot<BotContext>(config.botToken);
@@ -90,27 +91,30 @@ bot.command('admin_prepare', handleAdminPrepare);
 bot.command('admin_stats', handleAdminStats);
 
 // ─── Callback Queries ───────────────────────────────────────────────
-bot.callbackQuery(/^onboard_lang:/, handleOnboardLanguage);
-bot.callbackQuery(/^quiz_answer:/, handleQuizAnswer);
-bot.callbackQuery('change_quiz_level', handleChangeQuizLevel);
-bot.callbackQuery('start_first_question', handleStartFirstQuestion);
-bot.callbackQuery(/^select_level:/, handleLevelSelection);
-bot.callbackQuery(/^pick_profile:/, handlePickProfile);
-bot.callbackQuery('add_child', handleAddChildCallback);
-bot.callbackQuery('edit_nickname', handleEditNickname);
-bot.callbackQuery('edit_level', handleEditLevel);
-bot.callbackQuery('edit_username', handleEditUsername);
-bot.callbackQuery(/^answer:/, handleMcqAnswer);
-bot.callbackQuery(/^hint:/, handleHint);
-bot.callbackQuery(/^skip:/, handleSkip);
-bot.callbackQuery(/^retry_mcq:/, handleRetryMcq);
-bot.callbackQuery(/^retry_open:/, handleRetryOpen);
-bot.callbackQuery(/^level_up:/, handleLevelUp);
-bot.callbackQuery('stay_level', handleStayLevel);
-bot.callbackQuery('show_lang', handleShowLang);
-bot.callbackQuery('show_privacy', handleShowPrivacy);
-bot.callbackQuery(/^set_lang:/, handleSetLanguage);
-bot.callbackQuery(/^set_privacy:/, handleSetPrivacy);
+// All callback names live in callbacks.ts — keep this list in sync if you
+// add new buttons. cbPrefix(...) matches "name:..." (parameterised), the
+// bare CB.* string matches the name exactly.
+bot.callbackQuery(cbPrefix(CB.onboardLang), handleOnboardLanguage);
+bot.callbackQuery(cbPrefix(CB.quizAnswer), handleQuizAnswer);
+bot.callbackQuery(CB.changeQuizLevel, handleChangeQuizLevel);
+bot.callbackQuery(CB.startFirstQuestion, handleStartFirstQuestion);
+bot.callbackQuery(cbPrefix(CB.selectLevel), handleLevelSelection);
+bot.callbackQuery(cbPrefix(CB.pickProfile), handlePickProfile);
+bot.callbackQuery(CB.addChild, handleAddChildCallback);
+bot.callbackQuery(CB.editNickname, handleEditNickname);
+bot.callbackQuery(CB.editLevel, handleEditLevel);
+bot.callbackQuery(CB.editUsername, handleEditUsername);
+bot.callbackQuery(cbPrefix(CB.answer), handleMcqAnswer);
+bot.callbackQuery(cbPrefix(CB.hint), handleHint);
+bot.callbackQuery(cbPrefix(CB.skip), handleSkip);
+bot.callbackQuery(cbPrefix(CB.retryMcq), handleRetryMcq);
+bot.callbackQuery(cbPrefix(CB.retryOpen), handleRetryOpen);
+bot.callbackQuery(cbPrefix(CB.levelUp), handleLevelUp);
+bot.callbackQuery(CB.stayLevel, handleStayLevel);
+bot.callbackQuery(CB.showLang, handleShowLang);
+bot.callbackQuery(CB.showPrivacy, handleShowPrivacy);
+bot.callbackQuery(cbPrefix(CB.setLang), handleSetLanguage);
+bot.callbackQuery(cbPrefix(CB.setPrivacy), handleSetPrivacy);
 
 // ─── Block/unblock tracking ─────────────────────────────────────────
 // Telegram fires `my_chat_member` when a user blocks the bot (status='kicked')

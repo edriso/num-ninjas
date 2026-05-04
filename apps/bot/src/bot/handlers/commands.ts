@@ -5,6 +5,7 @@ import { getMessages } from '../messages';
 import { prisma, getUserBadges, computeRankings, getWeekStart, getActiveProfile, updateUsername, logger } from '@numninjas/database';
 import { buildLevelKeyboard } from '../keyboards/level';
 import { escapeMd } from '../helpers/escape-md';
+import { CB, cbBuild } from '../callbacks';
 
 /**
  * Ensure user has an active profile, load it into session if needed.
@@ -122,15 +123,15 @@ export async function handleProfile(ctx: BotContext) {
 
   const keyboard = locale === 'en'
     ? new InlineKeyboard()
-        .text('✏️ Change name', 'edit_nickname')
-        .text('🥷 Change level', 'edit_level')
+        .text('✏️ Change name', CB.editNickname)
+        .text('🥷 Change level', CB.editLevel)
         .row()
-        .text('🔗 Change username', 'edit_username')
+        .text('🔗 Change username', CB.editUsername)
     : new InlineKeyboard()
-        .text('✏️ تغيير الاسم', 'edit_nickname')
-        .text('🥷 تغيير المستوى', 'edit_level')
+        .text('✏️ تغيير الاسم', CB.editNickname)
+        .text('🥷 تغيير المستوى', CB.editLevel)
         .row()
-        .text('🔗 تغيير اسم المستخدم', 'edit_username');
+        .text('🔗 تغيير اسم المستخدم', CB.editUsername);
 
   await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
@@ -425,9 +426,9 @@ export async function handleSettings(ctx: BotContext) {
     : `⚙️ *الإعدادات*\n\n🌍 اللغة: *${langLabel}*\n🔒 الملف الشخصي: *${privacyLabel}*`;
 
   const keyboard = new InlineKeyboard()
-    .text(locale === 'en' ? '🌍 Change Language' : '🌍 تغيير اللغة', 'show_lang')
+    .text(locale === 'en' ? '🌍 Change Language' : '🌍 تغيير اللغة', CB.showLang)
     .row()
-    .text(locale === 'en' ? '🔒 Change Privacy' : '🔒 تغيير الخصوصية', 'show_privacy');
+    .text(locale === 'en' ? '🔒 Change Privacy' : '🔒 تغيير الخصوصية', CB.showPrivacy);
 
   await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
@@ -446,8 +447,8 @@ export async function handleShowPrivacy(ctx: BotContext) {
 
 export async function handleLanguage(ctx: BotContext) {
   const keyboard = new InlineKeyboard()
-    .text('العربية 🇪🇬', 'set_lang:ar')
-    .text('English 🇬🇧', 'set_lang:en');
+    .text('العربية 🇪🇬', cbBuild(CB.setLang, 'ar'))
+    .text('English 🇬🇧', cbBuild(CB.setLang, 'en'));
 
   const msg = getMsg(ctx);
   await ctx.reply(msg.languagePrompt, { reply_markup: keyboard });
@@ -490,8 +491,8 @@ export async function handlePrivacy(ctx: BotContext) {
 
   const currentStatus = user.isPublic;
   const keyboard = new InlineKeyboard()
-    .text(locale === 'en' ? '🔓 Public' : '🔓 عام', 'set_privacy:true')
-    .text(locale === 'en' ? '🔒 Private' : '🔒 خاص', 'set_privacy:false');
+    .text(locale === 'en' ? '🔓 Public' : '🔓 عام', cbBuild(CB.setPrivacy, 'true'))
+    .text(locale === 'en' ? '🔒 Private' : '🔒 خاص', cbBuild(CB.setPrivacy, 'false'));
 
   const text = locale === 'en'
     ? `🔒 *Profile Privacy*\n\nYour profile is currently: *${currentStatus ? 'Public 🔓' : 'Private 🔒'}*\n\n` +

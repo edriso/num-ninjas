@@ -20,6 +20,7 @@ import {
 import { InlineKeyboard } from 'grammy';
 import { buildMcqKeyboard, buildHintKeyboard } from '../keyboards/mcq';
 import { escapeMd } from '../helpers/escape-md';
+import { CB, cbBuild } from '../callbacks';
 
 // ─── Message Templates ──────────────────────────────────────────────
 
@@ -180,7 +181,7 @@ export async function handleMcqAnswer(ctx: BotContext) {
   }
 
   // Check if this is a retry (practice, no points)
-  const isRetry = (ctx.session.pendingData[`retry_${questionId}`] as boolean) ?? false;
+  const isRetry = ctx.session.pendingData[`retry_${questionId}`] ?? false;
 
   if (!isRetry) {
     // Check if already answered (only for non-retries)
@@ -229,7 +230,7 @@ export async function handleMcqAnswer(ctx: BotContext) {
   }
 
   // Record attempt + update session in a single transaction
-  const hintUsed = (ctx.session.pendingData[`hint_${questionId}`] as boolean) ?? false;
+  const hintUsed = ctx.session.pendingData[`hint_${questionId}`] ?? false;
   const { session } = await recordAttemptAndProgress({
     userId: profileId,
     questionId,
@@ -253,7 +254,7 @@ export async function handleMcqAnswer(ctx: BotContext) {
   } else {
     const retryLabel = locale === 'en' ? '🔄 Try again' : '🔄 حاول مرة أخرى';
     const retryKeyboard = new InlineKeyboard()
-      .text(retryLabel, `retry_mcq:${questionId}`);
+      .text(retryLabel, cbBuild(CB.retryMcq, questionId));
     await ctx.editMessageText(
       formatWrongFeedback(question.explanation, correctText, locale),
       { parse_mode: 'Markdown', reply_markup: retryKeyboard },
@@ -273,7 +274,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   const locale = ctx.session.locale || 'ar';
   const msg = getMsg(ctx);
   const profileId = ctx.session.activeProfileId;
-  const questionId = ctx.session.pendingData.currentQuestionId as number | undefined;
+  const questionId = ctx.session.pendingData.currentQuestionId;
 
   if (!profileId || !questionId) {
     ctx.session.state = 'idle';
@@ -282,7 +283,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
 
   // Handle text-based skip ("تخطي" or "skip")
   if (text === 'تخطي' || text.toLowerCase() === 'skip') {
-    const hintUsed = (ctx.session.pendingData.hintUsed as boolean) ?? false;
+    const hintUsed = ctx.session.pendingData.hintUsed ?? false;
     const { session } = await recordAttemptAndProgress({
       userId: profileId,
       questionId,
@@ -343,7 +344,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   }
 
   // Check if this is a retry (practice, no recording)
-  const isRetry = (ctx.session.pendingData[`retry_${questionId}`] as boolean) ?? false;
+  const isRetry = ctx.session.pendingData[`retry_${questionId}`] ?? false;
 
   if (isRetry) {
     ctx.session.state = 'idle';
@@ -366,7 +367,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   }
 
   // Record attempt + update session in a single transaction
-  const hintUsed = (ctx.session.pendingData.hintUsed as boolean) ?? false;
+  const hintUsed = ctx.session.pendingData.hintUsed ?? false;
   const { session } = await recordAttemptAndProgress({
     userId: profileId,
     questionId,
@@ -391,7 +392,7 @@ export async function handleOpenEndedAnswer(ctx: BotContext) {
   } else {
     const retryLabel = locale === 'en' ? '🔄 Try again' : '🔄 حاول مرة أخرى';
     const retryKeyboard = new InlineKeyboard()
-      .text(retryLabel, `retry_open:${questionId}`);
+      .text(retryLabel, cbBuild(CB.retryOpen, questionId));
     await ctx.reply(formatWrongFeedback(question.explanation, correctText, locale), {
       parse_mode: 'Markdown',
       reply_markup: retryKeyboard,
@@ -449,7 +450,7 @@ export async function handleSkip(ctx: BotContext) {
   }
 
   // Record attempt as wrong with [skipped] marker
-  const hintUsed = (ctx.session.pendingData[`hint_${questionId}`] as boolean) ?? false;
+  const hintUsed = ctx.session.pendingData[`hint_${questionId}`] ?? false;
   // Record skip + update session in a single transaction
   const { session } = await recordAttemptAndProgress({
     userId: profileId,
@@ -704,8 +705,8 @@ async function showDailySummary(ctx: BotContext, userId: number) {
         const levelUpLabel = locale === 'en' ? '🔼 Go to next level' : '🔼 انتقل للمستوى التالي';
         const stayLabel = locale === 'en' ? '🔄 Stay at this level' : '🔄 استمر في نفس المستوى';
         const keyboard = new InlineKeyboard()
-          .text(levelUpLabel, `level_up:${nextLevel.id}`)
-          .text(stayLabel, 'stay_level');
+          .text(levelUpLabel, cbBuild(CB.levelUp, nextLevel.id))
+          .text(stayLabel, CB.stayLevel);
 
         // Send certificate image
         const profileSlug = user.username || String(user.id);

@@ -1,6 +1,7 @@
 import { InlineKeyboard } from 'grammy';
 import type { Option } from '@numninjas/database';
 import { shuffle } from '@numninjas/database';
+import { CB, cbBuild } from '../callbacks';
 
 /**
  * Regex matching option text that starts with a number or fraction (e.g. "63 جنيه", "½ كيلو", "¼ لتر").
@@ -45,16 +46,16 @@ export function buildMcqKeyboard(
 
   for (const opt of shuffled) {
     const text = fixRtlOptionText(opt.optionText, locale);
-    keyboard.text(text, `answer:${questionId}:${opt.id}`).row();
+    keyboard.text(text, cbBuild(CB.answer, questionId, opt.id)).row();
   }
 
   if (showHint) {
     const hintLabel = locale === 'en' ? '💡 Hint' : '💡 تلميح';
-    keyboard.text(hintLabel, `hint:${questionId}`).row();
+    keyboard.text(hintLabel, cbBuild(CB.hint, questionId)).row();
   }
 
   const skipLabel = locale === 'en' ? 'Skip ⏭️' : 'تخطي ⏭️';
-  keyboard.text(skipLabel, `skip:${questionId}`).row();
+  keyboard.text(skipLabel, cbBuild(CB.skip, questionId)).row();
 
   return keyboard;
 }
@@ -66,7 +67,7 @@ export function buildHintKeyboard(questionId: number, locale = 'ar') {
   const hintLabel = locale === 'en' ? '💡 Hint' : '💡 تلميح';
   const skipLabel = locale === 'en' ? 'Skip ⏭️' : 'تخطي ⏭️';
   return new InlineKeyboard()
-    .text(hintLabel, `hint:${questionId}`)
+    .text(hintLabel, cbBuild(CB.hint, questionId))
     .row()
-    .text(skipLabel, `skip:${questionId}`);
+    .text(skipLabel, cbBuild(CB.skip, questionId));
 }
